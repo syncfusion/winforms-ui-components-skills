@@ -63,90 +63,39 @@ private void ClearSelection()
 ### Complete Contextual Tab Example
 
 ```csharp
-public partial class Form1 : RibbonForm
-{
-    private ContextualTabGroup tableTools;
-    private ToolStripTabItem tableDesignTab;
-    
-    public Form1()
-    {
-        InitializeComponent();
-        SetupContextualTabs();
-    }
-    
-    private void SetupContextualTabs()
-    {
-        // Create contextual tab group
-        tableTools = new ContextualTabGroup();
-        tableTools.Caption = "Table Tools";
-        tableTools.Color = Color.Orange;
-        tableTools.Visible = false; // Hidden by default
-        
-        ribbonControlAdv1.Header.AddContextualTabGroup(tableTools);
-        
-        // Create design tab
-        tableDesignTab = new ToolStripTabItem();
-        tableDesignTab.Text = "Design";
-        tableDesignTab.Panel.BackColor = Color.White;
-        tableDesignTab.Tag = tableTools;
-        
-        ribbonControlAdv1.Header.MainItems.Add(tableDesignTab);
-        
-        // Add table style group
-        ToolStripEx stylesGroup = new ToolStripEx();
-        stylesGroup.Text = "Table Styles";
-        tableDesignTab.Panel.Controls.Add(stylesGroup);
-        
-        // Add style buttons
-        ToolStripButton style1 = new ToolStripButton("Light");
-        ToolStripButton style2 = new ToolStripButton("Medium");
-        ToolStripButton style3 = new ToolStripButton("Dark");
-        
-        stylesGroup.Items.AddRange(new ToolStripItem[] { style1, style2, style3 });
-    }
-    
-    private void dataGridView1_SelectionChanged(object sender, EventArgs e)
-    {
-        // Show table tools when grid has selection
-        if (dataGridView1.SelectedCells.Count > 0)
-        {
-            tableTools.Visible = true;
-            ribbonControlAdv1.SelectedTab = tableDesignTab;
-        }
-        else
-        {
-            tableTools.Visible = false;
-        }
-    }
-}
+// Setup contextual tab group
+ContextualTabGroup tableTools = new ContextualTabGroup {
+    Caption = "Table Tools",
+    Color = Color.Orange,
+    Visible = false
+};
+ribbonControlAdv1.Header.AddContextualTabGroup(tableTools);
+
+ToolStripTabItem tableDesignTab = new ToolStripTabItem {
+    Text = "Design",
+    Tag = tableTools
+};
+ribbonControlAdv1.Header.MainItems.Add(tableDesignTab);
+
+// Show/hide on selection change
+dataGridView1.SelectionChanged += (s, e) => {
+    tableTools.Visible = dataGridView1.SelectedCells.Count > 0;
+    if (tableTools.Visible) ribbonControlAdv1.SelectedTab = tableDesignTab;
+};
 ```
 
 ## StatusStripEx Integration
 
-Add status bar at bottom of RibbonForm.
-
 ```csharp
-// Create StatusStripEx
-StatusStripEx statusStrip = new StatusStripEx();
-statusStrip.Dock = DockStyle.Bottom;
-
-// Add status label
-ToolStripStatusLabel statusLabel = new ToolStripStatusLabel();
-statusLabel.Text = "Ready";
-statusLabel.Spring = true; // Fill available space
-statusLabel.TextAlign = ContentAlignment.MiddleLeft;
-
+// Add status bar to RibbonForm
+StatusStripEx statusStrip = new StatusStripEx { Dock = DockStyle.Bottom };
+ToolStripStatusLabel statusLabel = new ToolStripStatusLabel {
+    Text = "Ready",
+    Spring = true,
+    TextAlign = ContentAlignment.MiddleLeft
+};
 statusStrip.Items.Add(statusLabel);
-
-// Add to form
 this.Controls.Add(statusStrip);
-
-// Update status from ribbon actions
-private void saveButton_Click(object sender, EventArgs e)
-{
-    // Save logic...
-    statusLabel.Text = "Document saved";
-}
 ```
 
 ## Ribbon Merge Support
@@ -194,30 +143,20 @@ public partial class ChildForm : Form
     public ChildForm()
     {
         InitializeComponent();
+        ChildRibbon = new RibbonControlAdv { Dock = DockStyle.Top };
         
-        // Create child ribbon
-        ChildRibbon = new RibbonControlAdv();
-        ChildRibbon.Dock = DockStyle.Top;
-        
-        // Add child-specific tabs
-        ToolStripTabItem childTab = new ToolStripTabItem();
-        childTab.Text = "Child Tab";
-        childTab.MergeAction = MergeAction.Append;
-        
+        ToolStripTabItem childTab = new ToolStripTabItem {
+            Text = "Child Tab",
+            MergeAction = MergeAction.Append
+        };
         ChildRibbon.Header.MainItems.Add(childTab);
-        
         this.Controls.Add(ChildRibbon);
     }
     
     protected override void OnFormClosed(FormClosedEventArgs e)
     {
-        // Unmerge when closing
         if (this.MdiParent != null)
-        {
-            ParentForm parent = (ParentForm)this.MdiParent;
-            parent.ribbonControlAdv1.UnmergeRibbon(ChildRibbon);
-        }
-        
+            ((ParentForm)this.MdiParent).ribbonControlAdv1.UnmergeRibbon(ChildRibbon);
         base.OnFormClosed(e);
     }
 }
@@ -257,18 +196,7 @@ cutButton.Click += (s, e) =>
 };
 ```
 
-### Common Keyboard Shortcuts
 
-```csharp
-// Ctrl+F1 - Toggle ribbon minimize
-ribbonControlAdv1.RegisterKeyboardShortcut(Keys.Control | Keys.F1, () =>
-{
-    ribbonControlAdv1.DisplayOption = 
-        ribbonControlAdv1.DisplayOption == RibbonDisplayOption.ShowTabsAndCommands
-            ? RibbonDisplayOption.ShowTabs
-            : RibbonDisplayOption.ShowTabsAndCommands;
-});
-```
 
 ## Touch Support
 
@@ -290,10 +218,8 @@ if (SystemInformation.NativeTouchSupported)
 
 ## Localization
 
-Localize ribbon text and tooltips.
-
 ```csharp
-// Using resource files (.resx)
+// Use resource files (.resx) for localization
 homeTab.Text = Resources.Home;
 cutButton.Text = Resources.Cut;
 cutButton.ToolTipText = Resources.CutTooltip;
@@ -301,70 +227,30 @@ cutButton.ToolTipText = Resources.CutTooltip;
 // Runtime language switching
 private void SetLanguage(string culture)
 {
-    System.Threading.Thread.CurrentThread.CurrentUICulture = 
-        new System.Globalization.CultureInfo(culture);
-    
-    // Update all text
-    homeTab.Text = Resources.Home;
-    cutButton.Text = Resources.Cut;
-    // ... update other items
+    Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+    homeTab.Text = Resources.Home;  // Update all items
 }
 
-// Example usage
-private void englishMenuItem_Click(object sender, EventArgs e)
-{
-    SetLanguage("en-US");
-}
-
-private void spanishMenuItem_Click(object sender, EventArgs e)
-{
-    SetLanguage("es-ES");
-}
-```
-
-### Right-to-Left (RTL) Support
-
-```csharp
-// Enable RTL layout
+// RTL support
 ribbonControlAdv1.RightToLeft = RightToLeft.Yes;
-
-// Or inherit from form
-this.RightToLeft = RightToLeft.Yes;
 ```
 
 ## ToolTip and SuperTooltip
 
-### Standard ToolTips
-
 ```csharp
-// Set tooltip
-saveButton.ToolTipText = "Save the current document";
-
-// Tooltip with keyboard shortcut
+// Standard tooltip with shortcut
 saveButton.ToolTipText = "Save (Ctrl+S)";
 saveButton.ShortcutKeys = Keys.Control | Keys.S;
 saveButton.ShowShortcutKeys = true;
-```
 
-### SuperToolTip (Rich Tooltips)
-
-```csharp
-// Create SuperToolTip
+// SuperToolTip (rich tooltips)
 SuperToolTip superToolTip = new SuperToolTip();
-
-// Create tooltip info
-ToolTipInfo info = new ToolTipInfo();
-info.Header.Text = "Save";
-info.Header.Image = Properties.Resources.Save32;
-info.Body.Text = "Save the current document to disk.";
-info.Footer.Text = "Press F1 for more help";
-
+ToolTipInfo info = new ToolTipInfo {
+    Header = { Text = "Save", Image = Properties.Resources.Save32 },
+    Body = { Text = "Save the current document to disk." },
+    Footer = { Text = "Press F1 for more help" }
+};
 superToolTip.SetToolTip(saveButton, info);
-
-// With custom styling
-info.Body.TextMargin = new Padding(5);
-info.Body.Size = new Size(200, 100);
-info.Separator.Visible = true;
 ```
 
 ## Complete Advanced Example
@@ -372,91 +258,49 @@ info.Separator.Visible = true;
 ```csharp
 public partial class AdvancedRibbonForm : RibbonForm
 {
-    private ContextualTabGroup pictureTools;
-    private ToolStripTabItem pictureTab;
-    private SuperToolTip superToolTip;
-    
     public AdvancedRibbonForm()
     {
         InitializeComponent();
-        SetupAdvancedFeatures();
-    }
-    
-    private void SetupAdvancedFeatures()
-    {
+        
         // Touch support
         if (SystemInformation.NativeTouchSupported)
-        {
             ribbonControlAdv1.RibbonStyle = RibbonStyle.Touch;
-        }
         
         // KeyTips
         ribbonControlAdv1.ShowKeyTips = true;
         homeTab.KeyTip = "H";
         
         // Contextual tabs
-        SetupContextualTabs();
-        
-        // StatusStrip
-        SetupStatusStrip();
-        
-        // SuperTooltips
-        SetupSuperTooltips();
-        
-        // Keyboard shortcuts
-        SetupKeyboardShortcuts();
-    }
-    
-    private void SetupContextualTabs()
-    {
-        pictureTools = new ContextualTabGroup();
-        pictureTools.Caption = "Picture Tools";
-        pictureTools.Color = Color.Blue;
-        pictureTools.Visible = false;
-        
+        ContextualTabGroup pictureTools = new ContextualTabGroup {
+            Caption = "Picture Tools",
+            Color = Color.Blue,
+            Visible = false
+        };
         ribbonControlAdv1.Header.AddContextualTabGroup(pictureTools);
         
-        pictureTab = new ToolStripTabItem();
-        pictureTab.Text = "Format";
-        pictureTab.Tag = pictureTools;
-        
+        ToolStripTabItem pictureTab = new ToolStripTabItem {
+            Text = "Format",
+            Tag = pictureTools
+        };
         ribbonControlAdv1.Header.MainItems.Add(pictureTab);
-    }
-    
-    private void SetupStatusStrip()
-    {
-        StatusStripEx statusStrip = new StatusStripEx();
-        statusStrip.Dock = DockStyle.Bottom;
         
-        ToolStripStatusLabel statusLabel = new ToolStripStatusLabel();
-        statusLabel.Text = "Ready";
-        statusLabel.Spring = true;
-        
-        statusStrip.Items.Add(statusLabel);
+        // StatusStrip
+        StatusStripEx statusStrip = new StatusStripEx { Dock = DockStyle.Bottom };
+        statusStrip.Items.Add(new ToolStripStatusLabel { Text = "Ready", Spring = true });
         this.Controls.Add(statusStrip);
-    }
-    
-    private void SetupSuperTooltips()
-    {
-        superToolTip = new SuperToolTip();
         
-        // Save button tooltip
-        ToolTipInfo saveInfo = new ToolTipInfo();
-        saveInfo.Header.Text = "Save";
-        saveInfo.Header.Image = Properties.Resources.Save32;
-        saveInfo.Body.Text = "Save the current document.\n\nPress Ctrl+S or F12";
-        saveInfo.Footer.Text = "Press F1 for help";
+        // SuperTooltips
+        SuperToolTip superToolTip = new SuperToolTip();
+        superToolTip.SetToolTip(saveButton, new ToolTipInfo {
+            Header = { Text = "Save", Image = Properties.Resources.Save32 },
+            Body = { Text = "Save the current document.\n\nPress Ctrl+S or F12" },
+            Footer = { Text = "Press F1 for help" }
+        });
         
-        superToolTip.SetToolTip(saveButton, saveInfo);
-    }
-    
-    private void SetupKeyboardShortcuts()
-    {
-        // Ctrl+S - Save
+        // Keyboard shortcuts
         saveButton.ShortcutKeys = Keys.Control | Keys.S;
         saveButton.KeyTip = "S";
         
-        // Ctrl+F1 - Toggle ribbon
         this.KeyDown += (s, e) =>
         {
             if (e.Control && e.KeyCode == Keys.F1)

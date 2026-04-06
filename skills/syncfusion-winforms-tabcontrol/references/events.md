@@ -6,10 +6,9 @@
 - [Tab Primitive Events](#tab-primitive-events)
 - [Drawing Events](#drawing-events)
 - [Tab Page Events](#tab-page-events)
-- [Appearance Events](#appearance-events)
-- [Control Events](#control-events)
 - [Tab Movement Events](#tab-movement-events)
-- [Input Events](#input-events)
+- [Complete Example](#complete-event-handling-example)
+- [Best Practices](#best-practices)
 
 Comprehensive guide to handling events in TabControlAdv for edit operations, selection changes, custom rendering, and more.
 
@@ -73,18 +72,6 @@ Fired when the text is changed during editing.
 tabControlAdv1.LabelEditTextChanged += (sender, e) =>
 {
     Console.WriteLine("Tab text is being modified");
-    // Real-time validation could go here
-};
-```
-
-### LabelEditChanged Event
-
-Fired when the LabelEdit property value changes.
-
-```csharp
-tabControlAdv1.LabelEditChanged += (sender, e) =>
-{
-    Console.WriteLine($"Label editing is now: {tabControlAdv1.LabelEdit}");
 };
 ```
 
@@ -267,15 +254,7 @@ tabPageAdv1.Closed += (sender, e) =>
 {
     var tab = sender as TabPageAdv;
     Console.WriteLine($"Tab '{tab.Text}' was closed");
-    
-    // Cleanup resources
     CleanupTabResources(tab);
-    
-    // Check if all tabs are closed
-    if (tabControlAdv1.TabPages.Count == 0)
-    {
-        AddDefaultTab();
-    }
 };
 ```
 
@@ -288,18 +267,16 @@ tabPageAdv1.Closing += (sender, e) =>
 {
     var tab = sender as TabPageAdv;
     
-    // Prompt to save
     if (TabHasUnsavedChanges(tab))
     {
         var result = MessageBox.Show(
             $"Save changes to '{tab.Text}'?",
             "Save Changes",
-            MessageBoxButtons.YesNoCancel,
-            MessageBoxIcon.Question);
+            MessageBoxButtons.YesNoCancel);
         
         if (result == DialogResult.Cancel)
         {
-            e.Cancel = true; // Cancel closing
+            e.Cancel = true;
             return;
         }
         else if (result == DialogResult.Yes)
@@ -307,109 +284,11 @@ tabPageAdv1.Closing += (sender, e) =>
             SaveTabChanges(tab);
         }
     }
-    
-    Console.WriteLine($"Closing tab: {tab.Text}");
 };
 ```
 
 **TabPageAdvClosingEventArgs Properties:**
 - `Cancel` - Set to true to prevent closing
-
-## Appearance Events
-
-### BackColorChanged Event
-
-Fired when the BackColor property changes.
-
-```csharp
-tabControlAdv1.BackColorChanged += (sender, e) =>
-{
-    Console.WriteLine("Background color changed");
-    UpdateRelatedColors();
-};
-```
-
-### BackgroundImageChanged Event
-
-Fired when the BackgroundImage property changes.
-
-```csharp
-tabControlAdv1.BackgroundImageChanged += (sender, e) =>
-{
-    Console.WriteLine("Background image changed");
-};
-```
-
-### BackgroundImageLayoutChanged Event
-
-Fired when the BackgroundImageLayout property changes.
-
-```csharp
-tabControlAdv1.BackgroundImageLayoutChanged += (sender, e) =>
-{
-    Console.WriteLine($"Background layout: {tabControlAdv1.BackgroundImageLayout}");
-};
-```
-
-### ForeColorChanged Event
-
-Fired when the ForeColor property changes.
-
-```csharp
-tabControlAdv1.ForeColorChanged += (sender, e) =>
-{
-    Console.WriteLine("Foreground color changed");
-};
-```
-
-### PaddingChanged Event
-
-Fired when the Padding property changes.
-
-```csharp
-tabControlAdv1.PaddingChanged += (sender, e) =>
-{
-    Console.WriteLine($"Padding changed to: {tabControlAdv1.Padding}");
-};
-```
-
-## Control Events
-
-### ControlAdded Event
-
-Fired when a control (including TabPageAdv) is added.
-
-```csharp
-tabControlAdv1.ControlAdded += (sender, e) =>
-{
-    Console.WriteLine($"Control added: {e.Control.Name}");
-    
-    if (e.Control is TabPageAdv tab)
-    {
-        Console.WriteLine($"New tab: {tab.Text}");
-        SetupNewTab(tab);
-    }
-};
-```
-
-**ControlEventArgs Properties:**
-- `Control` - The control that was added
-
-### ControlRemoved Event
-
-Fired when a control is removed.
-
-```csharp
-tabControlAdv1.ControlRemoved += (sender, e) =>
-{
-    Console.WriteLine($"Control removed: {e.Control.Name}");
-    
-    if (e.Control is TabPageAdv tab)
-    {
-        Console.WriteLine($"Tab removed: {tab.Text}");
-    }
-};
-```
 
 ## Tab Movement Events
 
@@ -420,14 +299,7 @@ Fired when tab order changes (after drag-and-drop).
 ```csharp
 tabControlAdv1.TabsOrderChanged += (sender, e) =>
 {
-    Console.WriteLine("Tab order changed:");
-    
-    for (int i = 0; i < tabControlAdv1.TabPages.Count; i++)
-    {
-        Console.WriteLine($"  Position {i}: {tabControlAdv1.TabPages[i].Text}");
-    }
-    
-    // Save new order
+    Console.WriteLine("Tab order changed");
     SaveTabOrder();
 };
 ```
@@ -439,8 +311,6 @@ Fired when a tab is being moved. Can be cancelled.
 ```csharp
 tabControlAdv1.TabMoving += (sender, e) =>
 {
-    Console.WriteLine($"Moving tab from {e.From} to {e.Target}");
-    
     // Prevent moving first tab
     if (e.From == 0 || e.Target == 0)
     {
@@ -455,80 +325,6 @@ tabControlAdv1.TabMoving += (sender, e) =>
 - `Target` - Target position index
 - `Cancel` - Set to true to prevent move
 
-## Input Events
-
-### Paint Event
-
-Fired when the control needs repainting.
-
-```csharp
-tabControlAdv1.Paint += (sender, e) =>
-{
-    // Custom painting
-    if (tabControlAdv1.ClientRectangle.Width > 0 && 
-        tabControlAdv1.ClientRectangle.Height > 0)
-    {
-        // Draw custom background
-        using (LinearGradientBrush brush = new LinearGradientBrush(
-            tabControlAdv1.ClientRectangle,
-            SystemColors.Control,
-            SystemColors.ControlDark,
-            LinearGradientMode.Horizontal))
-        {
-            e.Graphics.FillRectangle(brush, tabControlAdv1.ClientRectangle);
-        }
-    }
-};
-```
-
-### PreviewKeyDown Event
-
-Fired before KeyDown when a key is pressed.
-
-```csharp
-tabControlAdv1.PreviewKeyDown += (sender, e) =>
-{
-    Console.WriteLine($"Key pressed: {e.KeyCode}");
-    Console.WriteLine($"Modifiers: {e.Modifiers}");
-    
-    // Handle custom keyboard shortcuts
-    if (e.Control && e.KeyCode == Keys.W)
-    {
-        // Ctrl+W to close current tab
-        CloseCurrentTab();
-    }
-};
-```
-
-**PreviewKeyDownEventArgs Properties:**
-- `KeyCode` - The key pressed
-- `KeyValue` - Integer value of key
-- `KeyData` - Key data with modifiers
-- `Modifiers` - Modifier keys (Ctrl, Alt, Shift)
-- `Alt`, `Control`, `Shift` - Boolean for each modifier
-
-### RegionChanged Event
-
-Fired when the Region property changes.
-
-```csharp
-tabControlAdv1.RegionChanged += (sender, e) =>
-{
-    Console.WriteLine("Control region changed");
-};
-```
-
-### TextChanged Event
-
-Fired when the Text property changes.
-
-```csharp
-tabControlAdv1.TextChanged += (sender, e) =>
-{
-    Console.WriteLine($"Text changed to: {tabControlAdv1.Text}");
-};
-```
-
 ## Complete Event Handling Example
 
 ```csharp
@@ -539,83 +335,48 @@ public class EventsExampleForm : Form
     
     public EventsExampleForm()
     {
-        InitializeForm();
-        SetupTabControl();
-        SetupEventLog();
+        InitializeControls();
         AttachAllEvents();
         AddTabs();
     }
     
-    private void InitializeForm()
+    private void InitializeControls()
     {
         this.Text = "TabControlAdv Events Demo";
         this.Size = new Size(900, 600);
-    }
-    
-    private void SetupTabControl()
-    {
+        
+        // Setup tab control
         tabControl = new TabControlAdv();
         tabControl.Dock = DockStyle.Left;
         tabControl.Width = 600;
         tabControl.LabelEdit = true;
         tabControl.UserMoveTabs = true;
         tabControl.ShowTabCloseButton = true;
-        this.Controls.Add(tabControl);
-    }
-    
-    private void SetupEventLog()
-    {
+        
+        // Setup event log
         eventLog = new ListBox();
         eventLog.Dock = DockStyle.Fill;
         eventLog.Font = new Font("Consolas", 9);
         
-        Panel panel = new Panel();
-        panel.Dock = DockStyle.Fill;
-        panel.Padding = new Padding(5);
-        
-        Label title = new Label();
-        title.Text = "Event Log";
-        title.Dock = DockStyle.Top;
-        title.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-        
-        panel.Controls.Add(eventLog);
-        panel.Controls.Add(title);
-        this.Controls.Add(panel);
+        this.Controls.Add(tabControl);
+        this.Controls.Add(eventLog);
     }
     
     private void AttachAllEvents()
     {
         // Edit events
-        tabControl.BeforeEdit += (s, e) => 
-            LogEvent($"BeforeEdit: {e.EditText}");
-        tabControl.AfterEdit += (s, e) => 
-            LogEvent($"AfterEdit: {e.EditText}");
+        tabControl.BeforeEdit += (s, e) => LogEvent($"BeforeEdit: {e.EditText}");
+        tabControl.AfterEdit += (s, e) => LogEvent($"AfterEdit: {e.EditText}");
         
         // Selection events
         tabControl.SelectedIndexChanging += (s, e) => 
-            LogEvent($"SelectedIndexChanging: {e.OldSelectedIndex} → {e.NewSelectedIndex}");
+            LogEvent($"Changing: {e.OldSelectedIndex} → {e.NewSelectedIndex}");
         tabControl.SelectedIndexChanged += (s, e) => 
-            LogEvent($"SelectedIndexChanged: {tabControl.SelectedIndex}");
-        
-        // Tab primitive events
-        tabControl.TabPrimitiveClick += (s, e) => 
-            LogEvent($"TabPrimitiveClick: {e.TabPrimitive.Name}");
+            LogEvent($"Changed: {tabControl.SelectedIndex}");
         
         // Movement events
-        tabControl.TabMoving += (s, e) => 
-            LogEvent($"TabMoving: {e.From} → {e.Target}");
-        tabControl.TabsOrderChanged += (s, e) => 
-            LogEvent("TabsOrderChanged");
-        
-        // Control events
-        tabControl.ControlAdded += (s, e) => 
-            LogEvent($"ControlAdded: {e.Control.GetType().Name}");
-        tabControl.ControlRemoved += (s, e) => 
-            LogEvent($"ControlRemoved: {e.Control.GetType().Name}");
-        
-        // Appearance events
-        tabControl.BackColorChanged += (s, e) => 
-            LogEvent("BackColorChanged");
+        tabControl.TabMoving += (s, e) => LogEvent($"Moving: {e.From} → {e.Target}");
+        tabControl.TabsOrderChanged += (s, e) => LogEvent("Order Changed");
     }
     
     private void AddTabs()
@@ -625,18 +386,8 @@ public class EventsExampleForm : Form
             TabPageAdv tab = new TabPageAdv();
             tab.Text = $"Tab {i}";
             
-            // Attach tab-specific events
-            tab.Closing += (s, e) =>
-            {
-                var t = s as TabPageAdv;
-                LogEvent($"Tab.Closing: {t.Text}");
-            };
-            
-            tab.Closed += (s, e) =>
-            {
-                var t = s as TabPageAdv;
-                LogEvent($"Tab.Closed: {t.Text}");
-            };
+            tab.Closing += (s, e) => LogEvent($"Tab.Closing: {((TabPageAdv)s).Text}");
+            tab.Closed += (s, e) => LogEvent($"Tab.Closed: {((TabPageAdv)s).Text}");
             
             tabControl.TabPages.Add(tab);
         }
@@ -644,14 +395,9 @@ public class EventsExampleForm : Form
     
     private void LogEvent(string message)
     {
-        string timestamp = DateTime.Now.ToString("HH:mm:ss.fff");
-        eventLog.Items.Insert(0, $"[{timestamp}] {message}");
-        
-        // Keep log manageable
+        eventLog.Items.Insert(0, $"[{DateTime.Now:HH:mm:ss}] {message}");
         if (eventLog.Items.Count > 100)
-        {
             eventLog.Items.RemoveAt(eventLog.Items.Count - 1);
-        }
     }
 }
 ```
@@ -662,38 +408,20 @@ public class EventsExampleForm : Form
 - Always check for null when accessing event args
 - Use lambda expressions for simple handlers
 - Extract complex logic to separate methods
-- Unsubscribe from events when appropriate
+- Unsubscribe from events when disposing controls
 
 ### Performance
 - Avoid heavy processing in frequently-fired events (Paint, DrawItem)
 - Use BeginInvoke for long-running operations
 - Cache values instead of recalculating in events
 
-### User Experience
-- Provide feedback for cancelled operations
-- Show progress for slow operations
-- Handle exceptions gracefully
-- Log events for debugging
-
 ### Common Patterns
 - Validate in "Changing" events, act in "Changed" events
 - Use "Closing" to prompt for save, "Closed" to cleanup
-- Combine related events in single handler when possible
-- Document custom event behavior
+- Handle exceptions gracefully in event handlers
 
 ## Troubleshooting
 
-### Event Not Firing
-- Check if event is properly subscribed
-- Verify control is initialized
-- Ensure action actually triggers the event
-
-### Event Fires Multiple Times
-- Check for duplicate subscriptions
-- Verify you're not programmatically triggering the event
-- Use event handlers carefully in loops
-
-### Cannot Cancel Event
-- Only some events can be cancelled (those with Cancel property)
-- BeforeEdit cannot be cancelled - use LabelEdit property instead
-- Check documentation for each event's capabilities
+- **Event Not Firing:** Check if event is properly subscribed and control is initialized
+- **Event Fires Multiple Times:** Check for duplicate subscriptions
+- **Cannot Cancel Event:** Only events with Cancel property can be cancelled (BeforeEdit cannot be cancelled - use LabelEdit property instead)

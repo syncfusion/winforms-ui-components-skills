@@ -80,10 +80,7 @@ The LayoutMode property determines whether controls flow horizontally or vertica
 
 **Code Example - Horizontal Mode**:
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Horizontal flow (default)
 FlowLayout flowLayout1 = new FlowLayout();
 flowLayout1.ContainerControl = this;
@@ -92,16 +89,14 @@ flowLayout1.LayoutMode = Syncfusion.Windows.Forms.Tools.FlowLayoutMode.Horizonta
 // Add buttons
 for (int i = 1; i <= 10; i++)
 {
-    ButtonAdv button = new ButtonAdv();
+    Button button = new Button();
     button.Text = "Button " + i;
     button.Size = new Size(80, 30);
     this.Controls.Add(button);
 }
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Horizontal flow (default)
 Dim flowLayout1 As New FlowLayout()
 flowLayout1.ContainerControl = Me
@@ -109,35 +104,24 @@ flowLayout1.LayoutMode = Syncfusion.Windows.Forms.Tools.FlowLayoutMode.Horizonta
 
 ' Add buttons
 For i As Integer = 1 To 10
-    Dim button As New ButtonAdv()
+    Dim button As New Button()
     button.Text = "Button " & i
     button.Size = New Size(80, 30)
     Me.Controls.Add(button)
 Next
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 **Code Example - Vertical Mode**:
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Vertical flow
 flowLayout1.LayoutMode = Syncfusion.Windows.Forms.Tools.FlowLayoutMode.Vertical;
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Vertical flow
 flowLayout1.LayoutMode = Syncfusion.Windows.Forms.Tools.FlowLayoutMode.Vertical
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 ## Alignment Property
 
@@ -163,10 +147,7 @@ The Alignment property controls how controls are aligned within the flow directi
 
 **Code Examples**:
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Near alignment (left/top)
 flowLayout1.Alignment = Syncfusion.Windows.Forms.Tools.FlowAlignment.Near;
 
@@ -178,11 +159,9 @@ flowLayout1.Alignment = Syncfusion.Windows.Forms.Tools.FlowAlignment.Center;
 
 // Child constraints (custom per-control)
 flowLayout1.Alignment = Syncfusion.Windows.Forms.Tools.FlowAlignment.ChildConstraints;
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Near alignment (left/top)
 flowLayout1.Alignment = Syncfusion.Windows.Forms.Tools.FlowAlignment.Near
 
@@ -194,10 +173,7 @@ flowLayout1.Alignment = Syncfusion.Windows.Forms.Tools.FlowAlignment.Center
 
 ' Child constraints (custom per-control)
 flowLayout1.Alignment = Syncfusion.Windows.Forms.Tools.FlowAlignment.ChildConstraints
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 ## Flow Direction
 
@@ -210,23 +186,15 @@ The ReverseRows property allows you to reverse the flow direction, which is usef
 
 **Code Example**:
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Reverse flow direction (right-to-left or bottom-to-top)
 flowLayout1.ReverseRows = true;
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Reverse flow direction (right-to-left or bottom-to-top)
 flowLayout1.ReverseRows = True
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 ## AutoHeight Feature
 
@@ -239,25 +207,17 @@ The AutoHeight property automatically adjusts the container's height when contro
 
 **Code Example**:
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Enable auto-height for dynamic content
 flowLayout1.AutoHeight = true;
 flowLayout1.LayoutMode = Syncfusion.Windows.Forms.Tools.FlowLayoutMode.Horizontal;
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Enable auto-height for dynamic content
 flowLayout1.AutoHeight = True
 flowLayout1.LayoutMode = Syncfusion.Windows.Forms.Tools.FlowLayoutMode.Horizontal
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 ## Spacing Configuration
 
@@ -310,32 +270,21 @@ flowLayout1.VGap = 10  ' 10 pixels vertical gap
 **Step-by-Step Instructions**:
 
 **Step 1**: Add assembly reference:
-- `Syncfusion.Shared.Base.dll`
+- `Syncfusion.Tools.Windows.dll`
 
 **Step 2**: Include namespace:
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 using Syncfusion.Windows.Forms.Tools;
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 Imports Syncfusion.Windows.Forms.Tools
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 **Step 3**: Create FlowLayout and add controls:
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Create FlowLayout instance
 FlowLayout flowLayout1 = new FlowLayout();
 flowLayout1.ContainerControl = this;
@@ -344,19 +293,19 @@ flowLayout1.HGap = 5;
 flowLayout1.VGap = 5;
 
 // Create and add child controls
-ButtonAdv button1 = new ButtonAdv();
+Button button1 = new Button();
 button1.Text = "New";
 button1.Size = new Size(75, 30);
 
-ButtonAdv button2 = new ButtonAdv();
+Button button2 = new Button();
 button2.Text = "Open";
 button2.Size = new Size(75, 30);
 
-ButtonAdv button3 = new ButtonAdv();
+Button button3 = new Button();
 button3.Text = "Save";
 button3.Size = new Size(75, 30);
 
-ButtonAdv button4 = new ButtonAdv();
+Button button4 = new Button();
 button4.Text = "Print";
 button4.Size = new Size(75, 30);
 
@@ -365,11 +314,9 @@ this.Controls.Add(button1);
 this.Controls.Add(button2);
 this.Controls.Add(button3);
 this.Controls.Add(button4);
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Create FlowLayout instance
 Dim flowLayout1 As New FlowLayout()
 flowLayout1.ContainerControl = Me
@@ -378,19 +325,19 @@ flowLayout1.HGap = 5
 flowLayout1.VGap = 5
 
 ' Create and add child controls
-Dim button1 As New ButtonAdv()
+Dim button1 As New Button()
 button1.Text = "New"
 button1.Size = New Size(75, 30)
 
-Dim button2 As New ButtonAdv()
+Dim button2 As New Button()
 button2.Text = "Open"
 button2.Size = New Size(75, 30)
 
-Dim button3 As New ButtonAdv()
+Dim button3 As New Button()
 button3.Text = "Save"
 button3.Size = New Size(75, 30)
 
-Dim button4 As New ButtonAdv()
+Dim button4 As New Button()
 button4.Text = "Print"
 button4.Size = New Size(75, 30)
 
@@ -399,10 +346,7 @@ Me.Controls.Add(button1)
 Me.Controls.Add(button2)
 Me.Controls.Add(button3)
 Me.Controls.Add(button4)
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 ## Per-Child Constraints
 
@@ -430,12 +374,7 @@ Control the alignment of individual controls within rows or columns.
 - **Center**: Center in column
 - **Justify**: Fill available vertical space
 
-**Code Example**:
-
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Set alignment to use child constraints
 flowLayout1.Alignment = Syncfusion.Windows.Forms.Tools.FlowAlignment.ChildConstraints;
 
@@ -452,11 +391,9 @@ flowLayout1.SetConstraints(textBox1,
     ));
 flowLayout1.SetPreferredSize(textBox1, new Size(100, 20));
 this.Controls.Add(textBox1);
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Set alignment to use child constraints
 flowLayout1.Alignment = Syncfusion.Windows.Forms.Tools.FlowAlignment.ChildConstraints
 
@@ -472,9 +409,8 @@ flowLayout1.SetConstraints(textBox1, _
         False  ' no proportional row height
     ))
 flowLayout1.SetPreferredSize(textBox1, New Size(100, 20))
-Me.Controls.Add(textBox1)
-
-{% endhighlight %}
+Me.Controls.Add(textBox1);
+```
 
 {% endtabs %}
 
@@ -482,38 +418,27 @@ Me.Controls.Add(textBox1)
 
 Control whether a child participates in the layout using the `Active` parameter or `SetParticipateInLayout` method.
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Exclude control from layout
 flowLayout1.SetParticipateInLayout(button1, false);
 
 // Include control in layout
 flowLayout1.SetParticipateInLayout(button2, true);
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Exclude control from layout
 flowLayout1.SetParticipateInLayout(button1, False)
 
 ' Include control in layout
 flowLayout1.SetParticipateInLayout(button2, True)
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 ### Line Beginner
 
 Force a control to always start on a new row (horizontal mode) or column (vertical mode) using the `NewLine` parameter.
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Force button to start on new line
 flowLayout1.SetConstraints(button4, 
     new Syncfusion.Windows.Forms.Tools.FlowLayoutConstraints(
@@ -524,11 +449,9 @@ flowLayout1.SetConstraints(button4,
         false,
         false
     ));
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Force button to start on new line
 flowLayout1.SetConstraints(button4, _
     New Syncfusion.Windows.Forms.Tools.FlowLayoutConstraints( _
@@ -539,10 +462,7 @@ flowLayout1.SetConstraints(button4, _
         False, _
         False _
     ))
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 ### Row Height and Column Width
 
@@ -607,10 +527,7 @@ FlowLayout automatically wraps controls to new rows (horizontal mode) or columns
 
 **Code Example - Demonstrating Wrapping**:
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Create panel with limited width to demonstrate wrapping
 Panel panel1 = new Panel();
 panel1.Size = new Size(300, 200);
@@ -627,17 +544,15 @@ flowLayout1.VGap = 5;
 // Add multiple buttons - will wrap automatically
 for (int i = 1; i <= 12; i++)
 {
-    ButtonAdv button = new ButtonAdv();
+    Button button = new Button();
     button.Text = "Btn " + i;
     button.Size = new Size(70, 30);
     panel1.Controls.Add(button);
 }
 // Buttons will automatically wrap to multiple rows
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Create panel with limited width to demonstrate wrapping
 Dim panel1 As New Panel()
 panel1.Size = New Size(300, 200)
@@ -653,16 +568,13 @@ flowLayout1.VGap = 5
 
 ' Add multiple buttons - will wrap automatically
 For i As Integer = 1 To 12
-    Dim button As New ButtonAdv()
+    Dim button As New Button()
     button.Text = "Btn " & i
     button.Size = New Size(70, 30)
     panel1.Controls.Add(button)
 Next
 ' Buttons will automatically wrap to multiple rows
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 ## Complete Examples
 
@@ -670,10 +582,7 @@ Next
 
 Create a toolbar that automatically wraps buttons to multiple rows when the window is resized.
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -712,7 +621,7 @@ public class ToolbarForm : Form
         
         foreach (string name in buttonNames)
         {
-            ButtonAdv button = new ButtonAdv();
+            Button button = new Button();
             button.Text = name;
             button.Size = new Size(60, 30);
             toolbarPanel.Controls.Add(button);
@@ -723,11 +632,9 @@ public class ToolbarForm : Form
         this.Size = new Size(600, 400);
     }
 }
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 Imports System
 Imports System.Drawing
 Imports System.Windows.Forms
@@ -764,7 +671,7 @@ Public Class ToolbarForm
                                        "Copy", "Paste", "Undo", "Redo", "Find"}
 
         For Each name As String In buttonNames
-            Dim button As New ButtonAdv()
+            Dim button As New Button()
             button.Text = name
             button.Size = New Size(60, 30)
             toolbarPanel.Controls.Add(button)
@@ -775,10 +682,7 @@ Public Class ToolbarForm
         Me.Size = New Size(600, 400)
     End Sub
 End Class
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 ### Vertical Sidebar Navigation
 

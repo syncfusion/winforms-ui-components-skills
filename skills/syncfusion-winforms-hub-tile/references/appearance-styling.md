@@ -59,12 +59,15 @@ Add an icon to the banner using `BannerIcon` property:
 
 ```csharp
 // From file
+hubTile1.ShowBannerIcon = true;
 hubTile1.BannerIcon = Image.FromFile("icon.png");
 
 // From resources
+hubTile1.ShowBannerIcon = true;
 hubTile1.BannerIcon = Properties.Resources.IconImage;
 
 // From ImageList
+hubTile1.ShowBannerIcon = true;
 hubTile1.BannerIcon = imageListAdv1.Images[0];
 ```
 
@@ -109,6 +112,7 @@ newsTile.ShowBanner = true;
 newsTile.Banner.Text = "Live";
 newsTile.Banner.TextColor = Color.White;
 newsTile.BannerColor = Color.FromArgb(200, 255, 0, 0);  // Semi-transparent red
+newsTile.ShowBannerIcon = true;
 // newsTile.BannerIcon = Image.FromFile("live_icon.png");
 
 // Enable live tile

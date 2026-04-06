@@ -30,16 +30,12 @@ tabControlAdv1.LabelEdit = false;
 When `LabelEdit` is enabled, users can edit tab text in three ways:
 
 **Method 1: Double-click**
-- Double-click on the tab text
-- Text enters edit mode
-- Type new name
-- Press Enter or click elsewhere to save
+- Double-click on the tab text to enter edit mode
+- Type new name and press Enter to save
 
 **Method 2: Right-click**
-- Right-click on the tab
-- Text automatically enters edit mode
-- Type new name
-- Press Enter or click elsewhere to save
+- Right-click on the tab to automatically enter edit mode
+- Type new name and press Enter to save
 
 **Method 3: Programmatic**
 ```csharp
@@ -56,76 +52,23 @@ Handle edit events to validate or respond to text changes:
 tabControlAdv1.BeforeEdit += (sender, e) =>
 {
     Console.WriteLine($"Editing tab: {e.EditText}");
-    
-    // Cancel edit for specific tabs
-    if (e.EditText == "Protected Tab")
-    {
-        MessageBox.Show("This tab cannot be renamed");
-        // Note: Cannot cancel BeforeEdit, use LabelEdit property instead
-    }
 };
 
 // After editing completes
 tabControlAdv1.AfterEdit += (sender, e) =>
 {
     Console.WriteLine($"New name: {e.EditText}");
-    
-    // Validate new name
     if (string.IsNullOrWhiteSpace(e.EditText))
     {
         MessageBox.Show("Tab name cannot be empty");
-        // Revert or set default name
     }
 };
-```
 
-### LabelEditTextChanged Event
-
-Track text changes during editing:
-
-```csharp
+// Track text changes during editing
 tabControlAdv1.LabelEditTextChanged += (sender, e) =>
 {
     Console.WriteLine("Tab text is being edited");
 };
-```
-
-### Complete Example
-
-```csharp
-TabControlAdv editableTabs = new TabControlAdv();
-editableTabs.Dock = DockStyle.Fill;
-editableTabs.LabelEdit = true;
-
-// Add tabs
-for (int i = 1; i <= 5; i++)
-{
-    TabPageAdv tab = new TabPageAdv();
-    tab.Text = $"Tab {i}";
-    editableTabs.TabPages.Add(tab);
-}
-
-// Handle editing events
-editableTabs.BeforeEdit += (sender, e) =>
-{
-    Console.WriteLine($"Starting edit: {e.EditText}");
-};
-
-editableTabs.AfterEdit += (sender, e) =>
-{
-    // Validate and format
-    string newText = e.EditText.Trim();
-    if (string.IsNullOrEmpty(newText))
-    {
-        MessageBox.Show("Tab name cannot be empty", "Invalid Name");
-    }
-    else
-    {
-        Console.WriteLine($"Tab renamed to: {newText}");
-    }
-};
-
-this.Controls.Add(editableTabs);
 ```
 
 ## Moving TabItems
@@ -150,71 +93,31 @@ When `UserMoveTabs` is enabled:
 3. Release to drop in new location
 4. Tab order is updated automatically
 
-### TabsOrderChanged Event
-
-React when tab order changes:
+### Movement Events
 
 ```csharp
+// React when tab order changes
 tabControlAdv1.TabsOrderChanged += (sender, e) =>
 {
     Console.WriteLine("Tab order changed");
-    
-    // Log new order
     for (int i = 0; i < tabControlAdv1.TabPages.Count; i++)
     {
         Console.WriteLine($"Position {i}: {tabControlAdv1.TabPages[i].Text}");
     }
-    
-    // Save new order to settings
-    SaveTabOrder();
 };
-```
 
-### TabMoving Event
-
-Handle or cancel tab movement:
-
-```csharp
+// Handle or cancel tab movement
 tabControlAdv1.TabMoving += (sender, e) =>
 {
     Console.WriteLine($"Moving tab from {e.From} to {e.Target}");
     
-    // Prevent moving specific tab (e.g., index 0)
+    // Prevent moving specific tab
     if (e.From == 0 || e.Target == 0)
     {
         e.Cancel = true;
         MessageBox.Show("The first tab cannot be moved");
     }
 };
-```
-
-### Complete Example
-
-```csharp
-TabControlAdv movableTabs = new TabControlAdv();
-movableTabs.Dock = DockStyle.Fill;
-movableTabs.UserMoveTabs = true;
-
-// Add tabs
-string[] tabNames = { "Home", "Data", "Charts", "Reports", "Settings" };
-foreach (string name in tabNames)
-{
-    TabPageAdv tab = new TabPageAdv();
-    tab.Text = name;
-    movableTabs.TabPages.Add(tab);
-}
-
-// Track order changes
-movableTabs.TabsOrderChanged += (sender, e) =>
-{
-    Console.WriteLine("New tab order:");
-    for (int i = 0; i < movableTabs.TabPages.Count; i++)
-    {
-        Console.WriteLine($"  {i + 1}. {movableTabs.TabPages[i].Text}");
-    }
-};
-
-this.Controls.Add(movableTabs);
 ```
 
 ## Padding Settings
@@ -306,49 +209,12 @@ tabControlAdv1.BorderStyle = BorderStyle.None;
 Set custom border color for FixedSingle style:
 
 ```csharp
-// Set border style
+// Set border style and color
 tabControlAdv1.BorderStyle = BorderStyle.FixedSingle;
-
-// Set custom border color
 tabControlAdv1.FixedSingleBorderColor = Color.DarkBlue;
 
-// Or match theme
-tabControlAdv1.FixedSingleBorderColor = Color.FromArgb(0, 120, 215);
-```
-
-### Reset Border Color
-
-```csharp
 // Reset to default border color
 tabControlAdv1.ResetFixedSingleBorderColor();
-```
-
-### Complete Example
-
-```csharp
-TabControlAdv borderedTabs = new TabControlAdv();
-borderedTabs.Size = new Size(600, 400);
-
-// Configure border
-borderedTabs.BorderStyle = BorderStyle.FixedSingle;
-borderedTabs.FixedSingleBorderColor = Color.SteelBlue;
-
-// Add tabs
-for (int i = 1; i <= 3; i++)
-{
-    TabPageAdv tab = new TabPageAdv();
-    tab.Text = $"Panel {i}";
-    
-    // Add content to show border
-    Panel panel = new Panel();
-    panel.Dock = DockStyle.Fill;
-    panel.BackColor = Color.White;
-    tab.Controls.Add(panel);
-    
-    borderedTabs.TabPages.Add(tab);
-}
-
-this.Controls.Add(borderedTabs);
 ```
 
 ## Image Settings
@@ -360,49 +226,10 @@ Add animated GIF images to tabs or tab pages.
 TabControlAdv supports animated GIF images in tab headers:
 
 ```csharp
-// Load GIF image
-Image animatedGif = Image.FromFile("loading.gif");
-
-// Set image for tab
-tabPageAdv1.Image = animatedGif;
-
-// Set image size
-tabPageAdv1.ImageSize = new Size(16, 16);
-```
-
-**Important:** Set `ImageIndex = -1` to use the Image property instead of ImageList:
-
-```csharp
-// Use Image property instead of ImageList
+// Set ImageIndex to -1 to use Image property instead of ImageList
 tabPageAdv1.ImageIndex = -1;
 tabPageAdv1.Image = Image.FromFile("animated.gif");
 tabPageAdv1.ImageSize = new Size(20, 20);
-```
-
-### Complete Animated GIF Example
-
-```csharp
-TabControlAdv animatedTabs = new TabControlAdv();
-animatedTabs.Size = new Size(500, 350);
-
-// Tab with animated loading indicator
-TabPageAdv loadingTab = new TabPageAdv();
-loadingTab.Text = "Loading";
-loadingTab.ImageIndex = -1;  // Important!
-loadingTab.Image = Image.FromFile("loading.gif");
-loadingTab.ImageSize = new Size(16, 16);
-
-// Tab with static image
-TabPageAdv completeTab = new TabPageAdv();
-completeTab.Text = "Complete";
-completeTab.ImageIndex = -1;
-completeTab.Image = Image.FromFile("check.gif");
-completeTab.ImageSize = new Size(16, 16);
-
-animatedTabs.TabPages.Add(loadingTab);
-animatedTabs.TabPages.Add(completeTab);
-
-this.Controls.Add(animatedTabs);
 ```
 
 ### Background Images in Tab Content
@@ -445,87 +272,10 @@ tabControlAdv1.TabMoving += (sender, e) =>
         return;
     }
 };
-```
 
-### Complete Example with Protected Tabs
-
-```csharp
-public class ProtectedTabsExample : Form
-{
-    private TabControlAdv tabControl;
-    
-    public ProtectedTabsExample()
-    {
-        InitializeTabControl();
-        AddTabs();
-        SetupProtection();
-    }
-    
-    private void InitializeTabControl()
-    {
-        tabControl = new TabControlAdv();
-        tabControl.Dock = DockStyle.Fill;
-        tabControl.UserMoveTabs = true;
-        this.Controls.Add(tabControl);
-    }
-    
-    private void AddTabs()
-    {
-        string[] tabNames = { "Home", "Data", "Analysis", "Charts", "Settings" };
-        
-        foreach (string name in tabNames)
-        {
-            TabPageAdv tab = new TabPageAdv();
-            tab.Text = name;
-            
-            Label label = new Label();
-            label.Text = $"{name} Page";
-            label.Location = new Point(20, 20);
-            label.AutoSize = true;
-            tab.Controls.Add(label);
-            
-            tabControl.TabPages.Add(tab);
-        }
-    }
-    
-    private void SetupProtection()
-    {
-        // Protect first and last tabs from moving
-        tabControl.TabMoving += (sender, e) =>
-        {
-            int lastIndex = tabControl.TabPages.Count - 1;
-            
-            // Check if trying to move protected tabs
-            if (e.From == 0 || e.Target == 0)
-            {
-                e.Cancel = true;
-                ShowProtectionMessage("Home");
-            }
-            else if (e.From == lastIndex || e.Target == lastIndex)
-            {
-                e.Cancel = true;
-                ShowProtectionMessage("Settings");
-            }
-        };
-        
-        // Visual indicator for protected tabs
-        tabControl.TabPages[0].TabForeColor = Color.DarkGreen;
-        tabControl.TabPages[0].ToolTipText = "Home (cannot be moved)";
-        
-        int last = tabControl.TabPages.Count - 1;
-        tabControl.TabPages[last].TabForeColor = Color.DarkGreen;
-        tabControl.TabPages[last].ToolTipText = "Settings (cannot be moved)";
-    }
-    
-    private void ShowProtectionMessage(string tabName)
-    {
-        MessageBox.Show(
-            $"The {tabName} tab is protected and cannot be moved.",
-            "Protected Tab",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Information);
-    }
-}
+// Visual indicator for protected tabs
+tabControlAdv1.TabPages[0].TabForeColor = Color.DarkGreen;
+tabControlAdv1.TabPages[0].ToolTipText = "Home (cannot be moved)";
 ```
 
 ## Combined Customization Example

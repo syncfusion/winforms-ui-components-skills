@@ -24,18 +24,10 @@ This guide focuses on the `ThemeName` property and theme assembly integration fo
 
 The `ThemesEnabled` property enables Windows XP themes when `BorderStyle` is set to `Fixed3D`.
 
-**C#:**
 ```csharp
 // Enable XP themes for 3D borders
 textBoxExt1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 textBoxExt1.ThemesEnabled = true;
-```
-
-**VB.NET:**
-```vb
-' Enable XP themes for 3D borders
-textBoxExt1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-textBoxExt1.ThemesEnabled = True
 ```
 
 ![Enabled the themes when the border style is set to Fixed3D in WF TextBoxExt](../../../../../docs/Applying-Themes_images/Applying-Themes_img1.png)
@@ -54,16 +46,9 @@ The `ThemeName` property allows runtime theme selection from loaded theme assemb
 - Office2019Colorful
 - HighContrastBlack
 
-**C#:**
 ```csharp
 // Set theme by name
 textBoxExt1.ThemeName = "Office2019Colorful";
-```
-
-**VB.NET:**
-```vb
-' Set theme by name
-textBoxExt1.ThemeName = "Office2019Colorful"
 ```
 
 ![Set the Office2019theme to WF TextBoxExt](../../../../../docs/Applying-Themes_images/wf-textboxext-theme.png)
@@ -112,7 +97,6 @@ Theme assemblies must be loaded at application startup using `SkinManager.LoadAs
 
 Load theme assemblies in `Program.Main()` before running the form:
 
-**C#:**
 ```csharp
 using Syncfusion.Windows.Forms;
 using System;
@@ -120,9 +104,6 @@ using System.Windows.Forms;
 
 static class Program
 {
-    /// <summary>
-    /// The main entry point for the application.
-    /// </summary>
     [STAThread]
     static void Main()
     {
@@ -138,32 +119,6 @@ static class Program
 }
 ```
 
-**VB.NET:**
-```vb
-Imports Syncfusion.Windows.Forms
-Imports System.Windows.Forms
-
-Friend NotInheritable Class Program
-    Private Sub New()
-    End Sub
-    
-    ''' <summary>
-    ''' The main entry point for the application.
-    ''' </summary>
-    <STAThread>
-    Shared Sub Main()
-        ' Load theme assemblies
-        SkinManager.LoadAssembly(GetType(Syncfusion.WinForms.Themes.Office2016Theme).Assembly)
-        SkinManager.LoadAssembly(GetType(Syncfusion.WinForms.Themes.Office2019Theme).Assembly)
-        SkinManager.LoadAssembly(GetType(Syncfusion.HighContrastTheme.WinForms.HighContrastTheme).Assembly)
-
-        Application.EnableVisualStyles()
-        Application.SetCompatibleTextRenderingDefault(False)
-        Application.Run(New Form1())
-    End Sub
-End Class
-```
-
 **Important:** 
 - Call `SkinManager.LoadAssembly()` BEFORE `Application.EnableVisualStyles()`
 - Load assemblies only once at application startup
@@ -177,22 +132,12 @@ The Office2016 theme family provides four variations with modern flat design.
 
 Vibrant, colorful theme matching Office 2016's default appearance.
 
-**C#:**
 ```csharp
 // Load assembly in Program.Main()
 SkinManager.LoadAssembly(typeof(Syncfusion.WinForms.Themes.Office2016Theme).Assembly);
 
 // Apply in form
 textBoxExt1.ThemeName = "Office2016Colorful";
-```
-
-**VB.NET:**
-```vb
-' Load assembly in Program.Main()
-SkinManager.LoadAssembly(GetType(Syncfusion.WinForms.Themes.Office2016Theme).Assembly)
-
-' Apply in form
-textBoxExt1.ThemeName = "Office2016Colorful"
 ```
 
 **Characteristics:**
@@ -204,14 +149,8 @@ textBoxExt1.ThemeName = "Office2016Colorful"
 
 Clean white theme with subtle accents.
 
-**C#:**
 ```csharp
 textBoxExt1.ThemeName = "Office2016White";
-```
-
-**VB.NET:**
-```vb
-textBoxExt1.ThemeName = "Office2016White"
 ```
 
 **Characteristics:**
@@ -224,14 +163,8 @@ textBoxExt1.ThemeName = "Office2016White"
 
 Dark theme with reduced contrast for comfortable viewing.
 
-**C#:**
 ```csharp
 textBoxExt1.ThemeName = "Office2016DarkGray";
-```
-
-**VB.NET:**
-```vb
-textBoxExt1.ThemeName = "Office2016DarkGray"
 ```
 
 **Characteristics:**
@@ -244,14 +177,8 @@ textBoxExt1.ThemeName = "Office2016DarkGray"
 
 High-contrast dark theme for dark mode applications.
 
-**C#:**
 ```csharp
 textBoxExt1.ThemeName = "Office2016Black";
-```
-
-**VB.NET:**
-```vb
-textBoxExt1.ThemeName = "Office2016Black"
 ```
 
 **Characteristics:**
@@ -279,11 +206,6 @@ SkinManager.LoadAssembly(typeof(Syncfusion.WinForms.Themes.Office2019Theme).Asse
 textBoxExt1.ThemeName = "Office2019Colorful";
 ```
 
-**VB.NET:**
-```vb
-textBoxExt1.ThemeName = "Office2019Colorful"
-```
-
 **Characteristics:**
 - Latest Office design language
 - Refined color palette
@@ -307,11 +229,6 @@ SkinManager.LoadAssembly(typeof(Syncfusion.HighContrastTheme.WinForms.HighContra
 **Applying:**
 ```csharp
 textBoxExt1.ThemeName = "HighContrastBlack";
-```
-
-**VB.NET:**
-```vb
-textBoxExt1.ThemeName = "HighContrastBlack"
 ```
 
 **Characteristics:**
@@ -410,150 +327,7 @@ public partial class MainForm : Form
 }
 ```
 
-### Example 2: Runtime Theme Switching
-
-```csharp
-using Syncfusion.Windows.Forms.Tools;
-using System;
-using System.Windows.Forms;
-
-public class ThemeManager
-{
-    private TextBoxExt[] textBoxes;
-    
-    public ThemeManager(params TextBoxExt[] textBoxes)
-    {
-        this.textBoxes = textBoxes;
-    }
-    
-    public void ApplyTheme(string themeName)
-    {
-        foreach (var textBox in textBoxes)
-        {
-            try
-            {
-                textBox.ThemeName = themeName;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    $"Failed to apply theme '{themeName}': {ex.Message}\n\n" +
-                    "Ensure theme assembly is loaded in Program.Main()",
-                    "Theme Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
-    }
-}
-
-// Usage in form
-public partial class MainForm : Form
-{
-    private ThemeManager themeManager;
-    private TextBoxExt textBox1, textBox2, textBox3;
-    
-    private void InitializeThemeManager()
-    {
-        themeManager = new ThemeManager(textBox1, textBox2, textBox3);
-    }
-    
-    private void btnOffice2019_Click(object sender, EventArgs e)
-    {
-        themeManager.ApplyTheme("Office2019Colorful");
-    }
-    
-    private void btnOffice2016White_Click(object sender, EventArgs e)
-    {
-        themeManager.ApplyTheme("Office2016White");
-    }
-    
-    private void btnOffice2016Black_Click(object sender, EventArgs e)
-    {
-        themeManager.ApplyTheme("Office2016Black");
-    }
-    
-    private void btnHighContrast_Click(object sender, EventArgs e)
-    {
-        themeManager.ApplyTheme("HighContrastBlack");
-    }
-}
-```
-
-### Example 3: Theme Selection ComboBox
-
-```csharp
-using Syncfusion.Windows.Forms.Tools;
-using System;
-using System.Windows.Forms;
-
-public partial class MainForm : Form
-{
-    private ComboBox themeSelector;
-    private TextBoxExt textBoxExt1;
-    
-    public MainForm()
-    {
-        InitializeComponent();
-        CreateThemeSelector();
-        CreateThemedTextBox();
-    }
-    
-    private void CreateThemeSelector()
-    {
-        themeSelector = new ComboBox();
-        themeSelector.Location = new System.Drawing.Point(20, 20);
-        themeSelector.Size = new System.Drawing.Size(200, 25);
-        themeSelector.DropDownStyle = ComboBoxStyle.DropDownList;
-        
-        // Add available themes
-        themeSelector.Items.AddRange(new object[] {
-            "Office2016Colorful",
-            "Office2016White",
-            "Office2016DarkGray",
-            "Office2016Black",
-            "Office2019Colorful",
-            "HighContrastBlack"
-        });
-        
-        themeSelector.SelectedIndex = 0;
-        themeSelector.SelectedIndexChanged += ThemeSelector_SelectedIndexChanged;
-        
-        this.Controls.Add(themeSelector);
-    }
-    
-    private void CreateThemedTextBox()
-    {
-        textBoxExt1 = new TextBoxExt();
-        textBoxExt1.Location = new System.Drawing.Point(20, 60);
-        textBoxExt1.Size = new System.Drawing.Size(300, 25);
-        textBoxExt1.Text = "Theme preview textbox";
-        textBoxExt1.ThemeName = "Office2016Colorful";
-        
-        this.Controls.Add(textBoxExt1);
-    }
-    
-    private void ThemeSelector_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        string selectedTheme = themeSelector.SelectedItem.ToString();
-        
-        try
-        {
-            textBoxExt1.ThemeName = selectedTheme;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(
-                $"Error applying theme: {ex.Message}",
-                "Theme Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error);
-        }
-    }
-}
-```
-
-### Example 4: Application-Wide Theme Configuration
+### Example 2: Application-Wide Theme Configuration
 
 ```csharp
 using Syncfusion.Windows.Forms;
@@ -670,119 +444,17 @@ public partial class MainForm : Form
 
 ## Best Practices
 
-### 1. Load Assemblies Once
-
-Load theme assemblies only once in `Program.Main()`:
-
-```csharp
-// Good: Single load at startup
-static void Main()
-{
-    SkinManager.LoadAssembly(typeof(Syncfusion.WinForms.Themes.Office2016Theme).Assembly);
-    Application.Run(new Form1());
-}
-
-// Avoid: Multiple loads
-// Don't call SkinManager.LoadAssembly() in form constructors or multiple times
-```
-
-### 2. Error Handling
-
-Handle theme loading failures gracefully:
-
-```csharp
-private static void SafeLoadTheme(Type themeType)
-{
-    try
-    {
-        SkinManager.LoadAssembly(themeType.Assembly);
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Warning: Could not load theme {themeType.Name}: {ex.Message}");
-    }
-}
-```
-
-### 3. Theme Consistency
-
-Apply the same theme across all controls:
-
-```csharp
-public void ApplyThemeToAllControls(Control parent, string themeName)
-{
-    foreach (Control control in parent.Controls)
-    {
-        if (control is TextBoxExt textBox)
-        {
-            textBox.ThemeName = themeName;
-        }
-        
-        // Recurse into child controls
-        if (control.HasChildren)
-        {
-            ApplyThemeToAllControls(control, themeName);
-        }
-    }
-}
-```
-
-### 4. User Preferences
-
-Remember user's theme choice:
-
-```csharp
-// Save preference
-Properties.Settings.Default.PreferredTheme = "Office2019Colorful";
-Properties.Settings.Default.Save();
-
-// Load preference
-string theme = Properties.Settings.Default.PreferredTheme ?? "Office2016Colorful";
-textBoxExt1.ThemeName = theme;
-```
-
-### 5. Performance
-
-Set `ThemeName` once after control creation, not repeatedly:
-
-```csharp
-// Good: Set once
-textBoxExt1.ThemeName = "Office2019Colorful";
-
-// Avoid: Setting repeatedly in loops or timers
-```
+1. **Load assemblies once** in `Program.Main()` before `Application.EnableVisualStyles()`
+2. **Handle errors gracefully** when loading theme assemblies
+3. **Apply consistent themes** across all controls for unified appearance
+4. **Save user preferences** to remember theme choice between sessions
+5. **Set ThemeName once** after control creation, not repeatedly
 
 ## Troubleshooting
 
-### Theme Not Applied
-
-**Problem:** Setting `ThemeName` has no effect.
-
-**Solutions:**
-1. Verify theme assembly is loaded in `Program.Main()`
-2. Check assembly reference is added to project
-3. Ensure `SkinManager.LoadAssembly()` is called before `Application.EnableVisualStyles()`
-4. Verify theme name spelling (case-sensitive)
-
-### Assembly Not Found
-
-**Problem:** Exception when loading theme assembly.
-
-**Solutions:**
-1. Install required NuGet package
-2. Verify assembly is in output directory
-3. Check assembly version matches Syncfusion license
-4. Ensure using correct namespace for theme type
-
-### Theme Doesn't Match Expected Appearance
-
-**Problem:** Theme looks different than expected.
-
-**Solutions:**
-1. Verify correct theme name is used
-2. Check for custom property overrides (BackColor, ForeColor)
-3. Ensure control's `Style` property isn't conflicting
-4. Test with fresh control instance
+- **Theme not applied**: Verify assembly is loaded in `Program.Main()` and theme name is correct (case-sensitive)
+- **Assembly not found**: Install NuGet package and verify assembly is in output directory
+- **Unexpected appearance**: Check for custom property overrides (BackColor, ForeColor)
 
 ## Summary
 

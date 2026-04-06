@@ -286,17 +286,12 @@ Add visual appeal to important text, announcements, or promotional messages.
 ### Theme-Based Labeling
 Create themed labels that can be saved and loaded via serialization.
 
-## Related Skills
-
-- [AutoLabel](../implementing-autolabels/) - Automatic label positioning and sizing
-- [GradientPanel](../implementing-gradient-panels/) - Panels with gradient backgrounds
-
 ## Notes
 
 - GradientLabel derives from System.Windows.Forms.Label, so all standard Label functionality is available
 - The BrushInfo class provides the gradient and styling capabilities
 - BackgroundColor property is the key to customization
-- BorderColor only works when BorderStyle is set to FixedSingle
+- BorderColor only works when BorderStyle is set to `Border3DStyle.Flat`
 - Gradient colors array first entry matches BackColor, last entry matches ForeColor
 - XML serialization allows persisting gradient settings across application sessions
 - Performance is optimized for typical usage; avoid excessive gradient complexity for large numbers of controls

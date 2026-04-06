@@ -11,29 +11,6 @@ This guide covers common issues, solutions, and frequently asked questions for t
 - [Debugging Tips](#debugging-tips)
 
 ## Common Issues
-
-### License Key Not Registered
-
-**Problem:** Error message "Syncfusion license key is not registered"
-
-**Solution:**
-```csharp
-// Add to Program.cs Main method BEFORE creating any Syncfusion controls
-static void Main()
-{
-    // MUST BE FIRST
-    Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR_LICENSE_KEY");
-    
-    Application.EnableVisualStyles();
-    Application.SetCompatibleTextRenderingDefault(false);
-    Application.Run(new MainForm());
-}
-```
-
-**Where to get license key:**
-- Trial: https://www.syncfusion.com/downloads
-- Commercial: Syncfusion customer portal
-
 ### Assembly Not Found
 
 **Problem:** "Could not load file or assembly 'Syncfusion.PivotChart.Windows'"
@@ -245,15 +222,7 @@ if (sampleData != null)
    // Category → Product → Region
    ```
 
-4. **Disable Unnecessary Features:**
-   ```csharp
-   // Disable if not needed
-   pivotChart1.ShowGroupingBar = false;
-   pivotChart1.ShowPivotTableFieldList = false;
-   pivotChart1.ShowDataLabels = false;  // If many data points
-   ```
-
-5. **Optimize Chart Type:**
+4. **Optimize Chart Type:**
    ```csharp
    // Line/Spline charts render faster than complex charts
    pivotChart1.ChartTypes = PivotChartTypes.Line;  // Faster
@@ -368,11 +337,6 @@ pivotChart1.PivotAxis.Add(new PivotItem { FieldMappingName = "Region", TotalHead
 pivotChart1.PivotAxis.Add(new PivotItem { FieldMappingName = "State", TotalHeader = "All States" });
 ```
 
-**Sample Location:**
-```
-<Install_Path>\Syncfusion\EssentialStudio\<Version>\Windows\PivotChart.Windows\Samples\PivotChart Layout\DrillDown Demo\CS
-```
-
 ### How to Print the PivotChart?
 
 **Question:** How do I print or export the chart?
@@ -419,9 +383,9 @@ pivotChart1.CustomPalette = new Color[]
 };
 
 // Option 2: Use predefined palette
-pivotChart1.Palette = ChartColorPalette.Metro;
-pivotChart1.Palette = ChartColorPalette.Nature;
-pivotChart1.Palette = ChartColorPalette.EarthTones;
+pivotChart1.ChartControl.Palette = ChartColorPalette.Metro;
+pivotChart1.ChartControl.Palette = ChartColorPalette.Nature;
+pivotChart1.ChartControl.Palette = ChartColorPalette.EarthTone;
 ```
 
 **Corporate Colors Example:**
@@ -434,7 +398,7 @@ Color[] corporateColors = new Color[]
     Color.FromArgb(214, 39, 40),   // Corporate Red
 };
 
-pivotChart1.Palette = ChartColorPalette.Custom;
+pivotChart1.ChartControl.Palette = ChartColorPalette.Custom;
 pivotChart1.CustomPalette = corporateColors;
 ```
 
@@ -445,7 +409,7 @@ pivotChart1.CustomPalette = corporateColors;
 **Answer:**
 ```csharp
 // Simple export
-pivotChart1.ExportToExcel("PivotChart.xlsx");
+pivotChart1.Export("PivotChart.xlsx");
 
 // With save dialog
 SaveFileDialog saveDialog = new SaveFileDialog
@@ -456,7 +420,7 @@ SaveFileDialog saveDialog = new SaveFileDialog
 
 if (saveDialog.ShowDialog() == DialogResult.OK)
 {
-    pivotChart1.ExportToExcel(saveDialog.FileName);
+    pivotChart1.Export(saveDialog.FileName);
     MessageBox.Show("Chart exported successfully!");
 }
 ```
@@ -563,32 +527,6 @@ private void TestMinimalConfiguration()
     pivotChart1.PivotCalculations.Add(new PivotComputationInfo { FieldName = "Quantity", Format = "#,##0" });
 }
 ```
-
-## Getting Help
-
-### Official Resources
-
-- **Documentation:** https://help.syncfusion.com/windowsforms/pivot-chart/overview
-- **API Reference:** https://help.syncfusion.com/cr/windowsforms/Syncfusion.Windows.Forms.PivotChart.html
-- **Knowledge Base:** https://support.syncfusion.com/kb/windowsforms
-- **Forums:** https://www.syncfusion.com/forums/windowsforms
-
-### Support Channels
-
-1. **Direct Support:** https://support.syncfusion.com/create
-2. **Community Forums:** Post questions with code samples
-3. **Samples:** Check installed samples for working examples
-4. **GitHub:** https://github.com/syncfusion/winforms-demos
-
-### When Posting Questions
-
-Include:
-1. Syncfusion version number
-2. Visual Studio version
-3. .NET Framework version
-4. Code snippet showing the issue
-5. Error messages (full stack trace)
-6. What you've already tried
 
 ## Best Practices to Avoid Issues
 

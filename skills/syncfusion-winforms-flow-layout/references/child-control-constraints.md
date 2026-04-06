@@ -146,45 +146,18 @@ var constraints = new FlowLayoutConstraints(
 flowLayout1.SetConstraints(control, constraints);
 ```
 
-### Setting Active = false
-
-Excludes a control from layout without removing it from the form:
-
-```csharp
-var inactiveConstraints = new FlowLayoutConstraints(
-    active: false,  // Don't include in layout
-    hAlign: HorzFlowAlign.Left,
-    vAlign: VertFlowAlign.Top,
-    newLine: false,
-    proportionalColWidth: false,
-    proportionalRowHeight: false
-);
-flowLayout1.SetConstraints(control, inactiveConstraints);
-```
-
 ### Use Cases
 
-**Conditional Visibility:**
+Excludes a control from layout without removing it from the form. Use for conditional visibility or temporarily disabling layout:
+
 ```csharp
-// Show/hide control without removing it
-bool showAdvanced = userEnabled;
+// Show/hide control based on condition
 var constraints = new FlowLayoutConstraints(
-    active: showAdvanced,
+    active: userEnabled,  // Dynamic visibility
     hAlign: HorzFlowAlign.Left,
     vAlign: VertFlowAlign.Top,
     newLine: false, false, false);
 flowLayout1.SetConstraints(advancedPanel, constraints);
-```
-
-**Temporarily Disable Layout:**
-```csharp
-// Disable several controls during updates
-foreach (Control ctrl in controlsToHide)
-{
-    var constraints = new FlowLayoutConstraints(
-        false, HorzFlowAlign.Left, VertFlowAlign.Top, false, false, false);
-    flowLayout1.SetConstraints(ctrl, constraints);
-}
 ```
 
 ## NewLine Property
@@ -235,23 +208,13 @@ flowLayout1.SetConstraints(btn4, constraints);
 
 ### Use Cases
 
-**Section Breaks:**
+Use `NewLine` for section breaks and form field rows:
+
 ```csharp
 // Separate groups of controls
 var sectionConstraints = new FlowLayoutConstraints(
     true, HorzFlowAlign.Left, VertFlowAlign.Top, true, false, false);
 flowLayout1.SetConstraints(section2Panel, sectionConstraints);
-```
-
-**Form Field Rows:**
-```csharp
-// Each form row starts on new line
-foreach (TextBox textBox in textBoxes)
-{
-    var constraints = new FlowLayoutConstraints(
-        true, HorzFlowAlign.Justify, VertFlowAlign.Top, true, false, false);
-    flowLayout1.SetConstraints(textBox, constraints);
-}
 ```
 
 ## Proportional Sizing
@@ -294,22 +257,7 @@ flowLayout1.SetConstraints(control, constraints);
 
 **Effect:** Control width increases proportionally to fill available horizontal space in column.
 
-### Example: Vertically Centered Row
 
-```csharp
-flowLayout1.LayoutMode = FlowLayoutMode.Horizontal;
-
-Label label = new Label { Text = "Name:", Size = new Size(50, 20) };
-TextBox textBox = new TextBox { Size = new Size(150, 20) };
-
-this.Controls.Add(label);
-this.Controls.Add(textBox);
-
-// Make textBox row-height proportional for vertical centering
-var textBoxConstraints = new FlowLayoutConstraints(
-    true, HorzFlowAlign.Left, VertFlowAlign.Center, false, false, true);
-flowLayout1.SetConstraints(textBox, textBoxConstraints);
-```
 
 ## Constraint Methods
 
@@ -321,20 +269,11 @@ Set all constraints for a control:
 flowLayout1.SetConstraints(control, constraints);
 ```
 
-**C# Example:**
 ```csharp
 var constraints = new FlowLayoutConstraints(
     true, HorzFlowAlign.Justify, VertFlowAlign.Center, 
     false, false, false);
 flowLayout1.SetConstraints(textBox1, constraints);
-```
-
-**VB.NET Example:**
-```vb
-Dim constraints As New FlowLayoutConstraints(
-    True, HorzFlowAlign.Justify, VertFlowAlign.Center, 
-    False, False, False)
-flowLayout1.SetConstraints(textBox1, constraints)
 ```
 
 ### GetConstraints
@@ -455,86 +394,14 @@ public partial class UserInfoForm : Form
 [Address:] [TextBox________________________]
 ```
 
-### Complex Layout with Multiple Rows
 
-```csharp
-// Row 1: Name fields
-Label firstName = new Label { Text = "First Name:" };
-TextBox firstNameBox = new TextBox { Size = new Size(80, 25) };
-Label lastName = new Label { Text = "Last Name:" };
-TextBox lastNameBox = new TextBox { Size = new Size(80, 25) };
-
-// Row 2: Contact info
-Label email = new Label { Text = "Email:" };
-TextBox emailBox = new TextBox { Size = new Size(200, 25) };
-
-// Row 3: Address (wide)
-Label address = new Label { Text = "Address:" };
-TextBox addressBox = new TextBox { Size = new Size(250, 25) };
-
-// Add all controls
-panel.Controls.AddRange(new Control[] { 
-    firstName, firstNameBox, lastName, lastNameBox,
-    email, emailBox, address, addressBox 
-});
-
-// Configure layout
-flowLayout1.LayoutMode = FlowLayoutMode.Horizontal;
-flowLayout1.Alignment = FlowAlignment.ChildConstraints;
-flowLayout1.HGap = 10;
-flowLayout1.VGap = 10;
-
-// Row 1 - inline fields
-flowLayout1.SetConstraints(firstNameBox, new FlowLayoutConstraints(
-    true, HorzFlowAlign.Left, VertFlowAlign.Top, false, false, false));
-flowLayout1.SetConstraints(lastNameBox, new FlowLayoutConstraints(
-    true, HorzFlowAlign.Left, VertFlowAlign.Top, false, false, false));
-
-// Row 2 - new row, stretched
-flowLayout1.SetConstraints(emailBox, new FlowLayoutConstraints(
-    true, HorzFlowAlign.Justify, VertFlowAlign.Top, true, false, false));
-
-// Row 3 - new row, stretched
-flowLayout1.SetConstraints(addressBox, new FlowLayoutConstraints(
-    true, HorzFlowAlign.Justify, VertFlowAlign.Top, true, false, false));
-```
 
 ## Rearranging Controls
 
-### Rearranging via Designer
+### Via Designer
+Right-click control and use "Bring to Front" or "Send to Back" to change layout order.
 
-1. Right-click on a control
-2. Select "Bring to Front" to move earlier in layout order
-3. Select "Send to Back" to move later in layout order
-
-### Rearranging Programmatically
-
-Reorder controls by manipulating the Controls collection:
-
-```csharp
-private void ReverseControlOrder()
-{
-    // Collect current controls
-    ArrayList controlList = new ArrayList();
-    foreach (Control ctrl in panel1.Controls)
-    {
-        controlList.Add(ctrl);
-    }
-    
-    // Clear and re-add in reverse order
-    panel1.Controls.Clear();
-    
-    for (int i = controlList.Count - 1; i >= 0; i--)
-    {
-        panel1.Controls.Add((Control)controlList[i]);
-    }
-    
-    // Refresh layout
-    panel1.PerformLayout();
-}
-```
-
-### Moving Specific Control
+### Programmatically
 
 ```csharp
 private void MoveControlToFront(Control control)
@@ -543,69 +410,9 @@ private void MoveControlToFront(Control control)
     container.Controls.Insert(0, control);
     container.PerformLayout();
 }
-
-private void MoveControlToBack(Control control)
-{
-    container.Controls.Remove(control);
-    container.Controls.Add(control);
-    container.PerformLayout();
-}
-```
-
-### Reordering at Runtime
-
-```csharp
-private void ReorderButton_Click(object sender, EventArgs e)
-{
-    // Swap positions of two controls
-    int index1 = container.Controls.IndexOf(control1);
-    int index2 = container.Controls.IndexOf(control2);
-    
-    if (index1 >= 0 && index2 >= 0)
-    {
-        container.Controls.RemoveAt(Math.Max(index1, index2));
-        container.Controls.RemoveAt(Math.Min(index1, index2));
-        
-        container.Controls.Insert(0, control1);
-        container.Controls.Insert(1, control2);
-        
-        container.PerformLayout();
-    }
-}
 ```
 
 ## Troubleshooting
 
-### Controls Not Participating in Layout
-
-**Problem:** Added controls don't appear in layout
-**Solution:** Check if `Active` property is set to `true` in constraints
-
-```csharp
-// Verify control is active
-var constraints = flowLayout1.GetConstraints(control);
-if (!constraints.Active)
-{
-    // Make active
-    var activeConstraints = new FlowLayoutConstraints(
-        true, HorzFlowAlign.Left, VertFlowAlign.Top, false, false, false);
-    flowLayout1.SetConstraints(control, activeConstraints);
-}
-```
-
-### Unexpected Layout Changes
-
-**Problem:** Layout rearranges unexpectedly when changing properties
-**Solution:** Ensure `Alignment` is correct and constraints are consistent
-
-```csharp
-// Use ChildConstraints if mixing alignment styles
-flowLayout1.Alignment = FlowAlignment.ChildConstraints;
-
-// Verify all controls have defined constraints
-foreach (Control ctrl in container.Controls)
-{
-    var constraints = flowLayout1.GetConstraints(ctrl);
-    // Should be non-null if using ChildConstraints alignment
-}
-```
+- **Controls not appearing in layout:** Check if `Active` property is `true` in constraints
+- **Unexpected layout changes:** Ensure `Alignment` is set to `FlowAlignment.ChildConstraints` and all controls have defined constraints

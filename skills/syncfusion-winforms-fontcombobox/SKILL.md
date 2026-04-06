@@ -133,7 +133,7 @@ fontComboBox.Location = new Point(20, 20);
 fontComboBox.UseAutoComplete = true;
 
 // Set default selected font
-fontComboBox.SelectedItem = "Arial";
+fontComboBox.Text = "Arial";
 
 // Add to form
 this.Controls.Add(fontComboBox);
@@ -147,10 +147,10 @@ fontComboBox.SelectedIndexChanged += FontComboBox_SelectedIndexChanged;
 
 private void FontComboBox_SelectedIndexChanged(object sender, EventArgs e)
 {
-    if (fontComboBox.SelectedItem != null)
+    if (fontComboBox.Text != null)
     {
         // Apply selected font to a label
-        label1.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Regular);
+        label1.Font = new Font(fontComboBox.Text.ToString(), 12, FontStyle.Regular);
     }
 }
 ```
@@ -172,9 +172,9 @@ FontComboBox fontComboBox = new FontComboBox
 // Handle selection to update preview label
 fontComboBox.SelectedIndexChanged += (s, e) =>
 {
-    if (fontComboBox.SelectedItem != null)
+    if (fontComboBox.Text != null)
     {
-        previewLabel.Font = new Font(fontComboBox.SelectedItem.ToString(), 14);
+        previewLabel.Font = new Font(fontComboBox.Text.ToString(), 14);
         previewLabel.Text = "The quick brown fox jumps over the lazy dog";
     }
 };
@@ -191,7 +191,7 @@ FontComboBox fontComboBox = new FontComboBox
 };
 
 // Set initial font
-fontComboBox.SelectedItem = "Segoe UI";
+fontComboBox.Text = "Segoe UI";
 ```
 
 ### Pattern 3: Custom Font List with AutoComplete
@@ -256,14 +256,9 @@ Build property grids or configuration panels where users select fonts for custom
 ### Font Comparison Tools
 Develop utilities for comparing fonts side-by-side with live previews.
 
-## Related Skills
-
-- [AutoComplete](../implementing-autocomplete/) - General AutoComplete control implementation
-- [ComboBox](../implementing-combobox/) - Base ComboBox control patterns
-
 ## Notes
 
-- FontComboBox automatically loads all system-installed fonts - no manual population required
+- FontComboBox automatically loads all system-installed fonts when `UseAutoComplete = true` is set — no manual font enumeration required.
 - Symbol fonts can be displayed with their actual glyphs using ShowSymbolFontPreview
 - Use DropDownList style to prevent manual text entry, allowing only font selection
 - SelectedIndexChanged fires whenever selection changes programmatically or by user

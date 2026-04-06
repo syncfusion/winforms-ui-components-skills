@@ -126,17 +126,6 @@ customGroup.HeaderHeight = 25;
 colorPickerUIAdv1.CustomGroups.Add(customGroup);
 ```
 
-**Visual Basic:**
-```vb
-' Create custom group
-Dim customGroup As New ColorUIAdvGroup()
-customGroup.Name = "Brand Colors"
-customGroup.HeaderHeight = 25
-
-' Add to control
-colorPickerUIAdv1.CustomGroups.Add(customGroup)
-```
-
 ### Using ColorUIAdvGroup Collection Editor (Designer)
 
 1. Select ColorPickerUIAdv in designer
@@ -167,31 +156,6 @@ customGroup.Items.Add(groupColorItem1);
 
 // Add group to control
 colorPickerUIAdv1.CustomGroups.Add(customGroup);
-```
-
-### Adding Multiple Items
-
-```csharp
-ColorUIAdvGroup brandColors = new ColorUIAdvGroup();
-brandColors.Name = "Brand Colors";
-
-// Primary color
-GroupColorItem primary = new GroupColorItem(brandColors, Color.FromArgb(0, 120, 215));
-primary.Index = 0;
-brandColors.Items.Add(primary);
-
-// Secondary color
-GroupColorItem secondary = new GroupColorItem(brandColors, Color.FromArgb(16, 110, 190));
-secondary.Index = 1;
-brandColors.Items.Add(secondary);
-
-// Accent color
-GroupColorItem accent = new GroupColorItem(brandColors, Color.FromArgb(255, 185, 0));
-accent.Index = 2;
-brandColors.Items.Add(accent);
-
-// Add to control
-colorPickerUIAdv1.CustomGroups.Add(brandColors);
 ```
 
 ### Design-Time Item Addition
@@ -241,28 +205,6 @@ baseColor.SubItems.Add(new ColorItem(baseColor, Color.MidnightBlue));
 
 // Add to group
 group.Items.Add(baseColor);
-```
-
-### Multi-Level Sub-Items
-
-```csharp
-// Create group with deeper sub-item hierarchy
-ColorUIAdvGroup advancedGroup = new ColorUIAdvGroup();
-advancedGroup.Name = "Advanced Colors";
-advancedGroup.IsSubItemsVisible = true;
-advancedGroup.SubItemsDepth = 2; // Two rows of variations
-
-GroupColorItem mainColor = new GroupColorItem(advancedGroup, Color.Red);
-
-// First level sub-items
-mainColor.SubItems.Add(new ColorItem(mainColor, Color.LightCoral));
-mainColor.SubItems.Add(new ColorItem(mainColor, Color.IndianRed));
-
-// Second level sub-items
-mainColor.SubItems.Add(new ColorItem(mainColor, Color.DarkRed));
-mainColor.SubItems.Add(new ColorItem(mainColor, Color.Maroon));
-
-advancedGroup.Items.Add(mainColor);
 ```
 
 ### Programmatic Color Tint Generation

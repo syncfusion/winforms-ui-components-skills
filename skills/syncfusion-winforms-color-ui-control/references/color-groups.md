@@ -93,16 +93,6 @@ this.colorUIControl1.ColorGroups =
     ColorUIGroups.UserColors;
 ```
 
-**VB.NET:**
-```vb
-' Show all four groups
-Me.colorUIControl1.ColorGroups = _
-    ColorUIGroups.SystemColors Or _
-    ColorUIGroups.StandardColors Or _
-    ColorUIGroups.CustomColors Or _
-    ColorUIGroups.UserColors
-```
-
 ### Showing Specific Groups Only
 
 **C#:**
@@ -117,20 +107,6 @@ this.colorUIControl1.ColorGroups = ColorUIGroups.StandardColors;
 // Show System and Standard
 this.colorUIControl1.ColorGroups = 
     ColorUIGroups.SystemColors | ColorUIGroups.StandardColors;
-```
-
-**VB.NET:**
-```vb
-' Show only Standard and Custom colors
-Me.colorUIControl1.ColorGroups = _
-    ColorUIGroups.StandardColors Or ColorUIGroups.CustomColors
-
-' Show only Standard colors (simplest picker)
-Me.colorUIControl1.ColorGroups = ColorUIGroups.StandardColors
-
-' Show System and Standard
-Me.colorUIControl1.ColorGroups = _
-    ColorUIGroups.SystemColors Or ColorUIGroups.StandardColors
 ```
 
 ## Working with ColorGroups Property
@@ -224,21 +200,6 @@ this.colorUIControl1.SelectedColorGroup =
     ColorUISelectedGroup.None;
 ```
 
-**VB.NET:**
-```vb
-' Set StandardColors as the active tab
-Me.colorUIControl1.SelectedColorGroup = _
-    ColorUISelectedGroup.StandardColors
-
-' Set UserColors as active
-Me.colorUIControl1.SelectedColorGroup = _
-    ColorUISelectedGroup.UserColors
-
-' Set to None (no tab selected)
-Me.colorUIControl1.SelectedColorGroup = _
-    ColorUISelectedGroup.None
-```
-
 ### Available SelectedColorGroup Options
 
 ```csharp
@@ -249,23 +210,6 @@ public enum ColorUISelectedGroup
     StandardColors = 2, // Standard colors tab
     CustomColors = 3,   // Custom colors tab
     UserColors = 4      // User colors tab
-}
-```
-
-### Changing Group Programmatically
-
-**C#:**
-```csharp
-private void btnShowStandard_Click(object sender, EventArgs e)
-{
-    // Switch to Standard colors tab
-    colorUIControl1.SelectedColorGroup = ColorUISelectedGroup.StandardColors;
-}
-
-private void btnShowCustom_Click(object sender, EventArgs e)
-{
-    // Switch to Custom colors tab
-    colorUIControl1.SelectedColorGroup = ColorUISelectedGroup.CustomColors;
 }
 ```
 
@@ -341,15 +285,6 @@ for (int i = 0; i < this.colorUIControl1.UserCustomColors.Count; i++)
 }
 ```
 
-**VB.NET:**
-```vb
-' Customize UserCustomColors with a red gradient
-Dim i As Integer
-For i = 0 To Me.colorUIControl1.UserCustomColors.Count - 1
-    Me.colorUIControl1.UserCustomColors(i) = Color.FromArgb(i * 15, 0, 0)
-Next
-```
-
 ### Enabling Stretching for User Color Cells
 
 Use `UserColorsStretchOnResize` to allow the UserColors panel to resize with the control.
@@ -358,12 +293,6 @@ Use `UserColorsStretchOnResize` to allow the UserColors panel to resize with the
 ```csharp
 // Enable stretching for better visual layout
 this.colorUIControl1.UserColorsStretchOnResize = true;
-```
-
-**VB.NET:**
-```vb
-' Enable stretching for better visual layout
-Me.colorUIControl1.UserColorsStretchOnResize = True
 ```
 
 ### Complete User Color Customization Example
@@ -439,112 +368,6 @@ public class SimplifiedColorPicker : Form
         this.Text = "Simple Color Picker";
         this.Size = new Size(270, 250);
     }
-}
-```
-
-### Example 2: Professional Color Picker (Standard and Custom)
-
-**C#:**
-```csharp
-private void SetupProfessionalColorPicker()
-{
-    // Show Standard and Custom colors
-    colorUIControl1.ColorGroups = 
-        ColorUIGroups.StandardColors | 
-        ColorUIGroups.CustomColors;
-    
-    // Start with Standard colors active
-    colorUIControl1.SelectedColorGroup = ColorUISelectedGroup.StandardColors;
-    
-    // Enable stretching for custom colors
-    colorUIControl1.CustomColorsStretchOnResize = true;
-    
-    // Set initial color
-    colorUIControl1.SelectedColor = Color.SteelBlue;
-}
-```
-
-### Example 3: Theme-Based Color Picker with User Colors
-
-**C#:**
-```csharp
-private void SetupThemeColorPicker()
-{
-    // Include all groups except System colors
-    colorUIControl1.ColorGroups = 
-        ColorUIGroups.StandardColors | 
-        ColorUIGroups.CustomColors | 
-        ColorUIGroups.UserColors;
-    
-    // Populate UserColors with brand theme colors
-    Color[] brandColors = new Color[]
-    {
-        Color.FromArgb(0, 120, 212),   // Primary Blue
-        Color.FromArgb(0, 99, 177),    // Dark Blue
-        Color.FromArgb(106, 185, 255), // Light Blue
-        Color.FromArgb(255, 140, 0),   // Accent Orange
-        Color.FromArgb(232, 17, 35),   // Alert Red
-        Color.FromArgb(16, 124, 16),   // Success Green
-    };
-    
-    for (int i = 0; i < brandColors.Length && i < colorUIControl1.UserColors.Count; i++)
-    {
-        colorUIControl1.UserColors[i] = brandColors[i];
-    }
-    
-    // Set UserColors as default
-    colorUIControl1.SelectedColorGroup = ColorUISelectedGroup.UserColors;
-    colorUIControl1.UserColorsStretchOnResize = true;
-}
-```
-
-### Example 4: Recently Used Colors Implementation
-
-**C#:**
-```csharp
-private List<Color> recentColors = new List<Color>();
-private const int MaxRecentColors = 20;
-
-private void AddToRecentColors(Color color)
-{
-    // Remove if already exists
-    recentColors.Remove(color);
-    
-    // Add to beginning
-    recentColors.Insert(0, color);
-    
-    // Limit to max count
-    if (recentColors.Count > MaxRecentColors)
-    {
-        recentColors.RemoveAt(recentColors.Count - 1);
-    }
-    
-    // Update UserColors collection
-    UpdateUserColorsWithRecent();
-}
-
-private void UpdateUserColorsWithRecent()
-{
-    for (int i = 0; i < colorUIControl1.UserColors.Count; i++)
-    {
-        if (i < recentColors.Count)
-        {
-            colorUIControl1.UserColors[i] = recentColors[i];
-        }
-        else
-        {
-            colorUIControl1.UserColors[i] = Color.White; // Empty slot
-        }
-    }
-}
-
-private void colorUIControl1_ColorSelected(object sender, EventArgs e)
-{
-    Color selected = colorUIControl1.SelectedColor;
-    AddToRecentColors(selected);
-    
-    // Apply color to your application
-    // ...
 }
 ```
 

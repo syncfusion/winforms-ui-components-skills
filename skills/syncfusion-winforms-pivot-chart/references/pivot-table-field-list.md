@@ -28,12 +28,6 @@ private void ConfigureFieldList()
 {
     // Enable field list
     pivotChart1.ShowPivotTableFieldList = true;
-    
-    // Position field list
-    pivotChart1.PivotTableFieldListLocation = PivotTableFieldListLocation.Right;
-    
-    // Allow filtering
-    pivotChart1.AllowFiltering = true;
 }
 ```
 

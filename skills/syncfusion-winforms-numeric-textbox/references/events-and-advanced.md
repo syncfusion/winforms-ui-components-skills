@@ -131,37 +131,11 @@ this.numericTextBox.ValueChanged += (sender, e) =>
 };
 ```
 
-**Advantages:**
-- Concise, inline code
-- Good for simple operations
-- Clear intent
+**Use When:** Simple one-liner operations or logic specific to one control.
 
-**Use When:**
-- Simple one-liner operations
-- Logic is specific to this control
-- Handler is used only once
-
-### Pattern 3: Anonymous Method
+### Pattern 3: Method Group
 
 ```csharp
-this.numericTextBox.ValueChanged += delegate(object sender, ValueChangedEventArgs e)
-{
-    Debug.WriteLine($"Value: {e.NewValue}");
-};
-```
-
-**Advantages:**
-- Multi-line inline code
-- Older C# syntax (still valid)
-
-**Use When:**
-- Need multi-line lambda
-- Using older C# versions
-
-### Pattern 4: Method Group
-
-```csharp
-// Subscribe using method group (if method signature matches)
 this.numericTextBox.ValueChanged += OnAnyValueChanged;
 
 private void OnAnyValueChanged(object sender, ValueChangedEventArgs e)
@@ -195,58 +169,17 @@ private void Amount_ValueChanged(object sender, ValueChangedEventArgs e)
     var textBox = (SfNumericTextBox)sender;
     
     if (!e.NewValue.HasValue)
-    {
         textBox.Style.PositiveForeColor = Color.Gray;
-    }
     else if (e.NewValue.Value > 1000)
-    {
-        textBox.Style.PositiveForeColor = Color.Green;     // High
-    }
+        textBox.Style.PositiveForeColor = Color.Green;
     else if (e.NewValue.Value > 100)
-    {
-        textBox.Style.PositiveForeColor = Color.Orange;    // Medium
-    }
+        textBox.Style.PositiveForeColor = Color.Orange;
     else
-    {
-        textBox.Style.PositiveForeColor = Color.Red;       // Low
-    }
+        textBox.Style.PositiveForeColor = Color.Red;
 }
 ```
 
-### Scenario 3: Data Validation and Feedback
-
-```csharp
-// Validate and provide feedback to user
-private void Discount_ValueChanged(object sender, ValueChangedEventArgs e)
-{
-    if (!e.NewValue.HasValue)
-    {
-        statusLabel.Text = "No discount applied";
-        return;
-    }
-    
-    double discount = e.NewValue.Value;
-    
-    if (discount > 50)
-    {
-        statusLabel.Text = "Warning: Discount exceeds 50%";
-        statusLabel.ForeColor = Color.Red;
-    }
-    else if (discount > 20)
-    {
-        statusLabel.Text = "Large discount applied";
-        statusLabel.ForeColor = Color.Orange;
-    }
-    else if (discount > 0)
-    {
-        statusLabel.Text = $"{discount}% discount";
-        statusLabel.ForeColor = Color.Green;
-    }
-}
-```
-
-### Scenario 4: Logging and Audit Trail
-
+### Scenario 3
 ```csharp
 // Log all value changes for audit purposes
 private void AuditedField_ValueChanged(object sender, ValueChangedEventArgs e)
@@ -290,14 +223,10 @@ private void UpdateTotal()
 
 ### Avoid Heavy Operations in ValueChanged
 
-**❌ AVOID - Slow:**
-```csharp
-private void ValueChanged_SlowHandler(object sender, ValueChangedEventArgs e)
+private void AuditedField_ValueChanged(object sender, ValueChangedEventArgs e)
 {
-    // This runs on every keystroke if ValueChangeMode = KeyPress!
-    for (int i = 0; i < 100000; i++)
-    {
-        // Heavy computation
+    string logEntry = $"[{DateTime.Now:HH:mm:ss}] " +
+                      $"changed from {e.OldValue} to {e.NewValue}";    // Heavy computation
         Math.Sqrt(i);
     }
 }
@@ -342,8 +271,6 @@ this.numericTextBox.ValueChanged += (s, e) =>
 public void InitializeControl()
 {
     this.numericTextBox.ValueChanged += NumericTextBox_ValueChanged;
-}
-
 public void CleanupControl()
 {
     this.numericTextBox.ValueChanged -= NumericTextBox_ValueChanged;
@@ -352,13 +279,7 @@ public void CleanupControl()
 public override void Dispose(bool disposing)
 {
     if (disposing)
-    {
-        CleanupControl();  // Unsubscribe before disposal
-    }
-    base.Dispose(disposing);
-}
-```
-
+        CleanupControl();
 ## Common Patterns
 
 ### Pattern: Real-Time Calculation
@@ -378,55 +299,16 @@ private void SetupCalculator()
 private void UpdateTotal()
 {
     double? qty = quantityBox.Value;
-    double? price = priceBox.Value;
-    
-    if (qty.HasValue && price.HasValue)
-    {
-        double total = qty.Value * price.Value;
-        totalBox.Value = total;
-    }
+    quantityBox.ValueChanged += (s, e) => UpdateTotal();
+    priceBox.ValueChanged += (s, e) => UpdateTotal();
+}
+
+private void UpdateTotal()
+{
+    if (quantityBox.Value.HasValue && priceBox.Value.HasValue)
+        totalBox.Value = quantityBox.Value.Value * priceBox.Value.Value;
     else
-    {
-        totalBox.Value = null;
-    }
-}
-```
-
-### Pattern: Validation Feedback
-
-```csharp
-private void SetupValidation()
-{
-    ageBox.ValueChanged += (s, e) =>
-    {
-        if (e.NewValue.HasValue)
-        {
-            double age = e.NewValue.Value;
-            
-            if (age < 18)
-                statusLabel.Text = "Minor";
-            else if (age < 65)
-                statusLabel.Text = "Adult";
-            else
-                statusLabel.Text = "Senior";
-        }
-        else
-        {
-            statusLabel.Text = "No age specified";
-        }
-    };
-}
-```
-
-### Pattern: Multi-Field Form
-
-```csharp
-private void Form_Load(object sender, EventArgs e)
-{
-    // Subscribe all fields to same handler
-    nameBox.ValueChanged += UpdateFormStatus;
-    ageBox.ValueChanged += UpdateFormStatus;
-    salaryBox.ValueChanged += UpdateFormStatus;
+        totalBox.Value = nullalaryBox.ValueChanged += UpdateFormStatus;
 }
 
 private void UpdateFormStatus(object sender, ValueChangedEventArgs e)
@@ -470,62 +352,29 @@ private void SaveButton_Click(object sender, EventArgs e)
 ```csharp
 private void AmountBox_ValueChanged(object sender, ValueChangedEventArgs e)
 {
-    // Show discount option only if amount > 100
-    if (e.NewValue.HasValue && e.NewValue.Value > 100)
-    {
-        discountPanel.Visible = true;
-    }
-    else
-    {
-        discountPanel.Visible = false;
-        discountBox.Value = null;
-    }
+    nameBox.ValueChanged += UpdateFormStatus;
+    ageBox.ValueChanged += UpdateFormStatus;
+    salaryBox.ValueChanged += UpdateFormStatus;
+}
+
+private void UpdateFormStatus(object sender, ValueChangedEventArgs e)
+{
+    submitButton.Enabled = !string.IsNullOrEmpty(nameBox.Text) &&
+                           ageBox.Value.HasValue && salaryBox.Value.HasValue;
 }
 ```
 
-## Complete Example: Invoice Line Item
+### Pattern: Change Tracking
 
 ```csharp
-public class InvoiceLineItem
+private double? lastSavedValue;
+
+private void ValueBox_ValueChanged(object sender, ValueChangedEventArgs e)
 {
-    private SfNumericTextBox quantityBox;
-    private SfNumericTextBox unitPriceBox;
-    private SfNumericTextBox discountPercentBox;
-    private SfNumericTextBox totalBox;
-    private Label validationLabel;
-
-    public void InitializeControls()
+    if (e.NewValue != lastSavedValue)
     {
-        // Setup quantity
-        quantityBox.ValueChangeMode = ValueChangeMode.KeyPress;
-        quantityBox.MinValue = 1;
-        quantityBox.MaxValue = 1000;
-        quantityBox.ValueChanged += (s, e) => CalculateTotal();
-
-        // Setup unit price
-        unitPriceBox.FormatMode = FormatMode.Currency;
-        unitPriceBox.ValueChangeMode = ValueChangeMode.KeyPress;
-        unitPriceBox.ValueChanged += (s, e) => CalculateTotal();
-
-        // Setup discount percent
-        discountPercentBox.Suffix = "%";
-        discountPercentBox.MinValue = 0;
-        discountPercentBox.MaxValue = 50;
-        discountPercentBox.ValueChanged += (s, e) => CalculateTotal();
-
-        // Total is read-only
-        totalBox.Enabled = false;
-        totalBox.FormatMode = FormatMode.Currency;
-    }
-
-    private void CalculateTotal()
-    {
-        double? qty = quantityBox.Value;
-        double? price = unitPriceBox.Value;
-        double? discount = discountPercentBox.Value;
-
-        if (!qty.HasValue || !price.HasValue)
-        {
+        saveButton.Enabled = true;
+        saveButton.Text = "Save*"
             totalBox.Value = null;
             validationLabel.Text = "Missing quantity or price";
             validationLabel.ForeColor = Color.Red;

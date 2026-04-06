@@ -21,20 +21,6 @@ if (string.IsNullOrEmpty(textBoxExt1.Text))
 }
 ```
 
-**VB.NET:**
-```vb
-' Set text
-textBoxExt1.Text = "Hello, World!"
-
-' Get text
-Dim content As String = textBoxExt1.Text
-
-' Check if empty
-If String.IsNullOrEmpty(textBoxExt1.Text) Then
-    MessageBox.Show("Please enter text")
-End If
-```
-
 ![Set the text to WF TextBoxExt](../../../../../docs/Text-Settings_images/wf-textboxext-text.png)
 
 ## SelectedText Property
@@ -51,18 +37,6 @@ textBoxExt1.SelectedText = "Replacement Text";
 
 // Insert text at cursor position
 textBoxExt1.SelectedText = "Inserted Text";
-```
-
-**VB.NET:**
-```vb
-' Get selected text
-Dim selected As String = textBoxExt1.SelectedText
-
-' Replace selected text
-textBoxExt1.SelectedText = "Replacement Text"
-
-' Insert text at cursor position
-textBoxExt1.SelectedText = "Inserted Text"
 ```
 
 **Note:** You can use `SelectedText` to get the user's selection or programmatically replace selected content.
@@ -101,15 +75,7 @@ textBoxExt1.CharacterCasing = CharacterCasing.Upper
 
 ![Change the character casing of WF TextBoxExt](../../../../../docs/Text-Settings_images/wf-textboxext-charcasing.png)
 
-### Lowercase Transformation
-
-**C#:**
-```csharp
-// Convert to lowercase automatically
-textBoxExt1.CharacterCasing = CharacterCasing.Lower;
-```
-
-**VB.NET:**
+##VB.NET:**
 ```vb
 ' Convert to lowercase automatically
 textBoxExt1.CharacterCasing = CharacterCasing.Lower
@@ -117,13 +83,7 @@ textBoxExt1.CharacterCasing = CharacterCasing.Lower
 
 **Result:** When user types "HELLO", it displays as "hello".
 
-### Use Cases
-
-**Product codes (uppercase):**
-```csharp
-productCodeBox.CharacterCasing = CharacterCasing.Upper;
-productCodeBox.MaxLength = 10;
-// User enters: abc123 → Displays: ABC123
+## User enters: abc123 → Displays: ABC123
 ```
 
 **Email addresses (lowercase):**
@@ -168,14 +128,6 @@ textBoxExt1.TextAlign = HorizontalAlignment.Center
 
 **C#:**
 ```csharp
-// Right-align text (common for numbers/currency)
-textBoxExt1.TextAlign = HorizontalAlignment.Right;
-```
-
-**VB.NET:**
-```vb
-' Right-align text (common for numbers/currency)
-textBoxExt1.TextAlign = HorizontalAlignment.Right
 ```
 
 ### Practical Examples
@@ -186,12 +138,6 @@ currencyBox.Text = "$1,234.56";
 currencyBox.TextAlign = HorizontalAlignment.Right;
 currencyBox.ReadOnly = true;
 ```
-
-**Centered title:**
-```csharp
-titleBox.Text = "Welcome to Our Application";
-titleBox.TextAlign = HorizontalAlignment.Center;
-titleBox.BackColor = Color.LightBlue;
 ```
 
 ## Right-to-Left Support
@@ -220,15 +166,7 @@ textBoxExt1.RightToLeft = RightToLeft.Yes
 
 **Complete RTL Example:**
 ```csharp
-// Configure for Arabic text
-arabicTextBox.RightToLeft = RightToLeft.Yes;
-arabicTextBox.TextAlign = HorizontalAlignment.Right;
-arabicTextBox.Text = "مرحبا بك"; // "Welcome" in Arabic
-```
-
-## DrawActiveWhenDisabled
-
-The `DrawActiveWhenDisabled` property determines whether text appears active even when the control is disabled.
+//e `DrawActiveWhenDisabled` property determines whether text appears active even when the control is disabled.
 
 **C#:**
 ```csharp
@@ -251,14 +189,7 @@ textBoxExt1.DrawActiveWhenDisabled = True
 **Use Case - Display-only field:**
 ```csharp
 // Show calculated result in disabled textbox
-resultBox.Text = "Total: $1,234.56";
-resultBox.Enabled = false;
-resultBox.DrawActiveWhenDisabled = true;
-resultBox.BackColor = Color.LightYellow;
-```
-
-## Multiline Text Settings
-
+re
 Configure TextBoxExt for multiline text display with word wrapping and scrollbars.
 
 ### Multiline Property
@@ -284,12 +215,6 @@ textBoxExt1.Multiline = true;
 textBoxExt1.WordWrap = true;
 ```
 
-**VB.NET:**
-```vb
-' Enable automatic word wrapping
-textBoxExt1.Multiline = True
-textBoxExt1.WordWrap = True
-```
 
 **Note:** `WordWrap` only works when `Multiline` is `true`.
 
@@ -297,14 +222,7 @@ textBoxExt1.WordWrap = True
 
 **C#:**
 ```csharp
-using System.Windows.Forms;
-
-// Add vertical scrollbar
-textBoxExt1.Multiline = true;
-textBoxExt1.ScrollBars = ScrollBars.Vertical;
-```
-
-**VB.NET:**
+usVB.NET:**
 ```vb
 Imports System.Windows.Forms
 
@@ -324,15 +242,6 @@ textBoxExt1.ScrollBars = ScrollBars.Vertical
 | `ScrollBars.Horizontal` | Horizontal scrollbar only | Long lines without word wrap |
 | `ScrollBars.Both` | Both scrollbars | Large content, no word wrap |
 
-**Complete multiline configuration:**
-```csharp
-// Create notes textbox
-notesBox.Multiline = true;
-notesBox.WordWrap = true;
-notesBox.ScrollBars = ScrollBars.Vertical;
-notesBox.Size = new Size(400, 200);
-notesBox.Text = "Enter your notes here...";
-```
 
 ### ScrollToCaret Method
 
@@ -367,14 +276,7 @@ Display indicators when text content exceeds the visible area.
 
 ### ShowOverflowIndicator
 
-**C#:**
-```csharp
-// Enable overflow indicator
-textBoxExt1.ShowOverflowIndicator = true;
-```
-
-**VB.NET:**
-```vb
+**`vb
 ' Enable overflow indicator
 textBoxExt1.ShowOverflowIndicator = True
 ```
@@ -402,12 +304,6 @@ textBoxExt1.ShowOverflowIndicatorToolTip = True
 // Custom tooltip text
 textBoxExt1.ShowOverflowIndicator = true;
 textBoxExt1.ShowOverflowIndicatorToolTip = true;
-textBoxExt1.OverflowIndicatorToolTipText = "Text content is too long. Resize to view more.";
-```
-
-**VB.NET:**
-```vb
-' Custom tooltip text
 textBoxExt1.ShowOverflowIndicator = True
 textBoxExt1.ShowOverflowIndicatorToolTip = True
 textBoxExt1.OverflowIndicatorToolTipText = "Text content is too long. Resize to view more."
@@ -417,13 +313,6 @@ textBoxExt1.OverflowIndicatorToolTipText = "Text content is too long. Resize to 
 
 **Default Behavior:** If `OverflowIndicatorToolTipText` is not set, the `Text` property value is displayed in the tooltip.
 
-**Complete Example:**
-```csharp
-// Create single-line textbox with overflow indicator
-statusBox.Multiline = false;
-statusBox.Size = new Size(150, 25);
-statusBox.Text = "This is a very long status message that won't fit";
-statusBox.ShowOverflowIndicator = true;
 statusBox.ShowOverflowIndicatorToolTip = true;
 statusBox.OverflowIndicatorToolTipText = "Resize textbox to view full message";
 ```
@@ -434,14 +323,6 @@ TextBoxExt provides several methods for programmatic text manipulation.
 
 ### AppendText Method
 
-Appends text to the end of the current text.
-
-**C#:**
-```csharp
-textBoxExt1.Text = "Hello";
-textBoxExt1.AppendText(" World!");
-// Result: "Hello World!"
-```
 
 **VB.NET:**
 ```vb
@@ -471,13 +352,6 @@ textBoxExt1.Cut()
 Copies the selected text to the clipboard.
 
 **C#:**
-```csharp
-// Copy selected text
-textBoxExt1.Copy();
-```
-
-**VB.NET:**
-```vb
 ' Copy selected text
 textBoxExt1.Copy()
 ```
@@ -495,12 +369,6 @@ textBoxExt1.Paste();
 **VB.NET:**
 ```vb
 ' Paste clipboard content
-textBoxExt1.Paste()
-```
-
-### Delete Method
-
-Deletes the current selection.
 
 **C#:**
 ```csharp
@@ -517,12 +385,6 @@ if (textBoxExt1.SelectionLength > 0)
 ' Delete selected text
 If textBoxExt1.SelectionLength > 0 Then
     textBoxExt1.SelectedText = ""
-End If
-```
-
-### Select Method
-
-Selects a range of text within the textbox.
 
 **C#:**
 ```csharp
@@ -532,12 +394,6 @@ textBoxExt1.Select(0, 5); // Selects "Hello"
 ```
 
 **VB.NET:**
-```vb
-' Select(start, length)
-textBoxExt1.Text = "Hello World"
-textBoxExt1.Select(0, 5) ' Selects "Hello"
-```
-
 ### SelectAll Method
 
 Selects all text in the textbox.
@@ -552,14 +408,6 @@ textBoxExt1.SelectAll();
 ```vb
 ' Select all text
 textBoxExt1.SelectAll()
-```
-
-### GetClipText Method
-
-Gets the clipped text without formatting.
-
-**Note:** This method retrieves text content suitable for clipboard operations.
-
 ## Practical Examples
 
 ### Example 1: Auto-Uppercase Product Code Entry
@@ -572,13 +420,6 @@ productCodeBox.TextAlign = HorizontalAlignment.Center;
 productCodeBox.Text = "Enter Code";
 
 // Clear placeholder on focus
-productCodeBox.Enter += (s, e) => {
-    if (productCodeBox.Text == "Enter Code")
-    {
-        productCodeBox.Text = "";
-    }
-};
-```
 
 ### Example 2: Multiline Notes with Character Counter
 
@@ -588,12 +429,6 @@ Label charCountLabel = new Label();
 
 notesBox.Multiline = true;
 notesBox.WordWrap = true;
-notesBox.ScrollBars = ScrollBars.Vertical;
-notesBox.MaxLength = 500;
-
-notesBox.TextChanged += (s, e) => {
-    charCountLabel.Text = $"{notesBox.Text.Length} / 500 characters";
-};
 ```
 
 ### Example 3: Right-Aligned Currency Display

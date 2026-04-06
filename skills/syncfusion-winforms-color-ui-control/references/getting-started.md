@@ -123,63 +123,25 @@ Manually add the `Syncfusion.Shared.Base` assembly as described in [Assembly Dep
 
 Add the namespace at the top of your code file:
 
-**C#:**
 ```csharp
 using Syncfusion.Windows.Forms;
 ```
 
-**VB.NET:**
-```vb
-Imports Syncfusion.Windows.Forms
-```
+### Step 3: Initialize and Add to Form
 
-### Step 3: Declare the Control
-
-**C#:**
 ```csharp
-private Syncfusion.Windows.Forms.ColorUIControl colorUIControl1;
-```
+// Declare and initialize the control
+private ColorUIControl colorUIControl1;
 
-**VB.NET:**
-```vb
-Private colorUIControl1 As Syncfusion.Windows.Forms.ColorUIControl
-```
-
-### Step 4: Initialize and Add to Form
-
-**C#:**
-```csharp
-// Initialize the control
-this.colorUIControl1 = new Syncfusion.Windows.Forms.ColorUIControl();
-
-// Set size
+// In your initialization method
+this.colorUIControl1 = new ColorUIControl();
 this.colorUIControl1.Size = new System.Drawing.Size(210, 200);
-
-// Set location
 this.colorUIControl1.Location = new System.Drawing.Point(20, 20);
-
-// Add to form
 this.Controls.Add(this.colorUIControl1);
-```
-
-**VB.NET:**
-```vb
-' Initialize the control
-Me.colorUIControl1 = New Syncfusion.Windows.Forms.ColorUIControl()
-
-' Set size
-Me.colorUIControl1.Size = New System.Drawing.Size(210, 200)
-
-' Set location
-Me.colorUIControl1.Location = New System.Drawing.Point(20, 20)
-
-' Add to form
-Me.Controls.Add(Me.colorUIControl1)
 ```
 
 ### Complete Code Method Example
 
-**C#:**
 ```csharp
 using System;
 using System.Drawing;
@@ -200,48 +162,13 @@ namespace ColorPickerApp
         
         private void InitializeColorUI()
         {
-            // Create instance
             this.colorUIControl1 = new ColorUIControl();
-            
-            // Configure properties
             this.colorUIControl1.Size = new Size(210, 200);
             this.colorUIControl1.Location = new Point(20, 20);
-            this.colorUIControl1.Name = "colorUIControl1";
-            
-            // Add to form
             this.Controls.Add(this.colorUIControl1);
         }
     }
 }
-```
-
-**VB.NET:**
-```vb
-Imports System.Drawing
-Imports System.Windows.Forms
-Imports Syncfusion.Windows.Forms
-
-Public Class Form1
-    Private colorUIControl1 As ColorUIControl
-    
-    Public Sub New()
-        InitializeComponent()
-        InitializeColorUI()
-    End Sub
-    
-    Private Sub InitializeColorUI()
-        ' Create instance
-        Me.colorUIControl1 = New ColorUIControl()
-        
-        ' Configure properties
-        Me.colorUIControl1.Size = New Size(210, 200)
-        Me.colorUIControl1.Location = New Point(20, 20)
-        Me.colorUIControl1.Name = "colorUIControl1"
-        
-        ' Add to form
-        Me.Controls.Add(Me.colorUIControl1)
-    End Sub
-End Class
 ```
 
 ## Setting Initial Color and Group
@@ -252,28 +179,10 @@ After creating the ColorUIControl, you can set the initial color and active colo
 
 Sets the initially selected color in the palette.
 
-**C#:**
 ```csharp
-// Set initial color to OrangeRed
-this.colorUIControl1.SelectedColor = System.Drawing.Color.OrangeRed;
-
-// Set to custom RGB color
+// Set initial color
+this.colorUIControl1.SelectedColor = Color.OrangeRed;
 this.colorUIControl1.SelectedColor = Color.FromArgb(255, 128, 64);
-
-// Set to named color
-this.colorUIControl1.SelectedColor = Color.DarkBlue;
-```
-
-**VB.NET:**
-```vb
-' Set initial color to OrangeRed
-Me.colorUIControl1.SelectedColor = System.Drawing.Color.OrangeRed
-
-' Set to custom RGB color
-Me.colorUIControl1.SelectedColor = Color.FromArgb(255, 128, 64)
-
-' Set to named color
-Me.colorUIControl1.SelectedColor = Color.DarkBlue
 ```
 
 ### SelectedColorGroup Property
@@ -281,48 +190,19 @@ Me.colorUIControl1.SelectedColor = Color.DarkBlue
 Sets which color group tab is initially displayed.
 
 **Available Options:**
-- `ColorUISelectedGroup.SystemColors` - System colors (from SystemColors class)
+- `ColorUISelectedGroup.SystemColors` - System colors
 - `ColorUISelectedGroup.StandardColors` - Standard basic colors
-- `ColorUISelectedGroup.CustomColors` - Customizable color palette
+- `ColorUISelectedGroup.CustomColors` - Customizable palette
 - `ColorUISelectedGroup.UserColors` - User-defined colors
 - `ColorUISelectedGroup.None` - No group selected (default)
 
-**C#:**
 ```csharp
-// Show StandardColors tab by default
-this.colorUIControl1.SelectedColorGroup = 
-    Syncfusion.Windows.Forms.ColorUISelectedGroup.StandardColors;
+// Set color group
+this.colorUIControl1.SelectedColorGroup = ColorUISelectedGroup.StandardColors;
 
-// Show CustomColors tab
-this.colorUIControl1.SelectedColorGroup = 
-    ColorUISelectedGroup.CustomColors;
-```
-
-**VB.NET:**
-```vb
-' Show StandardColors tab by default
-Me.colorUIControl1.SelectedColorGroup = _
-    Syncfusion.Windows.Forms.ColorUISelectedGroup.StandardColors
-
-' Show CustomColors tab
-Me.colorUIControl1.SelectedColorGroup = _
-    ColorUISelectedGroup.CustomColors
-```
-
-### Setting Both Color and Group
-
-**C#:**
-```csharp
-// Set color and ensure the correct group is displayed
+// Set both color and group
 this.colorUIControl1.SelectedColor = Color.OrangeRed;
 this.colorUIControl1.SelectedColorGroup = ColorUISelectedGroup.StandardColors;
-```
-
-**VB.NET:**
-```vb
-' Set color and ensure the correct group is displayed
-Me.colorUIControl1.SelectedColor = Color.OrangeRed
-Me.colorUIControl1.SelectedColorGroup = ColorUISelectedGroup.StandardColors
 ```
 
 ## Reset Methods

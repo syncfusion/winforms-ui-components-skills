@@ -16,20 +16,14 @@ chartControl1.ChartArea.BackInterior = new BrushInfo(
 );
 
 // Border
-chartControl1.ChartArea.Border.Color = Color.Black;
-chartControl1.ChartArea.Border.Width = 2;
-chartControl1.ChartArea.Border.DashStyle = DashStyle.Solid;
+chartControl1.ChartArea.BorderColor = Color.Black;
+chartControl1.ChartArea.BorderWidth = 2;
 ```
 
 ## Margins and Spacing
 
 ```csharp
-// Auto margins
-chartControl1.ChartArea.AutoMargins = true;
-
-// Manual margins
-chartControl1.ChartArea.AutoMargins = false;
-chartControl1.ChartArea.Margins = new ChartMargins(50, 50, 50, 50);  // Left, Top, Right, Bottom
+chartControl1.ChartArea.ChartAreaMargins = new ChartMargins(50, 50, 50, 50);  // Left, Top, Right, Bottom
 ```
 
 ## Chart Interior
@@ -52,9 +46,8 @@ chartControl1.ChartInterior = new BrushInfo(
 
 ```csharp
 // Enable shadow
-chartControl1.Shadows = true;
-chartControl1.ShadowColor = Color.Gray;
-chartControl1.ShadowOffset = new Size(5, 5);
+chartControl1.ChartAreaShadow = true;
+chartControl1.ShadowColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.Gray);
 chartControl1.ShadowWidth = 10;
 ```
 
@@ -70,6 +63,4 @@ chartControl1.ChartArea.Height = 85;
 
 ```csharp
 chartControl1.ChartArea.BackImage = Image.FromFile("background.png");
-chartControl1.ChartArea.BackImageLayout = ChartImageLayout.Tile;
-// Options: None, Tile, Center, Stretch, Zoom
 ```

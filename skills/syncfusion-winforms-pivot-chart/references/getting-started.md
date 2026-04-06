@@ -5,10 +5,7 @@ This guide covers the initial setup and basic implementation of the Syncfusion P
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Assembly Deployment](#assembly-deployment)
-- [License Key Registration](#license-key-registration)
-- [Adding Control via Designer](#adding-control-via-designer)
 - [Adding Control via Code](#adding-control-via-code)
-- [Adding Control via Syncfusion Reference Manager](#adding-control-via-syncfusion-reference-manager)
 - [Basic Data Binding](#basic-data-binding)
 - [Sample Data Structure](#sample-data-structure)
 - [Complete Example](#complete-example)
@@ -18,10 +15,7 @@ This guide covers the initial setup and basic implementation of the Syncfusion P
 Before implementing Pivot Chart, ensure you have:
 
 - **Visual Studio** 2017 or later
-- **.NET Framework** 4.5+ or .NET 6.0+
-- **Syncfusion Essential Studio** for Windows Forms (v16.2.0.x or later)
-- **License Key** (trial or commercial)
-
+- **.NET** .NET 8 or above
 ## Assembly Deployment
 
 The Pivot Chart control requires the following assemblies:
@@ -36,83 +30,6 @@ Syncfusion.PivotAnalysis.Windows.dll
 Syncfusion.PivotChart.Windows.dll
 Syncfusion.Shared.Base.dll
 ```
-
-### Installation via NuGet
-
-```powershell
-# Install the Pivot Chart package
-Install-Package Syncfusion.PivotChart.Windows
-
-# This installs all required dependencies automatically
-```
-
-### Manual Assembly Reference
-
-If not using NuGet, add references from the installation directory:
-
-```
-C:\Program Files (x86)\Syncfusion\Essential Studio\<Version>\Assemblies\<Framework Version>\
-```
-
-For example:
-```
-C:\Program Files (x86)\Syncfusion\Essential Studio\25.1.35\Assemblies\4.5\
-```
-
-## License Key Registration
-
-**Important:** Starting with v16.2.0.x, you must register a Syncfusion license key.
-
-### Registration Code
-
-Add this to your `Program.cs` file **before** creating any Syncfusion controls:
-
-```csharp
-using System;
-using System.Windows.Forms;
-
-namespace PivotChartApp
-{
-    static class Program
-    {
-        [STAThread]
-        static void Main()
-        {
-            // Register Syncfusion license - MUST BE FIRST
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR_LICENSE_KEY");
-            
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-        }
-    }
-}
-```
-
-### Obtaining License Key
-
-**Trial License:**
-1. Visit https://www.syncfusion.com/downloads
-2. Sign up for a free trial
-3. License key will be emailed and available in your account
-
-**Commercial License:**
-1. Log in to Syncfusion customer portal
-2. Navigate to "License & Downloads"
-3. Copy your license key
-
-### License Key Best Practices
-
-- **Never hardcode** license keys in production code
-- Store in configuration file or environment variable:
-
-```csharp
-// From app.config
-string licenseKey = ConfigurationManager.AppSettings["SyncfusionLicenseKey"];
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(licenseKey);
-```
-
-- Ensure registration happens before any control instantiation
 
 ## Adding Control via Designer
 
@@ -257,50 +174,6 @@ Public Class MainForm
 End Class
 ```
 
-## Adding Control via Syncfusion Reference Manager
-
-Syncfusion Reference Manager is a Visual Studio add-in that simplifies assembly management.
-
-### Step-by-Step Process
-
-**Step 1:** Create new Windows Forms Application
-
-**Step 2:** Right-click project → "Syncfusion Reference Manager"
-
-![Access Syncfusion Reference Manager](../../../../../docs/Pivot-Chart/Getting-Started_images/GettingStarted_img3.png)
-
-**Step 3:** Syncfusion Reference Manager wizard opens
-
-![Reference Manager wizard](../../../../../docs/Pivot-Chart/Getting-Started_images/GettingStarted_img4.png)
-
-**Step 4:** Search for "Pivot Chart" in search box
-
-**Step 5:** Select Pivot Chart control and click "Done"
-
-![Select Pivot Chart](../../../../../docs/Pivot-Chart/Getting-Started_images/GettingStarted_img5.png)
-
-**Step 6:** Click "OK" to add assemblies
-
-![Assemblies added confirmation](../../../../../docs/Pivot-Chart/Getting-Started_images/GettingStarted_img6.png)
-
-**Step 7:** Add initialization code
-
-```csharp
-// Initialize PivotChart
-PivotChart pivotChart1 = new PivotChart();
-this.Controls.Add(pivotChart1);
-```
-
-### Framework Compatibility Note
-
-Syncfusion Reference Manager only supports frameworks that match your installed Essential Studio version. If you see an error like:
-
-```
-"Current build v{version} is not supported this framework v{Framework Version}"
-```
-
-This means your project targets a framework version not shipped with your Syncfusion installation.
-
 ## Basic Data Binding
 
 To display data in Pivot Chart, configure four key properties:
@@ -429,20 +302,6 @@ using Syncfusion.PivotAnalysis.Base;
 
 namespace PivotChartGettingStarted
 {
-    static class Program
-    {
-        [STAThread]
-        static void Main()
-        {
-            // Register license FIRST
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR_LICENSE_KEY");
-            
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
-        }
-    }
-
     public partial class MainForm : Form
     {
         private PivotChart pivotChart1;
@@ -506,24 +365,6 @@ namespace PivotChartGettingStarted
 }
 ```
 
-### Expected Output
-
-![Basic Pivot Chart output](../../../../../docs/Pivot-Chart/Getting-Started_images/GettingStarted_img7.png)
-
-The chart displays:
-- Product hierarchy on the axis (Product → Country → State)
-- Date periods in the legend
-- Quantity values as column heights
-
-## Real-Time Updates
-
-For data that changes dynamically, enable automatic updates:
-
-```csharp
-// Enable automatic chart refresh when data changes
-pivotChart1.EnableUpdating = true;
-```
-
 ### Using BeginUpdate and EndUpdate
 
 For bulk data operations, suspend updates to improve performance:
@@ -546,20 +387,7 @@ finally
 }
 ```
 
-**Default:** `EnableUpdating` is `false` - chart only updates when explicitly refreshed.
-
 ## Common Issues
-
-### Issue: License Key Error
-
-**Error:** "Syncfusion license key not registered"
-
-**Solution:** Ensure `RegisterLicense()` is called before creating any controls:
-
-```csharp
-// In Program.cs Main method, BEFORE Application.Run()
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR_LICENSE_KEY");
-```
 
 ### Issue: Assembly Not Found
 

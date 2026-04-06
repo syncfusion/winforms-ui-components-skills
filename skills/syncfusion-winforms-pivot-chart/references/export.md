@@ -10,35 +10,19 @@ The Pivot Chart control supports exporting to Excel format for reporting and dis
 
 ```csharp
 // Export to Excel file
-pivotChart1.ExportToExcel("PivotChartReport.xlsx");
-```
-
-## Export with Options
-
-```csharp
-using Syncfusion.ExcelExport;
-
-// Configure export options
-ExcelExportingOptions options = new ExcelExportingOptions
-{
-    ExcelVersion = ExcelVersion.Excel2016,
-    ExportAsImage = false
-};
-
-// Export with options
-pivotChart1.ExportToExcel("Report.xlsx", options);
+pivotChart1.Export("PivotChartReport.xlsx");
 ```
 
 ## Export Methods
 
 ```csharp
 // Method 1: Export to file path
-pivotChart1.ExportToExcel(@"C:\Reports\Chart.xlsx");
+pivotChart1.Export(@"C:\Reports\Chart.xlsx");
 
 // Method 2: Export to stream
 using (FileStream stream = new FileStream("Chart.xlsx", FileMode.Create))
 {
-    pivotChart1.ExportToExcel(stream);
+    pivotChart1.Export(stream);
 }
 ```
 
@@ -58,7 +42,7 @@ private void ExportChart()
     {
         try
         {
-            pivotChart1.ExportToExcel(saveDialog.FileName);
+            pivotChart1.Export(saveDialog.FileName);
             MessageBox.Show("Chart exported successfully!", "Export", 
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -75,10 +59,10 @@ private void ExportChart()
 
 ```csharp
 // Export chart as image
-pivotChart1.SaveAsImage("PivotChart.png");
+pivotChart1.ChartControl.SaveImage("PivotChart.png");
 
 // With image format
-pivotChart1.SaveAsImage("Chart.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+pivotChart1.ChartControl.SaveImage("Chart.jpg");
 ```
 
 ## Best Practices

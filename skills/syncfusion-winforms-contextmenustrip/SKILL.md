@@ -410,4 +410,4 @@ Enable/disable menu items based on current selection or application state.
 - Verify submenu items are properly initialized
 - Check that parent item is not disabled
 
-For detailed information on specific features, navigate to the appropriate reference file listed in the [Documentation and Navigation Guide](#documentation-and-navigation-guide) section.
+For detailed information on specific features, navigate to the appropriate reference file listed in the [Documentation and Navigation Guide](#documentation-and-navigation-guide) section. 

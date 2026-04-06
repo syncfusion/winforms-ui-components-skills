@@ -211,6 +211,7 @@ When controls move dynamically, verify labels follow correctly:
 // Test: Move the control programmatically
 textBox1.Location = new Point(200, 150);
 // The AutoLabel should automatically reposition
+```
 
 ### 5. Consider FlowLayout
 

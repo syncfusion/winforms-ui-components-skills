@@ -501,7 +501,7 @@ hubTile1.PulseScale = 1.4f;  // Smooth appearance
 // Stagger pulse timings
 tile1.PulseDuration = 2;
 tile2.PulseDuration = 3;  // Offset
-tile3.PulseDuration = 2.5;  // Different timing
+tile3.PulseDuration = 3;  // Different timing
 ```
 
 ### Issue: Content difficult to read during pulse

@@ -383,93 +383,11 @@ this.dockingManager1.FreezeToDocumentState(panel1, false);
 bool isFrozen = this.dockingManager1.IsFrozenToDocumentState(panel1);
 ```
 
-## Complete TDI Example
 
-```csharp
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Syncfusion.Windows.Forms.Tools;
+## Complete Example
+A full working example is available in the samples repository.
+This documentation focuses on individual API usage.
 
-public partial class Form1 : Form
-{
-    private DockingManager dockingManager1;
-    private Panel document1, document2, document3;
-    private Panel toolPanel1, toolPanel2;
-    
-    public Form1()
-    {
-        InitializeComponent();
-        InitializeDocumentInterface();
-    }
-    
-    private void InitializeDocumentInterface()
-    {
-        // Create DockingManager
-        this.dockingManager1 = new DockingManager(this.components);
-        this.dockingManager1.HostControl = this;
-        
-        // Enable document mode
-        this.dockingManager1.EnableDocumentMode = true;
-        
-        // Create panels
-        document1 = new Panel { BackColor = Color.White };
-        document2 = new Panel { BackColor = Color.WhiteSmoke };
-        document3 = new Panel { BackColor = Color.Linen };
-        toolPanel1 = new Panel { BackColor = Color.LightBlue };
-        toolPanel2 = new Panel { BackColor = Color.LightGreen };
-        
-        // Add to form
-        this.Controls.AddRange(new Control[] {
-            document1, document2, document3, toolPanel1, toolPanel2
-        });
-        
-        // Enable docking
-        this.dockingManager1.SetEnableDocking(document1, true);
-        this.dockingManager1.SetEnableDocking(document2, true);
-        this.dockingManager1.SetEnableDocking(document3, true);
-        this.dockingManager1.SetEnableDocking(toolPanel1, true);
-        this.dockingManager1.SetEnableDocking(toolPanel2, true);
-        
-        // Set labels
-        this.dockingManager1.SetDockLabel(document1, "Document1.txt");
-        this.dockingManager1.SetDockLabel(document2, "Document2.cs");
-        this.dockingManager1.SetDockLabel(document3, "Document3.xml");
-        this.dockingManager1.SetDockLabel(toolPanel1, "Solution Explorer");
-        this.dockingManager1.SetDockLabel(toolPanel2, "Properties");
-        
-        // Set window modes
-        this.dockingManager1.SetWindowMode(document1, WindowMode.Document);
-        this.dockingManager1.SetWindowMode(document2, WindowMode.Document);
-        this.dockingManager1.SetWindowMode(document3, WindowMode.Document);
-        this.dockingManager1.SetWindowMode(toolPanel1, WindowMode.Tool);
-        this.dockingManager1.SetWindowMode(toolPanel2, WindowMode.Tool);
-        
-        // Add document tabs
-        this.dockingManager1.NewDockStateEndLoad += (s, e) =>
-        {
-            this.dockingManager1.DockAsDocument(document1);
-            this.dockingManager1.DockAsDocument(document2);
-            this.dockingManager1.DockAsDocument(document3);
-        };
-        
-        // Dock tool windows
-        this.dockingManager1.DockControl(toolPanel1, this, 
-            DockingStyle.Right, 250);
-        this.dockingManager1.DockControl(toolPanel2, toolPanel1, 
-            DockingStyle.Tabbed, 200);
-        
-        // Configure document settings
-        this.dockingManager1.DocumentWindowSettings.ShowCloseButton = true;
-        this.dockingManager1.DocumentWindowSettings.ShowTabList = true;
-        this.dockingManager1.DocumentWindowSettings.EnableTabGroup = true;
-        this.dockingManager1.CloseTabOnMiddleClick = true;
-        
-        // Apply visual style
-        this.dockingManager1.VisualStyle = VisualStyle.Office2016Colorful;
-    }
-}
-```
 
 ## Best Practices
 

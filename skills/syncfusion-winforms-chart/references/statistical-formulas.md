@@ -20,35 +20,22 @@ Built-in statistical analysis functions for chart data.
 ```csharp
 ChartSeries meanSeries = new ChartSeries("Mean");
 meanSeries.Type = ChartSeriesType.Line;
-
-chartControl1.Series[0].CalculateStatisticalFormula(
-    FinancialFormula.Mean,
-    meanSeries
-);
-
+double calculatedMean = BasicStatisticalFormulas.Mean(meanSeries);
 chartControl1.Series.Add(meanSeries);
 ```
 
 ### Standard Deviation
 ```csharp
 ChartSeries stdDevSeries = new ChartSeries("Std Dev");
-chartControl1.Series[0].CalculateStatisticalFormula(
-    FinancialFormula.StandardDeviation,
-    stdDevSeries,
-    "1"  // Parameter (1 = sample, 0 = population)
-);
+double calculatedMean = BasicStatisticalFormulas.StandartDeviation(stdDevSeries, false);
 chartControl1.Series.Add(stdDevSeries);
 ```
 
-### Moving Average
+### Variance
 ```csharp
-ChartSeries movingAvgSeries = new ChartSeries("Moving Average");
-chartControl1.Series[0].CalculateStatisticalFormula(
-    FinancialFormula.MovingAverage,
-    movingAvgSeries,
-    "5"  // 5-period moving average
-);
-chartControl1.Series.Add(movingAvgSeries);
+ChartSeries varianceSeries = new ChartSeries("Variance");
+double calculatedMean = BasicStatisticalFormulas.Variance(varianceSeries, false);
+chartControl1.Series.Add(varianceSeries);
 ```
 
 ## Common Statistical Patterns
@@ -58,41 +45,8 @@ chartControl1.Series.Add(movingAvgSeries);
 ChartSeries trendSeries = new ChartSeries("Trend");
 trendSeries.Type = ChartSeriesType.Line;
 
-chartControl1.Series[0].CalculateStatisticalFormula(
-    FinancialFormula.Linear Regression,
-    trendSeries
-);
+double calculatedMean = BasicStatisticalFormulas.Mean(trendSeries);
 
 trendSeries.Style.Border.DashStyle = DashStyle.Dash;
 chartControl1.Series.Add(trendSeries);
 ```
-
-### Bollinger Bands
-```csharp
-// Upper band
-ChartSeries upperBand = new ChartSeries("Upper Band");
-chartControl1.Series[0].CalculateStatisticalFormula(
-    FinancialFormula.BollingerBands,
-    upperBand,
-    "20,2"  // 20-period, 2 standard deviations
-);
-
-// Lower band
-ChartSeries lowerBand = new ChartSeries("Lower Band");
-chartControl1.Series[0].CalculateStatisticalFormula(
-    FinancialFormula.BollingerBands,
-    lowerBand,
-    "20,-2"
-);
-
-chartControl1.Series.Add(upperBand);
-chartControl1.Series.Add(lowerBand);
-```
-
-## Parameters
-
-Most formulas accept parameters as string:
-- Single value: `"10"`
-- Multiple values: `"20,2"`  (comma-separated)
-
-Refer to formula documentation for specific parameter requirements.

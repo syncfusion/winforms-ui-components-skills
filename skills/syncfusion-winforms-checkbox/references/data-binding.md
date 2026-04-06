@@ -52,12 +52,6 @@ DataTable dataTable = GetDataTable();
 checkBoxAdv1.DataBindings.Add("BoolValue", dataTable, "IsEnabled");
 ```
 
-```vb
-' Simple binding to a DataTable
-Dim dataTable As DataTable = GetDataTable()
-checkBoxAdv1.DataBindings.Add("BoolValue", dataTable, "IsEnabled")
-```
-
 ### Complete SQL Server Example
 
 ```csharp
@@ -103,47 +97,6 @@ public partial class Form1 : Form
 }
 ```
 
-```vb
-Imports System
-Imports System.Data
-Imports System.Data.SqlClient
-Imports System.IO
-Imports System.Windows.Forms
-Imports Syncfusion.Windows.Forms.Tools
-
-Public Partial Class Form1
-    Inherits Form
-    
-    Public Shared dataBasePath As String = Path.GetFullPath("..\..\Database1.mdf")
-    Public connectString As String = "Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" & _
-                                      dataBasePath & ";Integrated Security=True"
-    
-    Public Sub New()
-        InitializeComponent()
-        BindBoolValue()
-    End Sub
-    
-    Private Sub BindBoolValue()
-        Using sqlConnection As SqlConnection = New SqlConnection(connectString)
-            sqlConnection.Open()
-            
-            ' Create data adapter
-            Dim dataAdapter As SqlDataAdapter = New SqlDataAdapter("SELECT * FROM [Settings]", sqlConnection)
-            
-            ' Fill DataTable
-            Dim dataTable As DataTable = New DataTable("Settings")
-            dataAdapter.Fill(dataTable)
-            
-            ' Display in DataGridView (optional)
-            dataGridView1.DataSource = dataTable
-            
-            ' Bind CheckBoxAdv to bit field
-            checkBoxAdv1.DataBindings.Add("BoolValue", dataTable, "IsEnabled")
-        End Using
-    End Sub
-End Class
-```
-
 ### SQL Table Structure for BoolValue
 
 ```sql
@@ -184,12 +137,6 @@ You can customize these mappings using:
 // Binding to integer field with standard values (0, 1, -1)
 DataTable dataTable = GetDataTable();
 checkBoxAdv1.DataBindings.Add("IntValue", dataTable, "StatusCode");
-```
-
-```vb
-' Binding to integer field
-Dim dataTable As DataTable = GetDataTable()
-checkBoxAdv1.DataBindings.Add("IntValue", dataTable, "StatusCode")
 ```
 
 ### Complete SQL Server Example
@@ -237,47 +184,6 @@ public partial class Form1 : Form
 }
 ```
 
-```vb
-Imports System
-Imports System.Data
-Imports System.Data.SqlClient
-Imports System.IO
-Imports System.Windows.Forms
-Imports Syncfusion.Windows.Forms.Tools
-
-Public Partial Class Form1
-    Inherits Form
-    
-    Public Shared dataBasePath As String = Path.GetFullPath("..\..\Database1.mdf")
-    Public connectString As String = "Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" & _
-                                      dataBasePath & ";Integrated Security=True"
-    
-    Public Sub New()
-        InitializeComponent()
-        BindIntValue()
-    End Sub
-    
-    Private Sub BindIntValue()
-        Using sqlConnection As SqlConnection = New SqlConnection(connectString)
-            sqlConnection.Open()
-            
-            ' Create data adapter
-            Dim dataAdapter As SqlDataAdapter = New SqlDataAdapter("SELECT * FROM [Tasks]", sqlConnection)
-            
-            ' Fill DataTable
-            Dim dataTable As DataTable = New DataTable("Tasks")
-            dataAdapter.Fill(dataTable)
-            
-            ' Display in DataGridView (optional)
-            dataGridView1.DataSource = dataTable
-            
-            ' Bind CheckBoxAdv to integer field
-            checkBoxAdv1.DataBindings.Add("IntValue", dataTable, "CompletionStatus")
-        End Using
-    End Sub
-End Class
-```
-
 ### SQL Table Structure for IntValue
 
 ```sql
@@ -316,21 +222,14 @@ checkBoxAdv1.DataBindings.Add("IntValue", dataTable, "StatusCode");
 
 ## Complete Examples
 
-### Example 1: Simple Settings Form
+### Settings Form with Multiple Checkboxes
 
 ```csharp
 public class SettingsForm : Form
 {
     private CheckBoxAdv autoSaveCheckBox;
     private CheckBoxAdv notificationsCheckBox;
-    private Button saveButton;
     private string connectionString;
-    
-    public SettingsForm()
-    {
-        InitializeComponent();
-        LoadSettings();
-    }
     
     private void LoadSettings()
     {
@@ -338,277 +237,83 @@ public class SettingsForm : Form
         {
             conn.Open();
             SqlDataAdapter adapter = new SqlDataAdapter(
-                "SELECT * FROM UserSettings WHERE UserId = @UserId", 
-                conn
-            );
+                "SELECT * FROM UserSettings WHERE UserId = @UserId", conn);
             adapter.SelectCommand.Parameters.AddWithValue("@UserId", CurrentUserId);
             
             DataTable dt = new DataTable();
             adapter.Fill(dt);
             
-            // Bind checkboxes
+            // Bind multiple checkboxes
             autoSaveCheckBox.DataBindings.Add("BoolValue", dt, "AutoSaveEnabled");
             notificationsCheckBox.DataBindings.Add("BoolValue", dt, "NotificationsEnabled");
+            
+            // Save changes
+            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+            adapter.Update(dt);
         }
-    }
-    
-    private void saveButton_Click(object sender, EventArgs e)
-    {
-        // Changes are automatically reflected in the DataTable
-        // Use SqlDataAdapter.Update() to save to database
-        SaveChangesToDatabase();
-    }
-}
-```
-
-### Example 2: Task List with Status Tracking
-
-```csharp
-public class TaskListForm : Form
-{
-    private DataGridView taskGrid;
-    private CheckBoxAdv taskStatusCheckBox;
-    private SqlDataAdapter dataAdapter;
-    private DataTable tasksTable;
-    
-    public TaskListForm()
-    {
-        InitializeComponent();
-        LoadTasks();
-    }
-    
-    private void LoadTasks()
-    {
-        using (SqlConnection conn = new SqlConnection(connectionString))
-        {
-            conn.Open();
-            dataAdapter = new SqlDataAdapter("SELECT * FROM Tasks ORDER BY DueDate", conn);
-            
-            tasksTable = new DataTable();
-            dataAdapter.Fill(tasksTable);
-            
-            // Show in grid
-            taskGrid.DataSource = tasksTable;
-            
-            // Bind checkbox to selected row
-            taskStatusCheckBox.DataBindings.Add("IntValue", tasksTable, "CompletionStatus");
-        }
-    }
-    
-    private void taskGrid_SelectionChanged(object sender, EventArgs e)
-    {
-        // Checkbox automatically updates when row selection changes
-    }
-    
-    private void SaveChanges()
-    {
-        SqlCommandBuilder builder = new SqlCommandBuilder(dataAdapter);
-        dataAdapter.Update(tasksTable);
-        MessageBox.Show("Changes saved successfully!");
-    }
-}
-```
-
-### Example 3: Master-Detail Binding
-
-```csharp
-public class MasterDetailForm : Form
-{
-    private BindingSource masterBindingSource;
-    private BindingSource detailBindingSource;
-    private CheckBoxAdv detailCheckBox;
-    
-    private void SetupBindings()
-    {
-        // Load master data
-        DataTable orders = LoadOrders();
-        masterBindingSource = new BindingSource();
-        masterBindingSource.DataSource = orders;
-        
-        // Load detail data
-        DataTable orderDetails = LoadOrderDetails();
-        detailBindingSource = new BindingSource();
-        detailBindingSource.DataSource = orderDetails;
-        
-        // Establish relationship
-        DataRelation relation = new DataRelation(
-            "OrderDetails",
-            orders.Columns["OrderId"],
-            orderDetails.Columns["OrderId"]
-        );
-        orders.DataSet.Relations.Add(relation);
-        
-        // Bind checkbox to detail
-        detailCheckBox.DataBindings.Add("BoolValue", detailBindingSource, "IsShipped");
-        
-        // Navigate master-detail
-        masterBindingSource.PositionChanged += (s, e) =>
-        {
-            detailBindingSource.DataSource = masterBindingSource.Current;
-        };
     }
 }
 ```
 
 ## Common Patterns
 
-### Pattern 1: Two-Way Binding with Auto-Save
+### Auto-Save with Validation
 
 ```csharp
 private void SetupAutoSaveBinding()
 {
     DataTable settings = LoadSettings();
-    checkBoxAdv1.DataBindings.Add("BoolValue", settings, "AutoSave");
+    Binding binding = new Binding("BoolValue", settings, "CriticalSetting");
     
-    // Save changes immediately when checkbox changes
-    checkBoxAdv1.CheckedChanged += (s, e) =>
+    // Validate before saving
+    binding.Parse += (sender, e) =>
     {
-        SaveSettingsToDatabase(settings);
+        if ((bool)e.Value == true && !ConfirmChange())
+        {
+            e.Value = false;
+        }
     };
+    
+    checkBoxAdv1.DataBindings.Add(binding);
+    
+    // Auto-save on change
+    checkBoxAdv1.CheckedChanged += (s, e) => SaveSettingsToDatabase(settings);
 }
 ```
 
-### Pattern 2: Binding Multiple Checkboxes
-
-```csharp
-private void BindMultipleCheckBoxes(DataTable dataTable)
-{
-    // Each checkbox binds to different column
-    checkBoxAdv1.DataBindings.Add("BoolValue", dataTable, "Feature1Enabled");
-    checkBoxAdv2.DataBindings.Add("BoolValue", dataTable, "Feature2Enabled");
-    checkBoxAdv3.DataBindings.Add("BoolValue", dataTable, "Feature3Enabled");
-}
-```
-
-### Pattern 3: Conditional Binding Based on User Role
+### Conditional Binding
 
 ```csharp
 private void BindBasedOnRole(UserRole role)
 {
     DataTable settings = LoadSettings();
-    
-    if (role == UserRole.Administrator)
-    {
-        // Full binding
-        checkBoxAdv1.DataBindings.Add("BoolValue", settings, "AdvancedFeature");
-        checkBoxAdv1.ReadOnlyMode = false;
-    }
-    else
-    {
-        // Read-only binding
-        checkBoxAdv1.DataBindings.Add("BoolValue", settings, "AdvancedFeature");
-        checkBoxAdv1.ReadOnlyMode = true;
-    }
-}
-```
-
-### Pattern 4: Validation Before Committing
-
-```csharp
-private void SetupValidatedBinding()
-{
-    DataTable dt = LoadData();
-    Binding binding = new Binding("BoolValue", dt, "CriticalSetting");
-    
-    binding.Parse += (sender, e) =>
-    {
-        // Validate before updating data source
-        if ((bool)e.Value == true)
-        {
-            DialogResult result = MessageBox.Show(
-                "Enable critical setting?",
-                "Confirm",
-                MessageBoxButtons.YesNo
-            );
-            
-            if (result == DialogResult.No)
-            {
-                e.Value = false;
-            }
-        }
-    };
-    
-    checkBoxAdv1.DataBindings.Add(binding);
+    checkBoxAdv1.DataBindings.Add("BoolValue", settings, "AdvancedFeature");
+    checkBoxAdv1.ReadOnlyMode = (role != UserRole.Administrator);
 }
 ```
 
 ## Troubleshooting
 
-### Issue: Binding Not Working
+### Common Binding Issues
 
-**Symptoms:** Changes to checkbox don't reflect in database or vice versa.
-
-**Solutions:**
-1. Verify column name matches exactly (case-sensitive)
-2. Ensure DataTable is filled before binding
-3. Check that property name is correct ("BoolValue" not "BooleanValue")
+| Issue | Solution |
+|-------|----------|
+| Binding not working | Use "BoolValue" or "IntValue" property, not "Checked" |
+| IntValue unexpected states | Ensure database values are -1, 0, or 1, or use custom mappings |
+| Changes not persisting | Call `dataAdapter.Update(dataTable)` after changes |
+| NULL value errors | Use COALESCE in SQL: `SELECT COALESCE(IsEnabled, 0) AS IsEnabled` |
+| Multiple binding conflicts | Bind only one property per checkbox |
 
 ```csharp
-// WRONG
-checkBoxAdv1.DataBindings.Add("Checked", dataTable, "IsEnabled");
-
-// CORRECT
+// Correct binding approach
 checkBoxAdv1.DataBindings.Add("BoolValue", dataTable, "IsEnabled");
-```
 
-### Issue: IntValue Binding Shows Unexpected States
-
-**Cause:** Database contains integer values other than -1, 0, 1.
-
-**Solution:** Clean data or use custom mappings:
-
-```csharp
-// Option 1: Clean the data
-UPDATE Tasks SET CompletionStatus = 0 WHERE CompletionStatus NOT IN (-1, 0, 1);
-
-// Option 2: Custom mappings
+// Custom IntValue mappings for non-standard values
 checkBoxAdv1.CheckedInt = 100;
 checkBoxAdv1.UncheckedInt = 0;
 checkBoxAdv1.IndeterminateInt = 50;
-```
 
-### Issue: Changes Not Persisting to Database
-
-**Cause:** DataAdapter.Update() not called.
-
-**Solution:**
-
-```csharp
-// After making changes, update the database
+// Persist changes
 SqlCommandBuilder builder = new SqlCommandBuilder(dataAdapter);
-int rowsAffected = dataAdapter.Update(dataTable);
-Console.WriteLine($"Updated {rowsAffected} rows");
-```
-
-### Issue: Binding Fails with NULL Values
-
-**Cause:** Database field allows NULL, but BoolValue/IntValue don't.
-
-**Solution:** Handle NULL in SQL query or use default values:
-
-```sql
--- Option 1: Use COALESCE in query
-SELECT Id, COALESCE(IsEnabled, 0) AS IsEnabled FROM Settings;
-
--- Option 2: Add NOT NULL constraint with default
-ALTER TABLE Settings 
-ALTER COLUMN IsEnabled BIT NOT NULL;
-
-ALTER TABLE Settings 
-ADD CONSTRAINT DF_IsEnabled DEFAULT 0 FOR IsEnabled;
-```
-
-### Issue: Multiple Bindings Conflict
-
-**Symptom:** Binding to both Checked and BoolValue causes errors.
-
-**Solution:** Use only one binding property:
-
-```csharp
-// WRONG - Don't bind multiple properties
-checkBoxAdv1.DataBindings.Add("Checked", dt, "IsEnabled");
-checkBoxAdv1.DataBindings.Add("BoolValue", dt, "IsEnabled");
-
-// CORRECT - Use only BoolValue
-checkBoxAdv1.DataBindings.Add("BoolValue", dt, "IsEnabled");
+dataAdapter.Update(dataTable);
 ```

@@ -486,12 +486,6 @@ constrainedBox.MaximumSize = new Size(400, 25);
 - `TextBoxExt` - Main enhanced textbox control class
 - `SkinManager` - Theme assembly loading manager
 
-**Related Controls:**
-- MaskedEditBox (for formatted input)
-- CurrencyTextBox (for currency values)
-- IntegerTextBox (for integer input)
-- DoubleTextBox (for decimal input)
-
 **Related Skills:**
 - Form theming and styling
 - Input validation

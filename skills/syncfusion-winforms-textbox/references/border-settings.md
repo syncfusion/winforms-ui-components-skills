@@ -35,14 +35,6 @@ using System.Windows.Forms;
 textBoxExt1.BorderStyle = BorderStyle.None;
 ```
 
-**VB.NET:**
-```vb
-Imports System.Windows.Forms
-
-' Remove border completely
-textBoxExt1.BorderStyle = BorderStyle.None
-```
-
 **Use Case:** Embedded textboxes in panels or containers where borders are unnecessary.
 
 ### FixedSingle (Flat Border)
@@ -53,12 +45,6 @@ textBoxExt1.BorderStyle = BorderStyle.None
 textBoxExt1.BorderStyle = BorderStyle.FixedSingle;
 ```
 
-**VB.NET:**
-```vb
-' Apply flat single-line border
-textBoxExt1.BorderStyle = BorderStyle.FixedSingle
-```
-
 **Use Case:** Modern, flat design interfaces (Windows 10/11 style).
 
 ### Fixed3D (Three-Dimensional Border)
@@ -67,12 +53,6 @@ textBoxExt1.BorderStyle = BorderStyle.FixedSingle
 ```csharp
 // Apply 3D border
 textBoxExt1.BorderStyle = BorderStyle.Fixed3D;
-```
-
-**VB.NET:**
-```vb
-' Apply 3D border
-textBoxExt1.BorderStyle = BorderStyle.Fixed3D
 ```
 
 **Use Case:** Traditional Windows forms with raised or sunken appearance.
@@ -107,15 +87,6 @@ textBoxExt1.BorderStyle = BorderStyle.Fixed3D;
 textBoxExt1.Border3DStyle = Border3DStyle.Raised;
 ```
 
-**VB.NET:**
-```vb
-Imports System.Windows.Forms
-
-' Create raised 3D border
-textBoxExt1.BorderStyle = BorderStyle.Fixed3D
-textBoxExt1.Border3DStyle = Border3DStyle.Raised
-```
-
 **Result:** Textbox appears elevated from the form surface.
 
 ### Sunken Border (Default)
@@ -127,13 +98,6 @@ textBoxExt1.BorderStyle = BorderStyle.Fixed3D;
 textBoxExt1.Border3DStyle = Border3DStyle.Sunken;
 ```
 
-**VB.NET:**
-```vb
-' Create sunken 3D border (default for Fixed3D)
-textBoxExt1.BorderStyle = BorderStyle.Fixed3D
-textBoxExt1.Border3DStyle = Border3DStyle.Sunken
-```
-
 **Result:** Textbox appears recessed into the form surface (standard input field appearance).
 
 ### Etched Border
@@ -143,13 +107,6 @@ textBoxExt1.Border3DStyle = Border3DStyle.Sunken
 // Create etched line effect
 textBoxExt1.BorderStyle = BorderStyle.Fixed3D;
 textBoxExt1.Border3DStyle = Border3DStyle.Etched;
-```
-
-**VB.NET:**
-```vb
-' Create etched line effect
-textBoxExt1.BorderStyle = BorderStyle.Fixed3D
-textBoxExt1.Border3DStyle = Border3DStyle.Etched
 ```
 
 **Result:** Border looks carved into the surface.
@@ -170,16 +127,6 @@ using System.Windows.Forms;
 // Set custom border color
 textBoxExt1.BorderStyle = BorderStyle.FixedSingle;
 textBoxExt1.BorderColor = Color.Orchid;
-```
-
-**VB.NET:**
-```vb
-Imports System.Drawing
-Imports System.Windows.Forms
-
-' Set custom border color
-textBoxExt1.BorderStyle = BorderStyle.FixedSingle
-textBoxExt1.BorderColor = Color.Orchid
 ```
 
 ![Change the border style and color in WF TextBoxExt](../../../../../docs/Border-Settings_images/Border-Settings_img1.png)
@@ -221,15 +168,6 @@ textBoxExt1.BorderColor = Color.FromArgb(255, 87, 34); // Deep Orange
 textBoxExt1.BorderColor = ColorTranslator.FromHtml("#FF5722");
 ```
 
-**VB.NET:**
-```vb
-' Use RGB values
-textBoxExt1.BorderColor = Color.FromArgb(255, 87, 34) ' Deep Orange
-
-' Use hex color (requires conversion)
-textBoxExt1.BorderColor = ColorTranslator.FromHtml("#FF5722")
-```
-
 ## BorderSides Property
 
 The `BorderSides` property controls which sides of the textbox display a border.
@@ -255,15 +193,6 @@ using System.Windows.Forms;
 // Border on all sides
 textBoxExt1.BorderStyle = BorderStyle.FixedSingle;
 textBoxExt1.BorderSides = Border3DSide.All;
-```
-
-**VB.NET:**
-```vb
-Imports System.Windows.Forms
-
-' Border on all sides
-textBoxExt1.BorderStyle = BorderStyle.FixedSingle
-textBoxExt1.BorderSides = Border3DSide.All
 ```
 
 ### Single Side Border

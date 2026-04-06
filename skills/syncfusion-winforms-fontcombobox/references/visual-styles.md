@@ -284,29 +284,20 @@ Apply custom brand colors using Office2007ColorTheme with managed colors.
 
 ### Applying Custom Colors
 
-**Step 1: Set Theme to Managed**
-
-**C# Example:**
-```csharp
-fontComboBox.Office2007ColorTheme = Office2007Theme.Managed;
-```
-
-**VB.NET Example:**
-```vb
-fontComboBox.Office2007ColorTheme = Office2007Theme.Managed
-```
-
-**Step 2: Apply Custom Colors**
+**Step 1: Apply Custom Colors**
 
 **C# Example:**
 ```csharp
 using Syncfusion.Windows.Forms;
 
-// Set theme to managed mode
-fontComboBox.Office2007ColorTheme = Office2007Theme.Managed;
 
 // Apply custom color (Orchid example)
 Office2007Colors.ApplyManagedColors(this, Color.Orchid);
+
+**Step 2: Set Theme to Managed**
+
+// Set theme to managed mode
+fontComboBox.Office2007ColorTheme = Office2007Theme.Managed;
 
 // Other color examples
 Office2007Colors.ApplyManagedColors(this, Color.DodgerBlue);
@@ -318,11 +309,10 @@ Office2007Colors.ApplyManagedColors(this, Color.Crimson);
 ```vb
 Imports Syncfusion.Windows.Forms
 
-' Set theme to managed mode
-fontComboBox.Office2007ColorTheme = Office2007Theme.Managed
-
 ' Apply custom color (Orchid example)
 Office2007Colors.ApplyManagedColors(Me, Color.Orchid)
+' Set theme to managed mode
+fontComboBox.Office2007ColorTheme = Office2007Theme.Managed
 
 ' Other color examples
 Office2007Colors.ApplyManagedColors(Me, Color.DodgerBlue)
@@ -342,8 +332,8 @@ Office2007Colors.ApplyManagedColors(Me, Color.Crimson)
 ```csharp
 // Custom RGB color
 Color customColor = Color.FromArgb(255, 102, 51, 153); // Purple
-fontComboBox.Office2007ColorTheme = Office2007Theme.Managed;
 Office2007Colors.ApplyManagedColors(this, customColor);
+fontComboBox.Office2007ColorTheme = Office2007Theme.Managed;
 
 // Brand colors
 Color brandPrimary = Color.FromArgb(255, 0, 120, 215); // Microsoft blue

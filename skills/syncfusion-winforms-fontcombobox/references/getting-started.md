@@ -224,19 +224,19 @@ Select a default font programmatically using SelectedItem or SelectedIndex.
 **C# Example:**
 ```csharp
 // Select Arial as default font
-fontComboBox.SelectedItem = "Arial";
+fontComboBox.Text = "Arial";
 
 // Alternative: Segoe UI
-fontComboBox.SelectedItem = "Segoe UI";
+fontComboBox.Text = "Segoe UI";
 ```
 
 **VB.NET Example:**
 ```vb
 ' Select Arial as default font
-fontComboBox.SelectedItem = "Arial"
+fontComboBox.Text = "Arial"
 
 ' Alternative: Segoe UI
-fontComboBox.SelectedItem = "Segoe UI"
+fontComboBox.Text = "Segoe UI"
 ```
 
 ### Using SelectedIndex (by Position)
@@ -354,10 +354,10 @@ namespace FontComboBoxDemo
         
         private void FontComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (fontComboBox.SelectedItem != null)
+            if (fontComboBox.Text != null)
             {
                 previewLabel.Font = new Font(
-                    fontComboBox.SelectedItem.ToString(), 
+                    fontComboBox.Text.ToString(), 
                     12, 
                     FontStyle.Regular
                 );

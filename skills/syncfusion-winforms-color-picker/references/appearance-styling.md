@@ -67,18 +67,6 @@ colorPickerUIAdv1.Style = ColorPickerUIAdv.visualstyle.Office2007;
 colorPickerUIAdv1.Style = ColorPickerUIAdv.visualstyle.Default;
 ```
 
-**Visual Basic:**
-```vb
-' Office2016 Colorful
-colorPickerUIAdv1.Style = ColorPickerUIAdv.visualstyle.Office2016Colorful
-
-' Office2016 White
-colorPickerUIAdv1.Style = ColorPickerUIAdv.visualstyle.Office2016White
-
-' Metro
-colorPickerUIAdv1.Style = ColorPickerUIAdv.visualstyle.Metro
-```
-
 ### Style Comparison
 
 **Office2016 Styles:**
@@ -136,51 +124,9 @@ colorPickerUIAdv1.Office2007Theme = Office2007Theme.Managed; // Custom colors
 
 ## Office2007 Color Schemes
 
-Pre-defined color schemes matching Microsoft Office 2007 themes.
+Pre-defined color schemes: Blue (default, blue accents), Silver (gray/neutral tones), and Black (dark/high contrast).
 
-### Blue Theme
-
-The default Office2007 color scheme with blue accents.
-
-```csharp
-colorPickerUIAdv1.UseOffice2007Style = true;
-colorPickerUIAdv1.Office2007Theme = Office2007Theme.Blue;
-```
-
-**Characteristics:**
-- Blue gradient headers
-- Light blue highlights
-- Professional, corporate appearance
-
-### Silver Theme
-
-Gray/silver color scheme with neutral tones.
-
-```csharp
-colorPickerUIAdv1.UseOffice2007Style = true;
-colorPickerUIAdv1.Office2007Theme = Office2007Theme.Silver;
-```
-
-**Characteristics:**
-- Gray gradient headers
-- Silver highlights
-- Subtle, elegant appearance
-
-### Black Theme
-
-Dark color scheme with black/dark gray tones.
-
-```csharp
-colorPickerUIAdv1.UseOffice2007Style = true;
-colorPickerUIAdv1.Office2007Theme = Office2007Theme.Black;
-```
-
-**Characteristics:**
-- Black gradient headers
-- Dark gray backgrounds
-- High contrast, dramatic appearance
-
-### Comparison Example
+### Theme Comparison Example
 
 ```csharp
 // Create three ColorPickerUIAdv controls with different themes
@@ -225,26 +171,6 @@ public static void ApplyManagedColors(Control control, Color baseColor)
 **Parameters:**
 - `control` - Parent control (typically `this` for form)
 - `baseColor` - Base color for the theme
-
-### Custom Color Examples
-
-```csharp
-// Teal theme
-colorPickerUIAdv1.Office2007Theme = Office2007Theme.Managed;
-Office2007Colors.ApplyManagedColors(this, Color.Teal);
-
-// Purple theme
-colorPickerUIAdv1.Office2007Theme = Office2007Theme.Managed;
-Office2007Colors.ApplyManagedColors(this, Color.Purple);
-
-// Green theme
-colorPickerUIAdv1.Office2007Theme = Office2007Theme.Managed;
-Office2007Colors.ApplyManagedColors(this, Color.Green);
-
-// Custom RGB color
-colorPickerUIAdv1.Office2007Theme = Office2007Theme.Managed;
-Office2007Colors.ApplyManagedColors(this, Color.FromArgb(0, 120, 215));
-```
 
 ### Applying to All Controls
 
@@ -298,18 +224,6 @@ colorPickerUIAdv1.BorderStyle = BorderStyle.FixedSingle;
 colorPickerUIAdv1.BorderStyle = BorderStyle.Fixed3D;
 ```
 
-**Visual Basic:**
-```vb
-' No border
-colorPickerUIAdv1.BorderStyle = BorderStyle.None
-
-' Single-line border
-colorPickerUIAdv1.BorderStyle = BorderStyle.FixedSingle
-
-' 3D border
-colorPickerUIAdv1.BorderStyle = BorderStyle.Fixed3D
-```
-
 ### BorderStyle Options
 
 | Style | Description | Use Case |
@@ -332,38 +246,11 @@ colorPickerUIAdv1.BorderOffset = 5;
 // No border offset
 colorPickerUIAdv1.BorderOffset = 0;
 ```
-
-**Effect:**
-- Larger values increase spacing around the control
-- Affects overall control height
-- Visible only when `BorderStyle` is not `None`
-
-### Border Examples
+ Larger values increase spacing around the control and affect overall control height. Visible only when `BorderStyle` is not `None`.
 
 ```csharp
-// Example 1: Prominent 3D border
-colorPickerUIAdv1.BorderStyle = BorderStyle.Fixed3D;
-colorPickerUIAdv1.BorderOffset = 5;
-
-// Example 2: Subtle single border
-colorPickerUIAdv1.BorderStyle = BorderStyle.FixedSingle;
-colorPickerUIAdv1.BorderOffset = 2;
-
-// Example 3: No border (integrated design)
-colorPickerUIAdv1.BorderStyle = BorderStyle.None;
-colorPickerUIAdv1.BorderOffset = 0;
-```
-
-## Complete Styling Examples
-
-### Example 1: Modern Office2016 Colorful
-
-```csharp
-private void ApplyModernStyle()
-{
-    colorPickerUIAdv1.Style = ColorPickerUIAdv.visualstyle.Office2016Colorful;
-    colorPickerUIAdv1.BorderStyle = BorderStyle.FixedSingle;
-    colorPickerUIAdv1.Size = new Size(220, 200);
+colorPickerUIAdv1.BorderOffset = 3;  // Default
+colorPickerUIAdv1.BorderOffset = 5;  // Larger border areaze(220, 200);
 }
 ```
 
@@ -420,37 +307,7 @@ private void ApplyMetroStyle()
     colorPickerUIAdv1.Style = ColorPickerUIAdv.visualstyle.Metro;
     colorPickerUIAdv1.BorderStyle = BorderStyle.None;
     colorPickerUIAdv1.BackColor = Color.White;
-}
-```
-
-### Example 6: User-Selectable Themes
-
-```csharp
-private ComboBox themeSelector;
-
-private void SetupThemeSelector()
-{
-    themeSelector = new ComboBox();
-    themeSelector.Items.AddRange(new object[]
-    {
-        "Office 2016 Colorful",
-        "Office 2016 White",
-        "Office 2016 Black",
-        "Office 2016 Dark Gray",
-        "Office 2010",
-        "Office 2007 Blue",
-        "Office 2007 Silver",
-        "Office 2007 Black",
-        "Metro",
-        "Default"
-    });
-    themeSelector.SelectedIndexChanged += ThemeSelector_SelectedIndexChanged;
-    themeSelector.SelectedIndex = 0;
-    
-    this.Controls.Add(themeSelector);
-}
-
-private void ThemeSelector_SelectedIndexChanged(object sender, EventArgs e)
+}emeSelector_SelectedIndexChanged(object sender, EventArgs e)
 {
     switch (themeSelector.SelectedIndex)
     {
@@ -523,24 +380,8 @@ private void ApplyConsistentTheme()
 - **Border Styles:** Negligible performance difference
 
 ### Accessibility
-
-- **High Contrast:** Test with Windows high-contrast themes
-- **Dark Themes:** Use Office2016Black or Office2016DarkGray
-- **Light Themes:** Use Office2016White for better readability
-
-## Troubleshooting
-
-**Issue:** Theme not applying  
-**Solution:** Ensure `UseOffice2007Style = true` for Office2007Theme, or use `Style` property for other themes
-
-**Issue:** Custom colors not showing  
-**Solution:** Verify `Office2007Theme = Managed` is set before calling `ApplyManagedColors`
-
-**Issue:** Border not visible  
-**Solution:** Check `BorderStyle` is not `None` and `BorderOffset > 0`
-
-**Issue:** Theme inconsistent across controls  
-**Solution:** Apply theme to all controls, call `ApplyManagedColors` with form as parent
-
-**Issue:** Office2007Theme has no effect  
-**Solution:** Verify `UseOffice2007Style = true`, not using `Style` property simultaneously
+- **Style Selection:** Use Office2016 for modern apps, Office2007/2010 for older Office-style apps, Metro for Windows 8/10/11, Default for lightweight applications
+- **Theme Consistency:** Apply the same theme across all Syncfusion controls
+- **Accessibility:** Test with high-contrast themes; use Office2016Black/DarkGray for dark themes, Office2016White for light themes- **Theme not applying:** Ensure `UseOffice2007Style = true` for Office2007Theme, or use `Style` property for other themes
+- **Custom colors not showing:** Verify `Office2007Theme = Managed` is set before calling `ApplyManagedColors`
+- **Border not visible:** Check `BorderStyle` is not `None` and `BorderOffset > 0`

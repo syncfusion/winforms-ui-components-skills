@@ -66,191 +66,59 @@ Close Popup & Apply Color
 
 ## Step-by-Step Implementation
 
-### Step 1: Create the Controls
-
-Create instances of all required controls:
-
 **C#:**
 ```csharp
-private ColorUIControl colorUIControl1;
-private PopupControlContainer popupContainer1;
-private PopupMenu popupMenu1;
-private Panel colorButton;
-```
+// 1. Create controls
+private ColorUIControl colorUIControl1 = new ColorUIControl();
+private PopupControlContainer popupContainer1 = new PopupControlContainer();
+private PopupMenu popupMenu1 = new PopupMenu();
+private Panel colorButton = new Panel();
 
-### Step 2: Initialize ColorUIControl
-
-Configure the color picker:
-
-**C#:**
-```csharp
-colorUIControl1 = new ColorUIControl();
+// 2. Configure ColorUIControl and add to container
 colorUIControl1.Size = new Size(210, 200);
-colorUIControl1.ColorGroups = 
-    ColorUIGroups.StandardColors | ColorUIGroups.CustomColors;
-colorUIControl1.SelectedColorGroup = ColorUISelectedGroup.StandardColors;
-colorUIControl1.BorderStyle = BorderStyle.FixedSingle;
-```
-
-### Step 3: Create PopupControlContainer
-
-Add ColorUIControl to the container:
-
-**C#:**
-```csharp
-popupContainer1 = new PopupControlContainer();
+colorUIControl1.ColorGroups = ColorUIGroups.StandardColors | ColorUIGroups.CustomColors;
 popupContainer1.Controls.Add(colorUIControl1);
-```
 
-### Step 4: Configure PopupMenu
-
-Create the popup menu and add a DropDownBarItem:
-
-**C#:**
-```csharp
-// Create PopupMenu
-popupMenu1 = new PopupMenu();
-
-// Create DropDownBarItem
+// 3. Configure PopupMenu
 DropDownBarItem dropDownItem = new DropDownBarItem();
 dropDownItem.PopupControlContainer = popupContainer1;
-
-// Add to menu
 popupMenu1.ParentBarItem.Items.Add(dropDownItem);
-```
 
-### Step 5: Create Trigger Control
-
-Create a button or panel to trigger the popup:
-
-**C#:**
-```csharp
-colorButton = new Panel();
+// 4. Setup trigger button
 colorButton.Size = new Size(100, 30);
-colorButton.Location = new Point(20, 20);
-colorButton.BorderStyle = BorderStyle.FixedSingle;
 colorButton.BackColor = Color.White;
 colorButton.Cursor = Cursors.Hand;
-```
-
-### Step 6: Handle Mouse Click
-
-Show popup on button click:
-
-**C#:**
-```csharp
-colorButton.MouseUp += (sender, e) =>
-{
+colorButton.MouseUp += (sender, e) => 
     popupMenu1.Show(colorButton, new Point(e.X, e.Y));
-};
-```
 
-### Step 7: Handle Color Selection
-
-Close popup and apply color:
-
-**C#:**
-```csharp
+// 5. Handle color selection
 colorUIControl1.ColorSelected += (sender, e) =>
 {
-    // Update button color
     colorButton.BackColor = colorUIControl1.SelectedColor;
-    
-    // Close popup
-    ColorUIControl control = sender as ColorUIControl;
-    PopupControlContainer container = control.Parent as PopupControlContainer;
-    container?.HidePopup(PopupCloseType.Done);
+    ((sender as ColorUIControl)?.Parent as PopupControlContainer)
+        ?.HidePopup(PopupCloseType.Done);
 };
 ```
 
 ## Designer-Based Approach
 
-Follow these steps to create a popup color picker using the Visual Studio designer.
+1. Add `ColorUIControl`, `PopupMenu`, `PopupControlContainer`, and `Panel` to your form
+2. Place ColorUIControl inside PopupControlContainer (cut/paste in designer)
+3. In PopupMenu properties, add a `DropDownBarItem` and set its `PopupControlContainer` property
+4. Configure Panel: BorderStyle=FixedSingle, Cursor=Hand
 
-### Step 1: Add Controls to Form
-
-1. Drag and drop the following controls from the toolbox onto your form:
-   - `ColorUIControl`
-   - `PopupMenu`
-   - `PopupControlContainer`
-   - `Panel` (for the trigger button)
-   - Optional: `Label` (to display selected color)
-
-### Step 2: Configure ColorUIControl
-
-Place ColorUIControl inside the PopupControlContainer:
-
-1. Select `ColorUIControl` in the designer
-2. Cut it (Ctrl+X)
-3. Select `PopupControlContainer`
-4. Paste the ColorUIControl (Ctrl+V)
-
-**Properties to set:**
-- Size: 210, 200
-- ColorGroups: StandardColors, CustomColors
-- SelectedColorGroup: StandardColors
-
-### Step 3: Configure PopupMenu
-
-1. Right-click `PopupMenu` in the designer
-2. Select **"Add Default ParentBarItem"** from the context menu
-3. In Properties window, expand `ParentBarItem`
-4. Click `Items` collection editor
-5. Add a `DropDownBarItem`
-6. Set `PopupControlContainer` property to `popupControlContainer1`
-
-### Step 4: Configure Panel (Trigger)
-
-Set panel properties:
-- BorderStyle: FixedSingle
-- BackColor: White
-- Cursor: Hand
-- Size: 100, 30
-
-### Step 5: Wire Up Events
-
-Double-click the Panel to create MouseUp event:
-
-**C#:**
+**Event handlers:**
 ```csharp
 private void panel1_MouseUp(object sender, MouseEventArgs e)
 {
     this.popupMenu1.Show(this.panel1, new Point(e.X, e.Y));
 }
-```
 
-Add ColorSelected event handler:
-
-**C#:**
-```csharp
 private void colorUIControl1_ColorSelected(object sender, EventArgs e)
 {
-    // Update panel color
     panel1.BackColor = colorUIControl1.SelectedColor;
-    
-    // Update label (if you added one)
-    label1.Text = $"Selected: {colorUIControl1.SelectedColor.Name}";
-    
-    // Close popup
-    ColorUIControl cuiControl = sender as ColorUIControl;
-    PopupControlContainer pcc = cuiControl.Parent as PopupControlContainer;
-    pcc?.HidePopup(PopupCloseType.Done);
-}
-```
-
-### Step 6: Subscribe to ColorSelected
-
-In Form constructor or InitializeComponent:
-
-**C#:**
-```csharp
-public Form1()
-{
-    InitializeComponent();
-    
-    // Subscribe to event
-    this.colorUIControl1.ColorSelected += 
-        new EventHandler(this.colorUIControl1_ColorSelected);
+    ((sender as ColorUIControl)?.Parent as PopupControlContainer)
+        ?.HidePopup(PopupCloseType.Done);
 }
 ```
 
@@ -350,94 +218,6 @@ public class PopupColorPickerForm : Form
         container?.HidePopup(PopupCloseType.Done);
     }
 }
-```
-
-**VB.NET:**
-```vb
-Imports System.Drawing
-Imports System.Windows.Forms
-Imports Syncfusion.Windows.Forms
-Imports Syncfusion.Windows.Forms.Tools
-
-Public Class PopupColorPickerForm
-    Inherits Form
-    
-    Private colorUIControl1 As ColorUIControl
-    Private popupContainer1 As PopupControlContainer
-    Private popupMenu1 As PopupMenu
-    Private colorButton As Panel
-    Private statusLabel As Label
-    
-    Public Sub New()
-        InitializeComponents()
-    End Sub
-    
-    Private Sub InitializeComponents()
-        ' Create ColorUIControl
-        colorUIControl1 = New ColorUIControl()
-        colorUIControl1.Size = New Size(210, 200)
-        colorUIControl1.ColorGroups = _
-            ColorUIGroups.StandardColors Or ColorUIGroups.CustomColors
-        colorUIControl1.SelectedColorGroup = ColorUISelectedGroup.StandardColors
-        AddHandler colorUIControl1.ColorSelected, AddressOf ColorUIControl1_ColorSelected
-        
-        ' Create PopupControlContainer
-        popupContainer1 = New PopupControlContainer()
-        popupContainer1.Controls.Add(colorUIControl1)
-        
-        ' Create PopupMenu
-        popupMenu1 = New PopupMenu()
-        
-        ' Create and configure DropDownBarItem
-        Dim dropDownItem As New DropDownBarItem()
-        dropDownItem.PopupControlContainer = popupContainer1
-        
-        ' Add to menu
-        popupMenu1.ParentBarItem.Items.Add(dropDownItem)
-        
-        ' Create color button
-        colorButton = New Panel()
-        colorButton.Size = New Size(120, 35)
-        colorButton.Location = New Point(20, 20)
-        colorButton.BorderStyle = BorderStyle.FixedSingle
-        colorButton.BackColor = Color.White
-        colorButton.Cursor = Cursors.Hand
-        AddHandler colorButton.MouseUp, AddressOf ColorButton_MouseUp
-        
-        ' Create status label
-        statusLabel = New Label()
-        statusLabel.Text = "Click the box to select a color"
-        statusLabel.Location = New Point(20, 60)
-        statusLabel.AutoSize = True
-        
-        ' Add to form
-        Me.Controls.Add(colorButton)
-        Me.Controls.Add(statusLabel)
-        
-        ' Form properties
-        Me.Text = "Popup Color Picker"
-        Me.Size = New Size(300, 150)
-    End Sub
-    
-    Private Sub ColorButton_MouseUp(sender As Object, e As MouseEventArgs)
-        ' Show popup below the button
-        popupMenu1.Show(colorButton, New Point(0, colorButton.Height))
-    End Sub
-    
-    Private Sub ColorUIControl1_ColorSelected(sender As Object, e As EventArgs)
-        ' Update button color
-        colorButton.BackColor = colorUIControl1.SelectedColor
-        
-        ' Update status label
-        Dim selected As Color = colorUIControl1.SelectedColor
-        statusLabel.Text = $"Selected: {selected.Name}"
-        
-        ' Close popup
-        Dim control As ColorUIControl = TryCast(sender, ColorUIControl)
-        Dim container As PopupControlContainer = TryCast(control?.Parent, PopupControlContainer)
-        container?.HidePopup(PopupCloseType.Done)
-    End Sub
-End Class
 ```
 
 ## Showing and Hiding Popups
@@ -582,100 +362,6 @@ public class ToolbarColorPickerForm : Form
 }
 ```
 
-### Example 2: Multi-Color Property Editor
-
-**C#:**
-```csharp
-public class MultiColorEditor : UserControl
-{
-    private Panel foreColorPanel;
-    private Panel backColorPanel;
-    private Label label1, label2;
-    private ColorUIControl colorUIControl1;
-    private PopupControlContainer popupContainer1;
-    private PopupMenu popupMenu1;
-    private Panel currentTargetPanel;
-    
-    public Color ForeColor { get; private set; } = Color.Black;
-    public Color BackColor { get; private set; } = Color.White;
-    
-    public MultiColorEditor()
-    {
-        InitializeControls();
-        InitializePopup();
-    }
-    
-    private void InitializeControls()
-    {
-        label1 = new Label { Text = "Foreground:", Location = new Point(10, 15), AutoSize = true };
-        foreColorPanel = CreateColorPanel(new Point(100, 10), Color.Black);
-        
-        label2 = new Label { Text = "Background:", Location = new Point(10, 50), AutoSize = true };
-        backColorPanel = CreateColorPanel(new Point(100, 45), Color.White);
-        
-        this.Controls.AddRange(new Control[] { label1, foreColorPanel, label2, backColorPanel });
-        this.Size = new Size(200, 80);
-    }
-    
-    private Panel CreateColorPanel(Point location, Color color)
-    {
-        Panel panel = new Panel
-        {
-            Size = new Size(80, 25),
-            Location = location,
-            BackColor = color,
-            BorderStyle = BorderStyle.FixedSingle,
-            Cursor = Cursors.Hand
-        };
-        panel.MouseUp += ColorPanel_MouseUp;
-        return panel;
-    }
-    
-    private void InitializePopup()
-    {
-        colorUIControl1 = new ColorUIControl
-        {
-            Size = new Size(210, 200),
-            ColorGroups = ColorUIGroups.StandardColors | ColorUIGroups.CustomColors
-        };
-        colorUIControl1.ColorSelected += ColorUIControl1_ColorSelected;
-        
-        popupContainer1 = new PopupControlContainer();
-        popupContainer1.Controls.Add(colorUIControl1);
-        
-        popupMenu1 = new PopupMenu();
-        DropDownBarItem item = new DropDownBarItem { PopupControlContainer = popupContainer1 };
-        popupMenu1.ParentBarItem.Items.Add(item);
-    }
-    
-    private void ColorPanel_MouseUp(object sender, MouseEventArgs e)
-    {
-        currentTargetPanel = sender as Panel;
-        popupMenu1.Show(currentTargetPanel, new Point(0, currentTargetPanel.Height));
-    }
-    
-    private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
-    {
-        Color selected = colorUIControl1.SelectedColor;
-        
-        if (currentTargetPanel != null)
-        {
-            currentTargetPanel.BackColor = selected;
-            
-            // Update properties
-            if (currentTargetPanel == foreColorPanel)
-                ForeColor = selected;
-            else if (currentTargetPanel == backColorPanel)
-                BackColor = selected;
-        }
-        
-        // Close popup
-        ((sender as ColorUIControl)?.Parent as PopupControlContainer)
-            ?.HidePopup(PopupCloseType.Done);
-    }
-}
-```
-
 ## ColorPickerButton Alternative
 
 For simple dropdown color picker functionality, consider using **ColorPickerButton** instead of manually creating the popup infrastructure.
@@ -714,45 +400,6 @@ private void ColorSelected(object sender, EventArgs e)
         ?.HidePopup(PopupCloseType.Done);
 }
 ```
-
-### 2. Position Popup Intelligently
-
-```csharp
-// Check screen bounds before showing
-Point popupLocation = new Point(0, trigger.Height);
-Rectangle screen = Screen.FromControl(trigger).WorkingArea;
-Point screenPoint = trigger.PointToScreen(popupLocation);
-
-if (screenPoint.Y + popupContainer1.Height > screen.Bottom)
-{
-    // Show above if doesn't fit below
-    popupLocation = new Point(0, -popupContainer1.Height);
-}
-
-popupMenu1.Show(trigger, popupLocation);
-```
-
-### 3. Handle Null References
-
-```csharp
-ColorUIControl control = sender as ColorUIControl;
-PopupControlContainer container = control?.Parent as PopupControlContainer;
-container?.HidePopup(PopupCloseType.Done);
-```
-
-### 4. Store Current Target for Multi-Panel Scenarios
-
-```csharp
-private Panel currentTarget;
-
-private void Panel_Click(object sender, EventArgs e)
-{
-    currentTarget = sender as Panel;
-    popupMenu1.Show(currentTarget, new Point(0, currentTarget.Height));
-}
-```
-
-### 5. Clean Border for Popup Display
 
 ```csharp
 // Remove border when using in popup for cleaner appearance

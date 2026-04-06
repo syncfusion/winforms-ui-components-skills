@@ -24,7 +24,6 @@ public event EventHandler ColorSelected;
 
 ### Subscribing to the Event
 
-**C#:**
 ```csharp
 // Subscribe using += operator
 this.colorUIControl1.ColorSelected += ColorUIControl1_ColorSelected;
@@ -38,62 +37,18 @@ private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
 }
 ```
 
-**VB.NET:**
-```vb
-' Subscribe using AddHandler
-AddHandler Me.colorUIControl1.ColorSelected, AddressOf ColorUIControl1_ColorSelected
-
-' Event handler method
-Private Sub ColorUIControl1_ColorSelected(sender As Object, e As EventArgs)
-    ' Handle color selection
-    Dim selectedColor As Color = Me.colorUIControl1.SelectedColor
-    MessageBox.Show($"Selected: {selectedColor.Name}")
-End Sub
-```
-
 ### Accessing Selected Color
 
-**C#:**
 ```csharp
 private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
 {
-    // Method 1: Via control reference
-    Color color1 = this.colorUIControl1.SelectedColor;
-    
-    // Method 2: Via sender parameter (more flexible)
-    ColorUIControl control = sender as ColorUIControl;
-    if (control != null)
-    {
-        Color color2 = control.SelectedColor;
-    }
-}
-```
-
-### Getting Color Information
-
-**C#:**
-```csharp
-private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
-{
-    Color selected = colorUIControl1.SelectedColor;
+    // Via control reference
+    Color color = this.colorUIControl1.SelectedColor;
     
     // Get color properties
-    string name = selected.Name;
-    int alpha = selected.A;
-    int red = selected.R;
-    int green = selected.G;
-    int blue = selected.B;
-    
-    // Format as hex
-    string hex = $"#{selected.R:X2}{selected.G:X2}{selected.B:X2}";
-    
-    // Display information
-    MessageBox.Show(
-        $"Color: {name}\n" +
-        $"RGB: ({red}, {green}, {blue})\n" +
-        $"Hex: {hex}\n" +
-        $"Alpha: {alpha}"
-    );
+    string name = color.Name;
+    string hex = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+    int rgb = (color.R, color.G, color.B);
 }
 ```
 
@@ -128,62 +83,13 @@ private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
 
 ### Pattern 2: Close Popup After Selection
 
-Close a PopupControlContainer when a color is selected.
-
-**C#:**
 ```csharp
 private void ColorUIControl_ColorSelected(object sender, EventArgs e)
 {
-    // Cast sender to ColorUIControl
     ColorUIControl cuiControl = sender as ColorUIControl;
-    
-    if (cuiControl != null)
-    {
-        // Get parent PopupControlContainer
-        PopupControlContainer pcc = cuiControl.Parent as PopupControlContainer;
-        
-        if (pcc != null)
-        {
-            // Close the popup
-            pcc.HidePopup(PopupCloseType.Done);
-        }
-    }
-}
-```
-
-**VB.NET:**
-```vb
-Private Sub ColorUIControl_ColorSelected(sender As Object, e As EventArgs)
-    ' Cast sender to ColorUIControl
-    Dim cuiControl As ColorUIControl = TryCast(sender, ColorUIControl)
-    
-    If cuiControl IsNot Nothing Then
-        ' Get parent PopupControlContainer
-        Dim pcc As PopupControlContainer = TryCast(cuiControl.Parent, PopupControlContainer)
-        
-        If pcc IsNot Nothing Then
-            ' Close the popup
-            pcc.HidePopup(PopupCloseType.Done)
-        End If
-    End If
-End Sub
-```
-
-### Pattern 3: Apply Color to Property
-
-Update a property or object with the selected color.
-
-**C#:**
-```csharp
-private DocumentSettings settings;
-
-private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
-{
-    // Apply to application settings
-    settings.BackgroundColor = colorUIControl1.SelectedColor;
-    
-    // Notify of change
-    OnSettingsChanged();
+    PopupControlContainer pcc = cuiControl?.Parent as PopupControlContainer;
+    pcc?.HidePopup(PopupCloseType.Done);
+}ettingsChanged();
 }
 ```
 
@@ -218,54 +124,25 @@ private void ApplyColor(Color color)
 
 ### Pattern 5: Update Multiple Elements
 
-Apply color to multiple UI elements simultaneously.
+Apply color to Validate and Apply
 
-**C#:**
 ```csharp
 private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
 {
     Color selected = colorUIControl1.SelectedColor;
     
-    // Update multiple elements
-    headerPanel.BackColor = selected;
-    footerPanel.BackColor = selected;
-    statusStrip.BackColor = selected;
+    // Validate color brightness
+    if (selected.GetBrightness() < 0.3f)
+    {
+        MessageBox.Show("Please select a lighter color");
+        return;
+    }
     
-    // Update text to contrasting color
-    Color textColor = GetContrastingColor(selected);
-    headerPanel.ForeColor = textColor;
-    footerPanel.ForeColor = textColor;
-}
-
-private Color GetContrastingColor(Color background)
-{
-    // Simple brightness-based contrast
-    return background.GetBrightness() > 0.5 ? Color.Black : Color.White;
+    ApplyColor(selected);
 }
 ```
 
-### Pattern 6: Save to Recent Colors
-
-Track recently selected colors for later use.
-
-**C#:**
-```csharp
-private List<Color> recentColors = new List<Color>();
-private const int MaxRecentColors = 10;
-
-private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
-{
-    Color selected = colorUIControl1.SelectedColor;
-    
-    // Add to recent colors
-    AddToRecentColors(selected);
-    
-    // Apply color
-    ApplySelectedColor(selected);
-}
-
-private void AddToRecentColors(Color color)
-{
+### Pattern 4
     // Remove if already exists
     if (recentColors.Contains(color))
     {
@@ -294,35 +171,25 @@ private void UpdateUserColorsPanel()
 }
 ```
 
-## Working with PopupControlContainer
+## Working w4: Update Multiple Elements
 
-When ColorUIControl is hosted in a PopupControlContainer (for dropdown functionality), handling the ColorSelected event properly is crucial for good UX.
-
-### Complete Popup Integration Example
-
-**C#:**
 ```csharp
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Syncfusion.Windows.Forms;
-
-public class ColorPickerPopupForm : Form
+private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
 {
-    private PopupMenu popupMenu1;
-    private PopupControlContainer popupContainer1;
-    private ColorUIControl colorUIControl1;
-    private Panel colorButton;
-    private Label colorLabel;
+    Color selected = colorUIControl1.SelectedColor;
     
-    public ColorPickerPopupForm()
-    {
-        InitializeComponents();
-    }
+    // Update multiple elements
+    headerPanel.BackColor = selected;
+    footerPanel.BackColor = selected;
     
-    private void InitializeComponents()
-    {
-        // Create color display button
+    // Update text to contrasting color
+    Color textColor = selected.GetBrightness() > 0.5 ? Color.Black : Color.White;
+    headerPanel.ForeColor = textColor;
+    footerPanel.ForeColor = textColor;
+}
+```
+
+### Pattern 5eate color display button
         colorButton = new Panel();
         colorButton.Size = new Size(100, 30);
         colorButton.Location = new Point(20, 20);
@@ -332,53 +199,22 @@ public class ColorPickerPopupForm : Form
         colorButton.MouseUp += ColorButton_MouseUp;
         
         // Create label
-        colorLabel = new Label();
-        colorLabel.Text = "Click to select color";
-        colorLabel.Location = new Point(20, 55);
-        colorLabel.AutoSize = true;
-        
-        // Create ColorUIControl
-        colorUIControl1 = new ColorUIControl();
-        colorUIControl1.Size = new Size(210, 200);
-        colorUIControl1.ColorGroups = 
-            ColorUIGroups.StandardColors | ColorUIGroups.CustomColors;
-        colorUIControl1.SelectedColorGroup = ColorUISelectedGroup.StandardColors;
-        colorUIControl1.ColorSelected += ColorUIControl1_ColorSelected;
-        
-        // Create PopupControlContainer
-        popupContainer1 = new PopupControlContainer();
-        popupContainer1.Controls.Add(colorUIControl1);
-        
-        // Create PopupMenu
-        popupMenu1 = new PopupMenu();
-        DropDownBarItem dropDownItem = new DropDownBarItem();
-        dropDownItem.PopupControlContainer = popupContainer1;
-        popupMenu1.ParentBarItem.Items.Add(dropDownItem);
-        
-        // Add to form
-        this.Controls.Add(colorButton);
-        this.Controls.Add(colorLabel);
-        
-        this.Text = "Color Picker Popup";
-        this.Size = new Size(250, 150);
-    }
+        colo5: Save to Recent Colors
+
+```csharp
+private List<Color> recentColors = new List<Color>();
+
+private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
+{
+    Color selected = colorUIControl1.SelectedColor;
     
-    private void ColorButton_MouseUp(object sender, MouseEventArgs e)
-    {
-        // Show popup at button location
-        popupMenu1.Show(colorButton, new Point(0, colorButton.Height));
-    }
+    // Remove if exists and add to front
+    recentColors.Remove(selected);
+    recentColors.Insert(0, selected);
     
-    private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
-    {
-        // Update button color
-        colorButton.BackColor = colorUIControl1.SelectedColor;
-        
-        // Update label
-        colorLabel.Text = $"Selected: {colorUIControl1.SelectedColor.Name}";
-        
-        // Close popup
-        ColorUIControl cuiControl = sender as ColorUIControl;
+    // Limit to 10 colors
+    if (recentColors.Count > 10)
+        recentColors.RemoveAt(10);   ColorUIControl cuiControl = sender as ColorUIControl;
         PopupControlContainer pcc = cuiControl.Parent as PopupControlContainer;
         pcc?.HidePopup(PopupCloseType.Done);
     }
@@ -398,180 +234,67 @@ public enum PopupCloseType
 }
 ```
 
-**Example:**
+### Popup Integration Example
+
 ```csharp
-// Close with Done status (successful selection)
-pcc.HidePopup(PopupCloseType.Done);
-
-// Close with Canceled status (user pressed Escape)
-pcc.HidePopup(PopupCloseType.Canceled);
-```
-
-## Unsubscribing from Events
-
-Always unsubscribe from events when disposing controls or changing subscriptions.
-
-**C#:**
-```csharp
-// Unsubscribe
-this.colorUIControl1.ColorSelected -= ColorUIControl1_ColorSelected;
-
-// In Dispose method
-protected override void Dispose(bool disposing)
-{
-    if (disposing)
-    {
-        // Unsubscribe before disposal
-        if (colorUIControl1 != null)
-        {
-            colorUIControl1.ColorSelected -= ColorUIControl1_ColorSelected;
-        }
-    }
-    base.Dispose(disposing);
-}
-```
-
-**VB.NET:**
-```vb
-' Unsubscribe
-RemoveHandler Me.colorUIControl1.ColorSelected, AddressOf ColorUIControl1_ColorSelected
-```
-
-## Complete Examples
-
-### Example 1: Text Color Picker
-
-**C#:**
-```csharp
-private RichTextBox richTextBox1;
+private PopupControlContainer popupContainer1;
 private ColorUIControl colorUIControl1;
+private Panel colorButton;
 
-private void InitializeTextColorPicker()
+private void InitializeComponents()
 {
-    // Create RichTextBox
-    richTextBox1 = new RichTextBox();
-    richTextBox1.Size = new Size(400, 200);
-    richTextBox1.Location = new Point(20, 20);
-    richTextBox1.Text = "Select text and choose a color";
+    // Create color button
+    colorButton = new Panel();
+    colorButton.Size = new Size(100, 30);
+    colorButton.BackColor = Color.White;
+    colorButton.MouseUp += (s, e) => ShowColorPopup();
     
     // Create ColorUIControl
     colorUIControl1 = new ColorUIControl();
-    colorUIControl1.Size = new Size(210, 200);
-    colorUIControl1.Location = new Point(20, 230);
-    colorUIControl1.ColorGroups = ColorUIGroups.StandardColors;
-    colorUIControl1.SelectedColorGroup = ColorUISelectedGroup.StandardColors;
-    colorUIControl1.ColorSelected += ApplyTextColor;
+    colorUIControl1.ColorSelected += ColorUIControl1_ColorSelected;
     
-    // Add to form
-    this.Controls.Add(richTextBox1);
-    this.Controls.Add(colorUIControl1);
+    // Create PopupControlContainer
+    popupContainer1 = new PopupControlContainer();
+    popupContainer1.Controls.Add(colorUIControl1);
+    
+    this.Controls.Add(colorButton);
 }
 
+private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
+{
+    colorButton.BackColor = colorUIControl1.SelectedColor;
+    
+    // Close popup
+    PopupControlContainer pcc = (sender as ColorUIControl)?.Parent as PopupControlContainer;
+    pcc?.HidePopup(PopupCloseType.Done);
+}
+
+## Real-World Examples
+
+### Example 1: Text Editor Color
+
+```csharp
 private void ApplyTextColor(object sender, EventArgs e)
 {
     Color selected = colorUIControl1.SelectedColor;
     
     if (richTextBox1.SelectionLength > 0)
-    {
-        // Apply to selected text
         richTextBox1.SelectionColor = selected;
-    }
     else
-    {
-        // Apply to all text
         richTextBox1.ForeColor = selected;
-    }
     
-    // Refocus on text box
     richTextBox1.Focus();
 }
 ```
 
-### Example 2: Theme Selector
+### Example 2: Drawing Application
 
-**C#:**
 ```csharp
-private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
-{
-    Color primaryColor = colorUIControl1.SelectedColor;
-    
-    // Apply theme based on selected color
-    ApplyThemeColors(primaryColor);
-}
-
-private void ApplyThemeColors(Color primary)
-{
-    // Calculate complementary colors
-    Color lighter = ControlPaint.Light(primary);
-    Color darker = ControlPaint.Dark(primary);
-    
-    // Apply to form
-    this.BackColor = lighter;
-    
-    // Apply to panels
-    foreach (Control control in this.Controls)
-    {
-        if (control is Panel)
-        {
-            control.BackColor = primary;
-            control.ForeColor = GetContrastingColor(primary);
-        }
-    }
-    
-    // Apply to menu
-    menuStrip1.BackColor = darker;
-    menuStrip1.ForeColor = Color.White;
-}
-
-private Color GetContrastingColor(Color background)
-{
-    double brightness = (background.R * 299 + background.G * 587 + background.B * 114) / 1000;
-    return brightness > 128 ? Color.Black : Color.White;
-}
-```
-
-### Example 3: Drawing Application
-
-**C#:**
-```csharp
-private PictureBox canvas;
 private Color currentDrawColor = Color.Black;
-private bool isDrawing = false;
-private Point lastPoint;
-
-private void InitializeDrawingApp()
-{
-    // Create canvas
-    canvas = new PictureBox();
-    canvas.Size = new Size(600, 400);
-    canvas.Location = new Point(20, 20);
-    canvas.BorderStyle = BorderStyle.FixedSingle;
-    canvas.BackColor = Color.White;
-    canvas.Image = new Bitmap(600, 400);
-    canvas.MouseDown += Canvas_MouseDown;
-    canvas.MouseMove += Canvas_MouseMove;
-    canvas.MouseUp += Canvas_MouseUp;
-    
-    // Create color picker
-    colorUIControl1 = new ColorUIControl();
-    colorUIControl1.Size = new Size(210, 200);
-    colorUIControl1.Location = new Point(20, 430);
-    colorUIControl1.ColorSelected += ColorUIControl1_ColorSelected;
-    
-    this.Controls.Add(canvas);
-    this.Controls.Add(colorUIControl1);
-}
 
 private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
 {
-    // Update current drawing color
     currentDrawColor = colorUIControl1.SelectedColor;
-}
-
-private void Canvas_MouseDown(object sender, MouseEventArgs e)
-{
-    isDrawing = true;
-    lastPoint = e.Location;
 }
 
 private void Canvas_MouseMove(object sender, MouseEventArgs e)
@@ -585,105 +308,14 @@ private void Canvas_MouseMove(object sender, MouseEventArgs e)
         }
         canvas.Invalidate();
         lastPoint = e.Location;
-    }
-}
+    }Event Handler** - Capture color value at selection time
+2. **Close Popups Immediately** - Use `pcc?.HidePopup(PopupCloseType.Done)` for better UX
+3. **Validate When Necessary** - Check brightness or other criteria before applying
+4. **Unsubscribe in Dispose** - Prevent memory leaks by unsubscribing from events
+5. **Use Sender Parameter** - Makes handlers reusable across multiple controls**Event Not Firing** - Verify event subscription with `+=` operator
 
-private void Canvas_MouseUp(object sender, MouseEventArgs e)
-{
-    isDrawing = false;
-}
-```
+**Cannot Access Parent** - Ensure control is added to PopupControlContainer first
 
-## Best Practices
+**Empty Color** - Check if `SelectedColor == Color.Empty` before use
 
-1. **Always Access SelectedColor in the Event Handler**
-   ```csharp
-   // Correct: Color value is captured at selection time
-   Color selected = colorUIControl1.SelectedColor;
-   ```
-
-2. **Close Popups Immediately After Selection**
-   ```csharp
-   // Good UX: Don't make users close popup manually
-   pcc?.HidePopup(PopupCloseType.Done);
-   ```
-
-3. **Validate Color Selection When Necessary**
-   ```csharp
-   if (selected.GetBrightness() < threshold)
-   {
-       // Reject or warn
-   }
-   ```
-
-4. **Unsubscribe in Dispose**
-   ```csharp
-   protected override void Dispose(bool disposing)
-   {
-       if (disposing && colorUIControl1 != null)
-       {
-           colorUIControl1.ColorSelected -= Handler;
-       }
-       base.Dispose(disposing);
-   }
-   ```
-
-5. **Use Sender Parameter for Reusable Handlers**
-   ```csharp
-   private void SharedColorHandler(object sender, EventArgs e)
-   {
-       ColorUIControl control = sender as ColorUIControl;
-       // Now works with multiple controls
-   }
-   ```
-
-## Troubleshooting
-
-### Issue: Event Not Firing
-
-**Solution:** Verify event subscription:
-```csharp
-// Check that event is subscribed
-colorUIControl1.ColorSelected += ColorUIControl1_ColorSelected;
-```
-
-### Issue: Cannot Access Parent Container
-
-**Solution:** Ensure ColorUIControl is properly parented:
-```csharp
-// Add to PopupControlContainer first
-popupContainer1.Controls.Add(colorUIControl1);
-// Then access in event
-PopupControlContainer pcc = colorUIControl1.Parent as PopupControlContainer;
-```
-
-### Issue: Selected Color is Empty
-
-**Solution:** Check timing and initialization:
-```csharp
-private void ColorUIControl1_ColorSelected(object sender, EventArgs e)
-{
-    Color selected = colorUIControl1.SelectedColor;
-    if (selected == Color.Empty || selected.IsEmpty)
-    {
-        // Handle empty color case
-        return;
-    }
-    // Proceed with valid color
-}
-```
-
-### Issue: Event Fires Multiple Times
-
-**Solution:** Unsubscribe before resubscribing:
-```csharp
-// Prevent duplicate subscriptions
-colorUIControl1.ColorSelected -= ColorUIControl1_ColorSelected;
-colorUIControl1.ColorSelected += ColorUIControl1_ColorSelected;
-```
-
-## Next Steps
-
-- [Getting Started](getting-started.md) - Setup and initialization
-- [Color Groups](color-groups.md) - Configure color groups
-- [Popup Integration](popup-integration.md) - Full popup implementation examples
+**Multiple Fires** - Unsubscribe with `-=` before resubscribing to prevent duplicates

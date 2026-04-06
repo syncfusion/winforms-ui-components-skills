@@ -318,9 +318,3 @@ Culture-specific date formatting with RTL support for Arabic, Hebrew, etc.
 - Custom up-down/dropdown button appearance
 - Legacy application compatibility
 - Specific advanced customization not in SfDateTimeEdit
-
-## Related Components
-
-- **DateTimePickerAdv**: Legacy DateTime picker with advanced button customization
-- **SfCalendar**: Standalone calendar control for date selection
-- **DateTimePicker**: Standard Windows Forms DateTime picker

@@ -335,11 +335,6 @@ Create animated, transparent splash screens that match your application's brandi
 ### Timed Information Display
 Show important announcements, tips, or messages for a specific duration before allowing user interaction.
 
-## Related Components
-
-- **SplashPanel:** Standalone splash panel that can be used independently or integrated with SplashControl
-- **SplashScreen:** Alternative splash screen implementation approaches in WinForms
-
 ## Tips and Best Practices
 
 1. **Keep splash duration reasonable:** 2-5 seconds is ideal; longer durations frustrate users

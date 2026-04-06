@@ -41,28 +41,6 @@ this.dockingManager1.VisualStyle = VisualStyle.Metro;
 - `Office2016DarkGray` - Office 2016 dark gray theme
 - `Office2016Black` - Office 2016 black theme
 
-**VB.NET:**
-
-```vb
-' Set visual style
-Me.dockingManager1.VisualStyle = VisualStyle.Office2016Colorful
-```
-
-### Visual Style Examples
-
-```csharp
-// Modern flat appearance
-this.dockingManager1.VisualStyle = VisualStyle.Metro;
-
-// Professional Office look
-this.dockingManager1.VisualStyle = VisualStyle.Office2016Colorful;
-
-// Dark theme
-this.dockingManager1.VisualStyle = VisualStyle.Office2016Black;
-
-// Classic Visual Studio
-this.dockingManager1.VisualStyle = VisualStyle.VS2010;
-```
 
 ## Office Themes
 
@@ -92,14 +70,6 @@ this.dockingManager1.VisualStyle = VisualStyle.Office2010;
 // Set theme color
 this.dockingManager1.Office2010Theme = Office2010Theme.Blue;
 // Or: Silver, Black, Managed
-```
-
-**VB.NET:**
-
-```vb
-' Office 2010 Silver theme
-Me.dockingManager1.VisualStyle = VisualStyle.Office2010
-Me.dockingManager1.Office2010Theme = Office2010Theme.Silver
 ```
 
 ## Custom Color Schemes
@@ -168,14 +138,6 @@ this.dockingManager1.ActiveCaptionForeGround = Color.White;
 
 // Inactive window caption text color
 this.dockingManager1.InActiveCaptionForeGround = Color.DarkGray;
-```
-
-**VB.NET:**
-
-```vb
-' Caption colors
-Me.dockingManager1.ActiveCaptionForeGround = Color.White
-Me.dockingManager1.InActiveCaptionForeGround = Color.DarkGray
 ```
 
 ### Caption Fonts
@@ -261,15 +223,6 @@ this.dockingManager1.DockTabPanelBackColor = Color.WhiteSmoke;
 this.dockingManager1.DockTabSeparatorColor = Color.Gray;
 ```
 
-**VB.NET:**
-
-```vb
-' Customize dock tabs
-Me.dockingManager1.DockTabFont = New Font("Segoe UI", 9.0F)
-Me.dockingManager1.ActiveDockTabForeColor = Color.White
-Me.dockingManager1.ActiveDockTabBackColor = Color.DarkBlue
-```
-
 ## Document Tab Customization
 
 Document tabs are used when EnableDocumentMode is true (TDI mode).
@@ -313,14 +266,6 @@ this.dockingManager1.DocumentWindowSettings.TabPanelBorderColor =
     Color.FromArgb(200, 200, 200);
 ```
 
-**VB.NET:**
-
-```vb
-' Document tab colors
-Me.dockingManager1.DocumentWindowSettings.ActiveTabForeColor = Color.White
-Me.dockingManager1.DocumentWindowSettings.ActiveTabBackColor = Color.DarkBlue
-```
-
 ## Auto-Hide Tab Customization
 
 ### Auto-Hide Tab Font and Size
@@ -354,15 +299,6 @@ Control rightTabs = this.dockingManager1.GetAHTabControl(
     Syncfusion.Windows.Forms.Tools.DockTabAlignmentStyle.Right);
 if (rightTabs != null)
     rightTabs.BackColor = Color.LightGreen;
-```
-
-**VB.NET:**
-
-```vb
-' Customize auto-hide tabs
-Me.dockingManager1.AutoHideTabFont = New Font("Segoe UI", 9.0F)
-Me.dockingManager1.AutoHideTabForeColor = Color.Navy
-Me.dockingManager1.AutoHideTabHeight = 24
 ```
 
 ### Full Captions in Auto-Hide
@@ -467,12 +403,6 @@ this.dockingManager1.DragProviderStyle = DragProviderStyle.VS2012;
 - `Office2016DarkGray` - Office 2016 dark gray drag hints
 - `Office2016Black` - Office 2016 black drag hints
 
-**VB.NET:**
-
-```vb
-' Set drag style
-Me.dockingManager1.DragProviderStyle = DragProviderStyle.VS2012
-```
 
 ## Right-to-Left Support
 
@@ -484,223 +414,11 @@ this.dockingManager1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 this.dockingManager1.RightToLeft = System.Windows.Forms.RightToLeft.No;
 ```
 
+
 ## Complete Example
+A full working example is available in the samples repository.
+This documentation focuses on individual API usage.
 
-```csharp
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Syncfusion.Windows.Forms.Tools;
-using Syncfusion.Drawing;
-
-public class AppearanceExample : Form
-{
-    private DockingManager dockingManager1;
-    private Panel panel1, panel2, panel3;
-    private ComboBox cmbTheme;
-    
-    public AppearanceExample()
-    {
-        InitializeComponent();
-        SetupDocking();
-        ApplyCustomAppearance();
-        SetupThemeSelector();
-    }
-    
-    private void SetupDocking()
-    {
-        // Create DockingManager
-        this.dockingManager1 = new DockingManager(this.components);
-        this.dockingManager1.HostControl = this;
-        
-        // Create panels
-        panel1 = new Panel { BackColor = Color.White };
-        panel2 = new Panel { BackColor = Color.White };
-        panel3 = new Panel { BackColor = Color.White };
-        
-        this.Controls.AddRange(new Control[] { panel1, panel2, panel3 });
-        
-        // Enable docking
-        this.dockingManager1.SetEnableDocking(panel1, true);
-        this.dockingManager1.SetEnableDocking(panel2, true);
-        this.dockingManager1.SetEnableDocking(panel3, true);
-        
-        // Set labels
-        this.dockingManager1.SetDockLabel(panel1, "Toolbox");
-        this.dockingManager1.SetDockLabel(panel2, "Properties");
-        this.dockingManager1.SetDockLabel(panel3, "Output");
-        
-        // Arrange
-        this.dockingManager1.DockControl(panel1, this, DockingStyle.Left, 200);
-        this.dockingManager1.DockControl(panel2, this, DockingStyle.Right, 250);
-        this.dockingManager1.DockControl(panel3, this, DockingStyle.Bottom, 150);
-    }
-    
-    private void ApplyCustomAppearance()
-    {
-        // Set visual style
-        this.dockingManager1.VisualStyle = VisualStyle.Office2016Colorful;
-        
-        // Caption customization
-        this.dockingManager1.CaptionHeight = 28;
-        this.dockingManager1.ActiveCaptionBackground = new BrushInfo(
-            GradientStyle.Vertical,
-            new Color[] { Color.FromArgb(0, 122, 204), Color.FromArgb(0, 99, 177) }
-        );
-        this.dockingManager1.ActiveCaptionForeGround = Color.White;
-        this.dockingManager1.ActiveCaptionFont = 
-            new Font("Segoe UI", 10f, FontStyle.Bold);
-        this.dockingManager1.ActiveCaptionButtonForeColor = Color.White;
-        
-        this.dockingManager1.InActiveCaptionBackground = 
-            new BrushInfo(Color.FromArgb(245, 245, 245));
-        this.dockingManager1.InActiveCaptionForeGround = Color.FromArgb(68, 68, 68);
-        this.dockingManager1.InActiveCaptionFont = 
-            new Font("Segoe UI", 9f, FontStyle.Regular);
-        this.dockingManager1.InActiveCaptionButtonForeColor = Color.Gray;
-        
-        // Tab customization
-        this.dockingManager1.DockTabFont = 
-            new Font("Segoe UI", 9f, FontStyle.Regular);
-        this.dockingManager1.DockTabHeight = 26;
-        this.dockingManager1.ActiveDockTabForeColor = Color.White;
-        this.dockingManager1.ActiveDockTabBackColor = Color.FromArgb(0, 122, 204);
-        this.dockingManager1.DockTabForeColor = Color.FromArgb(68, 68, 68);
-        this.dockingManager1.DockTabBackColor = Color.FromArgb(240, 240, 240);
-        this.dockingManager1.DockTabPanelBackColor = Color.FromArgb(245, 245, 245);
-        this.dockingManager1.DockTabSeparatorColor = Color.FromArgb(204, 206, 219);
-        
-        // Border and splitter
-        this.dockingManager1.BorderColor = Color.FromArgb(204, 206, 219);
-        this.dockingManager1.SplitterWidth = 5;
-        
-        // Drag style
-        this.dockingManager1.DragProviderStyle = 
-            DragProviderStyle.Office2016Colorful;
-    }
-    
-    private void SetupThemeSelector()
-    {
-        // Add theme selector combo box
-        cmbTheme = new ComboBox 
-        { 
-            Dock = DockStyle.Top,
-            DropDownStyle = ComboBoxStyle.DropDownList
-        };
-        
-        cmbTheme.Items.AddRange(new object[] 
-        {
-            "Office2016 Colorful",
-            "Office2016 White",
-            "Office2016 DarkGray",
-            "Office2016 Black",
-            "Metro",
-            "VS2010",
-            "Office2010",
-            "Office2007"
-        });
-        
-        cmbTheme.SelectedIndex = 0;
-        cmbTheme.SelectedIndexChanged += CmbTheme_SelectedIndexChanged;
-        
-        panel1.Controls.Add(cmbTheme);
-    }
-    
-    private void CmbTheme_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        string theme = cmbTheme.SelectedItem.ToString();
-        
-        switch (theme)
-        {
-            case "Office2016 Colorful":
-                ApplyOffice2016ColorfulTheme();
-                break;
-            case "Office2016 White":
-                ApplyOffice2016WhiteTheme();
-                break;
-            case "Office2016 DarkGray":
-                ApplyOffice2016DarkGrayTheme();
-                break;
-            case "Office2016 Black":
-                ApplyOffice2016BlackTheme();
-                break;
-            case "Metro":
-                ApplyMetroTheme();
-                break;
-            case "VS2010":
-                ApplyVS2010Theme();
-                break;
-            case "Office2010":
-                ApplyOffice2010Theme();
-                break;
-            case "Office2007":
-                ApplyOffice2007Theme();
-                break;
-        }
-    }
-    
-    private void ApplyOffice2016ColorfulTheme()
-    {
-        this.dockingManager1.VisualStyle = VisualStyle.Office2016Colorful;
-        this.dockingManager1.DragProviderStyle = 
-            DragProviderStyle.Office2016Colorful;
-    }
-    
-    private void ApplyOffice2016WhiteTheme()
-    {
-        this.dockingManager1.VisualStyle = VisualStyle.Office2016White;
-        this.dockingManager1.DragProviderStyle = 
-            DragProviderStyle.Office2016White;
-    }
-    
-    private void ApplyOffice2016DarkGrayTheme()
-    {
-        this.dockingManager1.VisualStyle = VisualStyle.Office2016DarkGray;
-        this.dockingManager1.DragProviderStyle = 
-            DragProviderStyle.Office2016DarkGray;
-    }
-    
-    private void ApplyOffice2016BlackTheme()
-    {
-        this.dockingManager1.VisualStyle = VisualStyle.Office2016Black;
-        this.dockingManager1.DragProviderStyle = 
-            DragProviderStyle.Office2016Black;
-        this.BackColor = Color.FromArgb(40, 40, 40);
-    }
-    
-    private void ApplyMetroTheme()
-    {
-        this.dockingManager1.VisualStyle = VisualStyle.Metro;
-        this.dockingManager1.MetroBorderWidth = 2;
-        this.dockingManager1.MetroCaptionColor = Color.FromArgb(0, 122, 204);
-        this.dockingManager1.MetroButtonColor = Color.White;
-        this.dockingManager1.MetroColor = Color.FromArgb(0, 122, 204);
-        this.dockingManager1.ShowMetroCaptionDottedLines = false;
-        this.BackColor = Color.White;
-    }
-    
-    private void ApplyVS2010Theme()
-    {
-        this.dockingManager1.VisualStyle = VisualStyle.VS2010;
-        this.dockingManager1.DragProviderStyle = DragProviderStyle.VS2010;
-        this.BackColor = Color.FromArgb(41, 57, 85);
-    }
-    
-    private void ApplyOffice2010Theme()
-    {
-        this.dockingManager1.VisualStyle = VisualStyle.Office2010;
-        this.dockingManager1.Office2010Theme = Office2010Theme.Blue;
-        this.BackColor = Color.FromArgb(194, 217, 247);
-    }
-    
-    private void ApplyOffice2007Theme()
-    {
-        this.dockingManager1.VisualStyle = VisualStyle.Office2007;
-        this.dockingManager1.Office2007Theme = Office2007Theme.Blue;
-        this.BackColor = Color.FromArgb(191, 219, 255);
-    }
-}
-```
 
 ## Best Practices
 

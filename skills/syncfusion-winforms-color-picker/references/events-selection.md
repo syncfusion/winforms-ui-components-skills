@@ -48,42 +48,9 @@ private void ColorPickerUIAdv1_Picked(object sender,
 }
 ```
 
-**Visual Basic:**
-```vb
-' Attach event handler
-AddHandler colorPickerUIAdv1.Picked, AddressOf ColorPickerUIAdv1_Picked
-
-' Event handler method
-Private Sub ColorPickerUIAdv1_Picked(sender As Object, 
-                                      e As ColorPickerUIAdv.ColorPickedEventArgs)
-    ' Access selected color
-    Dim selectedColor As Color = e.Color
-    
-    ' Apply to form background
-    Me.BackColor = selectedColor
-    
-    ' Display color information
-    MessageBox.Show($"Selected: {e.Color.Name}")
-End Sub
-```
-
 ### Common Picked Event Patterns
 
-#### Pattern 1: Update Target Control
-
-```csharp
-private Label targetLabel;
-
-private void SetupColorPicker()
-{
-    colorPickerUIAdv1.Picked += (sender, e) =>
-    {
-        targetLabel.BackColor = e.Color;
-    };
-}
-```
-
-#### Pattern 2: Multiple Target Updates
+#### Pattern 1: Multiple Target Updates
 
 ```csharp
 private void ColorPickerUIAdv1_Picked(object sender, 
@@ -100,7 +67,7 @@ private void ColorPickerUIAdv1_Picked(object sender,
 }
 ```
 
-#### Pattern 3: Conditional Actions
+#### Pattern 2: Conditional Actions
 
 ```csharp
 private void ColorPickerUIAdv1_Picked(object sender, 
@@ -120,21 +87,6 @@ private void ColorPickerUIAdv1_Picked(object sender,
     
     // Apply selected color as background
     textBox.BackColor = e.Color;
-}
-```
-
-#### Pattern 4: Save Color Preference
-
-```csharp
-private void ColorPickerUIAdv1_Picked(object sender, 
-                                       ColorPickerUIAdv.ColorPickedEventArgs e)
-{
-    // Save to application settings
-    Properties.Settings.Default.UserPreferredColor = e.Color;
-    Properties.Settings.Default.Save();
-    
-    // Apply immediately
-    ApplyColorTheme(e.Color);
 }
 ```
 
@@ -173,72 +125,9 @@ private void ColorPickerUIAdv1_ItemSelection(object sender,
 }
 ```
 
-**Visual Basic:**
-```vb
-' Attach event handler
-AddHandler colorPickerUIAdv1.ItemSelection, AddressOf ColorPickerUIAdv1_ItemSelection
-
-' Event handler method
-Private Sub ColorPickerUIAdv1_ItemSelection(sender As Object, 
-                                             e As ColorPickerUIAdv.ColorPickedEventArgs)
-    ' Show preview without committing
-    previewPanel.BackColor = e.Color
-    
-    ' Display color name
-    statusLabel.Text = $"Preview: {e.Color.Name}"
-End Sub
-```
-
 ### ItemSelection Patterns
 
-#### Pattern 1: Live Preview Panel
-
-```csharp
-private Panel previewPanel;
-private Label colorInfoLabel;
-
-private void SetupLivePreview()
-{
-    // Setup preview controls
-    previewPanel = new Panel
-    {
-        Size = new Size(200, 50),
-        BorderStyle = BorderStyle.FixedSingle
-    };
-    
-    colorInfoLabel = new Label
-    {
-        Size = new Size(200, 20)
-    };
-    
-    // Attach hover event
-    colorPickerUIAdv1.ItemSelection += (sender, e) =>
-    {
-        previewPanel.BackColor = e.Color;
-        colorInfoLabel.Text = $"{e.Color.Name} - RGB({e.Color.R}, {e.Color.G}, {e.Color.B})";
-    };
-}
-```
-
-#### Pattern 2: Tooltip Display
-
-```csharp
-private ToolTip colorTooltip = new ToolTip();
-
-private void ColorPickerUIAdv1_ItemSelection(object sender, 
-                                              ColorPickerUIAdv.ColorPickedEventArgs e)
-{
-    // Show tooltip with color details
-    string tooltipText = $"{e.Color.Name}\n" +
-                        $"RGB: {e.Color.R}, {e.Color.G}, {e.Color.B}\n" +
-                        $"Hex: #{e.Color.R:X2}{e.Color.G:X2}{e.Color.B:X2}";
-    
-    colorTooltip.Show(tooltipText, colorPickerUIAdv1, 
-                      colorPickerUIAdv1.Width + 10, 0, 2000);
-}
-```
-
-#### Pattern 3: Preview with Revert Option
+#### Live Preview with Revert Option
 
 ```csharp
 private Color originalColor;
@@ -525,66 +414,16 @@ private void ApplyColor(Color color)
 
 ## Best Practices
 
-### Event Handler Guidelines
-
 1. **Keep Handlers Lightweight:** Avoid heavy processing in event handlers
 2. **Use Lambda for Simple Logic:** `colorPicker.Picked += (s, e) => panel.BackColor = e.Color;`
 3. **Separate Concerns:** Different handlers for UI updates vs. data persistence
 4. **Validate Colors:** Check color properties before applying (brightness, contrast)
-
-### Performance Optimization
-
-```csharp
-private void ColorPickerUIAdv1_ItemSelection(object sender, 
-                                              ColorPickerUIAdv.ColorPickedEventArgs e)
-{
-    // Debounce preview updates if expensive
-    if (DateTime.Now - lastPreviewUpdate > TimeSpan.FromMilliseconds(50))
-    {
-        UpdatePreview(e.Color);
-        lastPreviewUpdate = DateTime.Now;
-    }
-}
-```
-
-### Error Handling
-
-```csharp
-private void ColorPickerUIAdv1_Picked(object sender, 
-                                       ColorPickerUIAdv.ColorPickedEventArgs e)
-{
-    try
-    {
-        // Attempt to apply color
-        targetControl.BackColor = e.Color;
-        SaveColorToDatabase(e.Color);
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show($"Error applying color: {ex.Message}", 
-                       "Color Selection Error", 
-                       MessageBoxButtons.OK, 
-                       MessageBoxIcon.Error);
-        
-        // Revert to previous color
-        colorPickerUIAdv1.SelectedColor = previousColor;
-    }
-}
-```
+5. **Debounce ItemSelection:** For expensive preview operations, limit update frequency
+6. **Handle Errors:** Use try-catch blocks for color application operations
 
 ## Troubleshooting
 
-**Issue:** Picked event not firing  
-**Solution:** Ensure event handler is attached before user interaction. Verify control is enabled.
-
-**Issue:** ItemSelection fires too frequently  
-**Solution:** Implement debouncing or throttling in event handler for performance.
-
-**Issue:** AutomaticColor not working  
-**Solution:** Verify "Automatic" button is visible and `AutomaticColor` property is set.
-
-**Issue:** "More Colors" dialog not appearing  
-**Solution:** Check if dialog is blocked by modal forms or security settings.
-
-**Issue:** Events firing with wrong color  
-**Solution:** Verify `e.Color` is being used, not `SelectedColor` which may not be updated yet in ItemSelection.
+- **Picked event not firing:** Ensure event handler is attached before user interaction
+- **ItemSelection fires too frequently:** Implement debouncing in event handler
+- **AutomaticColor not working:** Verify "Automatic" button is visible and property is set
+- **Events firing with wrong color:** Use `e.Color`, not `SelectedColor` in ItemSelection

@@ -59,7 +59,7 @@ chartControl1.ChartFormatAxisLabel += (sender, e) =>
 Modify legend items after creation.
 
 ```csharp
-chartControl1.LegendItemsChanged += (sender, e) =>
+chartControl1.Legend.FilterItems += (sender, e) =>
 {
     foreach (ChartLegendItem item in chartControl1.Legend.Items)
     {
@@ -82,16 +82,8 @@ chartControl1.ChartRegionClick += (sender, e) =>
         int pointIndex = e.Region.PointIndex;
         ChartSeries series = chartControl1.Series[seriesIndex];
         ChartPoint point = series.Points[pointIndex];
-        
+
         MessageBox.Show($"Series: {series.Name}\nValue: {point.YValues[0]}");
-    }
-    else if (e.Region.IsLegend)
-    {
-        MessageBox.Show("Legend clicked");
-    }
-    else if (e.Region.IsAxis)
-    {
-        MessageBox.Show("Axis clicked");
     }
 };
 ```
@@ -100,17 +92,10 @@ chartControl1.ChartRegionClick += (sender, e) =>
 ```csharp
 chartControl1.MouseMove += (sender, e) =>
 {
-    ChartRegion region = chartControl1.CalcHitTestInfo(e.Location);
-    
-    if (region.IsChartPoint)
-    {
-        // Highlight on hover
-        Cursor = Cursors.Hand;
-    }
-    else
-    {
-        Cursor = Cursors.Default;
-    }
+    var chartPoint = chartControl1.ChartArea.GetValueByPoint(new Point(e.X, e.Y));
+
+    // chartPoint.X is the X data; chartPoint.YValues[0] is the primary Y
+    toolTip1.SetToolTip(chartControl1, $"X={chartPoint.X}, Y={chartPoint.YValues[0]}");
 };
 ```
 
@@ -147,34 +132,45 @@ series.PrepareStyle += (sender, args) =>
     }
 };
 
-chartControl1.MouseMove += (sender, e) =>
+chartControl1.ChartRegionMouseMove += (sender, e) =>
 {
-    ChartRegion region = chartControl1.CalcHitTestInfo(e.Location);
-    
-    if (region.IsChartPoint)
+    if (e.Region != null && e.Region.SeriesIndex >= 0 && e.Region.PointIndex >= 0)
     {
-        highlightedIndex = region.PointIndex;
+        // Hovering a data point
+        highlightedIndex = e.Region.PointIndex;
     }
     else
     {
         highlightedIndex = -1;
     }
-    
+
     chartControl1.Refresh();
 };
 ```
 
 ### Toggle Series Visibility
 ```csharp
-chartControl1.ChartRegionClick += (sender, e) =>
+chartControl1.Legend.MouseClick += (sender, e) =>
 {
-    if (e.Region.IsLegend && e.Region.LegendItem != null)
-    {
-        string seriesName = e.Region.LegendItem.Text;
-        ChartSeries series = chartControl1.Series[seriesName];
-        
-        series.Visible = !series.Visible;
-        chartControl1.Refresh();
-    }
+    // Convert screen position → legend coordinates
+    Point p = chartControl1.Legend.PointToClient(Control.MousePosition);
+
+    // Get the legend item at the clicked location
+    ChartLegendItem item = chartControl1.Legend.GetItemBy(p);
+    if (item == null)
+        return;
+
+    // Legend item text is typically the series name
+    string seriesName = item.Text;
+
+    ChartSeries series = chartControl1.Series[seriesName];
+    if (series == null)
+        return;
+
+    // Toggle visibility
+    series.Visible = !series.Visible;
+
+    chartControl1.Refresh();
+
 };
 ```

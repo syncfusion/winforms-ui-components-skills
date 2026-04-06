@@ -38,129 +38,11 @@ The Syncfusion WinForms DataGrid (SfDataGrid) is a high-performance data grid co
 - **Styling**: Conditional styling, custom cell rendering
 - **Advanced**: Master-detail views, drag-drop, localization, serialization
 
-## Getting Started
-
-### Installing NuGet Packages
-
-To use the SfDataGrid control in your WinForms application, you need to install the required NuGet packages. The primary package is `Syncfusion.SfDataGrid.WinForms`, which automatically includes all necessary dependencies.
-
-#### Option 1: Using NuGet Package Manager (Visual Studio)
-1. Right-click on your project in Solution Explorer
-2. Select **"Manage NuGet Packages"**
-3. Click on the **Browse** tab
-4. Search for `Syncfusion.SfDataGrid.WinForms`
-5. Select the package and click **"Install"**
-6. Accept the license agreement
-
-#### Option 2: Using Package Manager Console
-Open the Package Manager Console (Tools → NuGet Package Manager → Package Manager Console) and run:
-```powershell
-Install-Package Syncfusion.SfDataGrid.WinForms
-```
-
-#### Option 3: Using .NET CLI
-For .NET Core/.NET 5+ projects, use the command line:
-```bash
-dotnet add package Syncfusion.SfDataGrid.WinForms
-```
-
-#### Option 4: Manual packages.config (for .NET Framework)
-For .NET Framework projects using packages.config, add this to your `packages.config` file:
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<packages>
-  <package id="Syncfusion.SfDataGrid.WinForms" version="27.1.57" targetFramework="net481" />
-</packages>
-```
-Then right-click the solution and select **"Restore NuGet Packages"**.
-
-**Automatically Installed Dependencies:**
-Installing `Syncfusion.SfDataGrid.WinForms` will automatically add these required dependencies:
-- Syncfusion.Data.WinForms
-- Syncfusion.SfInput.WinForms
-- Syncfusion.SfListView.WinForms
-- Syncfusion.Grid.Windows
-- Syncfusion.Shared.Base
-- Syncfusion.Shared.Windows
-- Syncfusion.Licensing
-- Syncfusion.Compression.Base
-
-For more information, see:
-- [NuGet Installation Guide](https://help.syncfusion.com/windowsforms/installation/install-nuget-packages)
-- [Control Dependencies](https://help.syncfusion.com/windowsforms/control-dependencies#sfdatagrid)
-
-### Adding Assembly References Manually
-
-If you prefer to add assembly references manually without using NuGet:
-
-1. Right-click on your project in **Solution Explorer**
-2. Select **"Add" → "Reference"**
-3. Click **"Browse"** button
-4. Navigate to the Syncfusion installation folder:
-   - Default location: `C:\Program Files (x86)\Syncfusion\Essential Studio\Windows\<version>\Assemblies\4.0\`
-5. Add the following required assemblies:
-   - **Syncfusion.SfDataGrid.WinForms.dll** (Core DataGrid control)
-   - **Syncfusion.Data.WinForms.dll** (Data operations)
-   - **Syncfusion.SfInput.WinForms.dll** (Input controls)
-   - **Syncfusion.SfListView.WinForms.dll** (List view support)
-   - **Syncfusion.Grid.Windows.dll** (Grid framework)
-   - **Syncfusion.Shared.Base.dll** (Shared utilities)
-   - **Syncfusion.Shared.Windows.dll** (Windows shared components)
-   - **Syncfusion.Licensing.dll** (License management)
-6. Click **OK** to add the references
-
-### Registering Syncfusion License
-
-Before using any Syncfusion control, you must register your license key. Add this code at the application entry point:
-
-**In Program.cs (recommended):**
-```csharp
-using System;
-using System.Windows.Forms;
-
-namespace WindowsFormsApplication1
-{
-    static class Program
-    {
-        [STAThread]
-        static void Main()
-        {
-            // Register Syncfusion license key BEFORE any Syncfusion control is created
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR_LICENSE_KEY");
-            
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-        }
-    }
-}
-```
-
-**Getting a License Key:**
-- **Free Trial**: Get a 30-day trial license from https://www.syncfusion.com/downloads
-- **Community License**: Free for qualifying individuals and organizations
-- **Commercial License**: For commercial use
-
 ### Creating the DataGrid Control
 
-#### Method 1: Using Visual Studio Designer
-1. Open your form in the **Visual Studio Designer**
-2. Open the **Toolbox** (View → Toolbox or Ctrl+Alt+X)
-3. Locate **"SfDataGrid"** in the toolbox
-   - If not visible, ensure NuGet packages are installed and rebuild the project
-   - Look under **Syncfusion Controls** or **All Windows Forms** section
-4. **Drag and drop** the SfDataGrid onto your form
-5. The designer will automatically:
-   - Add the control to your form
-   - Add the required assembly references (if using designer for the first time)
-   - Generate the initialization code in the designer file
-
-#### Method 2: Adding the Control in Code
 Create the SfDataGrid control programmatically:
 
 ```csharp
-using System;
-using System.Windows.Forms;
 using Syncfusion.WinForms.DataGrid;
 
 namespace WindowsFormsApplication1
@@ -176,13 +58,6 @@ namespace WindowsFormsApplication1
             // Create SfDataGrid instance
             sfDataGrid1 = new SfDataGrid();
             
-            // Set position and size
-            sfDataGrid1.Location = new System.Drawing.Point(12, 12);
-            sfDataGrid1.Size = new System.Drawing.Size(760, 438);
-            
-            // Or use Dock to fill the entire form
-            sfDataGrid1.Dock = DockStyle.Fill;
-            
             // Add to form's controls collection
             this.Controls.Add(sfDataGrid1);
         }
@@ -191,6 +66,21 @@ namespace WindowsFormsApplication1
 ```
 
 ## Documentation and Navigation Guide
+
+### Getting Started
+
+**📄 Read:** [references/getting-started.md](references/getting-started.md)
+
+When you need to:
+- Set up the SfDataGrid control for the first time
+- Understand assembly deployment and NuGet package installation
+- Create the control via Designer or in code
+- Create data models and collections
+- Bind data to the grid
+- Configure auto-generated or manually defined columns
+- Handle TableControl events (KeyDown, MouseDown)
+- Enable basic features (sorting, filtering, grouping, editing)
+- See a complete working example
 
 ### Column Management
 
@@ -218,18 +108,44 @@ When you need to:
 - Customize cursor placement in edit mode
 - Change cell values programmatically
 
-### Data Operations: Filtering, Sorting, and Grouping
+### Filtering
 
-**📄 Read:** [references/filtering-sorting-grouping.md](references/filtering-sorting-grouping.md)
+**📄 Read:** [references/filtering.md](references/filtering.md)
 
 When you need to:
 - Implement programmatic filtering (View filtering, Column filtering)
 - Enable Excel-like filter UI for users
-- Apply sorting (single or multi-column)
-- Group data with expand/collapse functionality
-- Customize sort and group behavior
-- Combine multiple data operations
-- Clear or modify existing filters, sorts, or groups
+- Apply different filter types (string, numeric, date)
+- Use filter predicates with multiple conditions
+- Handle filter events
+- Clear or modify existing filters
+- Troubleshoot filtering issues
+
+### Sorting
+
+**📄 Read:** [references/sorting.md](references/sorting.md)
+
+When you need to:
+- Enable UI sorting with click actions
+- Apply programmatic sorting (single or multi-column)
+- Implement custom sort comparers
+- Handle sort events
+- Configure tri-state sorting
+- Clear or modify existing sorts
+- Troubleshoot sorting issues
+
+### Grouping
+
+**📄 Read:** [references/grouping.md](references/grouping.md)
+
+When you need to:
+- Enable UI grouping with drag-drop
+- Group data programmatically (single or multi-level)
+- Customize group captions and formatting
+- Expand/collapse groups
+- Implement custom grouping logic with KeySelector
+- Handle group events
+- Troubleshoot grouping issues
 
 ### Selection
 
@@ -505,93 +421,6 @@ BindingList<OrderInfo> bindingList = new BindingList<OrderInfo>();
 sfDataGrid1.DataSource = bindingList;
 ```
 
-### Programmatic Sorting
-
-```csharp
-// Sort by single column ascending
-sfDataGrid1.SortColumnDescriptions.Add(new SortColumnDescription() 
-{ 
-    ColumnName = "Country",
-    SortDirection = ListSortDirection.Ascending
-});
-
-// Sort by multiple columns
-sfDataGrid1.SortColumnDescriptions.Add(new SortColumnDescription() 
-{ 
-    ColumnName = "Country",
-    SortDirection = ListSortDirection.Ascending
-});
-sfDataGrid1.SortColumnDescriptions.Add(new SortColumnDescription() 
-{ 
-    ColumnName = "CustomerName",
-    SortDirection = ListSortDirection.Descending
-});
-
-// Clear all sorting
-sfDataGrid1.SortColumnDescriptions.Clear();
-```
-
-### Programmatic Grouping
-
-```csharp
-// Group by single column
-sfDataGrid1.GroupColumnDescriptions.Add(new GroupColumnDescription() 
-{ 
-    ColumnName = "Country" 
-});
-
-// Group by multiple levels
-sfDataGrid1.GroupColumnDescriptions.Add(new GroupColumnDescription() 
-{ 
-    ColumnName = "Country" 
-});
-sfDataGrid1.GroupColumnDescriptions.Add(new GroupColumnDescription() 
-{ 
-    ColumnName = "ShipCity" 
-});
-
-// Expand/collapse all groups
-sfDataGrid1.ExpandAllGroup();
-sfDataGrid1.CollapseAllGroup();
-
-// Clear all grouping
-sfDataGrid1.GroupColumnDescriptions.Clear();
-```
-
-### Programmatic Filtering
-
-```csharp
-// Filter with single condition
-sfDataGrid1.Columns["CustomerID"].FilterPredicates.Add(new FilterPredicate() 
-{ 
-    FilterType = FilterType.Equals, 
-    FilterValue = "ALFKI" 
-});
-
-// Filter with multiple OR conditions
-sfDataGrid1.Columns["Country"].FilterPredicates.Add(new FilterPredicate() 
-{ 
-    FilterType = FilterType.Equals, 
-    FilterValue = "Mexico",
-    PredicateType = PredicateType.Or
-});
-sfDataGrid1.Columns["Country"].FilterPredicates.Add(new FilterPredicate() 
-{ 
-    FilterType = FilterType.Equals, 
-    FilterValue = "Germany",
-    PredicateType = PredicateType.Or
-});
-
-// Clear filter for specific column
-sfDataGrid1.Columns["Country"].FilterPredicates.Clear();
-
-// Clear all filters
-foreach (var column in sfDataGrid1.Columns)
-{
-    column.FilterPredicates.Clear();
-}
-```
-
 ### Handling Selection Events
 
 ```csharp
@@ -615,7 +444,7 @@ sfDataGrid1.CurrentCellValueChanged += (sender, e) =>
 
 ## Common Patterns
 
-### Pattern 1: Manual Column Definition with Selection
+### Manual Column Definition with Selection
 
 ```csharp
 sfDataGrid.AutoGenerateColumns = false;
@@ -637,92 +466,6 @@ sfDataGrid.Columns.Add(new GridNumericColumn()
 // Configure selection
 sfDataGrid.SelectionMode = GridSelectionMode.Multiple;
 sfDataGrid.SelectionUnit = GridSelectionUnit.Row;
-```
-
-### Pattern 2: Filtering, Sorting, and Grouping
-
-```csharp
-// Enable UI features
-sfDataGrid.AllowFiltering = true;
-sfDataGrid.AllowSorting = true;
-sfDataGrid.AllowGrouping = true;
-sfDataGrid.ShowGroupDropArea = true;
-
-// Programmatic operations
-sfDataGrid.Columns["CustomerID"].FilterPredicates.Add(
-    new FilterPredicate() { FilterType = FilterType.Equals, FilterValue = "FRANS" });
-
-sfDataGrid.SortColumnDescriptions.Add(
-    new SortColumnDescription() { ColumnName = "OrderDate", SortDirection = ListSortDirection.Descending });
-
-sfDataGrid.GroupColumnDescriptions.Add(
-    new GroupColumnDescription() { ColumnName = "Country" });
-```
-
-### Pattern 3: Conditional Styling
-
-```csharp
-sfDataGrid.DrawCell += (sender, e) =>
-{
-    if (e.DataRow.RowType == RowType.DefaultRow && e.Column.MappingName == "Quantity")
-    {
-        var quantity = Convert.ToInt32(e.DisplayText);
-        if (quantity < 10)
-        {
-            e.Style.BackColor = Color.LightCoral;
-            e.Style.TextColor = Color.White;
-        }
-        else if (quantity > 50)
-        {
-            e.Style.BackColor = Color.LightGreen;
-        }
-    }
-};
-```
-
-### Pattern 4: Export to Excel
-
-```csharp
-using Syncfusion.WinForms.DataGridConverter;
-
-var options = new DataGridExcelExportOptions();
-options.ExportMode = ExportMode.Value;
-options.ExcludeColumns = new List<string> { "InternalID" };
-
-var excelEngine = sfDataGrid.ExportToExcel(sfDataGrid.View, options);
-var workbook = excelEngine.Excel.Workbooks[0];
-workbook.SaveAs("GridData.xlsx");
-```
-
-### Pattern 5: Summaries
-
-```csharp
-// Add group summary
-var groupSummary = new GridSummaryRow();
-groupSummary.ShowSummaryInRow = false;
-groupSummary.SummaryColumns.Add(new GridSummaryColumn()
-{
-    Name = "TotalQuantity",
-    MappingName = "Quantity",
-    SummaryType = SummaryType.Int32Aggregate,
-    Format = "Total: {Sum}",
-});
-
-sfDataGrid.GroupSummaryRows.Add(groupSummary);
-
-// Add table summary
-var tableSummary = new GridTableSummaryRow();
-tableSummary.ShowSummaryInRow = false;
-tableSummary.Position = TableSummaryRowPosition.Bottom;
-tableSummary.SummaryColumns.Add(new GridSummaryColumn()
-{
-    Name = "GrandTotal",
-    MappingName = "UnitPrice",
-    SummaryType = SummaryType.DoubleAggregate,
-    Format = "Grand Total: ${Sum:C}",
-});
-
-sfDataGrid.TableSummaryRows.Add(tableSummary);
 ```
 
 ## Key Properties
@@ -778,3 +521,9 @@ For common issues and solutions:
 - **Selection not working**: Check SelectionMode and SelectionUnit are properly configured
 
 Refer to the specific reference files above for detailed troubleshooting guidance in each feature area.
+
+---
+
+## Next Steps
+
+Start with **[Getting Started](references/getting-started.md)** to install and configure the SfDataGrid, then explore specific features through the navigation guide above based on your application requirements.

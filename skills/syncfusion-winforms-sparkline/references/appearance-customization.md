@@ -333,11 +333,6 @@ this.Controls.Add(profitSparkline);
 - **Background:** Very light or very dark
 - **Markers:** Bright, distinct colors
 
-### Themed Applications
-- Match sparkline colors to application theme
-- Use consistent color palette across all sparklines
-- Maintain sufficient contrast for readability
-
 ## Accessibility Considerations
 
 When customizing sparkline appearance, consider:
@@ -358,4 +353,4 @@ The Sparkline control provides three main customization areas:
 2. **ColumnStyle** - Control column/WinLoss sparkline appearance
 3. **BackInterior** - Control background color (solid or gradient)
 
-Combined with marker customization, these properties enable complete visual control over your sparkline presentations, allowing you to match any application theme or design requirement.
+Combined with marker customization, these properties enable complete visual control over your sparkline presentations, allowing you to match any application design requirement.

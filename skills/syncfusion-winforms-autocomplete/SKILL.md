@@ -49,15 +49,17 @@ namespace AutoCompleteDemo
     public partial class Form1 : Form
     {
         private AutoComplete autoComplete1;
-        
+        private TextBox textBox1;
+
         public Form1()
         {
             InitializeComponent();
             
             // Create AutoComplete control
             autoComplete1 = new AutoComplete();
-            autoComplete1.Location = new System.Drawing.Point(20, 20);
-            autoComplete1.Size = new System.Drawing.Size(200, 20);
+            textBox1 = new TextBox();
+            textBox1.Location = new System.Drawing.Point(20, 20);
+            textBox1.Size = new System.Drawing.Size(200, 20);
             autoComplete1.ParentForm = this;
             
             // Add data source
@@ -69,9 +71,10 @@ namespace AutoCompleteDemo
                 "Canada", 
                 "China" 
             };
-            
+            autoComplete1.SetAutoComplete(textBox1, AutoCompleteModes.AutoSuggest);
+
             // Add to form
-            this.Controls.Add(autoComplete1);
+            this.Controls.Add(textBox1);
         }
     }
 }
@@ -173,9 +176,12 @@ Built-in filtering automatically matches user input against the data source, dis
 ### Pattern 1: Simple String AutoComplete
 ```csharp
 AutoComplete autoComplete1 = new AutoComplete();
-autoComplete1.Location = new System.Drawing.Point(20, 20);
-autoComplete1.Size = new System.Drawing.Size(200, 20);
+TextBox textBox1 = new TextBox();
+textBox1.Location = new System.Drawing.Point(20, 20);
+textBox1.Size = new System.Drawing.Size(200, 20);
 autoComplete1.ParentForm = this;
+
+autoComplete1.SetAutoComplete(textBox1, AutoCompleteModes.AutoSuggest);
 
 // Add string data
 autoComplete1.DataSource = new string[] 
@@ -183,12 +189,15 @@ autoComplete1.DataSource = new string[]
     "John", "Jane", "Bob", "Alice", "Charlie"
 };
 
-this.Controls.Add(autoComplete1);
+this.Controls.Add(textBox1);
 ```
 
 ### Pattern 2: DataTable Binding
 ```csharp
 AutoComplete autoComplete1 = new AutoComplete();
+TextBox textBox1 = new TextBox();
+textBox1.Location = new System.Drawing.Point(20, 50);
+textBox1.Size = new System.Drawing.Size(200, 20);
 autoComplete1.ParentForm = this;
 
 // Create DataTable
@@ -199,14 +208,16 @@ dt.Rows.Add("John Doe", "john@example.com");
 dt.Rows.Add("Jane Smith", "jane@example.com");
 
 autoComplete1.DataSource = dt;
-autoComplete1.DisplayMember = "Name";
 
-this.Controls.Add(autoComplete1);
+this.Controls.Add(textBox1);
 ```
 
 ### Pattern 3: Multi-Column Display
 ```csharp
 AutoComplete autoComplete1 = new AutoComplete();
+TextBox textBox1 = new TextBox();
+textBox1.Location = new System.Drawing.Point(20, 50);
+textBox1.Size = new System.Drawing.Size(200, 20);
 autoComplete1.ParentForm = this;
 autoComplete1.Style = AutoCompleteStyle.Default;
 
@@ -223,47 +234,59 @@ dt.Rows.Add("Bob Johnson", "Canada", "Toronto");
 autoComplete1.DataSource = dt;
 
 // Configure columns
-autoComplete1.Columns.Add(new AutoCompleteDataColumnInfo("Name", 100));
-autoComplete1.Columns.Add(new AutoCompleteDataColumnInfo("Country", 80));
-autoComplete1.Columns.Add(new AutoCompleteDataColumnInfo("City", 80));
+autoComplete1.Columns.Add(new AutoCompleteDataColumnInfo("Name", 100, true));
+autoComplete1.Columns.Add(new AutoCompleteDataColumnInfo("Country", 80, true));
+autoComplete1.Columns.Add(new AutoCompleteDataColumnInfo("City", 80, true));
 
-this.Controls.Add(autoComplete1);
+this.Controls.Add(textBox1);
 ```
 
 ### Pattern 4: Custom Filtering with Events
 ```csharp
 AutoComplete autoComplete1 = new AutoComplete();
+TextBox textBox1 = new TextBox();
+textBox1.Location = new System.Drawing.Point(20, 50);
+textBox1.Size = new System.Drawing.Size(200, 20);
 autoComplete1.ParentForm = this;
 autoComplete1.DataSource = GetDataSource();
+// Attach AutoComplete to the TextBox
+autoComplete1.SetAutoComplete(textBox1, AutoCompleteModes.AutoSuggest);
 
-// Handle custom filtering
-autoComplete1.AutoCompleteControl.ItemsListBox.DrawItem += 
-    new DrawItemEventHandler(ItemsListBox_DrawItem);
-
-void ItemsListBox_DrawItem(object sender, DrawItemEventArgs e)
+// Subscribe when the dropdown is displayed so the popup list is initialized
+autoComplete1.DropDownDisplayed += (s, e) =>
 {
-    if (e.Index >= 0)
+    var lv = autoComplete1.AutoCompletePopup.Controls[0] as VirtualListView;
+    if (lv != null)
     {
-        // Custom drawing logic
+        lv.DrawItem -= ItemsListView_DrawItem;
+        lv.DrawItem += ItemsListView_DrawItem;
+    }
+};
+
+void ItemsListView_DrawItem(object sender, DrawListViewItemEventArgs e)
+{
+    if (e.Item != null)
+    {
         e.DrawBackground();
-        e.Graphics.DrawString(
-            autoComplete1.AutoCompleteControl.ItemsListBox.Items[e.Index].ToString(),
-            e.Font,
-            Brushes.Black,
-            e.Bounds);
+        var text = e.Item.Text;
+        using (var brush = new SolidBrush(e.Item.ForeColor))
+        {
+            e.Graphics.DrawString(text, e.Item.Font ?? e.Item.ListView.Font, brush, e.Bounds);
+        }
         e.DrawFocusRectangle();
     }
 }
 
-this.Controls.Add(autoComplete1);
+this.Controls.Add(textBox1);
 ```
 
 ### Pattern 5: URL/Email AutoComplete
 ```csharp
 AutoComplete autoComplete1 = new AutoComplete();
+TextBox textBox1 = new TextBox();
+textBox1.Location = new System.Drawing.Point(20, 50);
+textBox1.Size = new System.Drawing.Size(200, 20);
 autoComplete1.ParentForm = this;
-autoComplete1.Size = new System.Drawing.Size(300, 20);
-
 // Common URLs
 autoComplete1.DataSource = new string[]
 {
@@ -274,9 +297,9 @@ autoComplete1.DataSource = new string[]
 };
 
 // Enable append mode for URL completion
-autoComplete1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+autoComplete1.SetAutoComplete(textBox1, AutoCompleteModes.Both);
 
-this.Controls.Add(autoComplete1);
+this.Controls.Add(textBox1);
 ```
 
 ## Key Properties Reference
@@ -358,13 +381,6 @@ autoComplete1.Style = AutoCompleteStyle.Office2016Colorful;
 - [API Reference](https://help.syncfusion.com/cr/windowsforms/Syncfusion.Windows.Forms.Tools.AutoComplete.html)
 - [Knowledge Base Articles](https://www.syncfusion.com/kb/windowsforms/autocomplete)
 - [GitHub Samples](https://github.com/syncfusion/winforms-demos)
-
-## Related Controls
-
-- **ComboBoxAdv**: Advanced combo box with more customization options
-- **TextBoxExt**: Extended text box with additional features
-- **AutoCompleteControl**: Standalone popup control for custom scenarios
-- **MultiColumnComboBox**: Dedicated multi-column dropdown control
 
 ## Troubleshooting
 

@@ -352,14 +352,6 @@ statusLabel.StatusString = "1/1";  // Shows in Word-style context menu
 
 ---
 
-## Related Skills
-
-- **StatusBarAdv:** Alternative status bar control
-- **RibbonControlAdv:** Ribbon control that works with StatusStripEx
-- **ToolStripEx:** Enhanced toolbar control
-
----
-
 ## See Also
 
 - [Syncfusion StatusStripEx Documentation](https://help.syncfusion.com/windowsforms/statusstripex/overview)

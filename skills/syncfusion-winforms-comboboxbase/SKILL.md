@@ -330,11 +330,6 @@ When built-in controls are insufficient, create custom ListControl:
 - Prefer Framework combo box object model
 - Want both power and familiar API
 
-## Related Skills
-
-- **[AutoComplete](../implementing-autocomplete/)**: For auto-complete suggestions in dropdowns
-- **ComboBoxAdv**: Framework combo box-like API with ComboBoxBase flexibility
-
 ## Next Steps
 
 1. Start with [getting-started.md](references/getting-started.md) for basic setup

@@ -23,7 +23,7 @@ chartControl1.PrimaryXAxis.ValueType = ChartValueType.DateTime;
 ### Check Data Binding
 ```csharp
 // Ensure model is assigned
-series.SeriesModelImpl = dataBindModel;  // Or
+series.SeriesModel = dataBindModel;  // Or
 series.CategoryModel = categoryBindModel;
 
 // Verify column names match
@@ -49,7 +49,7 @@ if (series.Points.Count > 1000)
 
 ### Disable Visual Effects
 ```csharp
-chartControl1.Shadows = false;
+chartControl1.ChartAreaShadow = false;
 chartControl1.SmoothingMode = SmoothingMode.None;
 ```
 
@@ -129,5 +129,5 @@ chartControl1.Legend.Visible = true;
 
 // Check series visibility
 series.Visible = true;
-series.ShowInLegend = true;
+series.LegendItem.Visible = true;
 ```

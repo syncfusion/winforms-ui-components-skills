@@ -167,7 +167,6 @@ The **Syncfusion Pivot Chart** is a lightweight, high-performance control that r
 - Series styling and colors
 - Color palette configuration
 - Print support and settings
-- Theme and visual customization
 - Custom styling options
 
 ### Troubleshooting
@@ -200,9 +199,6 @@ namespace PivotChartDemo
         public Form1()
         {
             InitializeComponent();
-            
-            // Register Syncfusion license (required for v16.2.0.x+)
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR_LICENSE_KEY");
             
             // Initialize Pivot Chart
             pivotChart1 = new PivotChart();
@@ -525,10 +521,3 @@ private void ConfigureMultipleCalculations()
 - **Data Grid** - Display detailed raw data
 - **Gantt Chart** - Project scheduling visualization
 - **TreeMap** - Hierarchical data visualization alternative
-
-## Additional Resources
-
-- **Sample Location:** `<Install_Path>\Syncfusion\EssentialStudio\<Version>\Windows\PivotChart.Windows\Samples`
-- **API Documentation:** https://help.syncfusion.com/cr/windowsforms/Syncfusion.Windows.Forms.PivotChart.html
-- **User Guide:** https://help.syncfusion.com/windowsforms/pivot-chart/overview
-- **Knowledge Base:** Search for "WinForms Pivot Chart" at https://support.syncfusion.com/kb

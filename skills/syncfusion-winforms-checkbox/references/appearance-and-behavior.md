@@ -25,14 +25,6 @@ checkBoxAdv1.DrawFocusRectangle = true;
 checkBoxAdv1.DrawFocusRectangle = false;
 ```
 
-```vb
-' Show focus rectangle (default)
-checkBoxAdv1.DrawFocusRectangle = True
-
-' Hide focus rectangle
-checkBoxAdv1.DrawFocusRectangle = False
-```
-
 ### When to Use
 
 **Enable focus rectangle (true) when:**
@@ -66,13 +58,6 @@ checkBoxAdv1.AutoHeight = true;
 checkBoxAdv1.Text = "Auto-sized checkbox";
 checkBoxAdv1.Font = new Font("Arial", 12);
 // Height will be calculated automatically
-```
-
-```vb
-' Enable automatic height calculation
-checkBoxAdv1.AutoHeight = True
-checkBoxAdv1.Text = "Auto-sized checkbox"
-checkBoxAdv1.Font = New Font("Arial", 12)
 ```
 
 ### When to Use AutoHeight
@@ -120,13 +105,7 @@ checkBoxAdv1.Checked = true;
 checkBoxAdv1.ReadOnlyMode = True
 checkBoxAdv1.Checked = True
 ```
-
-### ReadOnlyMode vs Enabled
-
-| Property | User Interaction | Visual Appearance | Programmatic Changes |
-|----------|------------------|-------------------|---------------------|
-| ReadOnlyMode = true | Disabled | Normal colors | Allowed |
-| Enabled = false | Disabled | Grayed out | Allowed |
+nabled = false | Disabled | Grayed out | Allowed |
 
 ### Use Cases for ReadOnlyMode
 
@@ -187,14 +166,7 @@ checkBoxAdv1.GradientEnd = Color.DarkBlue
 
 **Horizontal Gradient:**
 - Start color on the left
-- End color on the right
-- Good for wide controls
-
-**Vertical Gradient:**
-- Start color on top
-- End color on bottom
-- Good for tall controls
-
+- E
 ### Complete Gradient Example
 
 ```csharp
@@ -223,27 +195,7 @@ checkBoxAdv1.GradientEnd = Color.SteelBlue;
 
 // Green theme gradient
 checkBoxAdv1.GradientStart = Color.LightGreen;
-checkBoxAdv1.GradientEnd = Color.DarkGreen;
-
-// Warning theme gradient
-checkBoxAdv1.GradientStart = Color.LightYellow;
-checkBoxAdv1.GradientEnd = Color.Orange;
-```
-
-### Important Notes
-
-- Gradient backgrounds are not visible when `BackgroundStyle = Default`
-- Background images are not compatible with gradient settings
-- BackColor property is ignored when gradients are active
-
-## Border Styles
-
-The CheckBoxAdv supports both 2D and 3D border styles.
-
-### BorderStyle Property
-
-```csharp
-// No border
+checo border
 checkBoxAdv1.BorderStyle = BorderStyle.None;
 
 // Single-line border (2D)
@@ -313,31 +265,14 @@ raisedBorder.Text = "Raised 3D";
 raisedBorder.BorderStyle = BorderStyle.Fixed3D;
 raisedBorder.Border3DStyle = Border3DStyle.Raised;
 
-// Example 4: Etched border
-CheckBoxAdv etchedBorder = new CheckBoxAdv();
-etchedBorder.Text = "Etched Border";
-etchedBorder.BorderStyle = BorderStyle.Fixed3D;
-etchedBorder.Border3DStyle = Border3DStyle.Etched;
-```
-
-## Border Colors
-
-Customize border colors for both normal and hover states.
-
-### BorderColor Property
-
-For `BorderStyle.FixedSingle`, set the border color:
-
-```csharp
+// Solid 2D border
 checkBoxAdv1.BorderStyle = BorderStyle.FixedSingle;
-checkBoxAdv1.BorderColor = Color.Red;
-```
+checkBoxAdv1.BorderSingle = ButtonBorderStyle.Solid;
+checkBoxAdv1.BorderColor = Color.Black;
 
-```vb
-checkBoxAdv1.BorderStyle = BorderStyle.FixedSingle
-checkBoxAdv1.BorderColor = Color.Red
-```
-
+// Raised 3D border
+checkBoxAdv2.BorderStyle = BorderStyle.Fixed3D;
+checkBoxAdv2.Border3DStyle = Border3DStyle.Rais
 ### HotBorderColor Property
 
 Change border color when mouse hovers over the control:
@@ -358,12 +293,7 @@ checkBoxAdv1.HotBorderColor = Color.Blue
 ### Important Note
 
 The `HotBorderColor` property only works when `BorderStyle = FixedSingle`. It has no effect with `Fixed3D` or `None` border styles.
-
-### Hover Effect Example
-
-```csharp
-CheckBoxAdv hoverCheckBox = new CheckBoxAdv();
-hoverCheckBox.Text = "Hover Effect";
+erCheckBox.Text = "Hover Effect";
 hoverCheckBox.Size = new Size(200, 30);
 
 // Configure hover effect
@@ -372,13 +302,7 @@ hoverCheckBox.BorderSingle = ButtonBorderStyle.Solid;
 hoverCheckBox.BorderColor = Color.LightGray;
 hoverCheckBox.HotBorderColor = Color.DarkBlue;
 
-this.Controls.Add(hoverCheckBox);
-```
-
-## Common Patterns
-
-### Pattern 1: Status Display Checkbox
-
+thi
 ```csharp
 CheckBoxAdv CreateStatusCheckBox(string label, bool isActive)
 {
@@ -477,27 +401,5 @@ void ConfigureCheckBoxPermissions(CheckBoxAdv checkBox, UserRole role)
         checkBox.BorderStyle = BorderStyle.FixedSingle;
         checkBox.BorderColor = Color.Orange;
     }
-}
-```
-
-### Pattern 5: Responsive DPI-Aware Checkbox
-
-```csharp
-CheckBoxAdv CreateDpiAwareCheckBox()
-{
-    CheckBoxAdv dpiCheckBox = new CheckBoxAdv();
-    dpiCheckBox.AutoHeight = true;
-    dpiCheckBox.Width = 200;
-    
-    // Font size adjusts based on DPI
-    float currentDpi = this.DeviceDpi;
-    float baseDpi = 96.0f;
-    float scaleFactor = currentDpi / baseDpi;
-    
-    int fontSize = (int)(9 * scaleFactor);
-    dpiCheckBox.Font = new Font("Segoe UI", fontSize);
-    
-    // Height automatically adjusts via AutoHeight
-    return dpiCheckBox;
 }
 ```

@@ -284,13 +284,6 @@ SkinManager.SetVisualStyle(this.autoLabel1, VisualTheme.Office2016Colorful);
 - [Knowledge Base Articles](https://www.syncfusion.com/kb/windowsforms/autolabel)
 - [GitHub Samples](https://github.com/syncfusion/winforms-demos)
 
-## Related Controls
-
-- **Label**: Standard Windows Forms label (no auto-positioning)
-- **FlowLayoutPanel**: Container for dynamic layouts
-- **TextBoxExt**: Enhanced textbox often used with AutoLabel
-- **AutoSizeForm**: Form with automatic sizing capabilities
-
 ## Troubleshooting
 
 **Issue**: Label doesn't move with control

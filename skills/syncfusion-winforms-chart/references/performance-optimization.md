@@ -16,7 +16,7 @@ for (int i = 0; i < 10000; i++)
 ChartDataBindModel model = new ChartDataBindModel(dataTable);
 model.XName = "X";
 model.YNames = new string[] { "Y" };
-series.SeriesModelImpl = model;
+series.SeriesModel = model;
 ```
 
 ### Custom Data Models
@@ -60,10 +60,10 @@ chartControl1.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
 ### Reduce Visual Effects
 ```csharp
 // Disable shadows
-chartControl1.Shadows = false;
+chartControl1.ChartAreaShadow = false;
 
 // Disable gradients
-chartControl1.UseGradientPalette = false;
+chartControl1.AllowGradientPalette = false;
 series.Style.Interior = new BrushInfo(Color.Blue);  // Solid colors only
 ```
 
@@ -77,16 +77,16 @@ GC.Collect();  // Force garbage collection if needed
 
 ### Limit Point Count
 ```csharp
-// Keep only recent data
+// Limit Point Count
 if (series.Points.Count > 1000)
 {
-    series.Points.RemoveRange(0, 100);  // Remove oldest 100 points
+    series.Points.RemoveAt(100);
 }
 ```
 
 ### Dispose Resources
 ```csharp
-if (series.SeriesModelImpl is IDisposable disposable)
+if (series.SeriesModel is IDisposable disposable)
 {
     disposable.Dispose();
 }

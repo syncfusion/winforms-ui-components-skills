@@ -336,82 +336,34 @@ Configuration for Microsoft Outlook-style navigation:
 ```csharp
 public void ConfigureOutlookStyle()
 {
-    // Create GroupBar with Outlook appearance
     this.groupBar1 = new GroupBar();
-    this.groupBar1.VisualStyle = VisualStyle.Office2007Blue; // If available
+    this.groupBar1.VisualStyle = VisualStyle.Office2007Blue;
     
-    // Create navigation groups
-    CreateOutlookMailGroup();
-    CreateOutlookCalendarGroup();
-    CreateOutlookContactsGroup();
-    CreateOutlookTasksGroup();
-}
-
-private void CreateOutlookMailGroup()
-{
-    GroupBarItem mailGroup = new GroupBarItem();
-    mailGroup.Text = "Mail";
-    
-    GroupView groupView = new GroupView();
-    groupView.Dock = DockStyle.Fill;
-    groupView.FlatLook = false; // 3D look for Outlook style
-    groupView.BorderStyle = BorderStyle.None;
-    
-    // Large icons without text
-    groupView.FlowView = true;
-    groupView.ShowFlowViewItemText = true;
-    groupView.FlowViewItemTextLength = 15;
-    groupView.SmallImageView = false; // Use large images
-    groupView.Orientation = GroupViewOrientation.Vertical;
-    
-    // Add folders
-    groupView.GroupViewItems.AddRange(new GroupViewItem[] {
+    // Create Mail group
+    GroupBarItem mailGroup = new GroupBarItem { Text = "Mail" };
+    GroupView mailView = new GroupView
+    {
+        Dock = DockStyle.Fill,
+        FlatLook = false,
+        FlowView = true,
+        SmallImageView = false
+    };
+    mailView.GroupViewItems.AddRange(new GroupViewItem[] {
         new GroupViewItem("Inbox", 0, true, "View inbox", "inbox"),
-        new GroupViewItem("Sent Items", 1, true, "View sent items", "sent"),
-        new GroupViewItem("Drafts", 2, true, "View drafts", "drafts"),
-        new GroupViewItem("Deleted", 3, true, "View deleted items", "deleted")
+        new GroupViewItem("Sent Items", 1, true, "View sent", "sent"),
+        new GroupViewItem("Drafts", 2, true, "View drafts", "drafts")
     });
-    
-    mailGroup.Client = groupView;
+    mailGroup.Client = mailView;
     this.groupBar1.GroupBarItems.Add(mailGroup);
-}
-
-private void CreateOutlookCalendarGroup()
-{
-    GroupBarItem calendarGroup = new GroupBarItem();
-    calendarGroup.Text = "Calendar";
     
-    GroupView groupView = new GroupView();
-    groupView.Dock = DockStyle.Fill;
-    groupView.FlatLook = false;
-    groupView.BorderStyle = BorderStyle.None;
-    
-    groupView.GroupViewItems.AddRange(new GroupViewItem[] {
-        new GroupViewItem("Today", 0, true, "View today's events", "today"),
-        new GroupViewItem("Week", 1, true, "View week", "week"),
-        new GroupViewItem("Month", 2, true, "View month", "month")
+    // Create Calendar group
+    GroupBarItem calendarGroup = new GroupBarItem { Text = "Calendar" };
+    GroupView calendarView = new GroupView { Dock = DockStyle.Fill };
+    calendarView.GroupViewItems.AddRange(new GroupViewItem[] {
+        new GroupViewItem("Today", 0), new GroupViewItem("Week", 1)
     });
-    
-    calendarGroup.Client = groupView;
+    calendarGroup.Client = calendarView;
     this.groupBar1.GroupBarItems.Add(calendarGroup);
-}
-
-private void CreateOutlookContactsGroup()
-{
-    // Similar implementation for Contacts
-    GroupBarItem contactsGroup = new GroupBarItem();
-    contactsGroup.Text = "Contacts";
-    // ... configure GroupView ...
-    this.groupBar1.GroupBarItems.Add(contactsGroup);
-}
-
-private void CreateOutlookTasksGroup()
-{
-    // Similar implementation for Tasks
-    GroupBarItem tasksGroup = new GroupBarItem();
-    tasksGroup.Text = "Tasks";
-    // ... configure GroupView ...
-    this.groupBar1.GroupBarItems.Add(tasksGroup);
 }
 ```
 

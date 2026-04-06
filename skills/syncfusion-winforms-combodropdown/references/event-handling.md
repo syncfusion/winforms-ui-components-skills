@@ -397,42 +397,31 @@ public class CategorySelectorForm : Form
 
 ## GridList Integration
 
-For multi-column data selection with GridListControl:
+For multi-column data selection using a grid-like control, use grid APIs to read the active cell or row rather than list-style `SelectedItem`/`SelectedIndex` properties. Grid controls expose a model and a current cell; read the model value for the desired column.
 
 ```csharp
-using Syncfusion.Windows.Forms.Tools;
+// Example: use the current cell to read display text from the model (assumes first data column at index 1)
+GridListControl gridList = new GridListControl();
+gridList.Size = new Size(300, 200);
 
-private void SetupGridListCombo()
-{
-    // Create GridListControl
-    GridListControl gridList = new GridListControl();
-    gridList.Size = new Size(300, 200);
-    
-    // Configure grid (columns, data, etc.)
-    // ... grid setup code ...
-    
-    // Associate with ComboDropDown
-    comboDropDown1.PopupControl = gridList;
-    
-    // Sync selection to text
-    gridList.SelectedIndexChanged += (s, e) => {
-        if (gridList.SelectedIndex >= 0)
-        {
-            // Assuming first column contains display text
-            comboDropDown1.Text = gridList.SelectedItem.ToString();
-        }
-    };
-    
-    // Close on Enter key or double-click
-    gridList.DoubleClick += (s, e) => {
+// ... configure grid columns and data ...
+
+comboDropDown1.PopupControl = gridList;
+
+// Use DoubleClick (or a current-cell event) to transfer the active cell value into the combo text
+gridList.DoubleClick += (s, e) => {
+    var cell = gridList.CurrentCell;
+    if (cell != null)
+    {
+        int row = cell.RowIndex;
+        // Read text from the model for row and column (adjust column index as needed)
+        comboDropDown1.Text = gridList.Model[row, 1].Text;
         comboDropDown1.PopupContainer.HidePopup(PopupCloseType.Done);
-    };
-}
+    }
+};
 ```
 
-**Sample Location:**  
-A complete GridList integration sample is available at:  
-`...\Syncfusion\EssentialStudio\[Version]\Windows\Tools.Windows\Samples\Advanced Editor Functions\ActionGroupingDemo`
+**Note:** GridListControl does not expose `SelectedItem` or `SelectedIndex` like ListBox. Use `CurrentCell` and the grid's model (`gridList.Model[row, col].Text`) to obtain cell values. See the Syncfusion Essential Grid documentation or online sample gallery for advanced integration examples.
 
 ## Suppressing Events
 

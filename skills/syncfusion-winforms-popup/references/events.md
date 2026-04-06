@@ -64,103 +64,30 @@ public event CancelEventHandler BeforePopup;
 4. Adjusting popup size based on content
 5. Canceling popup display based on conditions
 
-### Example 1: Resizable Popup
-
-Make the popup resizable by changing the border style:
+### Example: Resizable and Transparent Popup
 
 ```csharp
 private void PopupControlContainer1_BeforePopup(object sender, CancelEventArgs e)
 {
-    // Make the popup host's border style resizable
+    // Make resizable
     this.popupControlContainer1.PopupHost.FormBorderStyle = FormBorderStyle.SizableToolWindow;
     this.popupControlContainer1.PopupHost.BackColor = this.BackColor;
     
     // Set minimum size
     if (this.popupControlContainer1.PopupHost.Size.Width < 160)
-    {
         this.popupControlContainer1.PopupHost.Size = new Size(160, 176);
-    }
     
-    // Fill the popup host when resized
     this.popupControlContainer1.Dock = DockStyle.Fill;
-}
-```
-
-**VB.NET:**
-```vb
-Private Sub PopupControlContainer1_BeforePopup(sender As Object, e As CancelEventArgs)
-    ' Make the popup host's border style resizable
-    Me.popupControlContainer1.PopupHost.FormBorderStyle = FormBorderStyle.SizableToolWindow
-    Me.popupControlContainer1.PopupHost.BackColor = Me.BackColor
     
-    ' Set minimum size
-    If Me.popupControlContainer1.PopupHost.Size.Width < 160 Then
-        Me.popupControlContainer1.PopupHost.Size = New Size(160, 176)
-    End If
-    
-    ' Fill the popup host when resized
-    Me.popupControlContainer1.Dock = DockStyle.Fill
-End Sub
-```
-
-### Example 2: Transparent Popup
-
-Set popup opacity for transparency effect:
-
-```csharp
-private void PopupControlContainer1_BeforePopup(object sender, CancelEventArgs e)
-{
     // Set opacity for transparency (0.0 = fully transparent, 1.0 = fully opaque)
     this.popupControlContainer1.PopupHost.Opacity = 0.75;
-}
-```
-
-**VB.NET:**
-```vb
-Private Sub PopupControlContainer1_BeforePopup(sender As Object, e As CancelEventArgs)
-    ' Set opacity for transparency
-    Me.popupControlContainer1.PopupHost.Opacity = 0.75
-End Sub
-```
-
-### Example 3: Conditional Display
-
-Cancel popup display based on a condition:
-
-```csharp
-private void PopupControlContainer1_BeforePopup(object sender, CancelEventArgs e)
-{
-    // Don't show popup if form is in read-only mode
+    
+    // Cancel if condition not met
     if (this.IsReadOnly)
     {
         e.Cancel = true;
         MessageBox.Show("Cannot show popup in read-only mode.");
     }
-}
-```
-
-### Example 4: Dynamic Sizing
-
-Adjust popup size based on content:
-
-```csharp
-private void PopupControlContainer1_BeforePopup(object sender, CancelEventArgs e)
-{
-    // Calculate required size based on child controls
-    int maxWidth = 0;
-    int totalHeight = 0;
-    
-    foreach (Control ctrl in this.popupControlContainer1.Controls)
-    {
-        if (ctrl.Right > maxWidth)
-            maxWidth = ctrl.Right;
-        if (ctrl.Bottom > totalHeight)
-            totalHeight = ctrl.Bottom;
-    }
-    
-    // Add padding
-    this.popupControlContainer1.PopupHost.ClientSize = 
-        new Size(maxWidth + 20, totalHeight + 20);
 }
 ```
 
@@ -184,56 +111,21 @@ public event EventHandler Popup;
 3. Initializing popup state after display
 4. Starting animations or timers
 
-### Example 1: Mnemonic Support
-
-Controls within PopupControlContainer don't respond to mnemonics (access keys like Alt+K) by default because the main form regains focus immediately. Fix this by setting focus back to the popup:
+### Example: Focus and Initialize Popup
 
 ```csharp
 private void PopupControlContainer1_Popup(object sender, EventArgs e)
 {
-    // Set focus to popup for mnemonic support
+    // Set focus to popup for mnemonic support (Alt+O, Alt+C work on buttons)
     this.popupControlContainer1.Focus();
-}
-```
-
-**VB.NET:**
-```vb
-Private Sub PopupControlContainer1_Popup(sender As Object, e As EventArgs)
-    ' Set focus to popup for mnemonic support
-    Me.popupControlContainer1.Focus()
-End Sub
-```
-
-Now access keys like Alt+O, Alt+C will work on buttons within the popup:
-```csharp
-this.okButton.Text = "&OK";     // Alt+O
-this.cancelButton.Text = "&Cancel"; // Alt+C
-```
-
-### Example 2: Set Focus to Specific Control
-
-```csharp
-private void PopupControlContainer1_Popup(object sender, EventArgs e)
-{
-    // Focus the first textbox in the popup
+    
+    // Focus the first textbox and select content
     this.popupTextBox.Focus();
     this.popupTextBox.SelectAll();
-}
-```
-
-### Example 3: Initialize Popup State
-
-```csharp
-private void PopupControlContainer1_Popup(object sender, EventArgs e)
-{
-    // Set current date in date picker
+    
+    // Initialize state
     this.dateTimePicker1.Value = DateTime.Now;
-    
-    // Clear previous selections
     this.checkedListBox1.ClearSelected();
-    
-    // Focus first control
-    this.popupControlContainer1.Controls[0].Focus();
 }
 ```
 
@@ -259,141 +151,44 @@ public event PopupClosedEventHandler CloseUp;
 4. Handling different close scenarios
 5. Updating UI based on popup results
 
-### Example 1: Basic Data Transfer
+### Example 1: Handle Close Types with Validation
 
 ```csharp
-private void PopupControlContainer1_CloseUp(object sender, PopupClosedEventArgs e)
-{
-    if (e.PopupCloseType == PopupCloseType.Done)
-    {
-        // Apply changes
-        this.richTextBox1.Text = this.popupTextBox.Text;
-    }
-    
-    // Restore focus
-    if (e.PopupCloseType == PopupCloseType.Done || 
-        e.PopupCloseType == PopupCloseType.Canceled)
-    {
-        this.richTextBox1.Focus();
-    }
-}
-```
+private string originalValue;
 
-**VB.NET:**
-```vb
-Private Sub PopupControlContainer1_CloseUp(sender As Object, e As PopupClosedEventArgs)
-    If e.PopupCloseType = PopupCloseType.Done Then
-        ' Apply changes
-        Me.richTextBox1.Text = Me.popupTextBox.Text
-    End If
-    
-    ' Restore focus
-    If e.PopupCloseType = PopupCloseType.Done OrElse 
-       e.PopupCloseType = PopupCloseType.Canceled Then
-        Me.richTextBox1.Focus()
-    End If
-End Sub
-```
-
-### Example 2: Handle All Close Types
-
-```csharp
 private void PopupControlContainer1_CloseUp(object sender, PopupClosedEventArgs e)
 {
     switch (e.PopupCloseType)
     {
         case PopupCloseType.Done:
-            // User clicked OK or confirmed changes
-            ApplyChanges();
-            this.statusLabel.Text = "Changes applied";
-            this.statusLabel.ForeColor = Color.Green;
+            // Validate and apply changes
+            if (!string.IsNullOrWhiteSpace(this.popupTextBox.Text))
+            {
+                this.displayTextBox.Text = this.popupTextBox.Text;
+                this.statusLabel.Text = "Changes applied";
+            }
             break;
             
         case PopupCloseType.Canceled:
-            // User clicked Cancel or Escape
-            DiscardChanges();
+            // Revert to original
+            this.popupTextBox.Text = originalValue;
             this.statusLabel.Text = "Changes canceled";
-            this.statusLabel.ForeColor = Color.Orange;
             break;
             
         case PopupCloseType.Deactivated:
-            // Popup closed due to focus loss
-            SaveDraft();
+            // Auto-save draft
+            Settings.Default.DraftText = this.popupTextBox.Text;
             this.statusLabel.Text = "Draft saved";
-            this.statusLabel.ForeColor = Color.Blue;
             break;
     }
     
-    // Always restore focus
     this.parentControl.Focus();
-}
-
-private void ApplyChanges()
-{
-    this.textBox1.Text = this.popupTextBox.Text;
-    this.colorBox.BackColor = this.popupColorPicker.SelectedColor;
-}
-
-private void DiscardChanges()
-{
-    // Reset popup to original values
-    this.popupTextBox.Text = this.textBox1.Text;
-}
-
-private void SaveDraft()
-{
-    // Save to temporary storage
-    Settings.Default.DraftText = this.popupTextBox.Text;
-    Settings.Default.Save();
-}
-```
-
-### Example 3: Validation on Close
-
-```csharp
-private string originalValue;
-
-private void ParentControl_Click(object sender, EventArgs e)
-{
-    // Store original value before showing popup
-    originalValue = this.displayTextBox.Text;
-    this.popupControlContainer1.ShowPopup(Point.Empty);
-}
-
-private void PopupControlContainer1_CloseUp(object sender, PopupClosedEventArgs e)
-{
-    if (e.PopupCloseType == PopupCloseType.Done)
-    {
-        // Validate before applying
-        if (ValidateInput(this.popupTextBox.Text))
-        {
-            this.displayTextBox.Text = this.popupTextBox.Text;
-            this.displayTextBox.BackColor = Color.White;
-        }
-        else
-        {
-            // Revert to original
-            this.displayTextBox.Text = originalValue;
-            this.displayTextBox.BackColor = Color.LightPink;
-            MessageBox.Show("Invalid input. Changes not applied.");
-        }
-    }
-    else
-    {
-        // Canceled - revert to original
-        this.popupTextBox.Text = originalValue;
-    }
-}
-
-private bool ValidateInput(string value)
-{
-    return !string.IsNullOrWhiteSpace(value) && value.Length <= 50;
 }
 ```
 
 ## Complete Examples
 
-### Example 1: Full Event Lifecycle
+### Example: Full Event Lifecycle
 
 ```csharp
 using System;

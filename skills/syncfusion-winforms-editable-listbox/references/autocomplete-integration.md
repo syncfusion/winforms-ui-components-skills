@@ -30,12 +30,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 ```
 
-```vbnet
-Imports Syncfusion.Windows.Forms.Tools
-Imports System.Collections.Generic
-Imports System.Windows.Forms
-```
-
 ## Basic AutoComplete Setup
 
 ### Step 1: Create AutoComplete Instance
@@ -77,20 +71,6 @@ private void Form1_Load(object sender, EventArgs e)
 }
 ```
 
-**VB.NET:**
-```vbnet
-Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-    ' Set AutoComplete data source
-    autoComplete1.DataSource = editableList1.ListBox.Items
-    
-    ' Associate AutoComplete with EditableList's TextBox
-    autoComplete1.SetAutoComplete(
-        editableList1.TextBox,
-        AutoCompleteModes.Both
-    )
-End Sub
-```
-
 ### Why Form_Load?
 
 AutoComplete must be set up after:
@@ -116,34 +96,15 @@ The `AutoCompleteModes` parameter determines how suggestions are displayed.
 
 ### Mode Examples
 
-**Suggest Mode (Dropdown Only):**
 ```csharp
-autoComplete1.SetAutoComplete(
-    editableList1.TextBox,
-    AutoCompleteModes.Suggest
-);
-// User types "ap" → Dropdown shows "Apple", "Apricot"
-// No automatic text completion
-```
+// Suggest Mode (Dropdown Only)
+autoComplete1.SetAutoComplete(editableList1.TextBox, AutoCompleteModes.Suggest);
 
-**Append Mode (Inline Only):**
-```csharp
-autoComplete1.SetAutoComplete(
-    editableList1.TextBox,
-    AutoCompleteModes.Append
-);
-// User types "ap" → TextBox shows "ap|ple" (selected portion)
-// No dropdown list
-```
+// Append Mode (Inline Only)
+autoComplete1.SetAutoComplete(editableList1.TextBox, AutoCompleteModes.Append);
 
-**Both Mode (Recommended):**
-```csharp
-autoComplete1.SetAutoComplete(
-    editableList1.TextBox,
-    AutoCompleteModes.Both
-);
-// User types "ap" → TextBox shows "ap|ple" AND dropdown shows all matches
-// Best of both worlds
+// Both Mode (Recommended)
+autoComplete1.SetAutoComplete(editableList1.TextBox, AutoCompleteModes.Both);
 ```
 
 ## Data Source Configuration
@@ -186,18 +147,6 @@ private void SetupCustomSuggestions()
         AutoCompleteModes.Both
     );
 }
-```
-
-### Using Array
-
-```csharp
-string[] suggestions = new string[] {
-    "Red", "Green", "Blue", "Yellow", "Orange",
-    "Purple", "Pink", "Brown", "Black", "White"
-};
-
-autoComplete1.DataSource = suggestions;
-autoComplete1.SetAutoComplete(editableList1.TextBox, AutoCompleteModes.Both);
 ```
 
 ### Using Database Results
@@ -349,104 +298,9 @@ public partial class AutoCompleteListForm : Form
 }
 ```
 
-**VB.NET Version:**
-
-```vbnet
-Imports System.Collections.Generic
-Imports System.Drawing
-Imports System.Windows.Forms
-Imports Syncfusion.Windows.Forms.Tools
-
-Public Class AutoCompleteListForm
-    Private editableList1 As EditableList
-    Private autoComplete1 As AutoComplete
-    Private productList As List(Of String)
-    
-    Public Sub New()
-        InitializeComponent()
-        InitializeControls()
-    End Sub
-    
-    Private Sub InitializeControls()
-        ' Setup form
-        Me.Text = "EditableList with AutoComplete"
-        Me.Size = New Size(450, 400)
-        
-        ' Create EditableList
-        Me.editableList1 = New EditableList()
-        Me.editableList1.Location = New Point(20, 20)
-        Me.editableList1.Size = New Size(350, 300)
-        Me.editableList1.AutoScroll = True
-        Me.Controls.Add(Me.editableList1)
-        
-        ' Create AutoComplete
-        Me.autoComplete1 = New AutoComplete()
-        
-        ' Initialize product list
-        productList = New List(Of String) From {
-            "Laptop", "Desktop", "Tablet", "Smartphone",
-            "Mouse", "Keyboard", "Monitor", "Printer",
-            "Scanner", "Webcam", "Headset", "Speaker",
-            "Router", "Switch", "Cable", "Adapter"
-        }
-        
-        ' Populate EditableList
-        For Each product As String In productList
-            Me.editableList1.ListBox.Items.Add(product)
-        Next
-    End Sub
-    
-    Private Sub AutoCompleteListForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Configure AutoComplete
-        ConfigureAutoComplete()
-    End Sub
-    
-    Private Sub ConfigureAutoComplete()
-        ' Set data source
-        autoComplete1.DataSource = productList
-        
-        ' Associate with EditableList TextBox
-        autoComplete1.SetAutoComplete(
-            editableList1.TextBox,
-            AutoCompleteModes.Both
-        )
-        
-        ' Optional: Configure AutoComplete appearance
-        autoComplete1.Style = AutoCompleteStyle.Default
-    End Sub
-End Class
-```
-
 ## Advanced Scenarios
 
-### Scenario 1: Email Address Autocomplete
-
-```csharp
-private void SetupEmailAutoComplete()
-{
-    List<string> emailDomains = new List<string>
-    {
-        "@gmail.com", "@yahoo.com", "@outlook.com",
-        "@hotmail.com", "@company.com"
-    };
-    
-    // Note: This would need custom implementation
-    // Standard AutoComplete works with full strings
-    // For domain-only completion, consider custom logic
-}
-```
-
-### Scenario 2: Case-Insensitive Matching
-
-AutoComplete is case-insensitive by default:
-
-```csharp
-// User types "lap" matches "Laptop"
-// User types "LAP" also matches "Laptop"
-// User types "Lap" also matches "Laptop"
-```
-
-### Scenario 3: Filtering Based on Context
+### Filtering Based on Context
 
 ```csharp
 private void FilterSuggestionsByCategory()
@@ -475,7 +329,7 @@ private void FilterSuggestionsByCategory()
 }
 ```
 
-### Scenario 4: Combine List Items + Additional Suggestions
+### Combine List Items + Additional Suggestions
 
 ```csharp
 private void SetupCombinedSuggestions()
@@ -511,77 +365,13 @@ private void SetupCombinedSuggestions()
 
 ## AutoComplete Configuration Options
 
-### Visual Styling
-
 ```csharp
-// Set AutoComplete style
+// Visual styling
 autoComplete1.Style = Syncfusion.Windows.Forms.Tools.AutoCompleteStyle.Default;
-// Options: Default, Office2016, Metro
-
-// Set theme colors (for Office2016 style)
 autoComplete1.Office2016ColorScheme = Syncfusion.Windows.Forms.Tools.Office2016Theme.Colorful;
-```
 
-### Behavior Settings
-
-```csharp
-// Configure behavior
+// Behavior settings
 autoComplete1.AutoSortList = true;  // Sort suggestions alphabetically
-```
-
-## Testing AutoComplete
-
-### Test Checklist
-
-1. **Type partial text** → Verify dropdown appears with matches
-2. **Type exact match** → Verify inline completion works
-3. **Arrow keys** → Navigate dropdown suggestions
-4. **Enter/Tab** → Accept selected suggestion
-5. **Escape** → Close dropdown without accepting
-6. **Delete text** → Suggestions update dynamically
-7. **No matches** → Dropdown doesn't appear
-
-### Test Code
-
-```csharp
-private void TestAutoComplete()
-{
-    // Verify AutoComplete is set up
-    if (autoComplete1.DataSource == null)
-    {
-        MessageBox.Show("AutoComplete data source not set!");
-        return;
-    }
-    
-    // Test by programmatically setting text
-    editableList1.TextBox.Text = "La";
-    // Should show suggestions starting with "La"
-}
-```
-
-## Common Scenarios
-
-### Scenario: Tag Entry with Suggestions
-
-```csharp
-// Tags users can choose from or create new ones
-List<string> commonTags = new List<string>
-{
-    "Important", "Urgent", "Review", "Follow-up",
-    "Completed", "In Progress", "Blocked", "On Hold"
-};
-
-autoComplete1.DataSource = commonTags;
-autoComplete1.SetAutoComplete(editableList1.TextBox, AutoCompleteModes.Both);
-```
-
-### Scenario: Product Code Entry
-
-```csharp
-// Suggest product codes as user types
-List<string> productCodes = LoadProductCodesFromDatabase();
-autoComplete1.DataSource = productCodes;
-autoComplete1.SetAutoComplete(editableList1.TextBox, AutoCompleteModes.Suggest);
 ```
 
 ## Troubleshooting

@@ -466,31 +466,13 @@ contextMenu.Items.AddRange(new ToolStripItem[] { boldItem, italicItem, underline
 ## Best Practices
 
 1. **Always set ShowCheckMargin:** Check marks won't display without this
-2. **Use CheckOnClick for simple toggles:** Reduces boilerplate code
-3. **Update states in Opening event:** Ensure states reflect current application state
-4. **Provide visual feedback:** Use Enabled to show unavailable actions
-5. **Consider indeterminate for hierarchies:** Shows partial selection in parent items
-6. **Be consistent:** Use checks for toggles, enabled/disabled for availability
-7. **Combine states wisely:** Can have checked but disabled items for read-only states
+2. **Use CheckOnClick:** Reduces boilerplate code for simple toggles
+3. **Update in Opening event:** Ensure states reflect current application state
+4. **Be consistent:** Use checks for toggles, enabled/disabled for availability
 
 ## Troubleshooting
 
-**Check marks not appearing:**
-- Verify `ShowCheckMargin = true` on ContextMenuStripEx
-- Ensure item is a MenuItem (not TextBox or ComboBox)
-- Check that `Checked = true` is set
-
-**State not toggling:**
-- If using manual toggle, verify Click event handler toggles state
-- If using CheckOnClick, ensure property is set to true
-- Check that item is Enabled
-
-**Disabled items still clickable:**
-- Verify `Enabled = false` is set correctly
-- Check no event handlers are overriding behavior
-- Ensure code isn't re-enabling items unexpectedly
-
-**Indeterminate state not showing:**
-- Set `CheckState = CheckState.Indeterminate` (not just `Checked = true/false`)
-- Verify ShowCheckMargin is true
-- Some visual themes may not clearly distinguish indeterminate
+**Check marks not appearing:** Verify ShowCheckMargin = true and item is MenuItem  
+**State not toggling:** Check Click event toggles state or CheckOnClick = true  
+**Disabled items clickable:** Verify Enabled = false is set correctly  
+**Indeterminate not showing:** Set CheckState = CheckState.Indeterminate explicitly

@@ -42,7 +42,7 @@ For time-series data.
 ```csharp
 chartControl1.PrimaryXAxis.ValueType = ChartValueType.DateTime;
 chartControl1.PrimaryXAxis.DateTimeFormat = "MMM dd";
-chartControl1.PrimaryXAxis.DateTimeRange = ChartDateTimeRange.Months;
+chartControl1.PrimaryXAxis.DateTimeInterval = ChartDateTimeIntervalType.Months;
 
 // Add points with DateTime
 series.Points.Add(new DateTime(2024, 1, 1), 50);
@@ -65,7 +65,7 @@ For exponential data scales.
 
 ```csharp
 chartControl1.PrimaryYAxis.ValueType = ChartValueType.Logarithmic;
-chartControl1.PrimaryYAxis.LogarithmBase = 10;  // Log base
+chartControl1.PrimaryYAxis.LogBase = 10;  // Log base
 ```
 
 ### Custom
@@ -90,10 +90,10 @@ Explicit min/max values.
 
 ```csharp
 yAxis.RangeType = ChartAxisRangeType.Set;
-yAxis.Range = new MinMaxInfo(0, 100);  // Min=0, Max=100
+yAxis.Range = new Range(0, 100);  // Min=0, Max=100
 
 // Alternative
-yAxis.ValueRange = new MinMaxInfo(0, 100);
+yAxis.ValueRange = new Range(0, 100);
 ```
 
 ### Intervals
@@ -107,7 +107,7 @@ yAxis.RangeType = ChartAxisRangeType.Auto;
 yAxis.Interval = 10;  // Label every 10 units
 
 // DateTime intervals
-xAxis.DateTimeInterval = ChartDateTimeInterval.Days;
+xAxis.DateTimeInterval = ChartDateTimeIntervalType.Days;
 xAxis.DateTimeIntervalValue = 7;  // Every 7 days
 ```
 
@@ -202,13 +202,13 @@ temperatureSeries.YAxis = secondaryY;
 ```csharp
 // Primary Y axis for sales
 chartControl1.PrimaryYAxis.Title = "Sales";
-chartControl1.PrimaryYAxis.Range = new MinMaxInfo(0, 1000);
+chartControl1.PrimaryYAxis.Range = new Range(0, 1000);
 
 // Secondary Y axis for temperature
 ChartAxis tempAxis = new ChartAxis();
 tempAxis.OpposedPosition = true;
 tempAxis.Title = "Temperature";
-tempAxis.Range = new MinMaxInfo(0, 50);
+tempAxis.Range = new Range(0, 50);
 chartControl1.Axes.Add(tempAxis);
 
 // Bind series
@@ -275,7 +275,6 @@ yAxis.IsInversed = true;  // High values at bottom
 ### Multiple X/Y Axes
 ```csharp
 ChartAxis additionalYAxis = new ChartAxis();
-additionalYAxis.Name = "Axis2";
 chartControl1.Axes.Add(additionalYAxis);
 
 // Bind series
@@ -287,7 +286,7 @@ series.YAxis = additionalYAxis;
 ### Percentage Axis
 ```csharp
 yAxis.LabelNumberFormat = "P0";  // Percentage format
-yAxis.Range = new MinMaxInfo(0, 1);  // 0-100%
+yAxis.Range = new Range(0, 1);  // 0-100%
 ```
 
 ### Currency Axis
@@ -300,6 +299,6 @@ yAxis.LabelPrefix = "$";
 ```csharp
 xAxis.ValueType = ChartValueType.DateTime;
 xAxis.DateTimeFormat = "MMM yyyy";
-xAxis.DateTimeRange = ChartDateTimeRange.Months;
+xAxis.DateTimeInterval = ChartDateTimeIntervalType.Months;
 xAxis.LabelRotateAngle = 45;
 ```

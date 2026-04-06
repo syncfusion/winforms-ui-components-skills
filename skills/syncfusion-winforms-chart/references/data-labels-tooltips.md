@@ -30,7 +30,9 @@ series.Style.TextOrientation = ChartTextOrientation.Up;
 
 ### Label Appearance
 ```csharp
-series.Style.Font = new Font("Arial", 9, FontStyle.Bold);
+series.Style.Font.Bold = true;
+series.Style.Font.Facename = "Arial";
+series.Style.Font.Size = 9;
 series.Style.TextColor = Color.White;
 ```
 
@@ -134,5 +136,5 @@ Automatically adjust labels to avoid overlap:
 
 ```csharp
 series.Style.TextOrientation = ChartTextOrientation.Smart;
-chartControl1.SmartLabels = true;
+series.SmartLabels = true;
 ```

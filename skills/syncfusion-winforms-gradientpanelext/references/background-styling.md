@@ -25,13 +25,12 @@ The **BackgroundColor** property uses the **BrushInfo** class to configure all b
 
 ```csharp
 // Two-color gradient
-BrushInfo brush = new BrushInfo(GradientStyle style, Color backColor, Color foreColor);
+BrushInfo brush = new BrushInfo(GradientStyle style, Color startColor, Color endColor);
 
-// Multi-color gradient
-BrushInfo brush = new BrushInfo(GradientStyle style, Color[] gradientColors);
+//Note: In Syncfusion’s API, the first color (ForeColor) is rendered as the starting color of the gradient, and the second color (BackColor) is rendered as the ending color. This differs from System.Drawing conventions.
 
 // Solid color
-BrushInfo brush = new BrushInfo(BrushStyle.Solid, Color color, Color unused);
+BrushInfo brush = new BrushInfo(Color color);
 ```
 
 ---
@@ -85,20 +84,12 @@ Single uniform color (no gradient).
 
 **C# Example:**
 ```csharp
-gradientPanel.BackgroundColor = new BrushInfo(
-    BrushStyle.Solid,
-    Color.LightGray,
-    Color.White  // Ignored for solid
-);
+gradientPanel.BackgroundColor = new BrushInfo(Color.LightGray);
 ```
 
 **VB.NET Example:**
 ```vb
-gradientPanel.BackgroundColor = New BrushInfo( _
-    BrushStyle.Solid, _
-    Color.LightGray, _
-    Color.White _
-)
+gradientPanel.BackgroundColor = New BrushInfo(Color.LightGray)
 ```
 
 ---
@@ -109,7 +100,6 @@ Transparent background.
 
 **C# Example:**
 ```csharp
-gradientPanel.BackgroundColor = new BrushInfo(BrushStyle.None, Color.Empty, Color.Empty);
 gradientPanel.BackColor = Color.Transparent;
 ```
 
@@ -160,9 +150,10 @@ Top to bottom color transition.
 ```csharp
 gradientPanel.BackgroundColor = new BrushInfo(
     GradientStyle.Vertical,
-    Color.Navy,
-    Color.White
+    Color.Red,   // start color
+    Color.Green  // end color
 );
+
 ```
 
 **Best For:** Tall panels, top-down hierarchy, sky/ground effects
@@ -250,12 +241,8 @@ Use **GradientColors** array for gradients with 3+ colors.
 ```csharp
 gradientPanel.BackgroundColor = new BrushInfo(
     GradientStyle.Horizontal,
-    new Color[]
-    {
-        Color.Blue,        // Left
-        Color.Purple,      // Middle
-        Color.Red          // Right
-    }
+    Color.Blue,
+    Color.Red
 );
 ```
 
@@ -265,7 +252,6 @@ gradientPanel.BackgroundColor = New BrushInfo( _
     GradientStyle.Horizontal, _
     New Color() { _
         Color.Blue, _
-        Color.Purple, _
         Color.Red _
     } _
 )
@@ -279,14 +265,8 @@ gradientPanel.BackgroundColor = New BrushInfo( _
 ```csharp
 gradientPanel.BackgroundColor = new BrushInfo(
     GradientStyle.PathEllipse,
-    new Color[]
-    {
-        Color.LavenderBlush,
-        Color.LemonChiffon,
-        Color.LightGoldenrodYellow,
-        Color.PaleGreen,
-        Color.LightBlue
-    }
+    Color.LavenderBlush,
+    Color.LightBlue
 );
 ```
 
@@ -312,8 +292,10 @@ Color[] rainbowColors = new Color[]
 // Apply to panel
 gradientPanel.BackgroundColor = new BrushInfo(
     GradientStyle.Vertical,
-    rainbowColors
+    Color.Red,   // start color
+    Color.Green  // end color
 );
+// Syncfusion’s BrushInfo supports only two‑color gradients. For multi‑stop gradients (rainbow effects), use System.Drawing.Drawing2D.LinearGradientBrush or PathGradientBrush in custom paint code.
 ```
 
 **Note:** First color in array = BackColor, Last color = ForeColor
@@ -469,12 +451,8 @@ GradientPanelExt alertPanel = new GradientPanelExt
 // PathEllipse with warm colors (center glow)
 alertPanel.BackgroundColor = new BrushInfo(
     GradientStyle.PathEllipse,
-    new Color[]
-    {
-        Color.Red,
-        Color.Orange,
-        Color.Yellow
-    }
+    Color.Red,      // start color
+    Color.Orange    // end color
 );
 
 this.Controls.Add(alertPanel);
@@ -494,16 +472,8 @@ GradientPanelExt rainbowPanel = new GradientPanelExt
 // Horizontal rainbow
 rainbowPanel.BackgroundColor = new BrushInfo(
     GradientStyle.Horizontal,
-    new Color[]
-    {
         Color.FromArgb(255, 0, 0),      // Red
         Color.FromArgb(255, 127, 0),    // Orange
-        Color.FromArgb(255, 255, 0),    // Yellow
-        Color.FromArgb(0, 255, 0),      // Green
-        Color.FromArgb(0, 0, 255),      // Blue
-        Color.FromArgb(75, 0, 130),     // Indigo
-        Color.FromArgb(148, 0, 211)     // Violet
-    }
 );
 
 this.Controls.Add(rainbowPanel);
@@ -634,8 +604,14 @@ brush.PatternStyle = PatternStyle.DarkDownwardDiagonal;
 
 ```csharp
 // Correct multi-color
-Color[] colors = new Color[] { Color.Red, Color.Yellow, Color.Green };
-BrushInfo brush = new BrushInfo(GradientStyle.Horizontal, colors);
+Color[] colors = new Color[] { Color.Red, Color.Green };
+gradientPanel.BackgroundColor = new BrushInfo(
+    GradientStyle.Vertical,
+    Color.Red,   // start color
+    Color.Green  // end color
+);
+//Syncfusion’s BrushInfo supports only two‑color gradients. For multi‑stop gradients (rainbow effects), use System.Drawing.Drawing2D.LinearGradientBrush or PathGradientBrush in custom paint code.
+
 ```
 
 ---

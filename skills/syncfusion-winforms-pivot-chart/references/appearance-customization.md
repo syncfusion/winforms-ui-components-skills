@@ -21,10 +21,9 @@ The Pivot Chart control provides extensive customization options for colors, fon
 ```csharp
 // Chart area background
 pivotChart1.BackColor = Color.White;
-pivotChart1.ChartArea.BackColor = Color.WhiteSmoke;
-
+pivotChart1.ChartArea.BackInterior = new BrushInfo(Color.WhiteSmoke);
 // Border customization
-pivotChart1.ChartArea.Border.Color = Color.Gray;
+pivotChart1.ChartArea.BorderColor = Color.Gray;
 pivotChart1.ChartArea.BorderWidth = 1;
 ```
 
@@ -32,25 +31,25 @@ pivotChart1.ChartArea.BorderWidth = 1;
 
 ```csharp
 // Chart title
-pivotChart1.Title.Text = "Sales Analysis by Product";
-pivotChart1.Title.Font = new Font("Arial", 14, FontStyle.Bold);
-pivotChart1.Title.ForeColor = Color.DarkBlue;
-pivotChart1.Title.Alignment = StringAlignment.Center;
+pivotChart1.ChartControl.Title.Text = "Sales Analysis by Product";
+pivotChart1.ChartControl.Title.Font = new System.Drawing.Font("Arial", 14, System.Drawing.FontStyle.Bold);
+pivotChart1.ChartControl.Title.ForeColor = Color.DarkBlue;
+pivotChart1.ChartControl.Title.Alignment = ChartAlignment.Center;
 ```
 
 ### Axis Customization
 
 ```csharp
 // X-Axis customization
-pivotChart1.PrimaryXAxis.Title = "Products";
-pivotChart1.PrimaryXAxis.TitleFont = new Font("Arial", 10);
-pivotChart1.PrimaryXAxis.LabelFont = new Font("Arial", 9);
+pivotChart1.ChartControl.PrimaryXAxis.Title = "Products";
+pivotChart1.ChartControl.PrimaryXAxis.TitleFont = new System.Drawing.Font("Arial", 10);
+pivotChart1.ChartControl.PrimaryXAxis.Font = new System.Drawing.Font("Arial", 9);
 
 // Y-Axis customization
-pivotChart1.PrimaryYAxis.Title = "Revenue ($)";
-pivotChart1.PrimaryYAxis.TitleFont = new Font("Arial", 10);
-pivotChart1.PrimaryYAxis.LabelFont = new Font("Arial", 9);
-pivotChart1.PrimaryYAxis.FormatLabel += (s, args) =>
+pivotChart1.ChartControl.PrimaryYAxis.Title = "Revenue ($)";
+pivotChart1.ChartControl.PrimaryYAxis.TitleFont = new System.Drawing.Font("Arial", 10);
+pivotChart1.ChartControl.PrimaryYAxis.Font = new System.Drawing.Font("Arial", 9);
+pivotChart1.ChartControl.PrimaryYAxis.FormatLabel += (s, args) =>
 {
     args.Label = "$" + args.Label;  // Add currency symbol
 };
@@ -62,7 +61,7 @@ pivotChart1.PrimaryYAxis.FormatLabel += (s, args) =>
 
 ```csharp
 // Access and customize series
-foreach (ChartSeries series in pivotChart1.Series)
+foreach (ChartSeries series in pivotChart1.ChartControl.Series)
 {
     series.Style.Border.Width = 2;
     series.Style.DisplayText = true;
@@ -74,10 +73,14 @@ foreach (ChartSeries series in pivotChart1.Series)
 
 ```csharp
 // Configure data labels
-pivotChart1.ShowDataLabels = true;
-pivotChart1.DataLabels.Font = new Font("Arial", 8);
-pivotChart1.DataLabels.ForeColor = Color.Black;
-pivotChart1.DataLabels.Format = "{0:C0}";  // Currency format
+foreach (ChartSeries series in pivotChart1.ChartControl.Series)
+{
+    series.Style.DisplayText = true;
+    series.Style.Font.Size = 8;
+    series.Style.Font.Facename = "Arial";
+    series.Style.TextColor = Color.Black;
+    series.Style.TextFormat = "{0:C0}";  // Currency format
+}
 ```
 
 ## Color Palette
@@ -96,7 +99,7 @@ Color[] customPalette = new Color[]
 };
 
 // Apply palette
-pivotChart1.Palette = ChartColorPalette.Custom;
+pivotChart1.ChartControl.Palette = ChartColorPalette.Custom;
 pivotChart1.CustomPalette = customPalette;
 ```
 
@@ -104,10 +107,10 @@ pivotChart1.CustomPalette = customPalette;
 
 ```csharp
 // Use built-in color palettes
-pivotChart1.Palette = ChartColorPalette.Metro;       // Metro style
-pivotChart1.Palette = ChartColorPalette.Nature;      // Nature colors
-pivotChart1.Palette = ChartColorPalette.EarthTones;  // Earth tones
-pivotChart1.Palette = ChartColorPalette.Pastel;      // Pastel colors
+pivotChart1.ChartControl.Palette = ChartColorPalette.Metro;       // Metro style
+pivotChart1.ChartControl.Palette = ChartColorPalette.Nature;      // Nature colors
+pivotChart1.ChartControl.Palette = ChartColorPalette.EarthTone;  // Earth tone
+pivotChart1.ChartControl.Palette = ChartColorPalette.Pastel;      // Pastel colors
 ```
 
 ### Complete Color Customization Example
@@ -129,7 +132,7 @@ private void SetColorPalette()
         Color.FromArgb(227, 119, 194)   // Corporate Pink
     };
     
-    pivotChart1.Palette = ChartColorPalette.Custom;
+    pivotChart1.ChartControl.Palette = ChartColorPalette.Custom;
     pivotChart1.CustomPalette = corporateColors;
 }
 ```
@@ -140,12 +143,12 @@ private void SetColorPalette()
 
 ```csharp
 // Apply Office 2016 theme
-pivotChart1.ChartTheme = ChartTheme.Office2016Colorful;
+pivotChart1.Skins = Skins.Office2016Colorful;
 
 // Other theme options
-pivotChart1.ChartTheme = ChartTheme.Office2016White;
-pivotChart1.ChartTheme = ChartTheme.Office2016DarkGray;
-pivotChart1.ChartTheme = ChartTheme.Office2016Black;
+pivotChart1.Skins = Skins.Office2016White;
+pivotChart1.Skins = Skins.Office2016DarkGray;
+pivotChart1.Skins = Skins.Office2016Black;
 ```
 
 ### Custom Theme
@@ -155,19 +158,19 @@ private void ApplyCustomTheme()
 {
     // Background
     pivotChart1.BackColor = Color.FromArgb(245, 245, 245);
-    pivotChart1.ChartArea.BackColor = Color.White;
-    
+    pivotChart1.ChartArea.BackInterior = new BrushInfo(Color.White);
+
     // Grid lines
     pivotChart1.PrimaryXAxis.GridLineType.ForeColor = Color.LightGray;
     pivotChart1.PrimaryYAxis.GridLineType.ForeColor = Color.LightGray;
-    
+
     // Fonts
-    Font chartFont = new Font("Segoe UI", 9);
-    pivotChart1.PrimaryXAxis.LabelFont = chartFont;
-    pivotChart1.PrimaryYAxis.LabelFont = chartFont;
-    
+    System.Drawing.Font chartFont = new System.Drawing.Font("Segoe UI", 9);
+    pivotChart1.ChartControl.PrimaryXAxis.Font = chartFont;
+    pivotChart1.ChartControl.PrimaryYAxis.Font = chartFont;
+
     // Border
-    pivotChart1.ChartArea.Border.Color = Color.FromArgb(200, 200, 200);
+    pivotChart1.ChartArea.BorderColor = Color.FromArgb(200, 200, 200);
 }
 ```
 
@@ -260,25 +263,25 @@ public partial class CustomizedPivotChart : Form
     private void CustomizeAppearance()
     {
         // Chart title
-        pivotChart1.Title.Text = "Q4 Sales Performance Dashboard";
-        pivotChart1.Title.Font = new Font("Segoe UI", 16, FontStyle.Bold);
-        pivotChart1.Title.ForeColor = Color.FromArgb(0, 114, 198);
-        
+        pivotChart1.ChartControl.Title.Text = "Q4 Sales Performance Dashboard";
+        pivotChart1.ChartControl.Title.Font = new System.Drawing.Font("Segoe UI", 16, FontStyle.Bold);
+        pivotChart1.ChartControl.Title.ForeColor = Color.FromArgb(0, 114, 198);
+
         // Chart area
         pivotChart1.BackColor = Color.FromArgb(250, 250, 250);
-        pivotChart1.ChartArea.BackColor = Color.White;
-        pivotChart1.ChartArea.Border.Color = Color.FromArgb(230, 230, 230);
+        pivotChart1.ChartArea.BackInterior = new BrushInfo(Color.White);
+        pivotChart1.ChartArea.BorderColor = Color.FromArgb(230, 230, 230);
         pivotChart1.ChartArea.BorderWidth = 1;
-        
+
         // Axes
-        pivotChart1.PrimaryXAxis.Title = "Product Categories";
-        pivotChart1.PrimaryXAxis.TitleFont = new Font("Segoe UI", 11, FontStyle.Bold);
-        pivotChart1.PrimaryXAxis.LabelFont = new Font("Segoe UI", 9);
-        
-        pivotChart1.PrimaryYAxis.Title = "Revenue (USD)";
-        pivotChart1.PrimaryYAxis.TitleFont = new Font("Segoe UI", 11, FontStyle.Bold);
-        pivotChart1.PrimaryYAxis.LabelFont = new Font("Segoe UI", 9);
-        
+        pivotChart1.ChartControl.PrimaryXAxis.Title = "Product Categories";
+        pivotChart1.ChartControl.PrimaryXAxis.TitleFont = new System.Drawing.Font("Segoe UI", 11, FontStyle.Bold);
+        pivotChart1.ChartControl.PrimaryXAxis.Font = new System.Drawing.Font("Segoe UI", 9);
+
+        pivotChart1.ChartControl.PrimaryYAxis.Title = "Revenue (USD)";
+        pivotChart1.ChartControl.PrimaryYAxis.TitleFont = new System.Drawing.Font("Segoe UI", 11, FontStyle.Bold);
+        pivotChart1.ChartControl.PrimaryYAxis.Font = new System.Drawing.Font("Segoe UI", 9);
+
         // Grid lines
         pivotChart1.PrimaryXAxis.GridLineType.ForeColor = Color.FromArgb(240, 240, 240);
         pivotChart1.PrimaryYAxis.GridLineType.ForeColor = Color.FromArgb(240, 240, 240);
@@ -296,16 +299,20 @@ public partial class CustomizedPivotChart : Form
             Color.FromArgb(148, 103, 189)  // Purple
         };
         
-        pivotChart1.Palette = ChartColorPalette.Custom;
+        pivotChart1.ChartControl.Palette = ChartColorPalette.Custom;
         pivotChart1.CustomPalette = colors;
     }
     
     private void CustomizeDataLabels()
     {
-        pivotChart1.ShowDataLabels = true;
-        pivotChart1.DataLabels.Font = new Font("Segoe UI", 8);
-        pivotChart1.DataLabels.ForeColor = Color.Black;
-        pivotChart1.DataLabels.Format = "${0:N0}";
+        foreach (ChartSeries series in pivotChart1.ChartControl.Series)
+        {
+            series.Style.DisplayText = true;
+            series.Style.Font.Size = 8;
+            series.Style.Font.Facename = "Segoe UI";
+            series.Style.TextColor = Color.Black;
+            series.Style.TextFormat = "{0:N0}";
+        }
     }
 }
 ```
@@ -318,7 +325,6 @@ public partial class CustomizedPivotChart : Form
 4. **Readable Fonts:** Use clear, legible fonts (11pt+ for titles)
 5. **Color Blind Friendly:** Test with color blind simulators
 6. **Print Testing:** Verify appearance in print/PDF
-7. **Theme Consistency:** Apply consistent styling across all charts
 
 ## Common Customization Scenarios
 
@@ -326,26 +332,31 @@ public partial class CustomizedPivotChart : Form
 ```csharp
 // Clean, minimal design for dashboards
 pivotChart1.BackColor = Color.White;
-pivotChart1.ChartArea.Border.Visible = false;
 pivotChart1.ShowLegend = true;
-pivotChart1.Legend.Position = ChartDock.Bottom;
+pivotChart1.ChartControl.LegendPosition = ChartDock.Bottom;
 ```
 
 ### Scenario 2: Report Chart
 ```csharp
 // Professional report styling
-pivotChart1.ChartArea.Border.Color = Color.Black;
+pivotChart1.ChartArea.BorderColor = Color.Black;
 pivotChart1.ChartArea.BorderWidth = 2;
-pivotChart1.Title.Font = new Font("Times New Roman", 14, FontStyle.Bold);
+pivotChart1.ChartControl.Title.Font = new System.Drawing.Font("Times New Roman", 14, FontStyle.Bold);
 ```
 
 ### Scenario 3: Presentation Chart
 ```csharp
 // High contrast for presentations
-pivotChart1.BackColor = Color.White;
-pivotChart1.Palette = ChartColorPalette.Metro;
-pivotChart1.ShowDataLabels = true;
-pivotChart1.DataLabels.Font = new Font("Arial", 10, FontStyle.Bold);
+ pivotChart1.BackColor = Color.White;
+ pivotChart1.ChartControl.Palette = ChartColorPalette.Metro;
+
+ foreach (ChartSeries series in pivotChart1.ChartControl.Series)
+ {
+     series.Style.DisplayText = true;
+     series.Style.Font.Size = 10;
+     series.Style.Font.Facename = "Arial";
+     series.Style.Font.FontStyle = FontStyle.Bold;
+ }
 ```
 
 ## Next Steps

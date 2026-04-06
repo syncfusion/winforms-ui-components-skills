@@ -275,7 +275,3 @@ Create custom visual representations for dropdown items with images or multiple 
 
 **Issue:** Filtering not working
 - **Solution:** Call `DropDownListView.View.RefreshFilter()` after setting the Filter predicate
-
-## Related Skills
-
-- [implementing-syncfusion-winforms-components](../../SKILL.md) — parent library router

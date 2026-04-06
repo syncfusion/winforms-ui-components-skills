@@ -336,9 +336,3 @@ Create themed message windows with custom controls and animations.
 6. **Add child controls carefully**: Ensure controls are visible and properly positioned within splash bounds
 7. **Test different alignments**: Verify splash appears correctly on different screen resolutions
 8. **Dispose properly**: Ensure splash panel is properly disposed when form closes
-
-## Related Components
-
-- **MessageBoxAdv**: For standard message dialogs
-- **ProgressBarAdv**: For progress indication within splash screens
-- **StatusBarAdv**: For application status information

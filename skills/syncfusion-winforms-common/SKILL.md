@@ -109,7 +109,15 @@ Register the license before any Syncfusion control is initialized:
 // Program.cs — in static void Main(), before Application.Run()
 static void Main()
 {
-    Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR LICENSE KEY");
+    string licenseKey = ConfigurationManager.AppSettings["SyncfusionLicenseKey"];
+    
+    if (string.IsNullOrEmpty(licenseKey))
+    {
+        MessageBox.Show("Syncfusion license key not configured!", "Configuration Error");
+        return;
+    }
+    
+    SyncfusionLicenseProvider.RegisterLicense(licenseKey);
 
     Application.EnableVisualStyles();
     Application.SetCompatibleTextRenderingDefault(false);

@@ -191,29 +191,13 @@ contextMenuStripEx.Font = New Font("Arial", 10F, _
 
 ### FontStyle Options
 
-| Style | Description |
-|-------|-------------|
-| `FontStyle.Regular` | Normal weight |
-| `FontStyle.Bold` | Bold weight |
-| `FontStyle.Italic` | Italic slant |
-| `FontStyle.Underline` | Underlined text |
-| `FontStyle.Strikeout` | Strike-through line |
-
-### Individual Item Fonts
-
-Override fonts for specific items:
+Available styles: `Regular`, `Bold`, `Italic`, `Underline`, `Strikeout`
 
 ```csharp
+// Individual item fonts
 var headerItem = new ToolStripMenuItem("-- Menu Header --");
 headerItem.Font = new Font("Arial", 10F, FontStyle.Bold);
 headerItem.Enabled = false;  // Non-clickable header
-
-var normalItem = new ToolStripMenuItem("Normal Item");
-// Uses menu's default font
-
-contextMenuStripEx.Items.AddRange(new ToolStripItem[] {
-    headerItem, normalItem
-});
 ```
 
 ## Sizing
@@ -259,37 +243,16 @@ contextMenuStripEx.Height = 250
 
 ### AutoSize Behavior
 
-| AutoSize Value | Behavior |
-|----------------|----------|
-| `true` (default) | Menu automatically sizes to fit content |
-| `false` | Menu uses Size property dimensions |
+- `true` (default): Menu automatically sizes to fit content
+- `false`: Menu uses Size property dimensions
 
-**When to use AutoSize = false:**
-- Fixed-width menu required for design consistency
-- Prevent menu from growing too large
-- Align multiple menus to same width
-- Custom layout requirements
-
-### Item Sizing
-
-Individual items can also have custom sizes:
+Use AutoSize = false for fixed-width menus or custom layouts.
 
 ```csharp
-// Disable auto-sizing
+// Custom item sizing
 contextMenuStripEx.AutoSize = false;
-contextMenuStripEx.Size = new Size(250, 300);
-
-// TextBox with custom size
 var searchBox = new ToolStripTextBox();
 searchBox.Size = new Size(200, 25);
-
-// ComboBox with custom size
-var filterCombo = new ToolStripComboBox();
-filterCombo.Size = new Size(150, 25);
-
-contextMenuStripEx.Items.AddRange(new ToolStripItem[] {
-    searchBox, filterCombo
-});
 ```
 
 ## Margins
@@ -322,35 +285,15 @@ contextMenuStripEx.ShowCheckMargin = True
 contextMenuStripEx.ShowCheckMargin = False
 ```
 
-### Complete Margin Example
-
 ```csharp
-private ContextMenuStripEx CreateMenuWithMargins()
-{
-    var contextMenu = new ContextMenuStripEx();
-    
-    // Enable check margin for checkable items
-    contextMenu.ShowCheckMargin = true;
-    
-    // Create checkable items
-    var option1 = new ToolStripMenuItem("Option 1");
-    option1.CheckOnClick = true;
-    option1.Checked = true;
-    
-    var option2 = new ToolStripMenuItem("Option 2");
-    option2.CheckOnClick = true;
-    
-    contextMenu.Items.AddRange(new ToolStripItem[] {
-        option1, option2
-    });
-    
-    return contextMenu;
-}
+// Enable check margin for checkable items
+contextMenu.ShowCheckMargin = true;
+var option1 = new ToolStripMenuItem("Option 1");
+option1.CheckOnClick = true;
+option1.Checked = true;
 ```
 
-**Visual Effect:**
-- `ShowCheckMargin = true`: Space reserved on left for check marks
-- `ShowCheckMargin = false`: Items align flush left, no check mark space
+**Visual Effect:** ShowCheckMargin = true reserves space for check marks on left
 
 ## Shadow Effects
 
@@ -390,101 +333,18 @@ contextMenuStripEx.DropShadowEnabled = False
 
 Tooltips provide helpful hints when users hover over menu items.
 
-### Tooltip Properties
-
-| Property | Applies To | Description |
-|----------|------------|-------------|
-| `ShowItemToolTips` | ContextMenuStripEx | Enable/disable tooltips for all items |
-| `ToolTipText` | Individual items | Custom tooltip text for specific item |
-| `AutoToolTip` | Individual items | Use Text property as tooltip if ToolTipText is empty |
-
 ### Enabling Tooltips
 
-**Step 1: Enable for Menu**
 ```csharp
-// Enable tooltips for the entire menu
+// Enable tooltips
 contextMenuStripEx.ShowItemToolTips = true;
-```
 
-**Step 2: Set Tooltip Text for Items**
-```csharp
-// Custom tooltip text
+// Set tooltip text
 toolStripMenuItem1.ToolTipText = "Used to create a new file";
-toolStripTextBox1.ToolTipText = "Used to provide editable text";
-toolStripComboBox1.ToolTipText = "Used to provide a collection of items";
-```
 
-**VB.NET:**
-```vb
-' Enable tooltips
-contextMenuStripEx.ShowItemToolTips = True
-
-' Set tooltip text
-toolStripMenuItem1.ToolTipText = "Used to create a new file"
-toolStripTextBox1.ToolTipText = "Used to provide editable text"
-toolStripComboBox1.ToolTipText = "Used to provide a collection of items"
-```
-
-### AutoToolTip Behavior
-
-**Property:** `AutoToolTip` (bool)  
-**Default:** `false`
-
-| Value | Behavior |
-|-------|----------|
-| `false` | Displays `ToolTipText` property value |
-| `true` | Displays `Text` property if `ToolTipText` is empty |
-
-**Example:**
-```csharp
-contextMenuStripEx.ShowItemToolTips = true;
-
-// Explicit tooltip
-var item1 = new ToolStripMenuItem("Save");
-item1.ToolTipText = "Save the current document";
-// Tooltip shows: "Save the current document"
-
-// Auto tooltip
-var item2 = new ToolStripMenuItem("Open");
-item2.AutoToolTip = true;
-// Tooltip shows: "Open" (uses Text property)
-
-// Auto tooltip with explicit text (explicit takes precedence)
-var item3 = new ToolStripMenuItem("Close");
-item3.AutoToolTip = true;
-item3.ToolTipText = "Close the active window";
-// Tooltip shows: "Close the active window"
-```
-
-### Complete Tooltip Example
-
-```csharp
-private ContextMenuStripEx CreateMenuWithTooltips()
-{
-    var contextMenu = new ContextMenuStripEx();
-    
-    // Enable tooltips
-    contextMenu.ShowItemToolTips = true;
-    
-    // Item with custom tooltip
-    var newItem = new ToolStripMenuItem("New");
-    newItem.ToolTipText = "Create a new document (Ctrl+N)";
-    newItem.ShortcutKeys = Keys.Control | Keys.N;
-    
-    // Item with auto tooltip
-    var openItem = new ToolStripMenuItem("Open");
-    openItem.AutoToolTip = true;  // Uses "Open" as tooltip
-    
-    // TextBox with helpful tooltip
-    var searchBox = new ToolStripTextBox();
-    searchBox.ToolTipText = "Enter search terms and press Enter";
-    
-    contextMenu.Items.AddRange(new ToolStripItem[] {
-        newItem, openItem, searchBox
-    });
-    
-    return contextMenu;
-}
+// Auto tooltip (uses Text property if ToolTipText empty)
+var openItem = new ToolStripMenuItem("Open");
+openItem.AutoToolTip = true;
 ```
 
 ## Render Modes
@@ -525,111 +385,38 @@ contextMenuStripEx.RenderMode = ToolStripRenderMode.Custom
 contextMenuStripEx.Renderer = New CustomToolStripRenderer()
 ```
 
-### Render Mode Comparison
-
-| Mode | Appearance | Use When |
-|------|------------|----------|
-| Professional | Modern, smooth gradients | Default for most applications |
-| System | Native Windows style | Matching OS appearance exactly |
-| Custom | Your implementation | Brand-specific styling needed |
-
-### Custom Renderer Example
+**Modes:** Professional (modern, default), System (native Windows), Custom (your implementation)
 
 ```csharp
-// Create custom renderer
+// Custom renderer example
 public class CustomToolStripRenderer : ToolStripProfessionalRenderer
 {
     protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
     {
         if (e.Item.Selected)
-        {
-            // Custom highlight color
-            e.Graphics.FillRectangle(
-                new SolidBrush(Color.FromArgb(51, 153, 255)),
-                e.Item.ContentRectangle
-            );
-        }
+            e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(51, 153, 255)), e.Item.ContentRectangle);
         else
-        {
             base.OnRenderMenuItemBackground(e);
-        }
     }
 }
 
-// Apply custom renderer
 contextMenuStripEx.RenderMode = ToolStripRenderMode.Custom;
 contextMenuStripEx.Renderer = new CustomToolStripRenderer();
 ```
 
 ## Best Practices
 
-### Color Best Practices
-
-1. **Contrast:** Ensure sufficient contrast between background and text (WCAG 4.5:1 minimum)
-2. **Consistency:** Use colors that match your application theme
-3. **Accessibility:** Test in High Contrast mode
-4. **Readability:** Dark text on light background or vice versa
-5. **Highlighting:** Use distinct colors for warning/danger items
-
-### Font Best Practices
-
-1. **Readability:** Use clear, legible fonts (Segoe UI, Arial, Tahoma)
-2. **Size:** 9-11pt for desktop applications
-3. **Consistency:** Match font with application UI
-4. **Touch:** Larger fonts (11-13pt) for touch interfaces
-5. **Avoid:** Decorative or script fonts for menu items
-
-### Sizing Best Practices
-
-1. **AutoSize:** Keep enabled unless specific requirements dictate otherwise
-2. **Minimum width:** Ensure menu is wide enough for longest item
-3. **Touch targets:** 44x44 pixels minimum for touch devices
-4. **Screen boundaries:** Menu should fit within screen bounds
-
-### Tooltip Best Practices
-
-1. **Be concise:** 1-2 sentences maximum
-2. **Add value:** Provide information not obvious from item text
-3. **Include shortcuts:** Mention keyboard shortcuts in tooltips
-4. **Consistent style:** Use similar phrasing across all tooltips
-5. **Test visibility:** Ensure tooltips appear and disappear correctly
-
-### Performance Considerations
-
-1. **Avoid:** Expensive operations in render events
-2. **Custom renderers:** Cache brushes and pens, don't recreate each paint
-3. **Large menus:** Consider virtualization or pagination
-4. **Shadows:** Disable on lower-end hardware if needed
+1. **Contrast:** Ensure sufficient contrast (WCAG 4.5:1 minimum) and test in High Contrast mode
+2. **Fonts:** Use clear, legible fonts (Segoe UI, Arial) at 9-11pt for desktop
+3. **AutoSize:** Keep enabled unless fixed-width required
+4. **Tooltips:** Be concise (1-2 sentences) and include keyboard shortcuts
+5. **Performance:** Cache brushes in custom renderers; disable shadows on low-end hardware
 
 ## Troubleshooting
 
-**Colors not applying:**
-- Check RenderMode (System mode may override colors)
-- Verify no custom renderer is overriding
-- Test with RenderMode = Professional
-
-**Fonts not changing:**
-- Ensure Font property is set on ContextMenuStripEx, not individual items
-- Check that AutoSize allows font to display properly
-- Verify font is installed on system
-
-**Size not working:**
-- Set AutoSize = false before setting Size
-- Check that content isn't forcing size larger
-- Verify no parent container is constraining size
-
-**Tooltips not showing:**
-- Enable ShowItemToolTips = true on ContextMenuStripEx
-- Verify ToolTipText is set on items
-- Check mouse hover duration is sufficient
-- Ensure items are enabled
-
-**Check marks not visible:**
-- Set ShowCheckMargin = true on ContextMenuStripEx
-- Verify Checked = true on menu items
-- Check that menu width accommodates check mark space
-
-**Shadows not appearing:**
-- Verify DropShadowEnabled = true
-- Check Windows display settings (shadows may be disabled OS-wide)
-- Test on different hardware (some systems don't support shadows)
+**Colors not applying:** Check RenderMode (System mode may override); test with Professional  
+**Fonts not changing:** Set Font on ContextMenuStripEx, not individual items  
+**Size not working:** Set AutoSize = false before setting Size  
+**Tooltips not showing:** Enable ShowItemToolTips = true and set ToolTipText on items  
+**Check marks not visible:** Set ShowCheckMargin = true on ContextMenuStripEx  
+**Shadows not appearing:** Verify DropShadowEnabled = true; check Windows display settings

@@ -50,68 +50,23 @@ tabbedMDIManager.LoadTabGroupStates(serializer);
 
 **Storage Location:** Typically `C:\Users\[Username]\AppData\Local\[Company]\[AppName]\`
 
-### 2. Binary File Format (Compact, Fast)
+### Other Serialization Formats
 
-Store state in compressed binary format:
-
+**Binary File** - Smaller file size, faster read/write:
 ```csharp
-// Save state
 AppStateSerializer serializer = new AppStateSerializer(SerializeMode.BinaryFile, "AppState");
-tabbedMDIManager.SaveTabGroupStates(serializer);
-serializer.PersistNow();
-
-// Load state
-AppStateSerializer serializer = new AppStateSerializer(SerializeMode.BinaryFile, "AppState");
-tabbedMDIManager.LoadTabGroupStates(serializer);
 ```
 
-**Advantages:**
-- Smaller file size
-- Faster read/write
-- Not human-readable (more secure if needed)
-
-### 3. Isolated Storage (Sandboxed, Secure)
-
-Store state in Windows Isolated Storage (sandbox environment):
-
+**Isolated Storage** - Sandboxed environment, good for ClickOnce:
 ```csharp
-// Save state
-AppStateSerializer serializer = new AppStateSerializer(
-    SerializeMode.IsolatedStorage, "AppState");
-tabbedMDIManager.SaveTabGroupStates(serializer);
-serializer.PersistNow();
-
-// Load state
-AppStateSerializer serializer = new AppStateSerializer(
-    SerializeMode.IsolatedStorage, "AppState");
-tabbedMDIManager.LoadTabGroupStates(serializer);
+AppStateSerializer serializer = new AppStateSerializer(SerializeMode.IsolatedStorage, "AppState");
 ```
 
-**Advantages:**
-- Sandboxed by user and application
-- Automatically cleaned up with app
-- Good for ClickOnce deployments
-
-### 4. Memory Stream (In-Memory)
-
-Store state in memory (useful for testing or temporary storage):
-
+**Memory Stream** - In-memory, useful for testing:
 ```csharp
-// Save to memory
 System.IO.MemoryStream ms = new System.IO.MemoryStream();
 AppStateSerializer serializer = new AppStateSerializer(SerializeMode.BinaryFmtStream, ms);
-tabbedMDIManager.SaveTabGroupStates(serializer);
-serializer.PersistNow();
-
-// Load from memory
-AppStateSerializer serializer = new AppStateSerializer(SerializeMode.BinaryFmtStream, ms);
-tabbedMDIManager.LoadTabGroupStates(serializer);
 ```
-
-**Advantages:**
-- Fast (in-memory)
-- No disk I/O
-- Good for testing
 
 ## Save & Load Methods
 
@@ -213,9 +168,7 @@ private void LoadState()
 }
 ```
 
-## Complete Examples
-
-### Example 1: Basic Save & Load
+## Complete Example
 
 ```csharp
 public partial class BasicSerializationForm : Form
@@ -326,278 +279,6 @@ public partial class BasicSerializationForm : Form
         {
             MessageBox.Show($"Reset error: {ex.Message}");
         }
-    }
-
-    private void CreateInitialDocuments()
-    {
-        for (int i = 1; i <= 3; i++)
-        {
-            CreateNewDocument();
-        }
-    }
-}
-```
-
-### Example 2: Session Recovery
-
-```csharp
-public partial class SessionRecoveryForm : Form
-{
-    private TabbedMDIManager tabbedMDI;
-    private List<string> openDocuments = new List<string>();
-
-    public SessionRecoveryForm()
-    {
-        InitializeComponent();
-        SetupMDI();
-    }
-
-    private void SetupMDI()
-    {
-        this.IsMdiContainer = true;
-        this.Text = "Session Recovery Demo";
-
-        tabbedMDI = new TabbedMDIManager();
-        this.Controls.Add(tabbedMDI);
-        tabbedMDI.AttachToMdiContainer(this);
-        tabbedMDI.ThemesEnabled = true;
-
-        // Track document changes
-        tabbedMDI.BeforeMDIChildAdded += (s, e) =>
-        {
-            Form form = e.NewControl as Form;
-            if (form != null && !openDocuments.Contains(form.Text))
-            {
-                openDocuments.Add(form.Text);
-            }
-        };
-
-        // Load previous session or create new
-        if (!TryRecoverSession())
-        {
-            CreateInitialDocuments();
-        }
-
-        CreateMenu();
-        FormClosed += (s, e) => SaveSession();
-    }
-
-    private bool TryRecoverSession()
-    {
-        try
-        {
-            AppStateSerializer serializer = new AppStateSerializer(
-                SerializeMode.XMLFile, "SessionState");
-
-            tabbedMDI.LoadTabGroupStates(serializer);
-
-            MessageBox.Show("Previous session recovered!", "Recovery");
-            return true;
-        }
-        catch
-        {
-            return false;  // No previous session
-        }
-    }
-
-    private void SaveSession()
-    {
-        try
-        {
-            AppStateSerializer serializer = new AppStateSerializer(
-                SerializeMode.XMLFile, "SessionState");
-
-            tabbedMDI.SaveTabGroupStates(serializer);
-            serializer.PersistNow();
-
-            Console.WriteLine("Session saved for recovery");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Session save error: {ex.Message}");
-        }
-    }
-
-    private void CreateMenu()
-    {
-        MenuStrip menu = new MenuStrip();
-        this.Controls.Add(menu);
-        this.MainMenuStrip = menu;
-
-        ToolStripMenuItem fileMenu = menu.Items.Add("&File") as ToolStripMenuItem;
-        fileMenu.DropDownItems.Add("&New Document", null, (s, e) => CreateNewDocument());
-        fileMenu.DropDownItems.AddSeparator();
-        fileMenu.DropDownItems.Add("E&xit", null, (s, e) => this.Close());
-    }
-
-    private void CreateNewDocument()
-    {
-        Form doc = new Form();
-        string docName = $"Document {openDocuments.Count + 1}";
-        doc.Text = docName;
-        doc.MdiParent = this;
-        doc.Show();
-    }
-
-    private void CreateInitialDocuments()
-    {
-        for (int i = 1; i <= 2; i++)
-        {
-            CreateNewDocument();
-        }
-    }
-}
-```
-
-### Example 3: Multiple Serialization Formats
-
-```csharp
-public partial class MultiFormatSerializationForm : Form
-{
-    private TabbedMDIManager tabbedMDI;
-
-    public MultiFormatSerializationForm()
-    {
-        InitializeComponent();
-        SetupMDI();
-    }
-
-    private void SetupMDI()
-    {
-        this.IsMdiContainer = true;
-        this.Text = "Multi-Format Serialization";
-
-        tabbedMDI = new TabbedMDIManager();
-        this.Controls.Add(tabbedMDI);
-        tabbedMDI.AttachToMdiContainer(this);
-        tabbedMDI.ThemesEnabled = true;
-
-        CreateMenu();
-        CreateInitialDocuments();
-    }
-
-    private void CreateMenu()
-    {
-        MenuStrip menu = new MenuStrip();
-        this.Controls.Add(menu);
-        this.MainMenuStrip = menu;
-
-        ToolStripMenuItem fileMenu = menu.Items.Add("&File") as ToolStripMenuItem;
-        fileMenu.DropDownItems.Add("&New Document", null, (s, e) => CreateNewDocument());
-
-        ToolStripMenuItem saveMenu = fileMenu.DropDownItems.Add("&Save As...") as ToolStripMenuItem;
-        saveMenu.DropDownItems.Add("&XML Format", null, (s, e) => SaveAsXML());
-        saveMenu.DropDownItems.Add("&Binary Format", null, (s, e) => SaveAsBinary());
-        saveMenu.DropDownItems.Add("&Isolated Storage", null, (s, e) => SaveAsIsolated());
-
-        ToolStripMenuItem loadMenu = fileMenu.DropDownItems.Add("&Load...") as ToolStripMenuItem;
-        loadMenu.DropDownItems.Add("&XML Format", null, (s, e) => LoadFromXML());
-        loadMenu.DropDownItems.Add("&Binary Format", null, (s, e) => LoadFromBinary());
-        loadMenu.DropDownItems.Add("&Isolated Storage", null, (s, e) => LoadFromIsolated());
-
-        fileMenu.DropDownItems.AddSeparator();
-        fileMenu.DropDownItems.Add("E&xit", null, (s, e) => this.Close());
-    }
-
-    private void SaveAsXML()
-    {
-        try
-        {
-            AppStateSerializer serializer = new AppStateSerializer(
-                SerializeMode.XMLFile, "StateXML");
-            tabbedMDI.SaveTabGroupStates(serializer);
-            serializer.PersistNow();
-            MessageBox.Show("State saved as XML", "Success");
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error: {ex.Message}");
-        }
-    }
-
-    private void SaveAsBinary()
-    {
-        try
-        {
-            AppStateSerializer serializer = new AppStateSerializer(
-                SerializeMode.BinaryFile, "StateBinary");
-            tabbedMDI.SaveTabGroupStates(serializer);
-            serializer.PersistNow();
-            MessageBox.Show("State saved as Binary", "Success");
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error: {ex.Message}");
-        }
-    }
-
-    private void SaveAsIsolated()
-    {
-        try
-        {
-            AppStateSerializer serializer = new AppStateSerializer(
-                SerializeMode.IsolatedStorage, "StateIsolated");
-            tabbedMDI.SaveTabGroupStates(serializer);
-            serializer.PersistNow();
-            MessageBox.Show("State saved to Isolated Storage", "Success");
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error: {ex.Message}");
-        }
-    }
-
-    private void LoadFromXML()
-    {
-        try
-        {
-            AppStateSerializer serializer = new AppStateSerializer(
-                SerializeMode.XMLFile, "StateXML");
-            tabbedMDI.LoadTabGroupStates(serializer);
-            MessageBox.Show("State loaded from XML", "Success");
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error: {ex.Message}");
-        }
-    }
-
-    private void LoadFromBinary()
-    {
-        try
-        {
-            AppStateSerializer serializer = new AppStateSerializer(
-                SerializeMode.BinaryFile, "StateBinary");
-            tabbedMDI.LoadTabGroupStates(serializer);
-            MessageBox.Show("State loaded from Binary", "Success");
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error: {ex.Message}");
-        }
-    }
-
-    private void LoadFromIsolated()
-    {
-        try
-        {
-            AppStateSerializer serializer = new AppStateSerializer(
-                SerializeMode.IsolatedStorage, "StateIsolated");
-            tabbedMDI.LoadTabGroupStates(serializer);
-            MessageBox.Show("State loaded from Isolated Storage", "Success");
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error: {ex.Message}");
-        }
-    }
-
-    private void CreateNewDocument()
-    {
-        Form doc = new Form();
-        doc.Text = $"Document {this.MdiChildren.Length + 1}";
-        doc.MdiParent = this;
-        doc.Show();
     }
 
     private void CreateInitialDocuments()

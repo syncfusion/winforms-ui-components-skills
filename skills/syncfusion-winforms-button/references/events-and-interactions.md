@@ -91,29 +91,13 @@ public partial class LoginForm : Form
     {
         InitializeComponent();
         
-        // Create username textbox
-        txtUsername = new TextBox();
-        txtUsername.Location = new Point(50, 50);
-        txtUsername.Size = new Size(200, 30);
-        this.Controls.Add(txtUsername);
-
-        // Create password textbox
-        txtPassword = new TextBox();
-        txtPassword.PasswordChar = '*';
-        txtPassword.Location = new Point(50, 100);
-        txtPassword.Size = new Size(200, 30);
-        this.Controls.Add(txtPassword);
-
-        // Create login button
-        btnLogin = new SfButton();
-        btnLogin.Text = "Login";
-        btnLogin.Location = new Point(50, 150);
-        btnLogin.Size = new Size(200, 40);
+        txtUsername = new TextBox { Location = new Point(50, 50), Size = new Size(200, 30) };
+        txtPassword = new TextBox { PasswordChar = '*', Location = new Point(50, 100), Size = new Size(200, 30) };
+        btnLogin = new SfButton { Text = "Login", Location = new Point(50, 150), Size = new Size(200, 40) };
         btnLogin.Click += BtnLogin_Click;
-        this.Controls.Add(btnLogin);
-
-        // Set as Accept button (ENTER key triggers login)
-        this.AcceptButton = btnLogin;
+        
+        this.Controls.AddRange(new Control[] { txtUsername, txtPassword, btnLogin });
+        this.AcceptButton = btnLogin;  // ENTER key triggers login
     }
 
     private void BtnLogin_Click(object sender, EventArgs e)
@@ -141,74 +125,34 @@ public partial class LoginForm : Form
 }
 ```
 
-### Accept Button Note
-
-**Important:** The Accept button may not activate if another control on the form intercepts the ENTER key (like TextBox).
+**Note:** The Accept button may not activate if another control intercepts the ENTER key.
 
 ---
 
 ## Cancel Button (Form Cancellation)
 
-### Setting Cancel Button
-
 Set SfButton as the form's Cancel button (triggered by ESC key):
-
-```csharp
-// In Form1_Load or constructor
-this.CancelButton = sfButton2;
-
-// When user presses ESC, this button's Click event fires
-```
-
-### Complete Example
 
 ```csharp
 public partial class DialogForm : Form
 {
-    private SfButton btnOK;
-    private SfButton btnCancel;
-
     public DialogForm()
     {
         InitializeComponent();
         
-        // OK button
-        btnOK = new SfButton();
-        btnOK.Text = "OK";
-        btnOK.Location = new Point(100, 150);
-        btnOK.Size = new Size(100, 40);
-        btnOK.Click += BtnOK_Click;
-        this.Controls.Add(btnOK);
-
-        // Cancel button
-        btnCancel = new SfButton();
-        btnCancel.Text = "Cancel";
-        btnCancel.Location = new Point(210, 150);
-        btnCancel.Size = new Size(100, 40);
-        btnCancel.Click += BtnCancel_Click;
-        this.Controls.Add(btnCancel);
-
-        // Set Cancel button for ESC key
-        this.CancelButton = btnCancel;
-    }
-
-    private void BtnOK_Click(object sender, EventArgs e)
-    {
-        this.DialogResult = DialogResult.OK;
-        this.Close();
-    }
-
-    private void BtnCancel_Click(object sender, EventArgs e)
-    {
-        this.DialogResult = DialogResult.Cancel;
-        this.Close();
+        var btnOK = new SfButton { Text = "OK", Location = new Point(100, 150), Size = new Size(100, 40) };
+        btnOK.Click += (s, e) => { this.DialogResult = DialogResult.OK; this.Close(); };
+        
+        var btnCancel = new SfButton { Text = "Cancel", Location = new Point(210, 150), Size = new Size(100, 40) };
+        btnCancel.Click += (s, e) => { this.DialogResult = DialogResult.Cancel; this.Close(); };
+        
+        this.Controls.AddRange(new Control[] { btnOK, btnCancel });
+        this.CancelButton = btnCancel;  // ESC key triggers cancel
     }
 }
 ```
 
-### Cancel Button Note
-
-**Important:** The Cancel button may not work if another control on the form intercepts the ESC key.
+**Note:** The Cancel button may not work if another control intercepts the ESC key.
 
 ---
 
@@ -228,52 +172,16 @@ SfToolTip sfToolTip1 = new SfToolTip();
 sfToolTip1.SetToolTip(this.sfButton1, "Click to save changes");
 ```
 
-### Complete Tooltip Example
+### Multiple Tooltips
 
 ```csharp
-public partial class Form1 : Form
-{
-    private SfButton btnSave;
-    private SfButton btnDelete;
-    private SfToolTip toolTip;
+// Attach tooltips to multiple buttons
+var toolTip = new SfToolTip();
+toolTip.SetToolTip(btnSave, "Save the current document (Ctrl+S)");
+toolTip.SetToolTip(btnDelete, "Delete selected item (this cannot be undone)");
+toolTip.SetToolTip(btnExit, "Close application");
 
-    public Form1()
-    {
-        InitializeComponent();
-        
-        // Create tooltip
-        toolTip = new SfToolTip();
-        
-        // Save button with tooltip
-        btnSave = new SfButton();
-        btnSave.Text = "Save";
-        btnSave.Location = new Point(50, 50);
-        btnSave.Size = new Size(100, 40);
-        this.Controls.Add(btnSave);
-        toolTip.SetToolTip(btnSave, "Save the current document (Ctrl+S)");
-
-        // Delete button with tooltip
-        btnDelete = new SfButton();
-        btnDelete.Text = "Delete";
-        btnDelete.Location = new Point(160, 50);
-        btnDelete.Size = new Size(100, 40);
-        this.Controls.Add(btnDelete);
-        toolTip.SetToolTip(btnDelete, "Delete selected item (this cannot be undone)");
-    }
-}
-```
-
-### Tooltip Features
-
-```csharp
-// Set multiple tooltips
-sfToolTip.SetToolTip(btnSave, "Save document");
-sfToolTip.SetToolTip(btnDelete, "Delete item");
-sfToolTip.SetToolTip(btnExit, "Close application");
-
-// Tooltip appears on hover
-// Disappears when mouse leaves button
-// Auto-hides after 5-10 seconds
+// Tooltips appear on hover and auto-hide after 5-10 seconds
 ```
 
 ---
@@ -360,35 +268,12 @@ When disabled, button shows:
 ### Conditional Disabling Example
 
 ```csharp
-public partial class Form1 : Form
+// Enable button only when input is not empty
+btnSubmit.Enabled = false;  // Initially disabled
+txtInput.TextChanged += (s, e) => 
 {
-    private TextBox txtInput;
-    private SfButton btnSubmit;
-
-    public Form1()
-    {
-        InitializeComponent();
-        
-        txtInput = new TextBox();
-        txtInput.Location = new Point(50, 50);
-        txtInput.Size = new Size(200, 30);
-        txtInput.TextChanged += TxtInput_TextChanged;
-        this.Controls.Add(txtInput);
-
-        btnSubmit = new SfButton();
-        btnSubmit.Text = "Submit";
-        btnSubmit.Location = new Point(50, 100);
-        btnSubmit.Size = new Size(200, 40);
-        btnSubmit.Enabled = false;  // Initially disabled
-        this.Controls.Add(btnSubmit);
-    }
-
-    private void TxtInput_TextChanged(object sender, EventArgs e)
-    {
-        // Enable button only if input is not empty
-        btnSubmit.Enabled = !string.IsNullOrWhiteSpace(txtInput.Text);
-    }
-}
+    btnSubmit.Enabled = !string.IsNullOrWhiteSpace(txtInput.Text);
+};
 ```
 
 ---
@@ -398,66 +283,36 @@ public partial class Form1 : Form
 ```csharp
 public partial class InteractionDemo : Form
 {
-    private SfButton btnAction;
-    private SfButton btnCancel;
     private TextBox txtLog;
-    private SfToolTip toolTip;
+    private SfButton btnAction, btnCancel;
 
     public InteractionDemo()
     {
         InitializeComponent();
-        
-        // Configure form
         this.Text = "Button Interaction Demo";
         this.Size = new Size(400, 300);
 
-        // Log textbox
-        txtLog = new TextBox();
-        txtLog.Location = new Point(20, 20);
-        txtLog.Size = new Size(360, 150);
-        txtLog.Multiline = true;
-        txtLog.ReadOnly = true;
-        this.Controls.Add(txtLog);
+        txtLog = new TextBox 
+        { 
+            Location = new Point(20, 20), Size = new Size(360, 150), 
+            Multiline = true, ReadOnly = true,
+            Text = "Ready. Press Tab to navigate, Enter to execute, Esc to close."
+        };
 
-        // Action button
-        btnAction = new SfButton();
-        btnAction.Text = "Perform Action";
-        btnAction.Location = new Point(80, 180);
-        btnAction.Size = new Size(120, 40);
-        btnAction.Click += BtnAction_Click;
-        btnAction.Focus();  // Initial focus
-        this.Controls.Add(btnAction);
+        btnAction = new SfButton { Text = "Perform Action", Location = new Point(80, 180), Size = new Size(120, 40) };
+        btnAction.Click += (s, e) => txtLog.AppendText($"\r\n[{DateTime.Now:HH:mm:ss}] Action performed!");
+        btnAction.Focus();
 
-        // Cancel button
-        btnCancel = new SfButton();
-        btnCancel.Text = "Close";
-        btnCancel.Location = new Point(210, 180);
-        btnCancel.Size = new Size(120, 40);
-        btnCancel.Click += BtnCancel_Click;
-        this.Controls.Add(btnCancel);
+        btnCancel = new SfButton { Text = "Close", Location = new Point(210, 180), Size = new Size(120, 40) };
+        btnCancel.Click += (s, e) => { txtLog.AppendText("\r\nClosing form..."); this.Close(); };
 
-        // Setup tooltips
-        toolTip = new SfToolTip();
+        var toolTip = new SfToolTip();
         toolTip.SetToolTip(btnAction, "Click to perform the action (Enter key works)");
         toolTip.SetToolTip(btnCancel, "Close this form (Escape key works)");
-
-        // Set Accept and Cancel buttons
+        
+        this.Controls.AddRange(new Control[] { txtLog, btnAction, btnCancel });
         this.AcceptButton = btnAction;
         this.CancelButton = btnCancel;
-
-        // Initial message
-        txtLog.Text = "Ready. Press Tab to navigate, Enter to execute, Esc to close.";
-    }
-
-    private void BtnAction_Click(object sender, EventArgs e)
-    {
-        txtLog.AppendText($"\r\n[{DateTime.Now:HH:mm:ss}] Action performed!");
-    }
-
-    private void BtnCancel_Click(object sender, EventArgs e)
-    {
-        txtLog.AppendText("\r\nClosing form...");
-        this.Close();
     }
 }
 ```

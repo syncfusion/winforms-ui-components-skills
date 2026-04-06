@@ -45,18 +45,6 @@ childManager.DockControl(nestedPanel2, childContainer, DockingStyle.Bottom, 150)
 
 **Use case:** Complex layouts with independent docking areas (e.g., plugin containers, MDI children with internal docking).
 
-**VB.NET:**
-
-```vb
-' Create nested DockingManager
-Dim childContainer As New Panel()
-Dim childManager As New DockingManager(Me.components)
-childManager.HostControl = childContainer
-
-' Dock container in parent manager
-parentManager.SetEnableDocking(childContainer, True)
-parentManager.DockControl(childContainer, Me, DockingStyle.Left, 300)
-```
 
 ## Linked Docking Managers
 
@@ -112,13 +100,6 @@ this.dockingManager1.SetDockAbility(panel1,
 - `DockAbility.Fill` - Can fill center area
 - `DockAbility.Dockable` - Shortcut for Left | Right | Top | Bottom
 
-**VB.NET:**
-
-```vb
-' Restrict docking to left and right only
-Me.dockingManager1.SetDockAbility(panel1, _
-    DockAbility.Left Or DockAbility.Right)
-```
 
 ### Common Dock Ability Combinations
 
@@ -196,13 +177,6 @@ this.dockingManager1.SetControlMinimumSize(panel1, new Size(150, 100));
 
 Window cannot be resized smaller than this size.
 
-**VB.NET:**
-
-```vb
-' Set minimum size
-Me.dockingManager1.SetControlMinimumSize(panel1, New Size(150, 100))
-```
-
 ### Freeze Resizing
 
 ```csharp
@@ -267,13 +241,6 @@ this.dockingManager1.DockLabelAlignment = DockLabelAlignment.Center;
 // Options: Left (default), Center, Right
 ```
 
-**VB.NET:**
-
-```vb
-' Center-align caption text
-Me.dockingManager1.DockLabelAlignment = DockLabelAlignment.Center
-```
-
 ## Context Menu Management
 
 ### Disable Context Menu
@@ -311,19 +278,6 @@ this.dockingManager1.DockContextMenu += (s, e) =>
     e.ContextMenu.ParentBarItem.Items.Add(customItem);
 };
 ```
-
-**VB.NET:**
-
-```vb
-Private Sub DockingManager1_DockContextMenu(sender As Object, _
-    e As DockContextMenuEventArgs) Handles dockingManager1.DockContextMenu
-    
-    ' Add custom menu item
-    Dim customItem As New BarItem With {.Text = "Custom Action"}
-    e.ContextMenu.ParentBarItem.Items.Add(customItem)
-End Sub
-```
-
 ## Splitter Customization
 
 ### Splitter Width
@@ -441,177 +395,11 @@ this.dockingManager1.ProvidePersistenceID += (s, e) =>
 
 Each instance saves its layout separately using the unique ID.
 
-## Complete Advanced Example
 
-```csharp
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Syncfusion.Windows.Forms.Tools;
-using Syncfusion.Windows.Forms.Tools.XPMenus;
+## Complete Example
+A full working example is available in the samples repository.
+This documentation focuses on individual API usage.
 
-public class AdvancedExample : Form
-{
-    private DockingManager dockingManager1;
-    private Panel leftPanel, rightPanel, centerPanel, floatingPanel;
-    
-    public AdvancedExample()
-    {
-        InitializeComponent();
-        SetupAdvancedDocking();
-    }
-    
-    private void SetupAdvancedDocking()
-    {
-        // Create DockingManager
-        this.dockingManager1 = new DockingManager(this.components);
-        this.dockingManager1.HostControl = this;
-        
-        // Enable advanced features
-        this.dockingManager1.MaximizeButtonEnabled = true;
-        this.dockingManager1.DockToFill = true;
-        this.dockingManager1.EnableContextMenu = true;
-        
-        // Visual configuration
-        this.dockingManager1.VisualStyle = VisualStyle.Metro;
-        this.dockingManager1.SplitterWidth = 5;
-        this.dockingManager1.MetroSplitterBackColor = Color.Gray;
-        
-        // Create panels
-        leftPanel = new Panel { BackColor = Color.LightBlue };
-        rightPanel = new Panel { BackColor = Color.LightGreen };
-        centerPanel = new Panel { BackColor = Color.White };
-        floatingPanel = new Panel { BackColor = Color.LightYellow };
-        
-        this.Controls.AddRange(new Control[] 
-        { 
-            leftPanel, rightPanel, centerPanel, floatingPanel 
-        });
-        
-        // Enable docking
-        this.dockingManager1.SetEnableDocking(leftPanel, true);
-        this.dockingManager1.SetEnableDocking(rightPanel, true);
-        this.dockingManager1.SetEnableDocking(centerPanel, true);
-        this.dockingManager1.SetEnableDocking(floatingPanel, true);
-        
-        // Set labels
-        this.dockingManager1.SetDockLabel(leftPanel, "Tools");
-        this.dockingManager1.SetDockLabel(rightPanel, "Properties");
-        this.dockingManager1.SetDockLabel(centerPanel, "Canvas");
-        this.dockingManager1.SetDockLabel(floatingPanel, "Floating Palette");
-        
-        // Configure dock abilities
-        // Tools: Can dock left/right, can float, cannot be tabbed
-        this.dockingManager1.SetDockAbility(leftPanel, 
-            DockAbility.Left | DockAbility.Right | DockAbility.Floatable);
-        
-        // Properties: Can dock anywhere, can tab, can float
-        this.dockingManager1.SetDockAbility(rightPanel, 
-            DockAbility.Dockable | DockAbility.Tabbed | DockAbility.Floatable);
-        
-        // Center: Fill only, cannot float or dock elsewhere
-        this.dockingManager1.SetDockAbility(centerPanel, 
-            DockAbility.Fill);
-        
-        // Floating: Float only, cannot be docked
-        this.dockingManager1.SetFloatOnly(floatingPanel, true);
-        
-        // Set size constraints
-        this.dockingManager1.SetControlMinimumSize(leftPanel, new Size(150, 200));
-        this.dockingManager1.SetControlMinimumSize(rightPanel, new Size(200, 150));
-        
-        // Arrange windows
-        this.dockingManager1.DockControl(leftPanel, this, 
-            DockingStyle.Left, 250);
-        this.dockingManager1.DockControl(rightPanel, this, 
-            DockingStyle.Right, 300);
-        this.dockingManager1.DockControl(centerPanel, this, 
-            DockingStyle.Fill, 200);
-        
-        // Float the palette
-        this.dockingManager1.FloatControl(floatingPanel, 
-            new Rectangle(100, 100, 200, 300));
-        
-        // Customize context menu
-        this.dockingManager1.DockContextMenu += DockingManager1_DockContextMenu;
-        
-        // Handle maximize events
-        this.dockingManager1.ControlMaximized += 
-            DockingManager1_ControlMaximized;
-        this.dockingManager1.ControlRestored += 
-            DockingManager1_ControlRestored;
-    }
-    
-    private void DockingManager1_DockContextMenu(object sender, 
-        DockContextMenuEventArgs e)
-    {
-        // Add custom menu items
-        BarItem lockItem = new BarItem { Text = "Lock Position" };
-        lockItem.Click += (s, args) =>
-        {
-            // Lock window in place
-            this.dockingManager1.SetDockAbility(e.Owner, DockAbility.None);
-            MessageBox.Show("Window position locked!");
-        };
-        
-        BarItem unlockItem = new BarItem { Text = "Unlock Position" };
-        unlockItem.Click += (s, args) =>
-        {
-            // Unlock window
-            this.dockingManager1.SetDockAbility(e.Owner, 
-                DockAbility.Dockable | DockAbility.Floatable | DockAbility.Tabbed);
-            MessageBox.Show("Window position unlocked!");
-        };
-        
-        BarItem separator = new BarItem { BarItemType = BarItemType.Sep };
-        
-        e.ContextMenu.ParentBarItem.Items.Insert(0, lockItem);
-        e.ContextMenu.ParentBarItem.Items.Insert(1, unlockItem);
-        e.ContextMenu.ParentBarItem.Items.Insert(2, separator);
-    }
-    
-    private void DockingManager1_ControlMaximized(object sender, 
-        ControlMaximizedEventArgs e)
-    {
-        string label = this.dockingManager1.GetDockLabel(e.Control);
-        this.Text = $"Advanced Example - {label} Maximized";
-    }
-    
-    private void DockingManager1_ControlRestored(object sender, 
-        ControlRestoredEventArgs e)
-    {
-        this.Text = "Advanced Example";
-    }
-}
-```
-
-**VB.NET Example:**
-
-```vb
-Private Sub SetupAdvancedDocking()
-    ' Create DockingManager
-    Me.dockingManager1 = New DockingManager(Me.components)
-    Me.dockingManager1.HostControl = Me
-    
-    ' Enable features
-    Me.dockingManager1.MaximizeButtonEnabled = True
-    Me.dockingManager1.DockToFill = True
-    
-    ' Enable docking
-    Me.dockingManager1.SetEnableDocking(panel1, True)
-    Me.dockingManager1.SetDockLabel(panel1, "Tools")
-    
-    ' Restrict docking
-    Me.dockingManager1.SetDockAbility(panel1, _
-        DockAbility.Left Or DockAbility.Right Or DockAbility.Floatable)
-    
-    ' Set minimum size
-    Me.dockingManager1.SetControlMinimumSize(panel1, New Size(150, 200))
-    
-    ' Dock
-    Me.dockingManager1.DockControl(panel1, Me, DockingStyle.Left, 250)
-End Sub
-```
 
 ## Best Practices
 

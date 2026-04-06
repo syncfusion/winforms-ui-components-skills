@@ -32,7 +32,7 @@ chartControl1.LegendsPlacement = ChartPlacement.Outside;
 
 ### Floating Legend
 ```csharp
-chartControl1.Legend.Floating = true;
+chartControl1.Legend.DockingFree = true;
 chartControl1.Legend.Location = new Point(100, 50);  // Custom position
 ```
 
@@ -47,8 +47,8 @@ chartControl1.Legend.BackColor = Color.White;
 
 ### Border
 ```csharp
-chartControl1.Legend.BorderStyle = BorderStyle.FixedSingle;
-chartControl1.Legend.Border.Color = Color.Gray;
+chartControl1.Legend.Border.BackColor = Color.Gray;
+chartControl1.Legend.Border.ForeColor = Color.Red;
 chartControl1.Legend.Border.Width = 1;
 ```
 
@@ -71,14 +71,14 @@ Add items not tied to series:
 ChartLegendItem customItem = new ChartLegendItem();
 customItem.Text = "Target Line";
 customItem.Interior = new BrushInfo(Color.Red);
-customItem.Shape = ChartLegendShape.Line;
+customItem.ItemStyle.Symbol.Shape = ChartSymbolShape.VertLine;
 
-chartControl1.Legend.CustomItems.Add(customItem);
+chartControl1.Legend.CustomItems = new ChartLegendItem[] { customItem };
 ```
 
 ### Modify Existing Items
 ```csharp
-chartControl1.LegendItemsChanged += (sender, args) =>
+chartControl1.Legend.FilterItems += (sender, args) =>
 {
     foreach (ChartLegendItem item in chartControl1.Legend.Items)
     {
@@ -101,7 +101,7 @@ series.Legend = secondLegend;
 ## Hide Specific Series from Legend
 
 ```csharp
-series.ShowInLegend = false;
+series.LegendItem.Visible = false;
 ```
 
 ## Legend Orientation

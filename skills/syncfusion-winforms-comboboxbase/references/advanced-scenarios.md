@@ -476,7 +476,6 @@ public class NestedComboBoxExample : Form
         // Add to form
         this.Controls.Add(triggerButton);
         this.Controls.Add(mainPopup);
-        this.Controls.Add(listBox1);
     }
     
     private void TriggerButton_Click(object sender, EventArgs e)

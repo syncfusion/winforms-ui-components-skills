@@ -12,37 +12,31 @@ Export chart as image file.
 
 ```csharp
 // PNG export
-chartControl1.SaveImage("chart.png", ChartImageFormat.Png);
+chartControl1.SaveImage("chart.png");
 
 // JPEG export
-chartControl1.SaveImage("chart.jpg", ChartImageFormat.Jpeg);
+chartControl1.SaveImage("chart.jpg");
 
 // BMP export
-chartControl1.SaveImage("chart.bmp", ChartImageFormat.Bmp);
+chartControl1.SaveImage("chart.bmp");
 
 // GIF export
-chartControl1.SaveImage("chart.gif", ChartImageFormat.Gif);
+chartControl1.SaveImage("chart.gif");
 ```
 
 ### Export to Stream
 ```csharp
 using (MemoryStream stream = new MemoryStream())
 {
-    chartControl1.SaveImage(stream, ChartImageFormat.Png);
+    chartControl1.SaveImage(stream);
     byte[] imageBytes = stream.ToArray();
 }
-```
-
-### Export with Custom Size
-```csharp
-Image image = chartControl1.GetChartImage(new Size(800, 600));
-image.Save("chart.png", ImageFormat.Png);
 ```
 
 ## PDF Export
 
 ```csharp
-chartControl1.SaveImage("chart.pdf", ChartImageFormat.PDF);
+chartControl1.SaveImage("chart.pdf");
 ```
 
 ## Excel/Word Export
@@ -76,7 +70,7 @@ using (WordDocument document = new WordDocument())
     Image chartImage = chartControl1.GetChartImage();
     WPicture picture = paragraph.AppendPicture(chartImage) as WPicture;
     
-    document.Save("chart.docx", FormatType.Docx);
+    document.Save("chart.docx", Syncfusion.DocIO.FormatType.Doc);
 }
 ```
 
@@ -159,7 +153,7 @@ highResImage.Save("chart_hires.png", ImageFormat.Png);
 ```csharp
 // Export in multiple formats
 string baseName = "sales_chart";
-chartControl1.SaveImage($"{baseName}.png", ChartImageFormat.Png);
-chartControl1.SaveImage($"{baseName}.pdf", ChartImageFormat.PDF);
-chartControl1.SaveImage($"{baseName}.jpg", ChartImageFormat.Jpeg);
+chartControl1.SaveImage($"{baseName}.png");
+chartControl1.SaveImage($"{baseName}.pdf");
+chartControl1.SaveImage($"{baseName}.jpg");
 ```

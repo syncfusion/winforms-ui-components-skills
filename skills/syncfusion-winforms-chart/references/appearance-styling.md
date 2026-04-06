@@ -53,7 +53,7 @@ chartControl1.CustomPalette = new Color[]
 
 **Non-gradient palette:**
 ```csharp
-chartControl1.UseGradientPalette = false;  // Solid colors
+chartControl1.AllowGradientPalette = false;  // Solid colors
 ```
 
 ## Fonts and Text
@@ -145,13 +145,11 @@ chartControl1.ChartInterior = new BrushInfo(Color.White);
 ## Border Styling
 
 ```csharp
-// Chart control border
-chartControl1.BorderStyle = BorderStyle.FixedSingle;
 
 // Chart area border
-chartControl1.ChartArea.Border.Color = Color.Black;
-chartControl1.ChartArea.Border.Width = 1;
-chartControl1.ChartArea.Border.DashStyle = DashStyle.Solid;
+chartControl1.ChartArea.BorderColor = Color.Black;
+chartControl1.ChartArea.BorderWidth = 1;
+chartControl1.ChartArea.BorderStyle = BorderStyle.FixedSingle;
 ```
 
 ## Complete Styling Example

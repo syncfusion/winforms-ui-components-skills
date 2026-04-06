@@ -1,12 +1,5 @@
 # Events & Interaction Handling
 
-## Table of Contents
-- [Available Events](#available-events)
-- [Event Examples](#event-examples)
-- [Context Menu](#context-menu)
-- [Tooltips](#tooltips)
-- [Complete Examples](#complete-examples)
-
 ## Available Events
 
 TabbedMDIManager provides several events for handling user interactions:
@@ -24,516 +17,318 @@ TabbedMDIManager provides several events for handling user interactions:
 
 ### BeforeMDIChildAdded Event
 
-Triggered before a new MDI child is added to the container:
+Triggered before a new MDI child is added to the container. Use for validation, initial styling, or preventing addition.
 
 ```csharp
-private void SetupBeforeMDIChildAdded()
+tabbedMDIManager.BeforeMDIChildAdded += (sender, e) =>
 {
-    tabbedMDIManager.BeforeMDIChildAdded += (sender, e) =>
+    Form newForm = e.NewControl as Form;
+    if (newForm != null)
     {
-        // e.NewControl is the form being added
-        Form newForm = e.NewControl as Form;
-
-        if (newForm != null)
-        {
-            Console.WriteLine($"Adding child form: {newForm.Text}");
-
-            // Can modify the form before it's displayed
-            if (!newForm.Text.StartsWith("Document"))
-            {
-                newForm.Text = $"Document - {newForm.Text}";
-            }
-
-            // Can prevent adding by setting e.Cancel = true
-            // e.Cancel = true;  // Prevents form from being added
-        }
-    };
-}
+        Console.WriteLine($"Adding child form: {newForm.Text}");
+        if (!newForm.Text.StartsWith("Document"))
+            newForm.Text = $"Document - {newForm.Text}";
+        // e.Cancel = true;  // Prevents form from being added
+    }
+};
 ```
-
-**Use Cases:**
-- Validate that a form meets requirements before adding
-- Apply initial styling or state to new documents
-- Log document creation
-- Prevent invalid documents from being added
 
 ### TabControlAdded Event
 
-Triggered when a new tab group is created:
+Triggered when a new tab group is created. Use for customizing tab appearance and behavior.
 
 ```csharp
-private void SetupTabControlAdded()
+tabbedMDIManager.TabControlAdded += (sender, args) =>
 {
-    tabbedMDIManager.TabControlAdded += (sender, args) =>
-    {
-        TabControlAdv tabControl = args.TabControl;
-
-        // Customize the tab control
-        tabControl.Alignment = TabAlignment.Top;
-        tabControl.Font = new Font("Segoe UI", 10, FontStyle.Regular);
-
-        Console.WriteLine($"New tab group created with {tabControl.TabPages.Count} tabs");
-    };
-}
+    args.TabControl.Alignment = TabAlignment.Top;
+    args.TabControl.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+    Console.WriteLine($"New tab group created with {args.TabControl.TabPages.Count} tabs");
+};
 ```
-
-**Use Cases:**
-- Set tab alignment for each group
-- Apply fonts and styling
-- Initialize group-specific behavior
-- Log tab group creation
 
 ### TabControlAdding Event
 
-Triggered while a tab control is being added:
+Triggered while a tab control is being added (fires earlier than TabControlAdded).
 
 ```csharp
-private void SetupTabControlAdding()
+tabbedMDIManager.TabControlAdding += (sender, args) =>
 {
-    tabbedMDIManager.TabControlAdding += (sender, args) =>
-    {
-        TabControlAdv tabControl = args.TabControl;
-
-        Console.WriteLine($"Tab control is being added: {tabControl.Name}");
-
-        // Perform setup before control is fully added
-        // Similar to TabControlAdded but fires earlier in the process
-    };
-}
+    Console.WriteLine($"Tab control is being added: {args.TabControl.Name}");
+    // Perform setup before control is fully added
+};
 ```
 
 ### TabControlRemoved Event
 
-Triggered when a tab group is removed:
+Triggered when a tab group is removed. Use for cleanup tasks.
 
 ```csharp
-private void SetupTabControlRemoved()
+tabbedMDIManager.TabControlRemoved += (sender, args) =>
 {
-    tabbedMDIManager.TabControlRemoved += (sender, args) =>
-    {
-        TabControlAdv removedTabControl = args.TabControl;
-
-        Console.WriteLine($"Tab group removed: {removedTabControl.Name}");
-        Console.WriteLine($"It had {removedTabControl.TabPages.Count} tabs");
-
-        // Cleanup when group is removed
-        // Example: Save state, update UI, etc.
-    };
-}
+    Console.WriteLine($"Tab group removed: {args.TabControl.Name} with {args.TabControl.TabPages.Count} tabs");
+    // Cleanup: save state, update UI, etc.
+};
 ```
 
 ### BeforeDropDownPopup Event
 
-Customize the dropdown menu appearance:
+Customize the dropdown menu appearance or prevent display.
 
 ```csharp
-private void SetupBeforeDropDownPopup()
+tabbedMDIManager.BeforeDropDownPopup += (sender, e) =>
 {
-    tabbedMDIManager.BeforeDropDownPopup += (sender, e) =>
-    {
-        // Set dropdown visual style
-        e.ParentBarItem.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016;
-
-        // Can prevent popup
-        // e.Cancel = true;
-
-        Console.WriteLine("Dropdown menu is about to show");
-    };
-}
+    e.ParentBarItem.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016;
+    // e.Cancel = true;  // Prevents popup
+    Console.WriteLine("Dropdown menu is about to show");
+};
 ```
-
-**Use Cases:**
-- Style the dropdown menu to match your app
-- Prevent dropdown in certain conditions
-- Log when users access the document list
 
 ### UnLockingMdIClient Event
 
-Triggered when the MDI client is unlocked:
+Triggered when the MDI client is being unlocked.
 
 ```csharp
-private void SetupUnLockingMdIClient()
+tabbedMDIManager.UnLockingMdIClient += (sender, e) =>
 {
-    tabbedMDIManager.UnLockingMdIClient += (sender, e) =>
-    {
-        Console.WriteLine("MDI client is being unlocked");
-
-        // Handle any cleanup or state changes
-        // This fires when switching from locked to unlocked MDI mode
-    };
-}
+    Console.WriteLine("MDI client is being unlocked");
+    // Handle cleanup or state changes when switching from locked to unlocked MDI mode
+};
 ```
 
-## Complete Event Setup Example
+## Complete Event Setup
 
 ```csharp
-private void SetupAllEvents()
+// Setup all events at once
+tabbedMDIManager.BeforeMDIChildAdded += (sender, e) =>
 {
-    // BeforeMDIChildAdded - Validate new documents
-    tabbedMDIManager.BeforeMDIChildAdded += (sender, e) =>
-    {
-        Form form = e.NewControl as Form;
-        if (form != null)
-        {
-            Console.WriteLine($"[BeforeMDIChildAdded] {form.Text}");
-        }
-    };
+    if (e.NewControl is Form form)
+        Console.WriteLine($"[BeforeMDIChildAdded] {form.Text}");
+};
 
-    // TabControlAdded - Customize tab groups
-    tabbedMDIManager.TabControlAdded += (sender, args) =>
-    {
-        Console.WriteLine("[TabControlAdded] New tab group created");
-        args.TabControl.Alignment = TabAlignment.Top;
-    };
+tabbedMDIManager.TabControlAdded += (sender, args) =>
+{
+    Console.WriteLine("[TabControlAdded] New tab group created");
+    args.TabControl.Alignment = TabAlignment.Top;
+};
 
-    // TabControlAdding - Early setup
-    tabbedMDIManager.TabControlAdding += (sender, args) =>
-    {
-        Console.WriteLine("[TabControlAdding] Tab group is being created");
-    };
+tabbedMDIManager.TabControlAdding += (sender, args) =>
+    Console.WriteLine("[TabControlAdding] Tab group is being created");
 
-    // TabControlRemoved - Cleanup
-    tabbedMDIManager.TabControlRemoved += (sender, args) =>
-    {
-        Console.WriteLine("[TabControlRemoved] Tab group removed");
-    };
+tabbedMDIManager.TabControlRemoved += (sender, args) =>
+    Console.WriteLine("[TabControlRemoved] Tab group removed");
 
-    // BeforeDropDownPopup - Style dropdown
-    tabbedMDIManager.BeforeDropDownPopup += (sender, e) =>
-    {
-        Console.WriteLine("[BeforeDropDownPopup] Dropdown is showing");
-        e.ParentBarItem.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016;
-    };
+tabbedMDIManager.BeforeDropDownPopup += (sender, e) =>
+{
+    Console.WriteLine("[BeforeDropDownPopup] Dropdown is showing");
+    e.ParentBarItem.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016;
+};
 
-    // UnLockingMdIClient - Lock/unlock handling
-    tabbedMDIManager.UnLockingMdIClient += (sender, e) =>
-    {
-        Console.WriteLine("[UnLockingMdIClient] MDI client unlocked");
-    };
-}
+tabbedMDIManager.UnLockingMdIClient += (sender, e) =>
+    Console.WriteLine("[UnLockingMdIClient] MDI client unlocked");
 ```
 
 ## Context Menu
 
-### Understanding Context Menu
-
-Right-clicking on a tab shows a default context menu with options like:
-- Close tab
-- Move to new group
-- Close other tabs
-- etc.
-
-### Using ContextMenuItem Property
-
-```csharp
-private void SetupContextMenu()
-{
-    using Syncfusion.Windows.Forms.Tools.XPMenus;
-
-    // Create custom bar items
-    ParentBarItem contextMenu = new ParentBarItem();
-
-    // Add custom item 1
-    BarItem customItem1 = new BarItem();
-    customItem1.Text = "Save Document";
-    customItem1.MergeOrder = 30;
-    contextMenu.Items.Add(customItem1);
-
-    // Add custom item 2
-    BarItem customItem2 = new BarItem();
-    customItem2.Text = "Print Document";
-    customItem2.MergeOrder = 31;
-    contextMenu.Items.Add(customItem2);
-
-    // Assign to manager
-    tabbedMDIManager.ContextMenuItem = contextMenu;
-
-    // Result: Default menu items + your custom items
-}
-```
+Right-clicking on a tab shows a default context menu (Close, Move to new group, etc.). Customize using `ContextMenuItem` property.
 
 ### Custom Context Menu with Event Handlers
 
 ```csharp
-private void SetupContextMenuWithEvents()
-{
-    using Syncfusion.Windows.Forms.Tools.XPMenus;
+using Syncfusion.Windows.Forms.Tools.XPMenus;
 
-    ParentBarItem contextMenu = new ParentBarItem();
+var contextMenu = new ParentBarItem();
 
-    // Save item
-    BarItem saveItem = new BarItem();
-    saveItem.Text = "Save";
-    saveItem.MergeOrder = 30;
-    saveItem.Click += (s, e) =>
-    {
-        Console.WriteLine("User clicked Save from context menu");
-        // Implement save logic
-    };
-    contextMenu.Items.Add(saveItem);
+// Add custom menu items with event handlers
+contextMenu.Items.Add(new BarItem 
+{ 
+    Text = "Save", 
+    MergeOrder = 30 
+}.With(item => item.Click += (s, e) => Console.WriteLine("Save clicked")));
 
-    // Close item
-    BarItem closeItem = new BarItem();
-    closeItem.Text = "Close This Tab";
-    closeItem.MergeOrder = 31;
-    closeItem.Click += (s, e) =>
-    {
-        Console.WriteLine("User clicked Close from context menu");
-        // Implement close logic
-    };
-    contextMenu.Items.Add(closeItem);
+contextMenu.Items.Add(new BarItem 
+{ 
+    Text = "Save As...", 
+    MergeOrder = 31 
+}.With(item => item.Click += (s, e) => Console.WriteLine("Save As clicked")));
 
-    tabbedMDIManager.ContextMenuItem = contextMenu;
-}
+contextMenu.BeginGroupAt(contextMenu.Items[0] as BarItem);
+
+contextMenu.Items.Add(new BarItem 
+{ 
+    Text = "Print", 
+    MergeOrder = 40 
+}.With(item => item.Click += (s, e) => Console.WriteLine("Print clicked")));
+
+contextMenu.Items.Add(new BarItem 
+{ 
+    Text = "Properties", 
+    MergeOrder = 50 
+}.With(item => item.Click += (s, e) => MessageBox.Show("Properties...")));
+
+tabbedMDIManager.ContextMenuItem = contextMenu;
+
+// Note: Extension method for fluent syntax
+public static T With<T>(this T obj, Action<T> action) { action(obj); return obj; }
 ```
 
 ## Tooltips
 
-### Setting Tooltips for Tabs
+Use `SetTooltip` and `GetTooltip` methods to manage tab tooltips.
 
 ```csharp
-private void SetupTooltips()
+// Set tooltip for a form
+var doc = new Form { Text = "Document 1", MdiParent = this };
+doc.Show();
+tabbedMDIManager.SetTooltip(doc, "This is Document 1\nLast edited: Today");
+
+// Get tooltip
+string tooltip = tabbedMDIManager.GetTooltip(doc);
+
+// Update all tooltips dynamically
+foreach (Form childForm in this.MdiChildren)
 {
-    // Get tooltip for a specific form
-    Form doc = new Form() { Text = "Document 1", MdiParent = this };
-    doc.Show();
-
-    // Set tooltip
-    tabbedMDIManager.SetTooltip(doc, "This is Document 1\nLast edited: Today");
-
-    // Get tooltip
-    string tooltip = tabbedMDIManager.GetTooltip(doc);
-    Console.WriteLine($"Tooltip: {tooltip}");
+    tabbedMDIManager.SetTooltip(childForm, 
+        $"{childForm.Text}\nCreated: {DateTime.Now:g}\nStatus: Active");
 }
-```
-
-### Dynamic Tooltip Updates
-
-```csharp
-private void UpdateTooltips()
-{
-    foreach (Form childForm in this.MdiChildren)
-    {
-        // Create informative tooltip
-        string tooltip = $"{childForm.Text}\n";
-        tooltip += $"Created: {DateTime.Now:g}\n";
-        tooltip += $"Status: Active";
-
-        tabbedMDIManager.SetTooltip(childForm, tooltip);
-    }
-}
-
-// Show tooltip on mouse hover over tab
-// Tooltips automatically display when user hovers over tabs
-```
+// Tooltips automatically display on hover
 
 ## Complete Examples
 
-### Example 1: Document Tracking
+### Document Tracking with Events and Tooltips
 
 ```csharp
-public partial class DocumentTrackingForm : Form
+public class DocumentTrackingForm : Form
 {
     private TabbedMDIManager tabbedMDI;
-    private Dictionary<Form, DateTime> documentCreatedTimes = new Dictionary<Form, DateTime>();
+    private Dictionary<Form, DateTime> documentTimes = new Dictionary<Form, DateTime>();
 
     public DocumentTrackingForm()
     {
         InitializeComponent();
-        SetupTrackedMDI();
-    }
+        IsMdiContainer = true;
+        Text = "Document Tracking MDI";
 
-    private void SetupTrackedMDI()
-    {
-        this.IsMdiContainer = true;
-        this.Text = "Document Tracking MDI";
-
-        tabbedMDI = new TabbedMDIManager();
-        this.Controls.Add(tabbedMDI);
+        tabbedMDI = new TabbedMDIManager { ThemesEnabled = true };
+        Controls.Add(tabbedMDI);
         tabbedMDI.AttachToMdiContainer(this);
-        tabbedMDI.ThemesEnabled = true;
 
-        // Setup event tracking
+        // Track document creation
         tabbedMDI.BeforeMDIChildAdded += (sender, e) =>
         {
-            Form newForm = e.NewControl as Form;
-            if (newForm != null)
+            if (e.NewControl is Form form)
             {
-                // Track creation time
-                documentCreatedTimes[newForm] = DateTime.Now;
-                Console.WriteLine($"[Tracked] {newForm.Text} created at {DateTime.Now:HH:mm:ss}");
+                documentTimes[form] = DateTime.Now;
+                Console.WriteLine($"[Tracked] {form.Text} created at {DateTime.Now:HH:mm:ss}");
             }
         };
 
-        // Setup tooltips with timestamps
-        tabbedMDI.TabControlAdded += (sender, args) =>
-        {
-            // When a tab group is added, update tooltips
-            UpdateAllTooltips();
-        };
+        // Update tooltips when tab group is added
+        tabbedMDI.TabControlAdded += (sender, args) => UpdateAllTooltips();
 
-        CreateMenu();
-        CreateInitialDocs();
+        // Setup menu and create initial documents
+        var menu = new MenuStrip();
+        Controls.Add(menu);
+        MainMenuStrip = menu;
+        var fileMenu = (ToolStripMenuItem)menu.Items.Add("&File");
+        fileMenu.DropDownItems.Add("&New", null, (s, e) => CreateDocument());
+        fileMenu.DropDownItems.Add("E&xit", null, (s, e) => Close());
+
+        for (int i = 1; i <= 3; i++) CreateDocument();
     }
 
     private void UpdateAllTooltips()
     {
-        foreach (Form form in this.MdiChildren)
+        foreach (Form form in MdiChildren)
         {
-            if (documentCreatedTimes.TryGetValue(form, out DateTime createdTime))
+            if (documentTimes.TryGetValue(form, out DateTime created))
             {
-                string tooltip = $"{form.Text}\n";
-                tooltip += $"Created: {createdTime:g}\n";
-                tooltip += $"Age: {(DateTime.Now - createdTime).TotalMinutes:F1} minutes";
-                tabbedMDI.SetTooltip(form, tooltip);
+                tabbedMDI.SetTooltip(form, 
+                    $"{form.Text}\nCreated: {created:g}\nAge: {(DateTime.Now - created).TotalMinutes:F1} min");
             }
         }
     }
 
-    private void CreateMenu()
+    private void CreateDocument()
     {
-        MenuStrip menu = new MenuStrip();
-        this.Controls.Add(menu);
-        this.MainMenuStrip = menu;
-
-        ToolStripMenuItem fileMenu = menu.Items.Add("&File") as ToolStripMenuItem;
-        fileMenu.DropDownItems.Add("&New", null, (s, e) => CreateNewDocument());
-        fileMenu.DropDownItems.AddSeparator();
-        fileMenu.DropDownItems.Add("E&xit", null, (s, e) => this.Close());
-    }
-
-    private void CreateNewDocument()
-    {
-        Form doc = new Form();
-        doc.Text = $"Document {this.MdiChildren.Length + 1}";
-        doc.MdiParent = this;
+        var doc = new Form { Text = $"Document {MdiChildren.Length + 1}", MdiParent = this };
         doc.Show();
-    }
-
-    private void CreateInitialDocs()
-    {
-        for (int i = 1; i <= 3; i++) CreateNewDocument();
     }
 }
 ```
 
-### Example 2: Advanced Context Menu
+### Advanced Context Menu Example
 
 ```csharp
-public partial class AdvancedContextMenuForm : Form
+public class AdvancedContextMenuForm : Form
 {
     private TabbedMDIManager tabbedMDI;
 
     public AdvancedContextMenuForm()
     {
         InitializeComponent();
-        SetupAdvancedContextMenu();
-    }
+        IsMdiContainer = true;
+        Text = "Advanced Context Menu Demo";
 
-    private void SetupAdvancedContextMenu()
-    {
-        using Syncfusion.Windows.Forms.Tools.XPMenus;
-
-        this.IsMdiContainer = true;
-        this.Text = "Advanced Context Menu Demo";
-
-        tabbedMDI = new TabbedMDIManager();
-        this.Controls.Add(tabbedMDI);
+        tabbedMDI = new TabbedMDIManager { ThemesEnabled = true };
+        Controls.Add(tabbedMDI);
         tabbedMDI.AttachToMdiContainer(this);
-        tabbedMDI.ThemesEnabled = true;
 
         // Create custom context menu
-        ParentBarItem contextMenu = new ParentBarItem();
-
-        // Save section
-        BarItem saveItem = new BarItem();
-        saveItem.Text = "Save";
-        saveItem.MergeOrder = 30;
-        saveItem.Click += (s, e) => MessageBox.Show("Document saved!");
-        contextMenu.Items.Add(saveItem);
-
-        BarItem saveAsItem = new BarItem();
-        saveAsItem.Text = "Save As...";
-        saveAsItem.MergeOrder = 31;
-        saveAsItem.Click += (s, e) => MessageBox.Show("Save As dialog...");
-        contextMenu.Items.Add(saveAsItem);
-
-        // Separator
-        contextMenu.BeginGroupAt(saveItem);
-
-        // Print section
-        BarItem printItem = new BarItem();
-        printItem.Text = "Print";
-        printItem.MergeOrder = 40;
-        printItem.Click += (s, e) => MessageBox.Show("Printing...");
-        contextMenu.Items.Add(printItem);
-
-        contextMenu.BeginGroupAt(printItem);
-
-        // Properties
-        BarItem propertiesItem = new BarItem();
-        propertiesItem.Text = "Properties";
-        propertiesItem.MergeOrder = 50;
-        propertiesItem.Click += (s, e) => MessageBox.Show("Showing properties...");
-        contextMenu.Items.Add(propertiesItem);
-
-        // Assign to manager
-        tabbedMDI.ContextMenuItem = contextMenu;
-
-        // Style the dropdown
-        tabbedMDI.BeforeDropDownPopup += (sender, e) =>
+        var contextMenu = new ParentBarItem();
+        
+        var items = new[]
         {
-            e.ParentBarItem.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016;
+            new { Text = "Save", Order = 30, Handler = (EventHandler)((s, e) => MessageBox.Show("Saved!")) },
+            new { Text = "Save As...", Order = 31, Handler = (EventHandler)((s, e) => MessageBox.Show("Save As...")) },
+            new { Text = "Print", Order = 40, Handler = (EventHandler)((s, e) => MessageBox.Show("Printing...")) },
+            new { Text = "Properties", Order = 50, Handler = (EventHandler)((s, e) => MessageBox.Show("Properties...")) }
         };
 
-        CreateMenu();
-        CreateSampleDocs();
+        foreach (var item in items)
+        {
+            var barItem = new BarItem { Text = item.Text, MergeOrder = item.Order };
+            barItem.Click += item.Handler;
+            contextMenu.Items.Add(barItem);
+            if (item.Order == 40) contextMenu.BeginGroupAt(barItem);
+        }
+
+        tabbedMDI.ContextMenuItem = contextMenu;
+        tabbedMDI.BeforeDropDownPopup += (sender, e) =>
+            e.ParentBarItem.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016;
+
+        // Setup menu
+        var menu = new MenuStrip();
+        Controls.Add(menu);
+        MainMenuStrip = menu;
+        var fileMenu = (ToolStripMenuItem)menu.Items.Add("&File");
+        fileMenu.DropDownItems.Add("&New", null, (s, e) => CreateDocument());
+        fileMenu.DropDownItems.Add("E&xit", null, (s, e) => Close());
+
+        for (int i = 1; i <= 3; i++) CreateDocument();
     }
 
-    private void CreateMenu()
+    private void CreateDocument()
     {
-        MenuStrip menu = new MenuStrip();
-        this.Controls.Add(menu);
-        this.MainMenuStrip = menu;
-
-        ToolStripMenuItem fileMenu = menu.Items.Add("&File") as ToolStripMenuItem;
-        fileMenu.DropDownItems.Add("&New", null, (s, e) => CreateNewDocument());
-        fileMenu.DropDownItems.AddSeparator();
-        fileMenu.DropDownItems.Add("E&xit", null, (s, e) => this.Close());
-    }
-
-    private void CreateNewDocument()
-    {
-        Form doc = new Form();
-        doc.Text = $"Document {this.MdiChildren.Length + 1}";
-        doc.MdiParent = this;
+        var doc = new Form { Text = $"Document {MdiChildren.Length + 1}", MdiParent = this };
         doc.Show();
-    }
-
-    private void CreateSampleDocs()
-    {
-        for (int i = 1; i <= 3; i++) CreateNewDocument();
     }
 }
 ```
 
 ## Best Practices
 
-1. **Event order** - BeforeMDIChildAdded fires before TabControlAdded
-2. **Avoid heavy processing** - Keep event handlers lightweight
-3. **Error handling** - Wrap event code in try-catch
-4. **Memory management** - Unsubscribe from events if needed
-5. **State tracking** - Use dictionaries to track document state
+- **Event order** - BeforeMDIChildAdded fires before TabControlAdded
+- **Performance** - Keep event handlers lightweight; avoid heavy processing
+- **Error handling** - Wrap event code in try-catch blocks
+- **Memory** - Unsubscribe from events when disposing if needed
 
 ## Troubleshooting
 
-### Issue: Context Menu Items Not Showing
-**Solution:** Verify `ContextMenuItem` is assigned BEFORE adding documents
+**Context Menu Items Not Showing**: Assign `ContextMenuItem` BEFORE adding documents.
 
-### Issue: Tooltip Not Displaying
-**Solution:** Ensure tooltip is set AFTER form is added to MdiChildren:
+**Tooltip Not Displaying**: Set tooltip AFTER form is shown:
 ```csharp
-Form doc = new Form() { MdiParent = this };
+var doc = new Form { MdiParent = this };
 doc.Show();
-tabbedMDI.SetTooltip(doc, "My tooltip");  // Must be after show
+tabbedMDI.SetTooltip(doc, "My tooltip");  // Must be after Show()
 ```

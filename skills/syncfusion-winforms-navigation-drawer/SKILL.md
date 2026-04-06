@@ -260,9 +260,3 @@ this.Controls.Add(drawer);
 | `Opened` | Occurs when expand transition ends |
 | `Closing` | Occurs when collapse transition begins (cancelable) |
 | `Closed` | Occurs when collapse transition ends |
-
-## Related Components
-
-- **TreeNavigator** - For hierarchical tree-based navigation
-- **Wizard** - For multi-step workflows and wizards
-- **TabControlAdv** - For tabbed navigation interfaces

@@ -435,11 +435,6 @@ Organize related form controls in visually distinct gradient panels.
 ### Collapsible Sidebars
 Create expandable sidebar panels with collapse primitives for space management.
 
-## Related Skills
-
-- [GradientLabel](../implementing-gradient-labels/) - Labels with gradient backgrounds
-- [GradientPanel](../implementing-gradient-panels/) - Basic gradient panels (simpler version)
-
 ## Notes
 
 - GradientPanelExt derives from Panel, so all standard Panel functionality is available

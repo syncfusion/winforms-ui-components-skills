@@ -275,171 +275,68 @@ public partial class Form1 : RibbonForm
 
 ## Common Patterns
 
-### Pattern 1: Adding Multiple Tabs with Groups
-
+### Adding Multiple Tabs
 ```csharp
-// Create multiple tabs
 ToolStripTabItem homeTab = new ToolStripTabItem { Text = "Home" };
-ToolStripTabItem insertTab = new ToolStripTabItem { Text = "Insert" };
-ToolStripTabItem viewTab = new ToolStripTabItem { Text = "View" };
-
-// Create groups for each tab
 ToolStripEx clipboardGroup = new ToolStripEx { Text = "Clipboard" };
-ToolStripEx fontGroup = new ToolStripEx { Text = "Font" };
-
-// Add groups to tab panels
-homeTab.Panel.Controls.AddRange(new Control[] { clipboardGroup, fontGroup });
-
-// Add tabs to ribbon
+homeTab.Panel.Controls.Add(clipboardGroup);
 ribbonControlAdv1.Header.AddMainItem(homeTab);
-ribbonControlAdv1.Header.AddMainItem(insertTab);
-ribbonControlAdv1.Header.AddMainItem(viewTab);
 ```
 
-### Pattern 2: Adding Items to Quick Access Toolbar
-
+### Quick Access Toolbar
 ```csharp
-// Add existing ribbon button to QAT
 ribbonControlAdv1.Header.AddQuickItem(new QuickButtonReflectable(saveButton));
-
-// Add split button to QAT
-ribbonControlAdv1.Header.AddQuickItem(new QuickSplitButtonReflectable(undoSplitButton));
-
-// Create new button specifically for QAT
-ToolStripButton newQATButton = new ToolStripButton();
-newQATButton.Image = Image.FromFile("icon.png");
-newQATButton.ToolTipText = "Quick Action";
-ribbonControlAdv1.Header.AddQuickItem(newQATButton);
 ```
 
-### Pattern 3: Configuring Simplified Layout
-
+### Simplified Layout
 ```csharp
-// Enable simplified layout
 ribbonControlAdv1.LayoutMode = RibbonLayoutMode.Simplified;
-
-// Allow users to switch between layouts
 ribbonControlAdv1.EnableSimplifiedLayoutMode = true;
-
-// Set display mode for specific items
 ribbonControlAdv1.SetDisplayMode(pasteButton, RibbonItemDisplayMode.Simplified);
-ribbonControlAdv1.SetDisplayMode(boldButton, RibbonItemDisplayMode.Normal | RibbonItemDisplayMode.OverflowMenu);
-
-// Add medium-size images for simplified layout (20x20)
-ImageListAdv mediumImageList = new ImageListAdv();
-mediumImageList.Images.Add(Image.FromFile("paste20.png"));
-
-ToolStripExImageProvider imageProvider = new ToolStripExImageProvider(clipboardToolStrip);
-imageProvider.MediumImageList = mediumImageList;
-imageProvider.SetMediumItemImage(pasteButton, 0);
 ```
 
-### Pattern 4: Handling Ribbon State Changes
-
+### State Changes
 ```csharp
-// Set initial display option
-ribbonControlAdv1.DisplayOption = RibbonDisplayOption.ShowTabsAndCommands;
-
-// Handle display option changes
-ribbonControlAdv1.DisplayOptionChanged += (sender, e) =>
-{
-    Console.WriteLine($"Ribbon changed from {e.OldValue} to {e.NewValue}");
-    
-    if (e.NewValue == RibbonDisplayOption.AutoHide)
-    {
-        // Handle auto-hide mode
-    }
+ribbonControlAdv1.DisplayOptionChanged += (sender, e) => {
+    Console.WriteLine($"Ribbon changed to {e.NewValue}");
 };
-
-// Customize tooltips
-ribbonControlAdv1.MinimizeToolTip = "Collapse the Ribbon";
-ribbonControlAdv1.MaximizeToolTip = "Expand the Ribbon";
 ```
 
-### Pattern 5: Creating BackStage with Tabs and Buttons
-
+### BackStage Setup
 ```csharp
-// Create BackStage control
 BackStage backStage1 = new BackStage();
-backStage1.BeforeBorderColor = Color.Gray;
-
-// Create backstage tabs
-BackStageTab infoTab = new BackStageTab { Text = "Info" };
-BackStageTab openTab = new BackStageTab { Text = "Open" };
-BackStageTab saveAsTab = new BackStageTab { Text = "Save As" };
-
-// Create backstage buttons
-BackStageButton optionsButton = new BackStageButton { Text = "Options" };
-BackStageButton exitButton = new BackStageButton { Text = "Exit" };
-
-// Add to backstage
-backStage1.Controls.AddRange(new Control[] { 
-    infoTab, openTab, saveAsTab, optionsButton, exitButton 
-});
-
-// Connect to ribbon
+backStage1.Controls.Add(new BackStageTab { Text = "Info" });
 ribbonControlAdv1.BackStage = backStage1;
-ribbonControlAdv1.MenuButtonText = "File";
 ```
 
-### Pattern 6: Multi-Size Images for Collapse Behavior
-
+### Multi-Size Images
 ```csharp
-// Set Office2010 collapse behavior for gradual resizing
 ribbonControlAdv1.CollapseBehavior = CollapseBehavior.Office2010;
-
-// Create image lists
-ImageListAdv largeImageList = new ImageListAdv();
-ImageListAdv smallImageList = new ImageListAdv();
-
-largeImageList.Images.Add(Image.FromFile("paste32.png")); // 32x32
-smallImageList.Images.Add(Image.FromFile("paste16.png")); // 16x16
-
-// Set up image provider
 ToolStripExImageProvider imageProvider = new ToolStripExImageProvider(clipboardToolStrip);
-imageProvider.LargeImageList = largeImageList;
-imageProvider.SmallImageList = smallImageList;
-
-// Assign images to button
 imageProvider.SetLargeItemImage(pasteButton, 0);
 imageProvider.SetSmallItemImage(pasteButton, 0);
 ```
 
 ## Key Properties and Methods
 
-### RibbonControlAdv Key Properties
+### Essential Properties
+- `RibbonStyle` - Office2007/2010/2013/2016/TouchStyle
+- `LayoutMode` - Normal or Simplified layout
+- `DisplayOption` - ShowTabsAndCommands, ShowTabs, AutoHide
+- `CollapseBehavior` - Default or Office2010 collapse pattern
+- `MenuButtonText` - File/Application menu button text
+- `BackStage` - Associated BackStage view
+- `EnableSimplifiedLayoutMode` - Allow layout switching
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `RibbonStyle` | `RibbonStyle` | Visual style: Office2007, Office2010, Office2013, Office2016, TouchStyle |
-| `LayoutMode` | `RibbonLayoutMode` | Normal or Simplified layout |
-| `DisplayOption` | `RibbonDisplayOption` | ShowTabsAndCommands, ShowTabs, or AutoHide |
-| `CollapseBehavior` | `CollapseBehavior` | Default or Office2010 collapse pattern |
-| `MenuButtonText` | `string` | Text for the File/Application menu button |
-| `BackStage` | `BackStage` | Associated BackStage view (Office 2016 style) |
-| `QuickPanelVisible` | `bool` | Show/hide Quick Access Toolbar |
-| `EnableSimplifiedLayoutMode` | `bool` | Allow switching between layouts |
-| `ShowRibbonDisplayOptionButton` | `bool` | Show display option button |
-| `ShowMinimizeButton` | `bool` | Show minimize button |
-| `EnableRibbonStateAccelerator` | `bool` | Enable Ctrl+F1 shortcut |
-
-### Essential Methods
-
-| Method | Description |
-|--------|-------------|
-| `Header.AddMainItem(ToolStripTabItem)` | Add tab to ribbon |
-| `Header.AddQuickItem(object)` | Add item to QAT |
-| `SetDisplayMode(Component, RibbonItemDisplayMode)` | Control item visibility in layouts |
-| `SetUseInCustomQuickAccessDialog(ToolStripItem, bool)` | Allow/restrict item in QAT customization |
+### Key Methods
+- `Header.AddMainItem(tab)` - Add tab to ribbon
+- `Header.AddQuickItem(item)` - Add item to QAT
+- `SetDisplayMode(item, mode)` - Control item visibility
 
 ### Important Events
-
-| Event | Description |
-|-------|-------------|
-| `DisplayOptionChanged` | Fires when ribbon state changes |
-| `BeforeContextMenuOpen` | Customize context menu before showing |
-| `Header.QuickItems.BeforeAddItem` | Before item added to QAT |
-| `Header.QuickItems.BeforeRemoveItem` | Before item removed from QAT |
+- `DisplayOptionChanged` - Ribbon state changes
+- `BeforeContextMenuOpen` - Customize context menu
+- `Header.QuickItems.BeforeAddItem/BeforeRemoveItem` - QAT changes
 
 ## Common Use Cases
 
@@ -458,38 +355,11 @@ Create an application with a modern BackStage view for file operations, options,
 ---
 
 ### Use Case 3: Compact Mobile-Style Interface
-Implement a simplified layout for compact viewing with overflow menu support.
-
-**Navigate to:** simplified-layout.md → ribbon-controls.md
-
----
-
-### Use Case 4: Customizable Ribbon Application
-Allow end-users to customize ribbon layout, add/remove commands, and save preferences.
-
-**Navigate to:** customization.md → quick-access-toolbar.md → advanced-features.md
-
----
-
-### Use Case 5: MDI Application with Contextual Tabs
-Create an MDI application where ribbon changes based on active child window with ribbon merge support.
-
-**Navigate to:** advanced-features.md (Ribbon Merge) → ribbon-controls.md
-
----
-
-## Troubleshooting Common Issues
-
-### Issue: Ribbon Minimize Not Working
-**Problem:** Clicking minimize button doesn't maximize the ribbon back.
-
-**Solution:** Check `DisplayOption` property state. If set to `AutoHide`, single-clicking tabs shows ribbon temporarily. Set to `ShowTabsAndCommands` for persistent display. See ribbon-states.md for state management details.
-
----
-
-### Issue: QAT Items Not Showing Custom Icons
-**Problem:** Items added to QAT show default icons instead of custom ones.
-
+1. **Office-Style Document Editor** - Complete ribbon with Home, Insert, View tabs → getting-started.md, ribbon-controls.md
+2. **BackStage Settings** - Modern BackStage view for file operations → backstage.md
+3. **Compact Interface** - Simplified layout with overflow menu → simplified-layout.md
+4. **Customizable Application** - Runtime ribbon customization → customization.md
+5. **MDI with Contextual Tabs** - Dynamic ribbon based on child window → advanced-feature
 **Solution:** Use `QATImageProvider` to set separate QAT images. Standard button images may not scale well. See quick-access-toolbar.md for QATImageProvider usage.
 
 ---
@@ -521,28 +391,17 @@ Create an MDI application where ribbon changes based on active child window with
 
 2. **Organize Logically:** Group related commands in ToolStripEx groups, organize groups within tabs by workflow.
 
-3. **Implement QAT:** Always enable Quick Access Toolbar for frequently used commands to improve user productivity.
 
-4. **Support Simplified Layout:** Consider implementing simplified layout for users who prefer compact interfaces or have limited screen space.
-
-5. **Multi-Size Images:** Provide multiple image sizes (32x32 large, 16x16 small, 20x20 medium) for optimal display across all states.
-
-6. **Handle State Changes:** Always handle `DisplayOptionChanged` event to respond to ribbon state changes and save user preferences.
-
-7. **Runtime Customization:** Enable runtime customization dialogs to allow users to personalize their ribbon experience.
-
-8. **Keyboard Support:** Leverage built-in keyboard support and KeyTips for accessibility and power users.
-
-9. **Contextual Tabs:** Use contextual tab groups for context-specific commands (e.g., show "Picture Tools" only when image is selected).
-
-10. **Test Resize Behavior:** Thoroughly test window resizing to ensure controls collapse gracefully and remain accessible.
-
-## Additional Resources
-
-- **Syncfusion Documentation:** For the most up-to-date API reference and samples
-- **Sample Projects:** Check Syncfusion installation for WinForms Ribbon samples
-- **GitHub Examples:** Syncfusion maintains example repositories with ribbon implementations
-
----
-
-**Remember:** This skill uses progressive disclosure - start with getting-started.md for basic implementation, then dive into specific reference files based on the features you need to implement.
+- **Minimize not working** - Check `DisplayOption`; `AutoHide` shows temporarily, use `ShowTabsAndCommands` for persistent display → ribbon-states.md
+- **QAT custom icons missing** - Use `QATImageProvider` for QAT-specific images → quick-access-toolbar.md
+- **Controls disappear on resize** - Expected collapse behavior; use `CollapseBehavior.Office2010` with multi-size images → resize-behavior.md
+- **Simplified layout items hidden** - Use `SetDisplayMode(item, RibbonItemDisplayMode.Simplified)` and add 20x20 medium images → simplified-layout.md
+- **BackStage not appearing** - Verify `BackStage` property set, `MenuButtonText` configured; requires Office2016 style (use ApplicationMenu for Office2007) → backstage.md- **Use RibbonForm** - Inherit from `RibbonForm` for proper styling and theme support
+- **Organize Logically** - Group related commands in ToolStripEx, organize by workflow
+- **Implement QAT** - Enable Quick Access Toolbar for frequently used commands
+- **Multi-Size Images** - Provide 32x32, 16x16, 20x20 images for all states
+- **Handle State Changes** - Use `DisplayOptionChanged` event to save user preferences
+- **Runtime Customization** - Enable customization dialogs for user personalization
+- **Keyboard & Touch** - Leverage built-in KeyTips and touch support
+- **Contextual Tabs** - Show context-specific tabs (e.g., "Picture Tools" when image selected)
+- **Test Resizing** - Verify controls collapse gracefully at different window sizes

@@ -40,58 +40,89 @@ Syncfusion license key validation in CI/CD services ensures that components are 
 
 The LicenseKeyValidator utility validates Syncfusion license keys outside of your application, making it ideal for CI/CD integration.
 
-#### Download and Extract
+#### Recommended Approach: Use ValidateLicense Method
 
-1. **Download** the LicenseKeyValidator utility:
-   - URL: https://s3.amazonaws.com/files2.syncfusion.com/Installs/LicenseKeyValidation/LicenseKeyValidator.zip
+**⚠️ SECURITY RECOMMENDATION:** Instead of downloading and executing external binaries, use the built-in `ValidateLicense()` method from the Syncfusion.Licensing assembly already referenced in your project. This approach is more secure and doesn't require external dependencies.
 
-2. **Extract** the ZIP file to a known location (e.g., `D:\LicenseKeyValidator\` or `/home/user/LicenseKeyValidator/`)
+See the [ValidateLicense Method](#validatelicense-method) section below for implementation details.
 
-#### Contents
+#### Alternative: LicenseKeyValidator Utility (Advanced Users Only)
 
-The extracted folder contains:
+**⚠️ SECURITY WARNING:** The following approach downloads and executes code from an external source. Only use this if:
+- You cannot use the ValidateLicense method approach
+- You fully understand the security implications
+- You have verified the source authenticity
+- Your organization's security policy permits external executable downloads
+
+**Security Best Practices:**
+1. Download the utility once and commit it to your source repository after verification
+2. Verify file integrity using checksums before execution
+3. Scan the downloaded files with antivirus software
+4. Review your organization's security policies before proceeding
+
+##### Manual Download Steps
+
+1. **Verify Source:** Ensure you're downloading from the official Syncfusion domain
+2. **Download Location:** The utility is available from Syncfusion's official distribution:
+   - Contact Syncfusion support for the official download link
+   - Or check your Syncfusion account downloads section
+3. **Verify Integrity:** After download, verify file checksums if provided
+4. **Scan Files:** Run antivirus/malware scan before extraction
+5. **Extract** the ZIP file to a known location (e.g., `D:\LicenseKeyValidator\` or `/home/user/LicenseKeyValidator/`)
+
+##### Contents
+
+The extracted folder typically contains:
 - `LicenseKeyValidatorConsole.exe` - Console application for validation
 - `LicenseKeyValidation.ps1` - PowerShell script template
 - Supporting DLLs and configuration files
 
 #### Configure PowerShell Script
 
-Open `LicenseKeyValidation.ps1` in a text editor:
+**Secure PowerShell Script Template:**
 
-**Template:**
 ```powershell
-# Replace the parameters with the desired platform, version, and actual license key.
+# SECURITY BEST PRACTICE: Read license key from environment variable
+$licenseKey = $env:SYNCFUSION_LICENSE_KEY
 
-$result = & $PSScriptRoot"\LicenseKeyValidatorConsole.exe" /platform:"WindowsForms" /version:"26.2.4" /licensekey:"Your License Key"
+if ([string]::IsNullOrEmpty($licenseKey)) {
+    Write-Error "SYNCFUSION_LICENSE_KEY environment variable is not set"
+    exit 1
+}
+
+# Configure platform and version (these can be in source control)
+$platform = "WindowsForms"
+$version = "26.2.4"
+
+# Execute validation
+$result = & $PSScriptRoot"\LicenseKeyValidatorConsole.exe" /platform:$platform /version:$version /licensekey:$licenseKey
 
 Write-Host $result
+
+# Exit with appropriate code
+if ($result -match "valid") {
+    exit 0
+} else {
+    exit 1
+}
 ```
 
 **Parameters:**
 
-| Parameter | Description | Example |
-|-----------|-------------|---------|
-| `/platform:` | Target platform | `"WindowsForms"` |
-| `/version:` | Syncfusion version | `"26.2.4"` |
-| `/licensekey:` | Your actual license key | `"Mgo+DSMBaFt/QHRq..."` |
+| Parameter | Description | Example | Can Commit? |
+|-----------|-------------|---------|-------------|
+| `/platform:` | Target platform | `"WindowsForms"` | ✅ Yes |
+| `/version:` | Syncfusion version | `"26.2.4"` | ✅ Yes |
+| `/licensekey:` | License key from environment | `$env:SYNCFUSION_LICENSE_KEY` | ⚠️ Use env var only |
 
-**Configured Example:**
-```powershell
-$result = & $PSScriptRoot"\LicenseKeyValidatorConsole.exe" /platform:"WindowsForms" /version:"26.2.4" /licensekey:"Mgo+DSMBaFt/QHRqVVhkVFpFdEBBXHxAd1p/VWJYdVt5flBPcDwsT3RfQF5jS39TdkNnWHxedXRTRA=="
-
-Write-Host $result
-```
-
-#### Security Consideration
-
-**Don't commit license keys to source control!** Use CI/CD secrets or environment variables instead:
+**How to Set Environment Variable:**
 
 ```powershell
-# Better: Use environment variable or CI secret
-$licenseKey = $env:SYNCFUSION_LICENSE_KEY
-$result = & $PSScriptRoot"\LicenseKeyValidatorConsole.exe" /platform:"WindowsForms" /version:"26.2.4" /licensekey:$licenseKey
+# Windows PowerShell (current session)
+$env:SYNCFUSION_LICENSE_KEY = "your-license-key"
 
-Write-Host $result
+# Windows (permanent - user level)
+[System.Environment]::SetEnvironmentVariable("SYNCFUSION_LICENSE_KEY", "your-license-key", "User")
 ```
 
 ### Azure Pipelines (YAML)
@@ -393,15 +424,25 @@ pipeline {
 
 ### ValidateLicense Method
 
-For programmatic validation within your application, use the `ValidateLicense()` method.
+**✅ RECOMMENDED APPROACH:** For programmatic validation within your application, use the `ValidateLicense()` method. This is the most secure method as it uses assemblies already in your project without external dependencies.
 
-#### Basic Usage
+#### Basic Usage (Secure)
 
 ```csharp
+using System;
 using Syncfusion.Licensing;
 
+// SECURITY BEST PRACTICE: Read license key from environment variable
+string licenseKey = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY");
+
+if (string.IsNullOrEmpty(licenseKey))
+{
+    Console.WriteLine("License key not found in environment variables");
+    return;
+}
+
 // Register license key
-SyncfusionLicenseProvider.RegisterLicense("YOUR_LICENSE_KEY");
+SyncfusionLicenseProvider.RegisterLicense(licenseKey);
 
 // Validate the registered license key
 bool isValid = SyncfusionLicenseProvider.ValidateLicense(Platform.WindowsForms);
@@ -417,13 +458,22 @@ else
 }
 ```
 
-#### With Validation Message
+#### With Validation Message (Secure)
 
 ```csharp
+using System;
 using Syncfusion.Licensing;
 
+// SECURITY BEST PRACTICE: Read from environment variable
+string licenseKey = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY");
+
+if (string.IsNullOrEmpty(licenseKey))
+{
+    throw new InvalidOperationException("SYNCFUSION_LICENSE_KEY environment variable not set");
+}
+
 // Register license key
-SyncfusionLicenseProvider.RegisterLicense("YOUR_LICENSE_KEY");
+SyncfusionLicenseProvider.RegisterLicense(licenseKey);
 
 // Validate with detailed message
 bool isValid = SyncfusionLicenseProvider.ValidateLicense(Platform.WindowsForms, out string validationMessage);
@@ -439,13 +489,27 @@ else
 }
 ```
 
-#### Use in Application Startup
+#### Use in Application Startup (Secure)
 
 ```csharp
+using System;
+using System.Windows.Forms;
+using Syncfusion.Licensing;
+
 static void Main()
 {
+    // SECURITY BEST PRACTICE: Read from environment variable
+    string licenseKey = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY");
+    
+    if (string.IsNullOrEmpty(licenseKey))
+    {
+        MessageBox.Show("License key not configured. Set SYNCFUSION_LICENSE_KEY environment variable.", 
+            "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return;
+    }
+    
     // Register license
-    SyncfusionLicenseProvider.RegisterLicense("YOUR_LICENSE_KEY");
+    SyncfusionLicenseProvider.RegisterLicense(licenseKey);
     
     // Validate before proceeding
     bool isValid = SyncfusionLicenseProvider.ValidateLicense(Platform.WindowsForms, out string message);
@@ -477,9 +541,10 @@ Create unit tests to validate license keys, useful for CI/CD integration.
 4. Name: `LicensingTests`
 5. Create
 
-#### Example: MSTest
+#### Example: MSTest (Secure)
 
 ```csharp
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Syncfusion.Licensing;
 
@@ -493,7 +558,12 @@ namespace LicensingTests
         {
             // Arrange
             var platform = Platform.WindowsForms;
-            string licenseKey = "YOUR_LICENSE_KEY"; // Or read from environment variable
+            
+            // SECURITY BEST PRACTICE: Read from environment variable
+            string licenseKey = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY");
+            
+            Assert.IsNotNull(licenseKey, "SYNCFUSION_LICENSE_KEY environment variable not set");
+            Assert.IsFalse(string.IsNullOrWhiteSpace(licenseKey), "SYNCFUSION_LICENSE_KEY is empty");
             
             // Act
             SyncfusionLicenseProvider.RegisterLicense(licenseKey);
@@ -662,27 +732,38 @@ After purchasing a license, there are two ways to upgrade from trial version:
 **Steps:**
 1. Keep existing trial installation or NuGet packages
 2. Generate paid license key from **[License & Downloads](https://www.syncfusion.com/account/downloads)**
-3. Replace trial license key in your code with paid license key
+3. Update the license key in your secure configuration (environment variable or config file)
 4. Rebuild and test application
 
-**Example:**
+**Example (Secure Approach):**
 ```csharp
 static void Main()
 {
-    // OLD: Trial license key
-    // SyncfusionLicenseProvider.RegisterLicense("TRIAL_LICENSE_KEY_HERE");
+    // SECURITY BEST PRACTICE: License key should be stored in environment variable
+    // Update SYNCFUSION_LICENSE_KEY environment variable with your new paid license key
     
-    // NEW: Paid license key
-    SyncfusionLicenseProvider.RegisterLicense("PAID_LICENSE_KEY_HERE");
+    string licenseKey = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY");
+    
+    if (!string.IsNullOrEmpty(licenseKey))
+    {
+        SyncfusionLicenseProvider.RegisterLicense(licenseKey);
+    }
     
     Application.Run(new Form1());
 }
 ```
 
+**How to Update:**
+```powershell
+# Update environment variable with new paid license key
+[System.Environment]::SetEnvironmentVariable("SYNCFUSION_LICENSE_KEY", "your-new-paid-license-key", "User")
+```
+
 **Pros:**
-- Simple code change
+- Simple configuration change
 - No reinstallation required
 - Works well with NuGet workflow
+- Secure key management
 
 **Cons:**
 - Still requires license registration in code
@@ -725,11 +806,23 @@ If you obtained Syncfusion assemblies directly from NuGet.org without a Syncfusi
 3. Select version matching your NuGet packages
 4. Generate and copy license key
 
-**Step 4: Register License Key in Application**
+**Step 4: Register License Key in Application (Secure)**
 ```csharp
 static void Main()
 {
-    SyncfusionLicenseProvider.RegisterLicense("YOUR_TRIAL_LICENSE_KEY");
+    // SECURITY BEST PRACTICE: Store key in environment variable
+    // Set SYNCFUSION_LICENSE_KEY environment variable with your trial license key
+    
+    string licenseKey = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY");
+    
+    if (string.IsNullOrEmpty(licenseKey))
+    {
+        MessageBox.Show("Please set SYNCFUSION_LICENSE_KEY environment variable", 
+            "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return;
+    }
+    
+    SyncfusionLicenseProvider.RegisterLicense(licenseKey);
     Application.Run(new Form1());
 }
 ```
@@ -758,7 +851,9 @@ Understanding license key specificity is crucial for avoiding licensing errors.
 ❌ **Wrong:**
 ```csharp
 // Using v26.2.4 license key with v26.1.35 assemblies
-SyncfusionLicenseProvider.RegisterLicense("v26.2.4-license-key");
+// (Note: License keys should be stored in environment variables, not hardcoded)
+string key = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY"); // v26.2.4 key
+SyncfusionLicenseProvider.RegisterLicense(key);
 // But project references: Syncfusion.Grid.Windows v26.1.35
 // Result: Version mismatch error
 ```
@@ -766,7 +861,9 @@ SyncfusionLicenseProvider.RegisterLicense("v26.2.4-license-key");
 ✅ **Correct:**
 ```csharp
 // License key version matches assembly version
-SyncfusionLicenseProvider.RegisterLicense("v26.1.35-license-key");
+// Generate v26.1.35 key and store in SYNCFUSION_LICENSE_KEY environment variable
+string key = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY"); // v26.1.35 key
+SyncfusionLicenseProvider.RegisterLicense(key);
 // Project references: Syncfusion.Grid.Windows v26.1.35
 // Result: Works perfectly
 ```
@@ -778,14 +875,18 @@ SyncfusionLicenseProvider.RegisterLicense("v26.1.35-license-key");
 ❌ **Wrong:**
 ```csharp
 // Using WPF license key in Windows Forms application
-SyncfusionLicenseProvider.RegisterLicense("wpf-license-key");
+// (Assuming wrong platform key is stored in environment variable)
+string key = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY"); // WPF key
+SyncfusionLicenseProvider.RegisterLicense(key);
 // Result: Platform mismatch error
 ```
 
 ✅ **Correct:**
 ```csharp
 // Using Windows Forms license key in Windows Forms application
-SyncfusionLicenseProvider.RegisterLicense("windowsforms-license-key");
+// Generate Windows Forms platform key and store in environment variable
+string key = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY"); // Windows Forms key
+SyncfusionLicenseProvider.RegisterLicense(key);
 // Result: Works perfectly
 ```
 

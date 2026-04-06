@@ -218,11 +218,15 @@ GridListControl gridList = new GridListControl();
 
 comboDropDown1.PopupControl = gridList;
 
-// Sync selection to combo text
-gridList.SelectedIndexChanged += (s, e) => {
-    if (gridList.SelectedIndex >= 0)
+// Sync selection to combo text using the grid's current cell/model
+gridList.DoubleClick += (s, e) => {
+    var cell = gridList.CurrentCell;
+    if (cell != null)
     {
-        comboDropDown1.Text = gridList.SelectedItem.ToString();
+        int row = cell.RowIndex;
+        // Read display text from the model (adjust column index as needed)
+        comboDropDown1.Text = gridList.Model[row, 1].Text;
+        comboDropDown1.PopupContainer.HidePopup(PopupCloseType.Done);
     }
 };
 ```

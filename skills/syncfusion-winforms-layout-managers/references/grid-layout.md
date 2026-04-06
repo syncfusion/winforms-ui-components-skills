@@ -71,10 +71,7 @@ The grid structure is defined using the Rows and Columns properties.
 
 **Code Examples**:
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Create a 3x3 grid
 GridLayout gridLayout1 = new GridLayout();
 gridLayout1.ContainerControl = this;
@@ -88,11 +85,9 @@ gridLayout1.Columns = 0;  // Auto-calculate based on child count
 // Create a grid with 4 columns (rows auto-calculated)
 gridLayout1.Rows = 0;  // Auto-calculate based on child count
 gridLayout1.Columns = 4;
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Create a 3x3 grid
 Dim gridLayout1 As New GridLayout()
 gridLayout1.ContainerControl = Me
@@ -106,10 +101,7 @@ gridLayout1.Columns = 0  ' Auto-calculate based on child count
 ' Create a grid with 4 columns (rows auto-calculated)
 gridLayout1.Rows = 0  ' Auto-calculate based on child count
 gridLayout1.Columns = 4
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 ## Automatic Child Placement
 
@@ -123,10 +115,7 @@ GridLayout automatically places child controls in sequential order:
 
 **Code Example**:
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Create 3x3 grid
 GridLayout gridLayout1 = new GridLayout();
 gridLayout1.ContainerControl = this;
@@ -139,15 +128,13 @@ gridLayout1.Columns = 3;
 // Row 3: Button7, Button8, Button9
 for (int i = 1; i <= 9; i++)
 {
-    ButtonAdv button = new ButtonAdv();
+    Button button = new Button();
     button.Text = "Button " + i;
     this.Controls.Add(button);
 }
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Create 3x3 grid
 Dim gridLayout1 As New GridLayout()
 gridLayout1.ContainerControl = Me
@@ -159,14 +146,11 @@ gridLayout1.Columns = 3
 ' Row 2: Button4, Button5, Button6
 ' Row 3: Button7, Button8, Button9
 For i As Integer = 1 To 9
-    Dim button As New ButtonAdv()
+    Dim button As New Button()
     button.Text = "Button " & i
     Me.Controls.Add(button)
 Next
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 ## Spacing Configuration
 
@@ -241,32 +225,21 @@ gridLayout1.VGap = 15
 **Step-by-Step Instructions**:
 
 **Step 1**: Add assembly reference:
-- `Syncfusion.Shared.Base.dll`
+- `Syncfusion.Tools.Windows.dll`
 
 **Step 2**: Include namespace:
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 using Syncfusion.Windows.Forms.Tools;
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 Imports Syncfusion.Windows.Forms.Tools
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 **Step 3**: Create GridLayout and add controls:
 
-{% tabs %}
-
-{% highlight C# %}
-
+```csharp
 // Create GridLayout instance
 GridLayout gridLayout1 = new GridLayout();
 gridLayout1.ContainerControl = this;
@@ -278,18 +251,16 @@ gridLayout1.VGap = 5;
 // Create and add button controls
 for (int i = 1; i <= 9; i++)
 {
-    ButtonAdv button = new ButtonAdv();
+    Button button = new Button();
     button.Text = i.ToString();
     button.Font = new Font("Arial", 12, FontStyle.Bold);
     
     // Add to container (automatically placed in grid)
     this.Controls.Add(button);
 }
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Create GridLayout instance
 Dim gridLayout1 As New GridLayout()
 gridLayout1.ContainerControl = Me
@@ -300,17 +271,14 @@ gridLayout1.VGap = 5
 
 ' Create and add button controls
 For i As Integer = 1 To 9
-    Dim button As New ButtonAdv()
+    Dim button As New Button()
     button.Text = i.ToString()
     button.Font = New Font("Arial", 12, FontStyle.Bold)
     
     ' Add to container (automatically placed in grid)
     Me.Controls.Add(button)
 Next
-
-{% endhighlight %}
-
-{% endtabs %}
+```
 
 ## Grid Sizing Behavior
 
@@ -333,12 +301,42 @@ Cell Height = (Container Height - (Rows - 1) * VGap) / Rows
 - All cells remain equal-sized
 - Control sizes adjust automatically to fill cells
 
-**Example**:
+```csharp
+// Set spacing between grid cells
+gridLayout1.HGap = 5;   // 5 pixels between columns
+gridLayout1.VGap = 5;   // 5 pixels between rows
 
-{% tabs %}
+// No spacing (cells touch)
+gridLayout1.HGap = 0;
+gridLayout1.VGap = 0;
 
-{% highlight C# %}
+// Large spacing for visual separation
+gridLayout1.HGap = 15;
+gridLayout1.VGap = 15;
+```
 
+```vbnet
+' Set spacing between grid cells
+gridLayout1.HGap = 5   ' 5 pixels between columns
+gridLayout1.VGap = 5   ' 5 pixels between rows
+
+' No spacing (cells touch)
+gridLayout1.HGap = 0
+gridLayout1.VGap = 0
+
+' Large spacing for visual separation
+gridLayout1.HGap = 15
+gridLayout1.VGap = 15
+```
+
+' Container: 300x300 pixels
+' Grid: 3x3
+' HGap: 10, VGap: 10
+
+' Cell Width = (300 - 2*10) / 3 = 280 / 3 ≈ 93 pixels
+' Cell Height = (300 - 2*10) / 3 = 280 / 3 ≈ 93 pixels
+
+```csharp
 // Container: 300x300 pixels
 // Grid: 3x3
 // HGap: 10, VGap: 10
@@ -360,26 +358,24 @@ gridLayout1.VGap = 10;
 // Each button will be approximately 93x93 pixels
 for (int i = 1; i <= 9; i++)
 {
-    ButtonAdv button = new ButtonAdv();
+    Button button = new Button();
     button.Text = i.ToString();
     panel1.Controls.Add(button);
 }
+```
 
-{% endhighlight %}
-
-{% highlight VB %}
-
+```vbnet
 ' Container: 300x300 pixels
 ' Grid: 3x3
 ' HGap: 10, VGap: 10
-
+'
 ' Cell Width = (300 - 2*10) / 3 = 280 / 3 ≈ 93 pixels
 ' Cell Height = (300 - 2*10) / 3 = 280 / 3 ≈ 93 pixels
-
+'
 Dim panel1 As New Panel()
 panel1.Size = New Size(300, 300)
 Me.Controls.Add(panel1)
-
+'
 Dim gridLayout1 As New GridLayout()
 gridLayout1.ContainerControl = panel1
 gridLayout1.Rows = 3
@@ -389,55 +385,11 @@ gridLayout1.VGap = 10
 
 ' Each button will be approximately 93x93 pixels
 For i As Integer = 1 To 9
-    Dim button As New ButtonAdv()
+    Dim button As New Button()
     button.Text = i.ToString()
     panel1.Controls.Add(button)
 Next
-
-{% endhighlight %}
-
-{% endtabs %}
-
-## Complete Examples
-
-### Calculator Layout (4x4 Grid)
-
-Create a simple calculator-style button layout.
-
-{% tabs %}
-
-{% highlight C# %}
-
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Syncfusion.Windows.Forms.Tools;
-
-public class CalculatorForm : Form
-{
-    private GridLayout gridLayout1;
-    private Panel buttonPanel;
-
-    public CalculatorForm()
-    {
-        InitializeComponent();
-    }
-
-    private void InitializeComponent()
-    {
-        // Create button panel
-        buttonPanel = new Panel();
-        buttonPanel.Location = new Point(20, 60);
-        buttonPanel.Size = new Size(240, 240);
-        buttonPanel.BorderStyle = BorderStyle.FixedSingle;
-        this.Controls.Add(buttonPanel);
-
-        // Create GridLayout
-        gridLayout1 = new GridLayout();
-        gridLayout1.ContainerControl = buttonPanel;
-        gridLayout1.Rows = 4;
-        gridLayout1.Columns = 4;
-        gridLayout1.HGap = 2;
+```
         gridLayout1.VGap = 2;
 
         // Calculator button labels
@@ -469,142 +421,134 @@ public class CalculatorForm : Form
     {
         ButtonAdv button = sender as ButtonAdv;
         MessageBox.Show("Button clicked: " + button.Text);
-    }
-}
+    ```csharp
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+    using Syncfusion.Windows.Forms.Tools;
 
-{% endhighlight %}
-
-{% highlight VB %}
-
-Imports System
-Imports System.Drawing
-Imports System.Windows.Forms
-Imports Syncfusion.Windows.Forms.Tools
-
-Public Class CalculatorForm
-    Inherits Form
-
-    Private gridLayout1 As GridLayout
-    Private buttonPanel As Panel
-
-    Public Sub New()
-        InitializeComponent()
-    End Sub
-
-    Private Sub InitializeComponent()
-        ' Create button panel
-        buttonPanel = New Panel()
-        buttonPanel.Location = New Point(20, 60)
-        buttonPanel.Size = New Size(240, 240)
-        buttonPanel.BorderStyle = BorderStyle.FixedSingle
-        Me.Controls.Add(buttonPanel)
-
-        ' Create GridLayout
-        gridLayout1 = New GridLayout()
-        gridLayout1.ContainerControl = buttonPanel
-        gridLayout1.Rows = 4
-        gridLayout1.Columns = 4
-        gridLayout1.HGap = 2
-        gridLayout1.VGap = 2
-
-        ' Calculator button labels
-        Dim buttons() As String = {
-            "7", "8", "9", "/",
-            "4", "5", "6", "*",
-            "1", "2", "3", "-",
-            "0", ".", "=", "+"
-        }
-
-        ' Add buttons
-        For Each label As String In buttons
-            Dim button As New ButtonAdv()
-            button.Text = label
-            button.Font = New Font("Arial", 14, FontStyle.Bold)
-            AddHandler button.Click, AddressOf Button_Click
-            buttonPanel.Controls.Add(button)
-        Next
-
-        ' Form settings
-        Me.Text = "Calculator Grid Layout"
-        Me.Size = New Size(300, 350)
-        Me.FormBorderStyle = FormBorderStyle.FixedDialog
-        Me.MaximizeBox = False
-    End Sub
-
-    Private Sub Button_Click(sender As Object, e As EventArgs)
-        Dim button As ButtonAdv = TryCast(sender, ButtonAdv)
-        MessageBox.Show("Button clicked: " & button.Text)
-    End Sub
-End Class
-
-{% endhighlight %}
-
-{% endtabs %}
-
-### Icon Grid (Uniform Icons)
-
-Create a uniform grid of icon buttons.
-
-{% tabs %}
-
-{% highlight C# %}
-
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Syncfusion.Windows.Forms.Tools;
-
-public class IconGridForm : Form
-{
-    private GridLayout gridLayout1;
-    private Panel iconPanel;
-
-    public IconGridForm()
+    public class CalculatorForm : Form
     {
-        InitializeComponent();
-    }
+        private GridLayout gridLayout1;
+        private Panel buttonPanel;
 
-    private void InitializeComponent()
-    {
-        // Create icon panel
-        iconPanel = new Panel();
-        iconPanel.Dock = DockStyle.Fill;
-        iconPanel.Padding = new Padding(10);
-        iconPanel.BackColor = Color.White;
-        this.Controls.Add(iconPanel);
-
-        // Create GridLayout
-        gridLayout1 = new GridLayout();
-        gridLayout1.ContainerControl = iconPanel;
-        gridLayout1.Rows = 3;
-        gridLayout1.Columns = 4;
-        gridLayout1.HGap = 10;
-        gridLayout1.VGap = 10;
-
-        // Icon labels and emojis
-        string[,] icons = {
-            {"Home", "🏠"}, {"Settings", "⚙"}, {"Search", "🔍"}, {"Mail", "✉"},
-            {"Calendar", "📅"}, {"Photos", "📷"}, {"Music", "🎵"}, {"Videos", "🎬"},
-            {"Documents", "📄"}, {"Downloads", "⬇"}, {"Cloud", "☁"}, {"Help", "❓"}
-        };
-
-        // Add icon buttons
-        for (int i = 0; i < icons.GetLength(0); i++)
+        public CalculatorForm()
         {
-            ButtonAdv button = new ButtonAdv();
-            button.Text = icons[i, 1] + "\n" + icons[i, 0];
-            button.Font = new Font("Segoe UI", 10);
-            button.TextAlign = ContentAlignment.MiddleCenter;
-            iconPanel.Controls.Add(button);
+            InitializeComponent();
         }
 
-        // Form settings
-        this.Text = "Icon Grid";
-        this.Size = new Size(600, 400);
-        this.MinimumSize = new Size(400, 300);
-    }
-}
+        private void InitializeComponent()
+        {
+            // Create button panel
+            buttonPanel = new Panel();
+            buttonPanel.Location = new Point(20, 60);
+            buttonPanel.Size = new Size(240, 240);
+            buttonPanel.BorderStyle = BorderStyle.FixedSingle;
+            this.Controls.Add(buttonPanel);
 
+            // Create GridLayout
+            gridLayout1 = new GridLayout();
+            gridLayout1.ContainerControl = buttonPanel;
+            gridLayout1.Rows = 4;
+            gridLayout1.Columns = 4;
+            gridLayout1.HGap = 2;
+            gridLayout1.VGap = 2;
+
+            // Calculator button labels
+            string[] buttons = {
+                "7", "8", "9", "/",
+                "4", "5", "6", "*",
+                "1", "2", "3", "-",
+                "0", ".", "=", "+"
+            };
+
+            // Add buttons
+            foreach (string label in buttons)
+            {
+                Button button = new Button();
+                button.Text = label;
+                button.Font = new Font("Arial", 14, FontStyle.Bold);
+                button.Click += Button_Click;
+                buttonPanel.Controls.Add(button);
+            }
+
+            // Form settings
+            this.Text = "Calculator Grid Layout";
+            this.Size = new Size(300, 350);
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+        }
+
+        private void Button_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            MessageBox.Show("Button clicked: " + button.Text);
+        }
+    }
+    ```
+
+    ```vbnet
+    Imports System
+    Imports System.Drawing
+    Imports System.Windows.Forms
+    Imports Syncfusion.Windows.Forms.Tools
+
+    Public Class CalculatorForm
+        Inherits Form
+
+        Private gridLayout1 As GridLayout
+        Private buttonPanel As Panel
+
+        Public Sub New()
+            InitializeComponent()
+        End Sub
+
+        Private Sub InitializeComponent()
+            ' Create button panel
+            buttonPanel = New Panel()
+            buttonPanel.Location = New Point(20, 60)
+            buttonPanel.Size = New Size(240, 240)
+            buttonPanel.BorderStyle = BorderStyle.FixedSingle
+            Me.Controls.Add(buttonPanel)
+
+            ' Create GridLayout
+            gridLayout1 = New GridLayout()
+            gridLayout1.ContainerControl = buttonPanel
+            gridLayout1.Rows = 4
+            gridLayout1.Columns = 4
+            gridLayout1.HGap = 2
+            gridLayout1.VGap = 2
+
+            ' Calculator button labels
+            Dim buttons() As String = {
+                "7", "8", "9", "/",
+                "4", "5", "6", "*",
+                "1", "2", "3", "-",
+                "0", ".", "=", "+"
+            }
+
+            ' Add buttons
+            For Each label As String In buttons
+                Dim button As New Button()
+                button.Text = label
+                button.Font = New Font("Arial", 14, FontStyle.Bold)
+                AddHandler button.Click, AddressOf Button_Click
+                buttonPanel.Controls.Add(button)
+            Next
+
+            ' Form settings
+            Me.Text = "Calculator Grid Layout"
+            Me.Size = New Size(300, 350)
+            Me.FormBorderStyle = FormBorderStyle.FixedDialog
+            Me.MaximizeBox = False
+        End Sub
+
+        Private Sub Button_Click(sender As Object, e As EventArgs)
+            Dim button As Button = TryCast(sender, Button)
+            MessageBox.Show("Button clicked: " & button.Text)
+        End Sub
+    End Class
+    ```
 {% endhighlight %}
 
 {% highlight VB %}

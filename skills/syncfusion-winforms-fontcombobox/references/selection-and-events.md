@@ -27,29 +27,29 @@ Gets or sets the currently selected font by name.
 **C# Example:**
 ```csharp
 // Select specific font by name
-fontComboBox.SelectedItem = "Arial";
+fontComboBox.Text = "Arial";
 
 // Select another font
-fontComboBox.SelectedItem = "Segoe UI";
+fontComboBox.Text = "Segoe UI";
 
 // Common fonts
-fontComboBox.SelectedItem = "Calibri";
-fontComboBox.SelectedItem = "Times New Roman";
-fontComboBox.SelectedItem = "Verdana";
+fontComboBox.Text = "Calibri";
+fontComboBox.Text = "Times New Roman";
+fontComboBox.Text = "Verdana";
 ```
 
 **VB.NET Example:**
 ```vb
 ' Select specific font by name
-fontComboBox.SelectedItem = "Arial"
+fontComboBox.Text = "Arial"
 
 ' Select another font
-fontComboBox.SelectedItem = "Segoe UI"
+fontComboBox.Text = "Segoe UI"
 
 ' Common fonts
-fontComboBox.SelectedItem = "Calibri"
-fontComboBox.SelectedItem = "Times New Roman"
-fontComboBox.SelectedItem = "Verdana"
+fontComboBox.Text = "Calibri"
+fontComboBox.Text = "Times New Roman"
+fontComboBox.Text = "Verdana"
 ```
 
 #### Getting Selected Font
@@ -57,9 +57,9 @@ fontComboBox.SelectedItem = "Verdana"
 **C# Example:**
 ```csharp
 // Get selected font name
-if (fontComboBox.SelectedItem != null)
+if (fontComboBox.Text != null)
 {
-    string selectedFont = fontComboBox.SelectedItem.ToString();
+    string selectedFont = fontComboBox.Text.ToString();
     MessageBox.Show($"Selected font: {selectedFont}");
 }
 else
@@ -71,8 +71,8 @@ else
 **VB.NET Example:**
 ```vb
 ' Get selected font name
-If fontComboBox.SelectedItem IsNot Nothing Then
-    Dim selectedFont As String = fontComboBox.SelectedItem.ToString()
+If fontComboBox.Text IsNot Nothing Then
+    Dim selectedFont As String = fontComboBox.Text.ToString()
     MessageBox.Show($"Selected font: {selectedFont}")
 Else
     MessageBox.Show("No font selected")
@@ -83,9 +83,9 @@ End If
 
 ```csharp
 // Always check for null before using
-if (fontComboBox.SelectedItem != null)
+if (fontComboBox.Text != null)
 {
-    string fontName = fontComboBox.SelectedItem.ToString();
+    string fontName = fontComboBox.Text.ToString();
     // Use fontName safely
 }
 ```
@@ -204,9 +204,9 @@ fontComboBox.SelectedIndexChanged += FontComboBox_SelectedIndexChanged;
 // Event handler
 private void FontComboBox_SelectedIndexChanged(object sender, EventArgs e)
 {
-    if (fontComboBox.SelectedItem != null)
+    if (fontComboBox.Text != null)
     {
-        string selectedFont = fontComboBox.SelectedItem.ToString();
+        string selectedFont = fontComboBox.Text.ToString();
         
         // Handle font change
         MessageBox.Show($"Font changed to: {selectedFont}");
@@ -221,8 +221,8 @@ AddHandler fontComboBox.SelectedIndexChanged, AddressOf FontComboBox_SelectedInd
 
 ' Event handler
 Private Sub FontComboBox_SelectedIndexChanged(sender As Object, e As EventArgs)
-    If fontComboBox.SelectedItem IsNot Nothing Then
-        Dim selectedFont As String = fontComboBox.SelectedItem.ToString()
+    If fontComboBox.Text IsNot Nothing Then
+        Dim selectedFont As String = fontComboBox.Text.ToString()
         
         ' Handle font change
         MessageBox.Show($"Font changed to: {selectedFont}")
@@ -236,9 +236,9 @@ End Sub
 // Inline event handler
 fontComboBox.SelectedIndexChanged += (sender, e) =>
 {
-    if (fontComboBox.SelectedItem != null)
+    if (fontComboBox.Text != null)
     {
-        Console.WriteLine($"Selected: {fontComboBox.SelectedItem}");
+        Console.WriteLine($"Selected: {fontComboBox.Text}");
     }
 };
 ```
@@ -255,11 +255,11 @@ Common scenarios for using the selected font to update other controls.
 ```csharp
 private void FontComboBox_SelectedIndexChanged(object sender, EventArgs e)
 {
-    if (fontComboBox.SelectedItem != null)
+    if (fontComboBox.Text != null)
     {
         // Create font with selected family, size 11, regular style
         label1.Font = new Font(
-            fontComboBox.SelectedItem.ToString(), 
+            fontComboBox.Text.ToString(), 
             11, 
             FontStyle.Regular
         );
@@ -270,10 +270,10 @@ private void FontComboBox_SelectedIndexChanged(object sender, EventArgs e)
 **VB.NET Example:**
 ```vb
 Private Sub FontComboBox_SelectedIndexChanged(sender As Object, e As EventArgs)
-    If fontComboBox.SelectedItem IsNot Nothing Then
+    If fontComboBox.Text IsNot Nothing Then
         ' Create font with selected family, size 11, regular style
         label1.Font = New Font(
-            fontComboBox.SelectedItem.ToString(), 
+            fontComboBox.Text.ToString(), 
             11, 
             FontStyle.Regular
         )
@@ -289,10 +289,10 @@ End Sub
 ```csharp
 private void FontComboBox_SelectedIndexChanged(object sender, EventArgs e)
 {
-    if (fontComboBox.SelectedItem != null)
+    if (fontComboBox.Text != null)
     {
         textBox1.Font = new Font(
-            fontComboBox.SelectedItem.ToString(),
+            fontComboBox.Text.ToString(),
             textBox1.Font.Size, // Keep current size
             textBox1.Font.Style // Keep current style
         );
@@ -308,11 +308,11 @@ private void FontComboBox_SelectedIndexChanged(object sender, EventArgs e)
 ```csharp
 private void FontComboBox_SelectedIndexChanged(object sender, EventArgs e)
 {
-    if (fontComboBox.SelectedItem != null && richTextBox1.SelectionLength > 0)
+    if (fontComboBox.Text != null && richTextBox1.SelectionLength > 0)
     {
         // Apply to selected text only
         richTextBox1.SelectionFont = new Font(
-            fontComboBox.SelectedItem.ToString(),
+            fontComboBox.Text.ToString(),
             richTextBox1.SelectionFont.Size,
             richTextBox1.SelectionFont.Style
         );
@@ -328,9 +328,9 @@ private void FontComboBox_SelectedIndexChanged(object sender, EventArgs e)
 ```csharp
 private void FontComboBox_SelectedIndexChanged(object sender, EventArgs e)
 {
-    if (fontComboBox.SelectedItem == null) return;
+    if (fontComboBox.Text == null) return;
     
-    string fontName = fontComboBox.SelectedItem.ToString();
+    string fontName = fontComboBox.Text.ToString();
     
     // Apply to multiple labels
     label1.Font = new Font(fontName, 10, FontStyle.Regular);
@@ -350,9 +350,9 @@ private void FontComboBox_SelectedIndexChanged(object sender, EventArgs e)
 ```csharp
 private void ApplyFont()
 {
-    if (fontComboBox.SelectedItem == null) return;
+    if (fontComboBox.Text == null) return;
     
-    string fontName = fontComboBox.SelectedItem.ToString();
+    string fontName = fontComboBox.Text.ToString();
     float fontSize = float.Parse(fontSizeComboBox.SelectedItem.ToString());
     
     textBox1.Font = new Font(fontName, fontSize, FontStyle.Regular);
@@ -562,12 +562,12 @@ public partial class FontFormatterForm : Form
     
     private void FontComboBox_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (fontComboBox.SelectedItem != null)
+        if (fontComboBox.Text != null)
         {
             try
             {
                 previewLabel.Font = new Font(
-                    fontComboBox.SelectedItem.ToString(),
+                    fontComboBox.Text.ToString(),
                     12,
                     FontStyle.Regular
                 );
@@ -600,7 +600,7 @@ public partial class FontPreferencesDialog : Form
         InitializeControls();
         
         // Set current font
-        fontComboBox.SelectedItem = currentFont;
+        fontComboBox.Text = currentFont;
     }
     
     private void InitializeControls()
@@ -637,9 +637,9 @@ public partial class FontPreferencesDialog : Form
     
     private void BtnApply_Click(object sender, EventArgs e)
     {
-        if (fontComboBox.SelectedItem != null)
+        if (fontComboBox.Text != null)
         {
-            SelectedFont = fontComboBox.SelectedItem.ToString();
+            SelectedFont = fontComboBox.Text.ToString();
         }
     }
 }
@@ -664,7 +664,7 @@ private void ShowFontDialog()
 ### 1. Always Null-Check SelectedItem
 
 ```csharp
-if (fontComboBox.SelectedItem != null)
+if (fontComboBox.Text != null)
 {
     // Safe to use SelectedItem
 }
@@ -675,7 +675,7 @@ if (fontComboBox.SelectedItem != null)
 ```csharp
 try
 {
-    label.Font = new Font(fontComboBox.SelectedItem.ToString(), 12);
+    label.Font = new Font(fontComboBox.Text.ToString(), 12);
 }
 catch (ArgumentException ex)
 {
@@ -688,7 +688,7 @@ catch (ArgumentException ex)
 ```csharp
 // Keep current size and style when changing family
 textBox.Font = new Font(
-    fontComboBox.SelectedItem.ToString(),
+    fontComboBox.Text.ToString(),
     textBox.Font.Size,      // Preserve size
     textBox.Font.Style      // Preserve style
 );
@@ -712,7 +712,7 @@ fontComboBox.SelectedIndexChanged -= FontComboBox_SelectedIndexChanged;
 **Solution:** Use flag or set selection before subscribing.
 
 ```csharp
-fontComboBox.SelectedItem = "Arial"; // Set before subscribing
+fontComboBox.Text = "Arial"; // Set before subscribing
 fontComboBox.SelectedIndexChanged += Handler; // Subscribe after
 ```
 

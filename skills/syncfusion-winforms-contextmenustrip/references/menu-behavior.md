@@ -141,137 +141,42 @@ The `Click` event is the primary mechanism for responding to menu item selection
 
 ### Subscribing to Click Events
 
-**Via Designer:**
-1. Select menu item in designer
-2. In Properties panel, click Events button (lightning bolt)
-3. Double-click the **Click** event or type handler name
-4. Visual Studio generates the event handler method
+**Via Designer:** Double-click Click event in Properties panel (Events button)
 
-**Via Code (Method 1 - Named Handler):**
+**Via Code:**
 ```csharp
-// Subscribe to event
+// Named handler
 this.toolStripMenuItem1.Click += ToolStripMenuItem1_Click;
-this.toolStripMenuItem2.Click += ToolStripMenuItem2_Click;
-
-// Event handler methods
 private void ToolStripMenuItem1_Click(object sender, EventArgs e)
 {
     MessageBox.Show("Menu Item 1 clicked!");
 }
 
-private void ToolStripMenuItem2_Click(object sender, EventArgs e)
-{
-    MessageBox.Show("Menu Item 2 clicked!");
-}
-```
-
-**VB.NET (Named Handler):**
-```vb
-' Subscribe to event
-AddHandler Me.toolStripMenuItem1.Click, AddressOf ToolStripMenuItem1_Click
-AddHandler Me.toolStripMenuItem2.Click, AddressOf ToolStripMenuItem2_Click
-
-' Event handler methods
-Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs)
-    MessageBox.Show("Menu Item 1 clicked!")
-End Sub
-
-Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs)
-    MessageBox.Show("Menu Item 2 clicked!")
-End Sub
-```
-
-**Via Code (Method 2 - Anonymous/Lambda):**
-```csharp
+// Lambda/Anonymous
 var menuItem1 = new ToolStripMenuItem("Option 1");
-menuItem1.Click += (s, e) => {
-    MessageBox.Show("Option 1 clicked!");
-};
+menuItem1.Click += (s, e) => MessageBox.Show("Option 1 clicked!");
 
-var menuItem2 = new ToolStripMenuItem("Option 2");
-menuItem2.Click += (s, e) => {
-    // Inline handler logic
-    ProcessOption2();
-};
-```
-
-**Via Code (Method 3 - Constructor Inline):**
-```csharp
-// Pass handler directly in constructor
-var openItem = new ToolStripMenuItem("Open", null, OpenItem_Click);
-var saveItem = new ToolStripMenuItem("Save", null, (s, e) => SaveFile());
-
-private void OpenItem_Click(object sender, EventArgs e)
-{
-    OpenFile();
-}
-```
-
-### Click Events for Different Item Types
-
-**MenuItem:**
-```csharp
-toolStripMenuItem.Click += (s, e) => {
-    // Handle menu item click
-    PerformAction();
-};
-```
-
-**TextBox:**
-```csharp
-toolStripTextBox.Click += (s, e) => {
-    // Handle textbox click (focus)
-    // Note: Usually use TextChanged or KeyPress instead
-};
-```
-
-**ComboBox:**
-```csharp
-toolStripComboBox.Click += (s, e) => {
-    // Handle combobox click
-    // Note: Usually use SelectedIndexChanged instead
-};
-
-// Better: Use selection change event
-toolStripComboBox.SelectedIndexChanged += (s, e) => {
-    string selected = toolStripComboBox.SelectedItem.ToString();
-    HandleSelection(selected);
-};
+// Constructor inline
+var openItem = new ToolStripMenuItem("Open", null, (s, e) => OpenFile());
 ```
 
 ### Accessing the Clicked Item
 
-**Get the menu item that was clicked:**
 ```csharp
 private void MenuItem_Click(object sender, EventArgs e)
 {
     var clickedItem = sender as ToolStripMenuItem;
-    
     if (clickedItem != null)
     {
         string itemText = clickedItem.Text;
         bool isChecked = clickedItem.Checked;
         object tag = clickedItem.Tag;  // Custom data
-        
         MessageBox.Show($"Clicked: {itemText}");
     }
 }
 ```
 
-### Click Events and Keyboard Shortcuts
-
-When keyboard shortcuts are configured, the Click event fires when the shortcut is pressed:
-
-```csharp
-var cutItem = new ToolStripMenuItem("Cut");
-cutItem.ShortcutKeys = Keys.Control | Keys.X;
-cutItem.Click += (s, e) => {
-    // Fires on menu click OR when Ctrl+X is pressed
-    PerformCut();
-};
-```
-
-**Note:** The Click event doesn't distinguish between mouse clicks and keyboard shortcuts. Both trigger the same event.
+**Note:** Click event fires for both mouse clicks and keyboard shortcuts. For ComboBox, use SelectedIndexChanged instead.
 
 ## Menu Lifecycle Events
 
@@ -332,49 +237,20 @@ contextMenu.Opening += (s, e) => {
 };
 ```
 
-### Opened Event
-
-Fires after the menu is fully visible:
+### Other Lifecycle Events
 
 ```csharp
-contextMenu.Opened += (s, e) => {
-    // Menu is now visible
-    LogMenuOpened();
-    StartIdleTimer();
-};
-```
+// Opened - fires after menu is fully visible
+contextMenu.Opened += (s, e) => LogMenuOpened();
 
-### Closing Event
-
-Fires when the menu is about to close:
-
-```csharp
+// Closing - fires when menu is about to close (can cancel with e.Cancel = true)
 contextMenu.Closing += (s, e) => {
-    // Menu is about to close
-    
-    // Can cancel closing if needed
     if (HasUnsavedChanges())
-    {
-        var result = MessageBox.Show("Discard changes?", "Confirm", 
-                                      MessageBoxButtons.YesNo);
-        if (result == DialogResult.No)
-        {
-            e.Cancel = true;  // Keeps menu open
-        }
-    }
+        e.Cancel = true;  // Keeps menu open
 };
-```
 
-### Closed Event
-
-Fires after the menu is fully closed:
-
-```csharp
-contextMenu.Closed += (s, e) => {
-    // Menu is now closed
-    CleanupResources();
-    SaveLastInteraction();
-};
+// Closed - fires after menu is fully closed
+contextMenu.Closed += (s, e) => CleanupResources();
 ```
 
 ## Event Handling Patterns
@@ -537,74 +413,15 @@ private void CreateAsyncMenu()
 
 ## Best Practices
 
-### Event Handler Best Practices
-
 1. **Keep handlers focused:** Each handler should do one thing well
 2. **Handle exceptions:** Wrap handlers in try-catch to prevent crashes
-3. **Avoid blocking operations:** Use async for long-running tasks
-4. **Clean up resources:** Unsubscribe when disposing controls
-5. **Validate state:** Check application state before performing actions
-
-### AutoClose Guidelines
-
-1. **Default to true:** Most menus should auto-close
-2. **Use false sparingly:** Only for multi-selection or interactive menus
-3. **Provide close mechanism:** When AutoClose = false, add close button
-4. **Consider UX:** Non-closing menus can confuse users
-
-### Event Subscription
-
-**Good Practice:**
-```csharp
-// Subscribe once during initialization
-menuItem.Click += HandleMenuClick;
-```
-
-**Bad Practice:**
-```csharp
-// Don't subscribe in loops or repeatedly
-for (int i = 0; i < 10; i++)
-{
-    menuItem.Click += HandleMenuClick;  // Creates 10 subscriptions!
-}
-```
-
-### Unsubscribing
-
-```csharp
-// When disposing or cleaning up
-menuItem.Click -= HandleMenuClick;
-
-// Or in Dispose method
-protected override void Dispose(bool disposing)
-{
-    if (disposing)
-    {
-        menuItem.Click -= HandleMenuClick;
-    }
-    base.Dispose(disposing);
-}
-```
+3. **Use async:** For long-running operations
+4. **AutoClose:** Default to true; use false only for multi-selection menus
+5. **Subscribe once:** Don't subscribe in loops; unsubscribe when disposing
 
 ## Troubleshooting
 
-**Click event not firing:**
-- Verify event handler is subscribed
-- Check that item is Enabled = true
-- Ensure no exceptions are thrown in handler
-- Confirm menu is properly associated with control
-
-**Menu not closing:**
-- Check AutoClose property
-- Verify Click handlers aren't preventing closure
-- Ensure no code is re-showing the menu
-
-**Opening event not firing:**
-- Verify subscription to correct event (Opening, not Opened)
-- Check that menu actually displays
-- Ensure control's ContextMenuStrip property is set
-
-**Events firing multiple times:**
-- Check for duplicate subscriptions
-- Verify += is not called repeatedly
-- Use -= to unsubscribe before resubscribing
+**Click event not firing:** Verify handler subscribed and item Enabled = true  
+**Menu not closing:** Check AutoClose property and Click handlers  
+**Opening event not firing:** Verify subscription to Opening (not Opened)  
+**Events firing multiple times:** Check for duplicate subscriptions

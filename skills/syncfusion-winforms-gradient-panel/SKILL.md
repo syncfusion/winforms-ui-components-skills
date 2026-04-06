@@ -360,8 +360,3 @@ Large content areas that need automatic scrolling with styled backgrounds.
 8. **PathRectangle for cards** - Use `GradientStyle.PathRectangle` or `PathEllipse` for card-like effects
 9. **Performance** - Minimize gradient panels in high-frequency update scenarios
 10. **Designer preview** - Use Designer to preview gradients and adjust colors interactively
-
-## Related Skills
-
-- **AutoLabel**: [../implementing-autolabels/](../implementing-autolabels/) - Styled labels that complement gradient panels
-- **Layout Controls**: Other container controls for panel-based layouts

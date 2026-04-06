@@ -40,13 +40,9 @@ MenuItem represents a selectable option displayed in the context menu. It's the 
 
 ### Adding MenuItem via Designer
 
-1. Select the ContextMenuStripEx control in the component tray
-2. Click **"Type Here"** in the context menu designer
-3. Select **MenuItem** from the dropdown (or just start typing text)
-4. Configure properties in the Properties panel:
-   - Set **Text** under Appearance
-   - Configure shortcuts under Behavior → ShortcutKeys
-   - Set enabled state, checked state, etc.
+1. Click **"Type Here"** in the context menu designer
+2. Select **MenuItem** (or just start typing text)
+3. Configure properties in Properties panel (Text, shortcuts, states, etc.)
 
 ### Adding MenuItem via Code
 
@@ -127,33 +123,18 @@ End Sub
 
 ### MenuItem Usage Examples
 
-**Example 1: Simple Menu with Events**
 ```csharp
+// Simple menu with events
 var menuOpen = new ToolStripMenuItem("Open", null, (s, e) => OpenFile());
 var menuSave = new ToolStripMenuItem("Save", null, (s, e) => SaveFile());
-var menuExit = new ToolStripMenuItem("Exit", null, (s, e) => Application.Exit());
+contextMenu.Items.AddRange(new ToolStripItem[] { menuOpen, menuSave });
 
-contextMenu.Items.AddRange(new ToolStripItem[] { menuOpen, menuSave, menuExit });
-```
-
-**Example 2: Menu with Shortcuts and Tooltips**
-```csharp
-var menuItem = new ToolStripMenuItem();
-menuItem.Text = "Find";
-menuItem.ShortcutKeys = Keys.Control | Keys.F;
-menuItem.ShowShortcutKeys = true;
-menuItem.AutoToolTip = false;
-menuItem.ToolTipText = "Search for text in the document";
-menuItem.Click += (s, e) => ShowFindDialog();
-```
-
-**Example 3: Menu with Custom Shortcut Display**
-```csharp
-var menuItem = new ToolStripMenuItem();
-menuItem.Text = "Quick Save";
-menuItem.ShortcutKeys = Keys.Control | Keys.S;
-menuItem.ShortcutKeyDisplayString = "Ctrl+S (Quick)";  // Custom display
-menuItem.ShowShortcutKeys = true;
+// With shortcuts and tooltips
+var menuFind = new ToolStripMenuItem("Find");
+menuFind.ShortcutKeys = Keys.Control | Keys.F;
+menuFind.ShowShortcutKeys = true;
+menuFind.ToolTipText = "Search for text";
+menuFind.Click += (s, e) => ShowFindDialog();
 ```
 
 ## TextBox
@@ -177,12 +158,8 @@ TextBox items provide editable text input directly within the context menu. This
 
 ### Adding TextBox via Designer
 
-1. Click **"Type Here"** in the context menu designer
-2. From the dropdown, select **TextBox**
-3. Configure properties in the Properties panel:
-   - Set default **Text** under Appearance
-   - Configure **MaxLength**, **ReadOnly** under Behavior
-   - Adjust **BorderStyle**, **TextBoxTextAlign** under Appearance
+1. Click **"Type Here"** → select **TextBox**
+2. Configure properties: Text, MaxLength, ReadOnly, BorderStyle, etc.
 
 ### Adding TextBox via Code
 
@@ -230,39 +207,16 @@ Dim searchText As String = searchBox.Text
 
 ### TextBox Usage Examples
 
-**Example 1: Search Box in Context Menu**
 ```csharp
-var searchLabel = new ToolStripMenuItem("Search:");
-searchLabel.Enabled = false;  // Non-clickable label
-
+// Search box in menu
 var searchBox = new ToolStripTextBox();
-searchBox.Text = "";
 searchBox.MaxLength = 50;
+var searchBtn = new ToolStripMenuItem("Find");
+searchBtn.Click += (s, e) => PerformSearch(searchBox.Text);
 
-var searchButton = new ToolStripMenuItem("Find");
-searchButton.Click += (s, e) => PerformSearch(searchBox.Text);
-
-contextMenu.Items.AddRange(new ToolStripItem[] {
-    searchLabel, searchBox, searchButton
-});
-```
-
-**Example 2: Multi-line Input**
-```csharp
-var notesBox = new ToolStripTextBox();
-notesBox.Multiline = true;
-notesBox.AcceptsReturn = true;
-notesBox.Size = new System.Drawing.Size(200, 60);
-notesBox.Text = "Enter notes here...";
-```
-
-**Example 3: Filtered Input**
-```csharp
+// Filtered numeric input
 var numericInput = new ToolStripTextBox();
-numericInput.MaxLength = 10;
-numericInput.CharacterCasing = CharacterCasing.Upper;
 numericInput.KeyPress += (s, e) => {
-    // Only allow numbers
     if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
         e.Handled = true;
 };
@@ -293,12 +247,8 @@ ComboBox items provide dropdown selection lists within the context menu. They're
 
 ### Adding ComboBox via Designer
 
-1. Click **"Type Here"** in the context menu designer
-2. Select **ComboBox** from the dropdown
-3. Configure properties in the Properties panel:
-   - Add items via **Data → Items** (String Collection Editor)
-   - Set default selection via **SelectedIndex**
-   - Configure appearance with **FlatStyle**
+1. Click **"Type Here"** → select **ComboBox**
+2. Configure: Add items via Data → Items, set SelectedIndex, configure FlatStyle
 
 ### Adding ComboBox via Code
 
@@ -360,31 +310,18 @@ contextMenu.Items.Add(filterCombo)
 
 ### ComboBox Usage Examples
 
-**Example 1: Simple Filter Dropdown**
 ```csharp
+// Simple filter dropdown
 var filterCombo = new ToolStripComboBox();
 filterCombo.Items.AddRange(new object[] { "Today", "This Week", "This Month", "All" });
 filterCombo.SelectedIndex = 0;
 filterCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-```
 
-**Example 2: Autocomplete ComboBox**
-```csharp
+// Autocomplete combobox
 var searchCombo = new ToolStripComboBox();
 searchCombo.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 searchCombo.AutoCompleteSource = AutoCompleteSource.ListItems;
-searchCombo.Items.AddRange(new object[] {
-    "Apple", "Banana", "Cherry", "Date", "Elderberry"
-});
-```
-
-**Example 3: Sorted ComboBox with Custom Width**
-```csharp
-var sortedCombo = new ToolStripComboBox();
-sortedCombo.Sorted = true;
-sortedCombo.DropDownWidth = 200;
-sortedCombo.Items.AddRange(new object[] { "Zebra", "Apple", "Mango", "Banana" });
-// Items will appear sorted: Apple, Banana, Mango, Zebra
+searchCombo.Items.AddRange(new object[] { "Apple", "Banana", "Cherry" });
 ```
 
 ## Separator
@@ -402,10 +339,8 @@ Separator items provide visual division between menu sections. They help organiz
 
 ### Adding Separator via Designer
 
-1. Click **"Type Here"** in the context menu designer
-2. Select **Separator** from the dropdown
-3. The separator appears as a horizontal line
-4. Configure visibility and colors in Properties panel if needed
+1. Click **"Type Here"** → select **Separator**
+2. Appears as horizontal line; configure visibility/colors in Properties if needed
 
 ### Adding Separator via Code
 
@@ -467,31 +402,16 @@ contextMenu.Items.AddRange(New ToolStripItem() {
 
 ### Separator Usage Examples
 
-**Example 1: Multi-Section Menu**
 ```csharp
+// Multi-section menu
 var menu = new ContextMenuStripEx();
-
-// File operations
 menu.Items.Add(new ToolStripMenuItem("New"));
 menu.Items.Add(new ToolStripMenuItem("Open"));
-menu.Items.Add(new ToolStripMenuItem("Save"));
 menu.Items.Add(new ToolStripSeparator());  // Section divider
-
-// Edit operations
 menu.Items.Add(new ToolStripMenuItem("Cut"));
 menu.Items.Add(new ToolStripMenuItem("Copy"));
-menu.Items.Add(new ToolStripMenuItem("Paste"));
-menu.Items.Add(new ToolStripSeparator());  // Section divider
-
-// Exit
+menu.Items.Add(new ToolStripSeparator());
 menu.Items.Add(new ToolStripMenuItem("Exit"));
-```
-
-**Example 2: Styled Separator**
-```csharp
-var separator = new ToolStripSeparator();
-separator.BackColor = System.Drawing.Color.LightGray;
-separator.ForeColor = System.Drawing.Color.DarkGray;
 ```
 
 ## Mixing Item Types
@@ -552,28 +472,15 @@ contextMenu.Items.AddRange(new ToolStripItem[] {
 
 ## Best Practices
 
-1. **Use MenuItem for actions:** Standard clickable operations should be MenuItems
-2. **TextBox for quick input:** Use when you need brief text entry without opening dialogs
-3. **ComboBox for selections:** Ideal for filters, categories, or predefined options
-4. **Separator for organization:** Group related items with separators for clarity
-5. **Limit input complexity:** Context menus should provide quick access; avoid complex input forms
-6. **Provide labels:** For TextBox and ComboBox items, consider adding a disabled MenuItem as a label
-7. **Handle events:** Subscribe to appropriate events (Click, TextChanged, SelectedIndexChanged)
-8. **Set sensible defaults:** Pre-populate TextBox and ComboBox with reasonable default values
+1. **MenuItem for actions:** Standard clickable operations
+2. **TextBox for quick input:** Brief text entry without dialogs
+3. **ComboBox for selections:** Filters, categories, predefined options
+4. **Separator for organization:** Group related items for clarity
+5. **Handle events:** Subscribe to Click, TextChanged, SelectedIndexChanged
+6. **Set defaults:** Pre-populate with reasonable values
 
 ## Troubleshooting
 
-**TextBox or ComboBox not accepting input:**
-- Ensure the item is enabled
-- Check that the parent menu allows interaction
-- Verify no event handlers are blocking input
-
-**ComboBox dropdown not showing:**
-- Ensure Items collection is populated
-- Check DropDownHeight and DropDownWidth are reasonable
-- Verify menu is fully visible on screen
-
-**Separator not visible:**
-- Check Visible property is true
-- Ensure menu has sufficient width
-- Verify separator is between other items (not at start/end)
+**Input not accepted:** Ensure item enabled and no handlers blocking input  
+**ComboBox dropdown not showing:** Ensure Items populated and menu visible on screen  
+**Separator not visible:** Check Visible = true and separator between other items

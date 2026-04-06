@@ -341,6 +341,3 @@ For more information about StatusBarAdvPanel:
 - Combine multiple panels with different types for comprehensive status displays
 - Leverage events for dynamic panel updates based on application state
 - Apply consistent theming across all panels for professional appearance
-
-**Related Skills:**
-- [Implementing Status Bars (StatusBarAdv)](../implementing-status-bars/) - Parent control for hosting panels

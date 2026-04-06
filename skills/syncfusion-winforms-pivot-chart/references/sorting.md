@@ -6,59 +6,28 @@ This guide covers sorting capabilities for pivot data in the chart.
 
 Sorting allows ordering of pivot data in ascending or descending order based on field values or calculation results.
 
-## Basic Sorting
+## Sort by pivot axis
+The PivotAxis can be sorted by adding PivotSortDescriptor to the SortedAxis collection and ListSortDirection to specify the sorting order.
 
 ```csharp
-// Sort by axis field
-pivotChart1.PivotAxis[0].SortDirection = SortDirection.Ascending;
+this.pivotChart1.SortedAxis.Add(new PivotSortDescriptor("Country", ListSortDirection.Descending));
+```
+
+## Sort by pivot legends
+The PivotLegends can be sorted by adding PivotSortDescriptor to the SortedLegends collection and ListSortDirection to specify the sorting order.
+
+
+```csharp
+this.pivotChart1.SortedLegends.Add(new PivotSortDescriptor("Date", ListSortDirection.Descending));
 ```
 
 ## Sort Options
 
 ```csharp
-public enum SortDirection
+public enum ListSortDirection
 {
-    None,        // No sorting
     Ascending,   // A to Z, 0 to 9
     Descending   // Z to A, 9 to 0
-}
-```
-
-## Sorting by Calculations
-
-```csharp
-// Sort categories by revenue (highest first)
-pivotChart1.PivotAxis[0].SortDirection = SortDirection.Descending;
-pivotChart1.PivotAxis[0].SortByCalculation = "Revenue";
-```
-
-## Multiple Field Sorting
-
-```csharp
-// Primary sort: Product ascending
-pivotChart1.PivotAxis[0].SortDirection = SortDirection.Ascending;
-
-// Secondary sort: Region descending
-pivotChart1.PivotAxis[1].SortDirection = SortDirection.Descending;
-```
-
-## Custom Sort Logic
-
-For advanced scenarios, implement custom comparer:
-
-```csharp
-// Custom sort order for months, quarters, etc.
-private class CustomMonthSorter : IComparer<string>
-{
-    private string[] monthOrder = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
-                                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-    
-    public int Compare(string x, string y)
-    {
-        int indexX = Array.IndexOf(monthOrder, x);
-        int indexY = Array.IndexOf(monthOrder, y);
-        return indexX.CompareTo(indexY);
-    }
 }
 ```
 

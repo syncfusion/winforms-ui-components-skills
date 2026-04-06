@@ -513,10 +513,12 @@ public void CreateCheckedComboBox()
     container.Controls.Add(checkedList);
     container.Controls.Add(btnDone);
     
-    // Connect to ComboBoxBase
-    comboBoxBase1.ListControl = container; // Note: Using Panel as ListControl requires custom implementation
-    
-    // Prevent auto-close
+    // Connect container to ComboBoxBase via its PopupContainer
+    // Use PopupContainer to host non-ListControl UI (Panel with controls)
+    comboBoxBase1.PopupContainer.Size = new System.Drawing.Size(300, 200);
+    comboBoxBase1.PopupContainer.Controls.Add(container);
+
+    // Prevent auto-close while interacting with contained controls
     comboBoxBase1.DropDownCloseOnClick += (s, e) => e.Cancel = true;
     
     // Handle Done button

@@ -764,28 +764,6 @@ private void HostTreeView()
 }
 ```
 
-### Hosting Web Browser
-
-```csharp
-private void HostWebBrowser()
-{
-    GroupBarItem webItem = new GroupBarItem
-    {
-        Text = "Web View"
-    };
-    
-    WebBrowser browser = new WebBrowser
-    {
-        Dock = DockStyle.Fill,
-        Url = new Uri("https://www.example.com")
-    };
-    
-    webItem.Client = browser;
-    this.groupBar1.Controls.Add(browser);
-    this.groupBar1.GroupBarItems.Add(webItem);
-}
-```
-
 ### Hosting Custom UserControl
 
 ```csharp

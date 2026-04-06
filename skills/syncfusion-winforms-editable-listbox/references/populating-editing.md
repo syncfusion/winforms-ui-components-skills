@@ -16,60 +16,18 @@ DataSource binding is ideal for dynamic data that may change or needs to be sync
 
 ### Binding to a List Collection
 
-**C# Example:**
-
 ```csharp
 using System.Collections.Generic;
 using Syncfusion.Windows.Forms.Tools;
 
 private void PopulateFromList()
 {
-    // Create a data source
-    List<string> dataSource = new List<string>();
-    dataSource.Add("Item 1");
-    dataSource.Add("Item 2");
-    dataSource.Add("Item 3");
-    dataSource.Add("Item 4");
-    dataSource.Add("Item 5");
-    
-    // Bind to EditableList
+    // Create and bind a data source
+    List<string> dataSource = new List<string> { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
     this.editableList1.ListBox.DataSource = dataSource;
-}
-```
-
-**VB.NET Example:**
-
-```vbnet
-Imports System.Collections.Generic
-Imports Syncfusion.Windows.Forms.Tools
-
-Private Sub PopulateFromList()
-    ' Create a data source
-    Dim dataSource As New List(Of String)()
-    dataSource.Add("Item 1")
-    dataSource.Add("Item 2")
-    dataSource.Add("Item 3")
-    dataSource.Add("Item 4")
-    dataSource.Add("Item 5")
     
-    ' Bind to EditableList
-    Me.editableList1.ListBox.DataSource = dataSource
-End Sub
-```
-
-### Binding to an Array
-
-```csharp
-private void PopulateFromArray()
-{
-    string[] items = new string[] {
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday"
-    };
-    
+    // Or bind to an array
+    string[] items = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
     this.editableList1.ListBox.DataSource = items;
 }
 ```
@@ -152,120 +110,42 @@ The property editor approach is best for static lists defined at design time.
 
 ### Step-by-Step Process
 
-1. **Select EditableList** control on your form in Visual Studio designer
+1. Select EditableList control in Visual Studio designer
+2. Open Properties Window (F4)
+3. Expand ListBox → Items property and click ellipsis (...)
+4. Enter items (one per line) in String Collection Editor
+5. Click OK to save
 
-2. **Open Properties Window** (press F4 or View → Properties Window)
-
-3. **Expand ListBox Property:**
-   - Locate "ListBox" property in the Properties window
-   - Click the expand arrow (►) next to it
-
-4. **Locate Items Collection:**
-   - Scroll down to find "Items" property within ListBox
-   - Click the ellipsis button (...)
-
-5. **Add Items:**
-   - String Collection Editor window opens
-   - Type each item on a new line
-   - Example:
-     ```
-     Apple
-     Banana
-     Cherry
-     Date
-     Elderberry
-     ```
-
-6. **Save Changes:**
-   - Click OK
-   - Items are now visible in the EditableList
-
-### Designer-Generated Code
-
-Visual Studio generates initialization code in the designer file (Form1.Designer.cs):
+Visual Studio generates code in the designer file:
 
 ```csharp
-// Form1.Designer.cs
-private void InitializeComponent()
-{
-    this.editableList1 = new Syncfusion.Windows.Forms.Tools.EditableList();
-    
-    // ... other code ...
-    
-    this.editableList1.ListBox.Items.AddRange(new object[] {
-        "Apple",
-        "Banana",
-        "Cherry",
-        "Date",
-        "Elderberry"
-    });
-    
-    // ... other code ...
-}
+this.editableList1.ListBox.Items.AddRange(new object[] {
+    "Apple", "Banana", "Cherry", "Date", "Elderberry"
+});
 ```
 
 ## Manual Population via Code
 
 Add items programmatically for dynamic scenarios.
 
-### Adding Individual Items
+### Adding Items Programmatically
 
 ```csharp
-// Add one item at a time
+// Add individual items
 this.editableList1.ListBox.Items.Add("Item 1");
-this.editableList1.ListBox.Items.Add("Item 2");
-this.editableList1.ListBox.Items.Add("Item 3");
-
-// Add with index
 this.editableList1.ListBox.Items.Insert(0, "First Item"); // Insert at beginning
-```
 
-### Adding Multiple Items
-
-```csharp
 // Add multiple items at once
-this.editableList1.ListBox.Items.AddRange(new object[] {
-    "Red",
-    "Green",
-    "Blue",
-    "Yellow",
-    "Orange"
-});
-```
+this.editableList1.ListBox.Items.AddRange(new object[] { "Red", "Green", "Blue", "Yellow" });
 
-### Conditional Population
-
-```csharp
-private void PopulateBasedOnCondition()
-{
-    string[] allItems = { "Admin", "User", "Guest", "Moderator", "Editor" };
-    bool isAdminMode = true;
-    
-    this.editableList1.ListBox.Items.Clear();
-    
-    foreach (string item in allItems)
-    {
-        if (isAdminMode || item != "Admin")
-        {
-            this.editableList1.ListBox.Items.Add(item);
-        }
-    }
-}
-```
-
-### Dynamic Population from User Input
-
-```csharp
-// Example: Add button to insert new items
+// Dynamic population from user input
 private void btnAddItem_Click(object sender, EventArgs e)
 {
     string newItem = txtNewItem.Text.Trim();
-    
     if (!string.IsNullOrEmpty(newItem))
     {
         this.editableList1.ListBox.Items.Add(newItem);
         txtNewItem.Clear();
-        txtNewItem.Focus();
     }
 }
 ```
@@ -276,25 +156,7 @@ EditableList enables users to edit items directly within the list interface thro
 
 ### How Inline Editing Works
 
-**Step-by-Step User Interaction:**
-
-1. **Select an Item:**
-   - User clicks on an item in the list
-   - The item becomes highlighted/selected
-
-2. **Enter Edit Mode:**
-   - User clicks the selected item again
-   - A TextBox appears in place of the item
-   - The item's text is loaded into the TextBox for editing
-
-3. **Edit the Text:**
-   - User modifies the text in the TextBox
-   - TextBox shows cursor and allows typing
-
-4. **Commit Changes:**
-   - User changes focus (clicks elsewhere, presses Tab, or presses Enter)
-   - The TextBox disappears
-   - The list item updates with the new text
+Users can edit items by clicking an item to select it, then clicking again to enter edit mode. A TextBox appears for editing. Changes commit when focus moves elsewhere (Tab, Enter, or clicking away).
 
 ### Programmatic Edit Control
 
@@ -312,43 +174,21 @@ if (selectedIndex >= 0)
 
 ### Handling Edit Events
 
-Monitor when users edit items:
-
 ```csharp
 private void SetupEditHandlers()
 {
-    // When user starts editing (TextBox gets focus)
-    this.editableList1.TextBox.Enter += (s, e) => {
-        Console.WriteLine("Edit started");
-    };
-    
-    // When user is typing
-    this.editableList1.TextBox.TextChanged += (s, e) => {
-        Console.WriteLine($"Current text: {this.editableList1.TextBox.Text}");
-    };
-    
-    // When user finishes editing (TextBox loses focus)
+    // Handle edit completion and validation
     this.editableList1.TextBox.Leave += (s, e) => {
-        Console.WriteLine("Edit completed");
-        ValidateEditedItem();
+        string editedText = this.editableList1.TextBox.Text;
+        if (string.IsNullOrWhiteSpace(editedText))
+        {
+            MessageBox.Show("Item cannot be empty!", "Validation Error");
+        }
     };
-}
-
-private void ValidateEditedItem()
-{
-    string editedText = this.editableList1.TextBox.Text;
-    
-    if (string.IsNullOrWhiteSpace(editedText))
-    {
-        MessageBox.Show("Item cannot be empty!", "Validation Error");
-        // Optionally restore previous value
-    }
 }
 ```
 
 ## Complete Example: Tag Management System
-
-Here's a comprehensive example combining population and editing:
 
 ```csharp
 using System;
@@ -358,199 +198,73 @@ using Syncfusion.Windows.Forms.Tools;
 
 public partial class TagManagerForm : Form
 {
-    private EditableList editableList1;
-    private Button btnAdd;
-    private Button btnRemove;
-    private TextBox txtNewTag;
-    private List<string> tags;
+    private List<string> tags = new List<string> { "Important", "Review", "Urgent" };
     
     public TagManagerForm()
     {
         InitializeComponent();
-        SetupControls();
-        LoadTags();
-    }
-    
-    private void SetupControls()
-    {
-        // Setup EditableList
-        this.editableList1 = new EditableList();
-        this.editableList1.Location = new System.Drawing.Point(20, 20);
-        this.editableList1.Size = new System.Drawing.Size(300, 250);
-        this.Controls.Add(this.editableList1);
-        
-        // Setup Add button
-        this.btnAdd = new Button();
-        this.btnAdd.Text = "Add Tag";
-        this.btnAdd.Location = new System.Drawing.Point(340, 20);
-        this.btnAdd.Click += BtnAdd_Click;
-        this.Controls.Add(this.btnAdd);
-        
-        // Setup Remove button
-        this.btnRemove = new Button();
-        this.btnRemove.Text = "Remove Tag";
-        this.btnRemove.Location = new System.Drawing.Point(340, 60);
-        this.btnRemove.Click += BtnRemove_Click;
-        this.Controls.Add(this.btnRemove);
-        
-        // Setup TextBox for new tags
-        this.txtNewTag = new TextBox();
-        this.txtNewTag.Location = new System.Drawing.Point(20, 280);
-        this.txtNewTag.Size = new System.Drawing.Size(300, 20);
-        this.txtNewTag.PlaceholderText = "Enter new tag...";
-        this.Controls.Add(this.txtNewTag);
-        
-        // Handle editing validation
-        this.editableList1.TextBox.Leave += EditBox_Leave;
-    }
-    
-    private void LoadTags()
-    {
-        // Initialize tag collection
-        tags = new List<string> {
-            "Important",
-            "Review",
-            "Urgent",
-            "Follow-up"
-        };
-        
-        // Bind to EditableList
         this.editableList1.ListBox.DataSource = tags;
+        this.editableList1.TextBox.Leave += EditBox_Leave;
     }
     
     private void BtnAdd_Click(object sender, EventArgs e)
     {
         string newTag = txtNewTag.Text.Trim();
-        
-        if (string.IsNullOrEmpty(newTag))
+        if (!string.IsNullOrEmpty(newTag) && !tags.Contains(newTag))
         {
-            MessageBox.Show("Please enter a tag name.", "Input Required");
-            return;
+            tags.Add(newTag);
+            RefreshList();
+            txtNewTag.Clear();
         }
-        
-        if (tags.Contains(newTag))
-        {
-            MessageBox.Show("Tag already exists!", "Duplicate Tag");
-            return;
-        }
-        
-        // Add to collection
-        tags.Add(newTag);
-        
-        // Refresh display
-        RefreshList();
-        
-        // Clear input
-        txtNewTag.Clear();
-        txtNewTag.Focus();
     }
     
     private void BtnRemove_Click(object sender, EventArgs e)
     {
-        if (this.editableList1.ListBox.SelectedItem == null)
+        if (this.editableList1.ListBox.SelectedItem != null)
         {
-            MessageBox.Show("Please select a tag to remove.", "Selection Required");
-            return;
-        }
-        
-        string selectedTag = this.editableList1.ListBox.SelectedItem.ToString();
-        
-        // Confirm deletion
-        var result = MessageBox.Show(
-            $"Remove tag '{selectedTag}'?",
-            "Confirm Removal",
-            MessageBoxButtons.YesNo
-        );
-        
-        if (result == DialogResult.Yes)
-        {
-            tags.Remove(selectedTag);
+            tags.Remove(this.editableList1.ListBox.SelectedItem.ToString());
             RefreshList();
         }
     }
     
     private void EditBox_Leave(object sender, EventArgs e)
     {
-        // Validate edited tag
-        string editedText = this.editableList1.TextBox.Text.Trim();
-        
-        if (string.IsNullOrEmpty(editedText))
-        {
+        if (string.IsNullOrWhiteSpace(this.editableList1.TextBox.Text))
             MessageBox.Show("Tag cannot be empty!", "Validation Error");
-            // Note: Item will revert to original if not manually updated
-        }
     }
     
     private void RefreshList()
     {
-        // Refresh DataSource binding
         this.editableList1.ListBox.DataSource = null;
         this.editableList1.ListBox.DataSource = tags;
     }
 }
 ```
 
-## Tips and Best Practices
+## Best Practices
 
-1. **Use BindingList for Automatic Updates:** When DataSource changes frequently, use `BindingList<T>` instead of `List<T>` for automatic UI updates
-
-2. **Validate During Edit:** Handle `TextBox.Leave` event to validate user input before committing changes
-
-3. **Clear Before Re-populate:** Call `ListBox.Items.Clear()` before adding new items to avoid duplicates
-
-4. **Check for Null:** Always check if `SelectedItem` is null before accessing it
-
-5. **Provide Visual Feedback:** Use `ListBox.SelectedIndexChanged` event to respond to user selections
-
-6. **Handle Empty Lists:** Check `Items.Count` before performing operations that require items
-
-7. **Use DisplayMember for Objects:** When binding complex objects, always set `DisplayMember` property
+1. Use `BindingList<T>` instead of `List<T>` for automatic UI updates
+2. Validate during edit using `TextBox.Leave` event
+3. Always check if `SelectedItem` is null before accessing it
+4. Set `DisplayMember` property when binding complex objects
 
 ## Common Scenarios
 
-### Scenario: Allow Only Unique Items
-
 ```csharp
+// Allow only unique items
 private void AddUniqueItem(string item)
 {
     if (!this.editableList1.ListBox.Items.Contains(item))
-    {
         this.editableList1.ListBox.Items.Add(item);
-    }
-    else
-    {
-        MessageBox.Show("Item already exists!");
-    }
 }
-```
 
-### Scenario: Limit Number of Items
-
-```csharp
-private void AddItemWithLimit(string item, int maxItems = 10)
-{
-    if (this.editableList1.ListBox.Items.Count >= maxItems)
-    {
-        MessageBox.Show($"Maximum {maxItems} items allowed!");
-        return;
-    }
-    
-    this.editableList1.ListBox.Items.Add(item);
-}
-```
-
-### Scenario: Save/Load from File
-
-```csharp
+// Save/Load from file
 using System.IO;
 
 private void SaveToFile(string filePath)
 {
-    List<string> items = new List<string>();
-    foreach (var item in this.editableList1.ListBox.Items)
-    {
-        items.Add(item.ToString());
-    }
+    List<string> items = this.editableList1.ListBox.Items.Cast<object>()
+        .Select(i => i.ToString()).ToList();
     File.WriteAllLines(filePath, items);
 }
 
@@ -558,9 +272,8 @@ private void LoadFromFile(string filePath)
 {
     if (File.Exists(filePath))
     {
-        string[] items = File.ReadAllLines(filePath);
         this.editableList1.ListBox.Items.Clear();
-        this.editableList1.ListBox.Items.AddRange(items);
+        this.editableList1.ListBox.Items.AddRange(File.ReadAllLines(filePath));
     }
 }
 ```

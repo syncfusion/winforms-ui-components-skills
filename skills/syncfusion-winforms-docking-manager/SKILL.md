@@ -450,4 +450,4 @@ Save and restore user's preferred window arrangement across sessions using seria
 Convert traditional MDI applications to modern docking interface with floating and tabbed documents.
 
 ### 7. Custom Development Tools
-Build code editors, debuggers, or design tools with dockable windows similar to Visual Studio.
+Build code editors, debuggers, or design tools with dockable windows similar to Visual Studio. 

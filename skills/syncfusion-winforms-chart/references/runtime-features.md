@@ -12,14 +12,11 @@ Enable interactive zooming to explore data.
 
 ```csharp
 // Enable zooming
-chartControl1.Zooming = true;
+chartControl1.EnableXZooming = true;
+chartControl1.EnableYZooming = true;
 
 // Zoom toolbar
 chartControl1.ShowToolbar = true;
-
-// Zoom modes
-chartControl1.ZoomType = ChartZoomType.Both;  // Both axes
-// Options: Horizontal, Vertical, Both, None
 ```
 
 ### Programmatic Zoom
@@ -29,7 +26,7 @@ chartControl1.PrimaryXAxis.ZoomFactor = 0.5;  // 50% zoom
 chartControl1.PrimaryXAxis.ZoomPosition = 0.25;  // Start at 25%
 
 // Reset zoom
-chartControl1.ResetZooming();
+chartControl1.ResetOnDoubleClick = true;
 ```
 
 ## Panning
@@ -37,7 +34,7 @@ chartControl1.ResetZooming();
 Scroll through zoomed chart.
 
 ```csharp
-chartControl1.Panning = true;  // Click and drag to pan
+chartControl1.MouseAction = ChartMouseAction.Panning;  // Click and drag to pan
 ```
 
 ## Hit Testing
@@ -45,18 +42,13 @@ chartControl1.Panning = true;  // Click and drag to pan
 Detect chart elements under mouse cursor.
 
 ```csharp
-chartControl1.MouseMove += (sender, e) =>
+chartControl1.ChartRegionMouseMove += (sender, e) =>
 {
-    ChartRegion region = chartControl1.CalcHitTestInfo(e.Location);
-    
-    if (region.IsChartPoint)
-    {
-        int seriesIndex = region.SeriesIndex;
-        int pointIndex = region.PointIndex;
-        ChartPoint point = chartControl1.Series[seriesIndex].Points[pointIndex];
-        
-        Console.WriteLine($"Point: {point.YValues[0]}");
-    }
+    int seriesIndex = e.Region.SeriesIndex;
+    int pointIndex = e.Region.PointIndex;
+    ChartPoint point = chartControl1.Series[seriesIndex].Points[pointIndex];
+
+    Console.WriteLine($"Point: {point.YValues[0]}");
 };
 ```
 
@@ -129,7 +121,7 @@ Custom right-click menu:
 ```csharp
 ContextMenuStrip menu = new ContextMenuStrip();
 menu.Items.Add("Export", null, (s, e) => ExportChart());
-menu.Items.Add("Reset Zoom", null, (s, e) => chartControl1.ResetZooming());
+menu.Items.Add("Reset Zoom", null, (s, e) => chartControl1.ResetOnDoubleClick = true);
 
 chartControl1.ContextMenuStrip = menu;
 ```
@@ -145,9 +137,9 @@ chartControl1.ChartRegionClick += (sender, e) =>
         ChartPoint point = series.Points[e.Region.PointIndex];
         
         // Highlight selected point
-        point.Symbol.Shape = ChartSymbolShape.Star;
-        point.Symbol.Size = new Size(12, 12);
-        chartControl1.Refresh();
+        series.Style.Symbol.Shape = ChartSymbolShape.Star;
+        series.Style.Symbol.Size = new Size(12, 12);
+        series.Style.Symbol.Shape = ChartSymbolShape.Star;
     }
 };
 ```

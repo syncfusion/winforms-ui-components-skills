@@ -16,46 +16,17 @@ using System.Drawing;
 textBoxExt1.BackColor = Color.Moccasin;
 ```
 
-**VB.NET:**
-```vb
-Imports System.Drawing
-
-' Set background color
-textBoxExt1.BackColor = Color.Moccasin
-```
-
 ![Set the backcolor of WF TextBoxExt control](../../../../../docs/Appearance-Settings_images/Appearance-Settings_img1.png)
 
 ### Common Background Colors
 
-**White (Standard):**
 ```csharp
-textBoxExt1.BackColor = Color.White;
-```
-
-**Light Gray (Disabled appearance):**
-```csharp
-textBoxExt1.BackColor = Color.LightGray;
-```
-
-**Light Yellow (Highlight/Warning):**
-```csharp
-textBoxExt1.BackColor = Color.LightYellow;
-```
-
-**Light Blue (Information):**
-```csharp
-textBoxExt1.BackColor = Color.LightBlue;
-```
-
-**Light Green (Success):**
-```csharp
-textBoxExt1.BackColor = Color.LightGreen;
-```
-
-**Light Pink (Error):**
-```csharp
-textBoxExt1.BackColor = Color.FromArgb(255, 240, 240);
+textBoxExt1.BackColor = Color.White;           // Standard
+textBoxExt1.BackColor = Color.LightGray;       // Disabled appearance
+textBoxExt1.BackColor = Color.LightYellow;     // Highlight/Warning
+textBoxExt1.BackColor = Color.LightBlue;       // Information
+textBoxExt1.BackColor = Color.LightGreen;      // Success
+textBoxExt1.BackColor = Color.FromArgb(255, 240, 240); // Error (Light Pink)
 ```
 
 ### Custom RGB Background
@@ -67,15 +38,6 @@ textBoxExt1.BackColor = Color.FromArgb(240, 248, 255); // Alice Blue
 
 // From hex color
 textBoxExt1.BackColor = ColorTranslator.FromHtml("#F0F8FF");
-```
-
-**VB.NET:**
-```vb
-' Custom RGB color
-textBoxExt1.BackColor = Color.FromArgb(240, 248, 255) ' Alice Blue
-
-' From hex color
-textBoxExt1.BackColor = ColorTranslator.FromHtml("#F0F8FF")
 ```
 
 ### System Colors
@@ -103,46 +65,17 @@ using System.Drawing;
 textBoxExt1.ForeColor = Color.LightSeaGreen;
 ```
 
-**VB.NET:**
-```vb
-Imports System.Drawing
-
-' Set text color
-textBoxExt1.ForeColor = Color.LightSeaGreen
-```
-
 ![Set the fore ground color of WF TextBoxExt control](../../../../../docs/Appearance-Settings_images/Appearance-Settings_img2.png)
 
 ### Common Text Colors
 
-**Black (Default):**
 ```csharp
-textBoxExt1.ForeColor = Color.Black;
-```
-
-**Dark Gray (Subtle):**
-```csharp
-textBoxExt1.ForeColor = Color.DarkGray;
-```
-
-**Gray (Placeholder text):**
-```csharp
-textBoxExt1.ForeColor = Color.Gray;
-```
-
-**Red (Error/Warning):**
-```csharp
-textBoxExt1.ForeColor = Color.Red;
-```
-
-**Blue (Links/Information):**
-```csharp
-textBoxExt1.ForeColor = Color.Blue;
-```
-
-**Green (Success):**
-```csharp
-textBoxExt1.ForeColor = Color.Green;
+textBoxExt1.ForeColor = Color.Black;    // Default
+textBoxExt1.ForeColor = Color.DarkGray; // Subtle
+textBoxExt1.ForeColor = Color.Gray;     // Placeholder text
+textBoxExt1.ForeColor = Color.Red;      // Error/Warning
+textBoxExt1.ForeColor = Color.Blue;     // Links/Information
+textBoxExt1.ForeColor = Color.Green;    // Success
 ```
 
 ### System Text Colors
@@ -184,206 +117,38 @@ using Syncfusion.Windows.Forms.Tools;
 textBoxExt1.Style = TextBoxExt.theme.Office2016Colorful;
 ```
 
-**VB.NET:**
-```vb
-Imports Syncfusion.Windows.Forms.Tools
-
-' Apply Office2016 Colorful theme
-textBoxExt1.Style = TextBoxExt.theme.Office2016Colorful
-```
-
-![Set the visual style to WF TextBoxExt control](../../../../../docs/Appearance-Settings_images/Appearance-Settings_img3.png)
+![Set the visual style to WF TextBoxExt control](../../../../../docs/Appearance-Settings_images/../../../../../docs/Appearance-Settings_images/Appearance-Settings_img3.png)
 
 ## Style-by-Style Examples
 
-### Office2016Colorful
-
-Modern, vibrant Office 2016 appearance with accent colors.
-
-**C#:**
 ```csharp
+// Office2016Colorful - Modern, vibrant with accent colors
 textBoxExt1.Style = TextBoxExt.theme.Office2016Colorful;
-textBoxExt1.Text = "Office2016Colorful Style";
-```
 
-**VB.NET:**
-```vb
-textBoxExt1.Style = TextBoxExt.theme.Office2016Colorful
-textBoxExt1.Text = "Office2016Colorful Style"
-```
-
-**Characteristics:**
-- Colorful accents
-- Modern flat design
-- Clear borders
-
-### Office2016White
-
-Clean white theme with subtle borders.
-
-**C#:**
-```csharp
+// Office2016White - Clean white theme with subtle borders
 textBoxExt1.Style = TextBoxExt.theme.Office2016White;
-textBoxExt1.Text = "Office2016White Style";
-```
 
-**VB.NET:**
-```vb
-textBoxExt1.Style = TextBoxExt.theme.Office2016White
-textBoxExt1.Text = "Office2016White Style"
-```
-
-**Characteristics:**
-- White background
-- Light gray borders
-- Minimal design
-
-### Office2016Black
-
-Dark theme for dark mode applications.
-
-**C#:**
-```csharp
+// Office2016Black - Dark theme for dark mode (high contrast)
 textBoxExt1.Style = TextBoxExt.theme.Office2016Black;
-textBoxExt1.Text = "Office2016Black Style";
-```
 
-**VB.NET:**
-```vb
-textBoxExt1.Style = TextBoxExt.theme.Office2016Black
-textBoxExt1.Text = "Office2016Black Style"
-```
-
-**Characteristics:**
-- Dark background
-- Light text
-- High contrast
-
-### Office2016DarkGray
-
-Reduced contrast dark theme.
-
-**C#:**
-```csharp
+// Office2016DarkGray - Reduced contrast dark theme
 textBoxExt1.Style = TextBoxExt.theme.Office2016DarkGray;
-textBoxExt1.Text = "Office2016DarkGray Style";
-```
 
-**VB.NET:**
-```vb
-textBoxExt1.Style = TextBoxExt.theme.Office2016DarkGray
-textBoxExt1.Text = "Office2016DarkGray Style"
-```
-
-**Characteristics:**
-- Dark gray background
-- Softer contrast than Black theme
-- Easier on eyes for extended use
-
-### Office2019Colorful
-
-Latest Office styling with refined colors.
-
-**C#:**
-```csharp
+// Office2019Colorful - Latest Office styling with refined colors
 textBoxExt1.Style = TextBoxExt.theme.Office2019Colorful;
-textBoxExt1.Text = "Office2019Colorful Style";
-```
 
-**VB.NET:**
-```vb
-textBoxExt1.Style = TextBoxExt.theme.Office2019Colorful
-textBoxExt1.Text = "Office2019Colorful Style"
-```
-
-**Characteristics:**
-- Modern Office 2019 design
-- Refined accent colors
-- Contemporary appearance
-
-### Metro
-
-Flat, modern Windows design.
-
-**C#:**
-```csharp
+// Metro - Flat, modern Windows 8/10/11 design
 textBoxExt1.Style = TextBoxExt.theme.Metro;
-textBoxExt1.Text = "Metro Style";
-```
 
-**VB.NET:**
-```vb
-textBoxExt1.Style = TextBoxExt.theme.Metro
-textBoxExt1.Text = "Metro Style"
-```
-
-**Characteristics:**
-- Completely flat design
-- No gradients or shadows
-- Windows 8/10/11 aesthetic
-
-### Office2007
-
-Classic Office 2007 Ribbon style.
-
-**C#:**
-```csharp
+// Office2007 - Classic Office 2007 Ribbon style
 textBoxExt1.Style = TextBoxExt.theme.Office2007;
-textBoxExt1.Text = "Office2007 Style";
-```
 
-**VB.NET:**
-```vb
-textBoxExt1.Style = TextBoxExt.theme.Office2007
-textBoxExt1.Text = "Office2007 Style"
-```
-
-**Characteristics:**
-- Traditional Office appearance
-- Subtle gradients
-- Classic Ribbon design
-
-### Office2010
-
-Refined Office 2010 appearance.
-
-**C#:**
-```csharp
+// Office2010 - Refined Office 2010 appearance
 textBoxExt1.Style = TextBoxExt.theme.Office2010;
-textBoxExt1.Text = "Office2010 Style";
-```
 
-**VB.NET:**
-```vb
-textBoxExt1.Style = TextBoxExt.theme.Office2010
-textBoxExt1.Text = "Office2010 Style"
-```
-
-**Characteristics:**
-- Cleaner than Office2007
-- Refined colors
-- Professional appearance
-
-### Default
-
-Standard Windows Forms appearance without special styling.
-
-**C#:**
-```csharp
+// Default - Standard Windows Forms appearance
 textBoxExt1.Style = TextBoxExt.theme.Default;
-textBoxExt1.Text = "Default Style";
 ```
-
-**VB.NET:**
-```vb
-textBoxExt1.Style = TextBoxExt.theme.Default
-textBoxExt1.Text = "Default Style"
-```
-
-**Characteristics:**
-- Standard Windows Forms look
-- System theme integration
-- No special styling
 
 ## Combining Colors and Styles
 

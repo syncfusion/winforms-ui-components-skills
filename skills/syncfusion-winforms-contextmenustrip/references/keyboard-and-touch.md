@@ -404,76 +404,26 @@ ContextMenuStripEx automatically adapts to Windows High Contrast themes.
 
 ## Best Practices
 
-### Keyboard Shortcut Best Practices
-
+### Keyboard Shortcuts
 1. **Use standard shortcuts:** Follow Windows conventions (Ctrl+C for Copy, etc.)
-2. **Avoid conflicts:** Don't override browser or system shortcuts
-3. **Be consistent:** Use same shortcuts across your application
-4. **Document shortcuts:** Show them in menus with ShowShortcutKeys = true
-5. **Test combinations:** Ensure modifiers don't conflict with system shortcuts
-6. **Provide alternatives:** Don't require shortcuts as the only way to access features
+2. **Be consistent:** Use same shortcuts across your application
+3. **Document shortcuts:** Show them with ShowShortcutKeys = true
+4. **Provide alternatives:** Don't require shortcuts as only access method
 
-### Standard Shortcut Conventions
+### Touch Mode
+1. **Auto-detect:** Check SystemInformation.MaximumTouches
+2. **Test on hardware:** Emulators don't match real touch experience
+3. **Use larger targets:** Combine with appropriate fonts and spacing
 
-| Action | Standard Shortcut |
-|--------|-------------------|
-| New | Ctrl+N |
-| Open | Ctrl+O |
-| Save | Ctrl+S |
-| Save As | Ctrl+Shift+S |
-| Print | Ctrl+P |
-| Close | Ctrl+W or Ctrl+F4 |
-| Exit | Alt+F4 |
-| Cut | Ctrl+X |
-| Copy | Ctrl+C |
-| Paste | Ctrl+V |
-| Undo | Ctrl+Z |
-| Redo | Ctrl+Y |
-| Select All | Ctrl+A |
-| Find | Ctrl+F |
-| Replace | Ctrl+H |
-| Bold | Ctrl+B |
-| Italic | Ctrl+I |
-| Underline | Ctrl+U |
-
-### Touch Mode Best Practices
-
-1. **Auto-detect when possible:** Check SystemInformation.MaximumTouches
-2. **Allow user override:** Provide setting to manually enable/disable
-3. **Test on actual hardware:** Emulators don't match real touch experience
-4. **Combine with appropriate sizing:** Use larger fonts and spacing
-5. **Consider hybrid input:** Support both mouse and touch simultaneously
-
-### Accessibility Best Practices
-
-1. **Always show shortcuts:** Set ShowShortcutKeys = true for discoverability
-2. **Provide keyboard alternatives:** Every mouse action should have keyboard equivalent
-3. **Use meaningful text:** Clear labels help all users, especially screen readers
-4. **Test with assistive technology:** Use Windows Narrator to verify experience
-5. **Support high contrast:** Test application in High Contrast themes
-6. **Avoid keyboard traps:** Ensure users can escape with Esc or Tab
+### Accessibility
+1. **Always show shortcuts:** Set ShowShortcutKeys = true
+2. **Provide keyboard alternatives:** Every mouse action needs keyboard equivalent
+3. **Test with Narrator:** Verify screen reader experience
+4. **Support high contrast:** Test in High Contrast themes
 
 ## Troubleshooting
 
-**Shortcuts not working:**
-- Verify ShortcutKeys property is set correctly
-- Check that form has focus (shortcuts are form-level)
-- Ensure no other control is capturing the keys
-- Verify Click event handler is attached
-- Check for conflicting shortcuts in parent controls
-
-**Shortcut text not displaying:**
-- Ensure ShowShortcutKeys = true
-- Check that item has sufficient width
-- Verify ShortcutKeys is actually set
-
-**Touch mode not making items larger:**
-- Verify EnableTouchMode = true on ContextMenuStripEx (not individual items)
-- Check that items haven't been manually sized
-- Ensure AutoSize properties allow sizing
-
-**Keyboard navigation not working:**
-- Verify items are enabled
-- Check that no modal dialogs are blocking input
-- Ensure form has proper keyboard focus
-- Test without any event handlers to isolate issues
+**Shortcuts not working:** Verify ShortcutKeys set; check form has focus and Click handler attached  
+**Shortcut text not displaying:** Ensure ShowShortcutKeys = true and item has sufficient width  
+**Touch mode not working:** Verify EnableTouchMode = true on ContextMenuStripEx  
+**Keyboard navigation not working:** Verify items enabled and form has proper focus

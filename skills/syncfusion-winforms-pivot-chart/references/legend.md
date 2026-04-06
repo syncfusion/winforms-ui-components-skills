@@ -33,9 +33,9 @@ pivotChart1.PivotLegend.Add(new PivotItem { FieldMappingName = "Quarter", TotalH
 
 ```csharp
 // Configure legend appearance
-pivotChart1.Legend.Visible = true;
-pivotChart1.Legend.Position = ChartDock.Right;
-pivotChart1.Legend.ItemsSize = new Size(150, 20);
+pivotChart1.ChartControl.Legend.Visible = true;
+pivotChart1.ChartControl.Legend.Position = ChartDock.Right;
+pivotChart1.ChartControl.Legend.ItemsSize = new Size(150, 20);
 ```
 
 ## Common Patterns

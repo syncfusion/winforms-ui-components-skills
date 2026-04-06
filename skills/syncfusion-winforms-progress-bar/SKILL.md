@@ -313,10 +313,3 @@ private async void StartOperation()
 | `System` | Standard Windows system style |
 | `Tube` | Tube-style progress indicator |
 | `Gradient` | Gradient progress effect |
-
-## Related Components
-
-- **Badge** - For status indicators and notifications
-- **Toast** - For temporary notification messages
-- **Skeleton** - For loading state placeholders
-- **StatusBarAdv** - For application status information

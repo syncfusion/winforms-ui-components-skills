@@ -315,29 +315,10 @@ End Class
 
 ## Testing Your Context Menu
 
-### Verify Basic Functionality
-
-1. **Run the application** (F5 or Debug → Start Debugging)
-2. **Right-click the associated control** (e.g., RichTextBox)
-3. **Verify menu appears** with your configured items
-4. **Click menu items** to ensure they respond (if events are wired)
-
-### Common Testing Scenarios
-
-**Test Menu Display:**
-- Right-click should show the menu
-- Menu should appear near the mouse cursor
-- All configured items should be visible
-
-**Test Menu Items:**
-- Text should display correctly
-- Enabled items should be clickable
-- Disabled items should appear grayed out
-- Keyboard shortcuts should display (if configured)
-
-**Test Multiple Controls:**
-- Each control can have its own context menu
-- Right-clicking different controls shows appropriate menus
+1. **Run the application** (F5)
+2. **Right-click the associated control**
+3. **Verify menu appears** with configured items
+4. **Click menu items** to test functionality
 
 ## Next Steps
 
@@ -352,27 +333,7 @@ Now that you have a basic context menu working:
 
 ## Troubleshooting
 
-**Context menu not appearing:**
-- Verify the control's ContextMenuStrip property is set correctly
-- Ensure the control allows mouse events (not disabled or covered)
-- Check that the context menu has at least one item
-
-**Assembly reference errors:**
-- Verify all required assemblies are referenced
-- Check assembly versions match (don't mix versions)
-- Use NuGet to manage dependencies automatically
-
-**License key errors (v16.2.0.x+):**
-- Register license key before initializing controls
-- Verify license key is valid for your Syncfusion version
-- Check that license registration code executes before form creation
-
-**Menu items not visible in designer:**
-- Click "Type Here" or use Items Collection Editor
-- Refresh the designer (close and reopen form)
-- Rebuild the solution
-
-**Events not firing:**
-- Verify event handlers are subscribed correctly
-- Check that menu items are enabled
-- Ensure no exceptions are thrown in event handlers
+**Context menu not appearing:** Verify ContextMenuStrip property is set on control  
+**Assembly errors:** Use NuGet to manage dependencies  
+**License errors (v16.2.0.x+):** Register license key before initializing controls  
+**Events not firing:** Check event handlers are subscribed and items are enabled

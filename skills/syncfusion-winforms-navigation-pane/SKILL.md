@@ -47,6 +47,13 @@ GroupBar is ideal for applications requiring categorized navigation, toolbox-sty
 **Key Difference from Standard Panel/TabControl:**
 GroupBar provides Outlook-style navigation with GroupView integration, StackedMode for collapsible navigation pane, Office themes, and hierarchical item display capabilities.
 
+## Additional Resources
+
+**Assembly:** Syncfusion.Shared.Base.dll  
+**Namespace:** Syncfusion.Windows.Forms.Tools  
+**NuGet Package:** Syncfusion.Shared.Base
+**Minimum .NET Framework:** 4.5  
+
 ## Documentation and Navigation Guide
 
 ### Getting Started and Basic Setup

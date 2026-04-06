@@ -7,8 +7,6 @@ To use the HubTile control, reference the required assemblies in your Windows Fo
 ### Required Assemblies
 
 ```
-Syncfusion.Grid.Base.dll
-Syncfusion.Grid.Windows.dll
 Syncfusion.Shared.Base.dll
 Syncfusion.Shared.Windows.dll
 Syncfusion.Tools.Base.dll

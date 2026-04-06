@@ -337,14 +337,6 @@ btnSwap.Click += (s, e) => {
 
 ---
 
-## Related Skills
-
-- **SplitContainerAdv:** Alternative split container without tab support
-- **DockingManager:** Advanced docking and layout management
-- **TabControlAdv:** Standalone tabbed interface control
-
----
-
 ## See Also
 
 - [Syncfusion TabSplitterContainer Documentation](https://help.syncfusion.com/windowsforms/tabsplittercontainer/overview)

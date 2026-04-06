@@ -136,6 +136,15 @@ The MultiColumnTreeView provides:
 - Custom event handling patterns
 - Event subscription examples
 
+### Troubleshooting
+📄 **Read:** [references/troubleshooting.md](references/troubleshooting.md)
+- Common display issues
+- Performance optimization
+- Checkbox and selection problems
+- Sorting and filtering issues
+- Event and data binding problems
+- General best practices
+
 ## Quick Start Example
 
 Here's a minimal example showing a MultiColumnTreeView with countries and capitals:
@@ -415,11 +424,4 @@ Install-Package Syncfusion.Tools.Windows
 - **DataGrid** - Flat grid without hierarchy
 - **ListView** - List with columns but no tree structure
 
-## Troubleshooting Tips
-
-- **Nodes not displaying:** Check if columns are added before nodes
-- **SubItems not visible:** Ensure SubItems count matches column count - 1
-- **Performance issues:** Use BeginUpdate/EndUpdate and SuspendExpandRecalculate
-- **Checkboxes not working:** Verify ShowCheckBoxes or ShowCheckBox is true
-- **Filter not applying:** Call RefreshFilter() after setting Filter delegate
-- **Selection not working:** Check SelectionMode property setting
+For detailed troubleshooting, see [references/troubleshooting.md](references/troubleshooting.md)

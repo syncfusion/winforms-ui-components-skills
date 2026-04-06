@@ -106,7 +106,7 @@ When to read this reference:
 
 Here's a complete example of registering a Syncfusion license key in a Windows Forms application:
 
-### C# Example
+### C# Example (Using Environment Variable - Recommended)
 
 ```csharp
 using System;
@@ -120,8 +120,18 @@ namespace MyWindowsFormsApp
         [STAThread]
         static void Main()
         {
+            // SECURITY BEST PRACTICE: Read license key from environment variable
+            string licenseKey = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY");
+            
+            if (string.IsNullOrEmpty(licenseKey))
+            {
+                MessageBox.Show("Syncfusion license key not found in environment variables.", 
+                    "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
             // Register Syncfusion license key BEFORE any Syncfusion control is initiated
-            SyncfusionLicenseProvider.RegisterLicense("YOUR_LICENSE_KEY_HERE");
+            SyncfusionLicenseProvider.RegisterLicense(licenseKey);
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -131,16 +141,74 @@ namespace MyWindowsFormsApp
 }
 ```
 
-### VB.NET Example (Application.Designer.vb)
+### Alternative: Using Configuration File (App.config)
+
+```csharp
+using System;
+using System.Configuration;
+using System.Windows.Forms;
+using Syncfusion.Licensing;
+
+namespace MyWindowsFormsApp
+{
+    static class Program
+    {
+        [STAThread]
+        static void Main()
+        {
+            // Read from app.config (ensure it's not committed to source control)
+            string licenseKey = ConfigurationManager.AppSettings["SyncfusionLicenseKey"];
+            
+            if (string.IsNullOrEmpty(licenseKey))
+            {
+                MessageBox.Show("Syncfusion license key not configured.", 
+                    "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            SyncfusionLicenseProvider.RegisterLicense(licenseKey);
+            
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
+        }
+    }
+}
+```
+
+**App.config example:**
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <appSettings>
+    <!-- DO NOT commit actual license key to source control -->
+    <!-- Use environment-specific config files or CI/CD secrets -->
+    <add key="SyncfusionLicenseKey" value="" />
+  </appSettings>
+</configuration>
+```
+
+### VB.NET Example (Using Environment Variable - Recommended)
 
 ```vb
+Imports Syncfusion.Licensing
+
 Namespace My
     Partial Friend Class MyApplication
         Public Sub New()
             MyBase.New(Global.Microsoft.VisualBasic.ApplicationServices.AuthenticationMode.Windows)
             
+            ' SECURITY BEST PRACTICE: Read license key from environment variable
+            Dim licenseKey As String = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY")
+            
+            If String.IsNullOrEmpty(licenseKey) Then
+                MessageBox.Show("Syncfusion license key not found in environment variables.", _
+                    "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return
+            End If
+            
             ' Register Syncfusion License
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR_LICENSE_KEY_HERE")
+            SyncfusionLicenseProvider.RegisterLicense(licenseKey)
             
             Me.IsSingleInstance = False
             Me.EnableVisualStyles = True
@@ -149,6 +217,25 @@ Namespace My
         End Sub
     End Class
 End Namespace
+```
+
+### Setting Environment Variable
+
+**Windows (PowerShell):**
+```powershell
+# For current session
+$env:SYNCFUSION_LICENSE_KEY = "your-license-key-value"
+
+# Permanent (User level)
+[System.Environment]::SetEnvironmentVariable("SYNCFUSION_LICENSE_KEY", "your-license-key-value", "User")
+
+# Permanent (System level - requires admin)
+[System.Environment]::SetEnvironmentVariable("SYNCFUSION_LICENSE_KEY", "your-license-key-value", "Machine")
+```
+
+**Windows (Command Prompt):**
+```cmd
+setx SYNCFUSION_LICENSE_KEY "your-license-key-value"
 ```
 
 ## Common Patterns
@@ -176,11 +263,20 @@ When encountering license validation errors:
 
 When implementing license validation in CI pipelines:
 
-1. **Download** LicenseKeyValidator utility
-2. **Configure** PowerShell script with platform, version, and license key
-3. **Integrate** script execution in CI pipeline (Azure, GitHub Actions, Jenkins)
-4. **Validate** license before deployment
-5. **Handle** validation failures appropriately
+1. **Store** license key securely in CI/CD secrets (never in source control)
+2. **Choose validation method:**
+   - **Recommended:** Use `ValidateLicense()` method in unit tests
+   - **Alternative:** Use LicenseKeyValidator utility (with security verification)
+3. **Configure** validation to read license key from environment variables
+4. **Integrate** validation in CI pipeline (Azure, GitHub Actions, Jenkins)
+5. **Validate** license before deployment
+6. **Handle** validation failures appropriately
+
+**Security Requirements:**
+- ✅ Use CI/CD secret management (Azure Key Vault, GitHub Secrets, Jenkins Credentials)
+- ✅ Read keys from environment variables only
+- ❌ Never hardcode keys in scripts
+- ❌ Never commit keys to source control
 
 ### Pattern 4: Upgrading from Trial to Licensed
 
@@ -193,12 +289,49 @@ When purchasing a license after trial:
 
 ## Key Concepts
 
+### Security Best Practices for License Keys
+
+1. **Never Hardcode License Keys**
+   - ❌ Don't embed keys directly in source code
+   - ❌ Don't commit keys to version control (Git, SVN, etc.)
+   - ❌ Don't include keys in build scripts checked into source control
+
+2. **Use Secure Storage Methods**
+   - ✅ Environment variables (recommended for local development)
+   - ✅ Configuration files excluded from source control (.gitignore)
+   - ✅ CI/CD secret management (GitHub Secrets, Azure Key Vault, Jenkins Credentials)
+   - ✅ Secure configuration management systems (Azure App Configuration, AWS Secrets Manager)
+
+3. **Access Control**
+   - Limit who can access license keys
+   - Rotate keys periodically if exposed
+   - Audit key usage in production environments
+
+4. **CI/CD Security**
+   - Use pipeline secret variables
+   - Never echo/log license keys in build output
+   - Inject keys at runtime through environment variables
+
+**Example - What NOT to Do:**
+```csharp
+// ❌ WRONG: Hardcoded key in source code
+SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBaFt/QHRq...");
+```
+
+**Example - Correct Approach:**
+```csharp
+// ✅ CORRECT: Key from environment variable
+string key = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY");
+SyncfusionLicenseProvider.RegisterLicense(key);
+```
+
 ### License Key Characteristics
 
 - **Version-specific:** License key must match Syncfusion assembly version
 - **Platform-specific:** Windows Forms keys only work for Windows Forms platform
 - **Offline validation:** No internet connection required during runtime
 - **String format:** License key is a string registered via RegisterLicense()
+- **Sensitive data:** Treat as confidential credential (like passwords or API keys)
 
 ### Registration Requirements
 

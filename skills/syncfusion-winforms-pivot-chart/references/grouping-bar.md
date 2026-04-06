@@ -10,39 +10,31 @@ The Grouping Bar provides an Excel-like interface for interactively manipulating
 
 ```csharp
 // Enable grouping bar
-pivotChart1.ShowGroupingBar = true;
+pivotChart1.AxisFieldSection.Visible = true;
+pivotChart1.LegendFieldSection.Visible = true;
+pivotChart1.ValueFieldSection.Visible = true;
+pivotChart1.FilterFieldSection.Visible = true;
 ```
 
-## Features
-
-- Drag fields between Axis, Legend, and Calculations
-- Reorder fields within each area
-- Remove fields by dragging out
-- Filter values for specific fields
-- Sort field values
-
-## Configuration
+## Customizing grouping bar
 
 ```csharp
-private void ConfigureGroupingBar()
-{
-    pivotChart1.ShowGroupingBar = true;
-    pivotChart1.GroupingBarSettings.AllowDragAndDrop = true;
-    pivotChart1.GroupingBarSettings.ShowFieldButtons = true;
-}
+this.pivotChart1.AxisFieldSection.ItemBackColor = Color.Yellow;
+this.pivotChart1.AxisFieldSection.ItemForeColor = Color.Black;
+this.pivotChart1.AxisFieldSection.BackInterior = Color.SkyBlue;
 ```
 
 ## User Interactions
 
 Users can:
-1. **Drag fields** to reorder hierarchy
-2. **Move between areas** (Axis ↔ Legend)
-3. **Apply filters** via field buttons
-4. **Remove fields** by dragging off the bar
+- Drag fields to reorder hierarchy inside the Axis Field Section (fields from PivotAxis).
+- Move fields between areas — Axis, Legend, Value and Filter sections.
+- Customize fields visually using section-level button styles (background/foreground).
+- Remove fields by dragging them out of the grouping bar.
 
 ## Best Practices
 
-1. Enable for power users who need flexibility
-2. Provide initial sensible field arrangement
-3. Consider disabling for fixed report layouts
-4. Test common user rearrangement scenarios
+1. Enable grouping bar when users need flexible, Excel‑style pivot rearrangement.
+2. Provide default axis arrangement (e.g., Year → Quarter → Month).
+3. Disable grouping bar for fixed analytical layouts where changes must be restricted.
+4. Test common drag‑drop and reorder scenarios to ensure chart refresh and recalculation behave consistently.

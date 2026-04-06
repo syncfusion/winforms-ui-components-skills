@@ -53,38 +53,14 @@ The most common menu item type for standard commands and actions.
 ### Code Implementation
 
 ```csharp
-BarItem saveItem = new BarItem();
-saveItem.Text = "Save";
-saveItem.SizeToFit = true;
-saveItem.Image = new ImageExt(System.Drawing.Image.FromFile(@"icons\save.png"));
-saveItem.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
-saveItem.Click += SaveItem_Click;
-
+BarItem saveItem = new BarItem {
+    Text = "Save",
+    SizeToFit = true,
+    Image = new ImageExt(System.Drawing.Image.FromFile(@"icons\save.png")),
+    Shortcut = Shortcut.CtrlS
+};
+saveItem.Click += (s, e) => SaveDocument();
 parentBarItem1.Items.Add(saveItem);
-
-private void SaveItem_Click(object sender, EventArgs e)
-{
-    // Save logic here
-    SaveDocument();
-}
-```
-
-### VB.NET Implementation
-
-```vb
-Dim saveItem As New BarItem()
-saveItem.Text = "Save"
-saveItem.SizeToFit = True
-saveItem.Image = New ImageExt(System.Drawing.Image.FromFile("icons\save.png"))
-saveItem.Shortcut = System.Windows.Forms.Shortcut.CtrlS
-AddHandler saveItem.Click, AddressOf SaveItem_Click
-
-parentBarItem1.Items.Add(saveItem)
-
-Private Sub SaveItem_Click(sender As Object, e As EventArgs)
-    ' Save logic here
-    SaveDocument()
-End Sub
 ```
 
 ## ParentBarItem (Submenu Container)
@@ -114,65 +90,18 @@ Acts as a parent control for sub-menu items, enabling hierarchical menu structur
 ### Code Implementation
 
 ```csharp
-// Create parent menu item
-ParentBarItem fileMenu = new ParentBarItem();
-fileMenu.Text = "File";
-fileMenu.SizeToFit = true;
-fileMenu.MetroColor = System.Drawing.Color.LightSkyBlue;
+// Create parent with submenu
+ParentBarItem fileMenu = new ParentBarItem { Text = "File", SizeToFit = true };
+ParentBarItem newSubmenu = new ParentBarItem { Text = "New", SizeToFit = true };
 
-// Create submenu
-ParentBarItem newSubmenu = new ParentBarItem();
-newSubmenu.Text = "New";
-newSubmenu.SizeToFit = true;
-newSubmenu.MetroColor = System.Drawing.Color.LightSkyBlue;
+// Add child items
+newSubmenu.Items.AddRange(new BarItem[] {
+    new BarItem { Text = "New Project...", SizeToFit = true },
+    new BarItem { Text = "New File...", SizeToFit = true }
+});
 
-// Create child items
-BarItem newProject = new BarItem();
-newProject.Text = "New Project...";
-newProject.SizeToFit = true;
-newProject.Click += NewProject_Click;
-
-BarItem newFile = new BarItem();
-newFile.Text = "New File...";
-newFile.SizeToFit = true;
-newFile.Click += NewFile_Click;
-
-// Build hierarchy
-newSubmenu.Items.AddRange(new BarItem[] { newProject, newFile });
 fileMenu.Items.Add(newSubmenu);
 parentBarItem1.Items.Add(fileMenu);
-```
-
-### VB.NET Implementation
-
-```vb
-' Create parent menu item
-Dim fileMenu As New ParentBarItem()
-fileMenu.Text = "File"
-fileMenu.SizeToFit = True
-fileMenu.MetroColor = System.Drawing.Color.LightSkyBlue
-
-' Create submenu
-Dim newSubmenu As New ParentBarItem()
-newSubmenu.Text = "New"
-newSubmenu.SizeToFit = True
-newSubmenu.MetroColor = System.Drawing.Color.LightSkyBlue
-
-' Create child items
-Dim newProject As New BarItem()
-newProject.Text = "New Project..."
-newProject.SizeToFit = True
-AddHandler newProject.Click, AddressOf NewProject_Click
-
-Dim newFile As New BarItem()
-newFile.Text = "New File..."
-newFile.SizeToFit = True
-AddHandler newFile.Click, AddressOf NewFile_Click
-
-' Build hierarchy
-newSubmenu.Items.AddRange(New BarItem() {newProject, newFile})
-fileMenu.Items.Add(newSubmenu)
-parentBarItem1.Items.Add(fileMenu)
 ```
 
 ## DropDownBarItem (Custom Dropdown)
@@ -204,66 +133,19 @@ Displays a custom popup with any WinForms controls via PopupControlContainer.
 ### Code Implementation
 
 ```csharp
-// Create PopupControlContainer
-PopupControlContainer popupContainer = new PopupControlContainer();
-popupContainer.Size = new System.Drawing.Size(220, 250);
-
-// Add ColorPicker to container
-ColorPickerUIAdv colorPicker = new ColorPickerUIAdv();
-colorPicker.BeforeTouchSize = new System.Drawing.Size(13, 13);
-colorPicker.ButtonsHeight = 25;
-colorPicker.ColorItemSize = new System.Drawing.Size(17, 17);
-colorPicker.Location = new System.Drawing.Point(3, 3);
-colorPicker.Size = new System.Drawing.Size(212, 237);
-colorPicker.Picked += ColorPicker_Picked;
-
+// Create container with ColorPicker
+PopupControlContainer popupContainer = new PopupControlContainer { Size = new Size(220, 250) };
+ColorPickerUIAdv colorPicker = new ColorPickerUIAdv { Size = new Size(212, 237) };
+colorPicker.Picked += (s, args) => richTextBox1.SelectionColor = args.Color;
 popupContainer.Controls.Add(colorPicker);
 
 // Create DropDownBarItem
-DropDownBarItem colorDropdown = new DropDownBarItem();
-colorDropdown.Text = "Text Color";
-colorDropdown.SizeToFit = true;
-colorDropdown.PopupControlContainer = popupContainer;
-
+DropDownBarItem colorDropdown = new DropDownBarItem {
+    Text = "Text Color",
+    SizeToFit = true,
+    PopupControlContainer = popupContainer
+};
 parentBarItem1.Items.Add(colorDropdown);
-
-private void ColorPicker_Picked(object sender, ColorPickerUIAdv.ColorPickedEventArgs args)
-{
-    // Apply selected color
-    richTextBox1.SelectionColor = args.Color;
-}
-```
-
-### VB.NET Implementation
-
-```vb
-' Create PopupControlContainer
-Dim popupContainer As New PopupControlContainer()
-popupContainer.Size = New System.Drawing.Size(220, 250)
-
-' Add ColorPicker to container
-Dim colorPicker As New ColorPickerUIAdv()
-colorPicker.BeforeTouchSize = New System.Drawing.Size(13, 13)
-colorPicker.ButtonsHeight = 25
-colorPicker.ColorItemSize = New System.Drawing.Size(17, 17)
-colorPicker.Location = New System.Drawing.Point(3, 3)
-colorPicker.Size = New System.Drawing.Size(212, 237)
-AddHandler colorPicker.Picked, AddressOf ColorPicker_Picked
-
-popupContainer.Controls.Add(colorPicker)
-
-' Create DropDownBarItem
-Dim colorDropdown As New DropDownBarItem()
-colorDropdown.Text = "Text Color"
-colorDropdown.SizeToFit = True
-colorDropdown.PopupControlContainer = popupContainer
-
-parentBarItem1.Items.Add(colorDropdown)
-
-Private Sub ColorPicker_Picked(sender As Object, args As ColorPickerUIAdv.ColorPickedEventArgs)
-    ' Apply selected color
-    richTextBox1.SelectionColor = args.Color
-End Sub
 ```
 
 ## ComboBoxBarItem (Combo Box)
@@ -292,53 +174,17 @@ Provides combo box functionality within the menu, allowing selection from predef
 ### Code Implementation
 
 ```csharp
-ComboBoxBarItem fontCombo = new ComboBoxBarItem();
-fontCombo.SizeToFit = true;
-fontCombo.TextBoxValue = "Segoe UI";
-fontCombo.ChoiceList.AddRange(new string[] {
-    "Arial",
-    "Calibri",
-    "Segoe UI",
-    "Times New Roman",
-    "Verdana"
-});
-fontCombo.Click += FontCombo_Click;
-
-parentBarItem1.Items.Add(fontCombo);
-
-private void FontCombo_Click(object sender, EventArgs e)
-{
-    ComboBoxBarItem combo = sender as ComboBoxBarItem;
+ComboBoxBarItem fontCombo = new ComboBoxBarItem {
+    SizeToFit = true,
+    TextBoxValue = "Segoe UI"
+};
+fontCombo.ChoiceList.AddRange(new string[] { "Arial", "Calibri", "Segoe UI", "Times New Roman" });
+fontCombo.Click += (s, e) => {
+    var combo = s as ComboBoxBarItem;
     if (combo != null && richTextBox1.SelectionLength > 0)
-    {
         richTextBox1.SelectionFont = new Font(combo.TextBoxValue, richTextBox1.SelectionFont.Size);
-    }
-}
-```
-
-### VB.NET Implementation
-
-```vb
-Dim fontCombo As New ComboBoxBarItem()
-fontCombo.SizeToFit = True
-fontCombo.TextBoxValue = "Segoe UI"
-fontCombo.ChoiceList.AddRange(New String() { _
-    "Arial", _
-    "Calibri", _
-    "Segoe UI", _
-    "Times New Roman", _
-    "Verdana" _
-})
-AddHandler fontCombo.Click, AddressOf FontCombo_Click
-
-parentBarItem1.Items.Add(fontCombo)
-
-Private Sub FontCombo_Click(sender As Object, e As EventArgs)
-    Dim combo As ComboBoxBarItem = TryCast(sender, ComboBoxBarItem)
-    If combo IsNot Nothing AndAlso richTextBox1.SelectionLength > 0 Then
-        richTextBox1.SelectionFont = New Font(combo.TextBoxValue, richTextBox1.SelectionFont.Size)
-    End If
-End Sub
+};
+parentBarItem1.Items.Add(fontCombo);
 ```
 
 ## ListBarItem (List Selection)
@@ -367,31 +213,9 @@ Displays a fixed list of child items for selection.
 ### Code Implementation
 
 ```csharp
-ListBarItem recentList = new ListBarItem();
-recentList.Text = "Recent Files";
-recentList.SizeToFit = true;
-recentList.ChildCaptions.AddRange(new string[] {
-    "Document1.txt",
-    "Report.docx",
-    "Data.xlsx"
-});
-
+ListBarItem recentList = new ListBarItem { Text = "Recent Files", SizeToFit = true };
+recentList.ChildCaptions.AddRange(new string[] { "Document1.txt", "Report.docx", "Data.xlsx" });
 parentBarItem1.Items.Add(recentList);
-```
-
-### VB.NET Implementation
-
-```vb
-Dim recentList As New ListBarItem()
-recentList.Text = "Recent Files"
-recentList.SizeToFit = True
-recentList.ChildCaptions.AddRange(New String() { _
-    "Document1.txt", _
-    "Report.docx", _
-    "Data.xlsx" _
-})
-
-parentBarItem1.Items.Add(recentList)
 ```
 
 ## StaticBarItem (Label/Static Text)
@@ -418,21 +242,8 @@ Non-interactive label used as heading or separator text.
 ### Code Implementation
 
 ```csharp
-StaticBarItem header = new StaticBarItem();
-header.Text = "--- Recent Actions ---";
-header.SizeToFit = true;
-
+StaticBarItem header = new StaticBarItem { Text = "--- Recent Actions ---", SizeToFit = true };
 parentBarItem1.Items.Add(header);
-```
-
-### VB.NET Implementation
-
-```vb
-Dim header As New StaticBarItem()
-header.Text = "--- Recent Actions ---"
-header.SizeToFit = True
-
-parentBarItem1.Items.Add(header)
 ```
 
 ## TextBoxBarItem (Text Input)
@@ -462,49 +273,17 @@ Provides text input field within the menu.
 ### Code Implementation
 
 ```csharp
-TextBoxBarItem searchBox = new TextBoxBarItem();
-searchBox.Text = "Search:";
-searchBox.TextBoxValue = "";
-searchBox.Value = "";
-searchBox.MinWidth = 120;
-searchBox.SizeToFit = true;
-searchBox.Click += SearchBox_Click;
-
+TextBoxBarItem searchBox = new TextBoxBarItem {
+    Text = "Search:",
+    TextBoxValue = "",
+    MinWidth = 120,
+    SizeToFit = true
+};
+searchBox.Click += (s, e) => {
+    var textBox = s as TextBoxBarItem;
+    if (textBox != null) PerformSearch(textBox.TextBoxValue);
+};
 parentBarItem1.Items.Add(searchBox);
-
-private void SearchBox_Click(object sender, EventArgs e)
-{
-    TextBoxBarItem textBox = sender as TextBoxBarItem;
-    if (textBox != null)
-    {
-        string searchTerm = textBox.TextBoxValue;
-        // Perform search logic
-        PerformSearch(searchTerm);
-    }
-}
-```
-
-### VB.NET Implementation
-
-```vb
-Dim searchBox As New TextBoxBarItem()
-searchBox.Text = "Search:"
-searchBox.TextBoxValue = ""
-searchBox.Value = ""
-searchBox.MinWidth = 120
-searchBox.SizeToFit = True
-AddHandler searchBox.Click, AddressOf SearchBox_Click
-
-parentBarItem1.Items.Add(searchBox)
-
-Private Sub SearchBox_Click(sender As Object, e As EventArgs)
-    Dim textBox As TextBoxBarItem = TryCast(sender, TextBoxBarItem)
-    If textBox IsNot Nothing Then
-        Dim searchTerm As String = textBox.TextBoxValue
-        ' Perform search logic
-        PerformSearch(searchTerm)
-    End If
-End Sub
 ```
 
 ## Type Selection Guide

@@ -230,7 +230,7 @@ gradientLabel.BorderStyle = Border3DStyle.Adjust
 Sets the color for 2D borders.
 
 **Property Type:** `Color`  
-**Effective When:** `BorderStyle` is set to `Flat` or `FixedSingle`
+**Effective When:** BorderColor only works when BorderStyle is set to `Border3DStyle.Flat`
 
 **C# Example:**
 ```csharp

@@ -123,7 +123,7 @@ public class CustomListControl : ListBox
     // Optional: IndexFromPoint for QuickSelection
     public int IndexFromPoint(Point pt)
     {
-        return this.IndexFromPoint(pt.X, pt.Y);
+        return base.IndexFromPoint(pt.X, pt.Y);
     }
     
     // Optional: TopIndex for QuickSelection
@@ -173,7 +173,7 @@ Public Class CustomListControl
     
     ' Optional: IndexFromPoint for QuickSelection
     Public Function IndexFromPoint(pt As Point) As Integer
-        Return Me.IndexFromPoint(pt.X, pt.Y)
+        Return MyBase.IndexFromPoint(pt.X, pt.Y)
     End Function
     
     ' Optional: TopIndex for QuickSelection

@@ -180,7 +180,7 @@ feedbackRating.Value = 0; // No initial selection
 feedbackRating.Precision = PrecisionMode.Half;
 
 // Handle rating changes
-feedbackRating.RatingChanged += (s, e) => {
+feedbackRating.ValueChanged += (s, e) => {
     float rating = feedbackRating.Value;
     MessageBox.Show($"User rated: {rating} stars");
 };
@@ -280,7 +280,7 @@ customImageRating.Value = 3;
 ### 2. Customer Feedback Form
 **Scenario:** Service quality rating in feedback form.
 - Use `Value = 0` for no initial selection
-- Handle `RatingChanged` event to capture user input
+- Handle `ValueChanged` event to capture user input
 - Apply Office2016 theme for professional appearance
 - Read: [getting-started.md](references/getting-started.md), [styling-and-appearance.md](references/styling-and-appearance.md)
 
@@ -315,10 +315,10 @@ customImageRating.Value = 3;
 
 ## Events
 
-**RatingChanged:** Raised when the rating value changes (user interaction).
+**ValueChanged:** Raised when the rating value changes (user interaction).
 
 ```csharp
-ratingControl1.RatingChanged += (sender, e) => {
+ratingControl1.ValueChanged += (sender, e) => {
     float newRating = ratingControl1.Value;
     // Process rating change
 };
@@ -335,14 +335,6 @@ ratingControl1.RatingChanged += (sender, e) => {
 5. **Custom Images:** Provide all image states (Normal, Hover, Selected, HalfNormal, HalfSelected) for complete custom experience
 6. **Theme Consistency:** Match rating style to application theme (Office2016 variants)
 7. **Value Initialization:** Set `Value = 0` for new ratings, specific value for defaults
-
----
-
-## Related Skills
-
-- **NumericUpDown:** Alternative numeric input for precise values
-- **TrackBar:** Slider-based rating alternative
-- **CheckBox/RadioButton:** Binary or single-choice rating alternatives
 
 ---
 

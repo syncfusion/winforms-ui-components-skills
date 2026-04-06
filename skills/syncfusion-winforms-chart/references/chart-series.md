@@ -65,16 +65,16 @@ double x = point.X;                    // X value
 double[] y = point.YValues;            // Y values array
 string category = point.Category;      // Category name (for categorical axes)
 bool isEmpty = point.IsEmpty;          // Empty point marker
-Color color = point.Color;             // Point-specific color
 ```
 
 ### Custom Point Properties
 ```csharp
 ChartPoint point = new ChartPoint(1, 100);
-point.Text = "Peak Sales";             // Custom label
-point.Symbol.Shape = ChartSymbolShape.Circle;
-point.Symbol.Size = new Size(8, 8);
-point.Symbol.Color = Color.Red;
+point.Category = "Peak Sales";             // Custom label
+
+series.Style.Symbol.Shape = ChartSymbolShape.Circle;
+series.Style.Symbol.Size = new Size(8, 8);
+series.Style.Symbol.Color = Color.Red;
 series.Points.Add(point);
 ```
 
@@ -91,7 +91,7 @@ series.Visible = true;                 // Show/hide series
 ### Data Model Properties
 ```csharp
 // For data binding
-series.SeriesModelImpl = dataBindModel;        // Custom data model
+series.SeriesModel = dataBindModel;        // Custom data model
 series.CategoryModel = categoryBindModel;      // Category binding
 
 // Access points
@@ -115,7 +115,9 @@ series.Style.Border.Color = Color.Navy;
 series.Style.Border.Width = 2;
 
 // Fonts
-series.Style.Font = new Font("Arial", 10, FontStyle.Bold);
+series.Style.Font.FontStyle = FontStyle.Bold;
+series.Style.Font.Size = 10;
+series.Style.Font.Facename = "Arial";
 series.Style.TextColor = Color.White;
 
 // Display text (data labels)
@@ -134,9 +136,9 @@ series.Style.Interior = new BrushInfo(
 );
 
 // Shadow
-series.Style.Shadow.Visible = true;
-series.Style.Shadow.Color = Color.Gray;
-series.Style.Shadow.Offset = new Size(3, 3);
+series.Style.DisplayShadow = true;
+series.Style.ShadowInterior = new BrushInfo(Color.Gray);
+series.Style.ShadowOffset = new Size(3, 3);
 ```
 
 ### Symbols (for Line/Scatter charts)
@@ -226,10 +228,10 @@ Multiple series can share the same underlying data model for efficiency:
 IChartSeriesModel sharedModel = GetDataModel();
 
 ChartSeries series1 = new ChartSeries("View 1");
-series1.SeriesModelImpl = sharedModel;
+series1.SeriesModel = sharedModel;
 
 ChartSeries series2 = new ChartSeries("View 2");
-series2.SeriesModelImpl = sharedModel;
+series2.SeriesModel = sharedModel;
 ```
 
 ## Series Configuration Items
@@ -238,12 +240,12 @@ Type-specific configuration:
 
 ```csharp
 // Pie/Funnel charts
-series.ConfigItems.PieItem.ExplodeIndex = 2;
-series.ConfigItems.PieItem.ExplodeOffset = 20;
+series.ExplodedIndex = 2;
+series.ExplosionOffset = 20;
 series.ConfigItems.PieItem.LabelStyle = ChartAccumulationLabelStyle.Outside;
 
 // 3D effects (if 3D enabled)
-series.ConfigItems.ColumnItem.DepthCoef = 0.5;
+this.chartControl1.ChartArea.Depth = 0.5f;
 ```
 
 ## Empty Points
@@ -254,10 +256,6 @@ Mark points as empty for gaps in data:
 ChartPoint emptyPoint = new ChartPoint(2, 0);
 emptyPoint.IsEmpty = true;
 series.Points.Add(emptyPoint);
-
-// Empty point style
-series.EmptyPointValue = ChartEmptyPointValue.Average;  // Average of adjacent points
-// Options: Zero, Average, None
 ```
 
 ## Series Events

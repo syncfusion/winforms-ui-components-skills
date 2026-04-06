@@ -41,12 +41,6 @@ The Default style uses standard Windows Forms appearance - classic borders, stan
 this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Default;
 ```
 
-**VB.NET:**
-```vbnet
-' Set to Default style
-Me.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Default
-```
-
 ### When to Use Default
 
 - **Legacy applications** requiring standard Windows appearance
@@ -70,12 +64,6 @@ Metro style provides a modern, flat design aesthetic inspired by Microsoft's Met
 ```csharp
 // Set to Metro style
 this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Metro;
-```
-
-**VB.NET:**
-```vbnet
-' Set to Metro style
-Me.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Metro
 ```
 
 ### Metro Style Characteristics
@@ -127,232 +115,56 @@ this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
 this.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.Colorful;
 ```
 
-**VB.NET:**
-```vbnet
-' Set to Office2016 style
-Me.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016
-
-' Set color scheme
-Me.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.Colorful
-```
-
 ### Office2016 Color Schemes
 
 Office2016 style includes four color schemes:
 
-#### 1. Colorful Scheme
-
-Vibrant, colorful appearance with bright accents.
+| Color Scheme | Appearance | Best For |
+|--------------|------------|----------|
+| **Colorful** | Vibrant, bright accents | User-facing apps, creative tools |
+| **White** | Clean, bright white background | Document-focused apps, data entry |
+| **DarkGray** | Medium-dark gray palette | Development tools, extended use |
+| **Black** | Dark theme, minimal eye strain | Dark mode, low-light environments |
 
 ```csharp
+// Apply any color scheme
 this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
-this.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.Colorful;
-```
-
-**Characteristics:**
-- Bright, vibrant colors
-- Clear visual hierarchy
-- High contrast
-- Energetic, modern feel
-
-**Best for:** User-facing applications, creative tools, engaging interfaces
-
-#### 2. White Scheme
-
-Clean, bright white background with subtle accents.
-
-```csharp
-this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
-this.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.White;
-```
-
-**Characteristics:**
-- Predominantly white background
-- Light gray accents
-- Minimal visual weight
-- Clean, spacious feel
-
-**Best for:** Document-focused applications, data entry forms, professional tools
-
-#### 3. DarkGray Scheme
-
-Medium-dark gray palette for reduced eye strain.
-
-```csharp
-this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
-this.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.DarkGray;
-```
-
-**Characteristics:**
-- Dark gray backgrounds
-- Softer contrast
-- Easier on eyes in dim lighting
-- Professional appearance
-
-**Best for:** Development tools, data analysis applications, extended use scenarios
-
-#### 4. Black Scheme
-
-Dark theme with black background for minimal eye strain.
-
-```csharp
-this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
-this.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.Black;
-```
-
-**Characteristics:**
-- Black/very dark backgrounds
-- High contrast with light text
-- Minimal eye strain
-- Modern, sleek appearance
-
-**Best for:** Dark mode preferences, low-light environments, code editors
-
-### Complete Office2016 Examples
-
-**Colorful Scheme Example:**
-```csharp
-private void ApplyColorfulTheme()
-{
-    this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
-    this.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.Colorful;
-    
-    // The control automatically applies appropriate colors
-    // Optionally customize further:
-    this.editableList1.ListBox.Font = new Font("Segoe UI", 10F);
-}
-```
-
-**Black Scheme Example:**
-```csharp
-private void ApplyBlackTheme()
-{
-    this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
-    this.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.Black;
-    
-    // Black scheme automatically sets dark colors
-    // Control maintains readability with light text on dark background
-}
-```
-
-**VB.NET - All Schemes:**
-```vbnet
-' Colorful
-Me.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016
-Me.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.Colorful
-
-' White
-Me.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.White
-
-' DarkGray
-Me.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.DarkGray
-
-' Black
-Me.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.Black
+this.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.Colorful; // or White, DarkGray, Black
 ```
 
 ## Complete Styling Examples
 
-### Example 1: Professional Business Application
+### Professional Business Application
 
 ```csharp
-using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
-public partial class ProfessionalForm : Form
+private void SetupProfessionalStyle()
 {
-    private EditableList editableList1;
+    this.editableList1 = new EditableList();
+    this.editableList1.Location = new Point(20, 20);
+    this.editableList1.Size = new Size(350, 300);
     
-    public ProfessionalForm()
-    {
-        InitializeComponent();
-        SetupProfessionalStyle();
-    }
+    // Apply Office2016 White theme
+    this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
+    this.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.White;
+    this.editableList1.ListBox.Font = new Font("Segoe UI", 10F);
     
-    private void SetupProfessionalStyle()
-    {
-        // Create control
-        this.editableList1 = new EditableList();
-        this.editableList1.Location = new Point(20, 20);
-        this.editableList1.Size = new Size(350, 300);
-        
-        // Apply Office2016 White theme
-        this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
-        this.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.White;
-        
-        // Professional font
-        this.editableList1.ListBox.Font = new Font("Segoe UI", 10F);
-        this.editableList1.TextBox.Font = new Font("Segoe UI", 10F);
-        
-        // Add sample data
-        string[] tasks = {
-            "Q1 Report", "Budget Review", "Team Meeting",
-            "Client Presentation", "Performance Analysis"
-        };
-        this.editableList1.ListBox.Items.AddRange(tasks);
-        
-        this.Controls.Add(this.editableList1);
-    }
+    this.Controls.Add(this.editableList1);
 }
 ```
 
-### Example 2: Dark Mode Development Tool
+### Dark Mode Development Tool
 
 ```csharp
 private void SetupDarkModeStyle()
 {
-    // Create control
     this.editableList1 = new EditableList();
-    this.editableList1.Location = new Point(20, 20);
-    this.editableList1.Size = new Size(350, 300);
-    
-    // Apply Office2016 Black theme
     this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
     this.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.Black;
-    
-    // Dark mode friendly font
     this.editableList1.ListBox.Font = new Font("Consolas", 10F);
-    
-    // Add development-related items
-    string[] files = {
-        "Program.cs", "MainForm.cs", "DataManager.cs",
-        "Utils.cs", "Config.json"
-    };
-    this.editableList1.ListBox.Items.AddRange(files);
-    
-    this.Controls.Add(this.editableList1);
-}
-```
-
-### Example 3: Modern Metro Application
-
-```csharp
-private void SetupMetroStyle()
-{
-    // Create control
-    this.editableList1 = new EditableList();
-    this.editableList1.Location = new Point(20, 20);
-    this.editableList1.Size = new Size(350, 300);
-    
-    // Apply Metro style
-    this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Metro;
-    
-    // Metro-inspired colors
-    this.editableList1.BackColor = Color.FromArgb(240, 240, 240);
-    this.editableList1.ListBox.BackColor = Color.White;
-    
-    // Metro font
-    this.editableList1.ListBox.Font = new Font("Segoe UI Light", 11F);
-    
-    // Modern content
-    string[] categories = {
-        "Photos", "Music", "Videos", "Documents", "Downloads"
-    };
-    this.editableList1.ListBox.Items.AddRange(categories);
-    
-    this.Controls.Add(this.editableList1);
 }
 ```
 
@@ -396,81 +208,22 @@ public partial class MyForm : Form
 
 ### User Theme Selection
 
-Allow users to choose their preferred theme:
-
 ```csharp
-public partial class SettingsForm : Form
+private void ApplyThemeFromSelection(string theme, string colorScheme)
 {
-    private ComboBox cmbTheme;
-    private ComboBox cmbColorScheme;
-    private EditableList editableListPreview;
-    
-    private void SetupThemeSelector()
+    switch (theme)
     {
-        // Theme selector
-        cmbTheme = new ComboBox();
-        cmbTheme.Items.AddRange(new object[] { "Default", "Metro", "Office2016" });
-        cmbTheme.SelectedIndexChanged += CmbTheme_SelectedIndexChanged;
-        
-        // Color scheme selector (for Office2016)
-        cmbColorScheme = new ComboBox();
-        cmbColorScheme.Items.AddRange(new object[] { 
-            "Colorful", "White", "DarkGray", "Black" 
-        });
-        cmbColorScheme.SelectedIndexChanged += CmbColorScheme_SelectedIndexChanged;
-        cmbColorScheme.Enabled = false; // Disable until Office2016 selected
-        
-        // Preview control
-        editableListPreview = new EditableList();
-        editableListPreview.ListBox.Items.AddRange(new object[] {
-            "Item 1", "Item 2", "Item 3"
-        });
-    }
-    
-    private void CmbTheme_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        string selectedTheme = cmbTheme.SelectedItem.ToString();
-        
-        switch (selectedTheme)
-        {
-            case "Default":
-                editableListPreview.Style = Syncfusion.Windows.Forms.Appearance.Default;
-                cmbColorScheme.Enabled = false;
-                break;
-            case "Metro":
-                editableListPreview.Style = Syncfusion.Windows.Forms.Appearance.Metro;
-                cmbColorScheme.Enabled = false;
-                break;
-            case "Office2016":
-                editableListPreview.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
-                cmbColorScheme.Enabled = true;
-                cmbColorScheme.SelectedIndex = 0; // Default to Colorful
-                break;
-        }
-    }
-    
-    private void CmbColorScheme_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (editableListPreview.Style != Syncfusion.Windows.Forms.Appearance.Office2016)
-            return;
-        
-        string selectedScheme = cmbColorScheme.SelectedItem.ToString();
-        
-        switch (selectedScheme)
-        {
-            case "Colorful":
-                editableListPreview.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.Colorful;
-                break;
-            case "White":
-                editableListPreview.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.White;
-                break;
-            case "DarkGray":
-                editableListPreview.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.DarkGray;
-                break;
-            case "Black":
-                editableListPreview.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.Black;
-                break;
-        }
+        case "Default":
+            editableList1.Style = Syncfusion.Windows.Forms.Appearance.Default;
+            break;
+        case "Metro":
+            editableList1.Style = Syncfusion.Windows.Forms.Appearance.Metro;
+            break;
+        case "Office2016":
+            editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
+            editableList1.Office2016ColorScheme = (ScrollBarOffice2016ColorScheme)
+                Enum.Parse(typeof(ScrollBarOffice2016ColorScheme), colorScheme);
+            break;
     }
 }
 ```
@@ -510,34 +263,17 @@ public partial class SettingsForm : Form
 
 ## Custom Styling Beyond Themes
 
-While themes provide comprehensive styling, you can further customize appearance:
-
-### Custom Colors
-
 ```csharp
-private void ApplyCustomColors()
+private void ApplyCustomStyling()
 {
     // Apply base theme
     this.editableList1.Style = Syncfusion.Windows.Forms.Appearance.Office2016;
     this.editableList1.Office2016ColorScheme = ScrollBarOffice2016ColorScheme.White;
     
-    // Then customize further
+    // Customize colors and fonts
     this.editableList1.ListBox.BackColor = Color.FromArgb(250, 250, 255);
     this.editableList1.ListBox.ForeColor = Color.FromArgb(30, 30, 30);
-    this.editableList1.TextBox.BackColor = Color.FromArgb(255, 255, 240);
-}
-```
-
-### Custom Fonts
-
-```csharp
-private void ApplyCustomFonts()
-{
-    // Brand-specific or accessibility fonts
-    Font customFont = new Font("Open Sans", 10F, FontStyle.Regular);
-    
-    this.editableList1.ListBox.Font = customFont;
-    this.editableList1.TextBox.Font = customFont;
+    this.editableList1.ListBox.Font = new Font("Segoe UI", 10F);
 }
 ```
 
@@ -553,20 +289,13 @@ private void ApplyCustomFonts()
 
 ## Troubleshooting
 
-**Issue:** Theme not applying  
-**Solution:** Ensure you set both `Style` property AND `Office2016ColorScheme` (for Office2016)
-
-**Issue:** Colors look wrong  
-**Solution:** Theme may be overridden by custom BackColor/ForeColor. Remove custom colors or set after theme.
-
-**Issue:** Theme changes at runtime not visible  
-**Solution:** Call `Refresh()` or `Invalidate()` on the control after theme change
-
-**Issue:** Inconsistent appearance across controls  
-**Solution:** Apply theme to all Syncfusion controls using a centralized theme manager
-
-**Issue:** Dark theme with light text unreadable  
-**Solution:** Verify you're using Black or DarkGray scheme (Office2016), not custom dark BackColor
+| Issue | Solution |
+|-------|----------|
+| Theme not applying | Set both `Style` property AND `Office2016ColorScheme` (for Office2016) |
+| Colors look wrong | Theme may be overridden by custom BackColor/ForeColor |
+| Runtime changes not visible | Call `Refresh()` or `Invalidate()` after theme change |
+| Inconsistent appearance | Apply theme to all controls using centralized theme manager |
+| Dark theme unreadable | Use Black or DarkGray scheme, not custom dark BackColor |
 
 ## Complete Working Example
 
@@ -673,5 +402,3 @@ public partial class ThemeDemo : Form
     }
 }
 ```
-
-This example provides a complete working demonstration of all styling options with interactive theme switching.

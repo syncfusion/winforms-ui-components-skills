@@ -247,11 +247,11 @@ panel1.Controls.Add(westLabel);
 panel1.Controls.Add(centerPanel);
 
 // Set constraints (position each control)
-borderLayout.SetConstraints(northLabel, BorderPosition.North);
-borderLayout.SetConstraints(southLabel, BorderPosition.South);
-borderLayout.SetConstraints(eastLabel, BorderPosition.East);
-borderLayout.SetConstraints(westLabel, BorderPosition.West);
-borderLayout.SetConstraints(centerPanel, BorderPosition.Center);
+borderLayout.SetPosition(northLabel, BorderPosition.North)
+borderLayout.SetPosition(southLabel, BorderPosition.South);
+borderLayout.SetPosition(eastLabel, BorderPosition.East);
+borderLayout.SetPosition(westLabel, BorderPosition.West);
+borderLayout.SetPosition(centerPanel, BorderPosition.Center);
 
 // Configure spacing
 borderLayout.HGap = 5;
@@ -284,9 +284,9 @@ panel1.Controls.Add(page2);
 panel1.Controls.Add(page3);
 
 // Name each card
-cardLayout.SetConstraints(page1, "Welcome");
-cardLayout.SetConstraints(page2, "Configure");
-cardLayout.SetConstraints(page3, "Finish");
+cardLayout.SetCardName(page1, "Welcome");
+cardLayout.SetCardName(page2, "Configure");
+cardLayout.SetCardName(page3, "Finish");
 
 // Navigation
 cardLayout.LayoutMode = CardLayoutMode.Fill; // Fill container
@@ -360,7 +360,7 @@ panel1.Controls.Add(emailTextBox);
 panel1.Controls.Add(submitButton);
 
 // Create constraints
-GridBagConstraints labelConstraints = new GridBagConstraints(0, 0, 1, 1);
+GridBagConstraints labelConstraints = new new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, AnchorTypes.East, FillType.Horizontal, new Insets(5,5,5,5), 0, 0, false);
 labelConstraints.Anchor = GridBagAnchor.East; // Align right
 
 GridBagConstraints fieldConstraints = new GridBagConstraints(1, 0, 1, 1);
@@ -368,11 +368,11 @@ fieldConstraints.Fill = GridBagFill.Horizontal;
 fieldConstraints.WeightX = 1; // Take extra horizontal space
 
 // Apply constraints
-gridBagLayout.SetConstraints(nameLabel, new GridBagConstraints(0, 0, 1, 1) { Anchor = GridBagAnchor.East });
-gridBagLayout.SetConstraints(nameTextBox, new GridBagConstraints(1, 0, 1, 1) { Fill = GridBagFill.Horizontal, WeightX = 1 });
-gridBagLayout.SetConstraints(emailLabel, new GridBagConstraints(0, 1, 1, 1) { Anchor = GridBagAnchor.East });
-gridBagLayout.SetConstraints(emailTextBox, new GridBagConstraints(1, 1, 1, 1) { Fill = GridBagFill.Horizontal, WeightX = 1 });
-gridBagLayout.SetConstraints(submitButton, new GridBagConstraints(1, 2, 1, 1) { Anchor = GridBagAnchor.West });
+gridBagLayout.SetConstraints(nameLabel, new new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, AnchorTypes.East, FillType.Horizontal, new Insets(5,5,5,5), 0, 0, false));
+gridBagLayout.SetConstraints(nameTextBox, new new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, AnchorTypes.East, FillType.Horizontal, new Insets(5,5,5,5), 0, 0, false) {WeightX = 1 });
+gridBagLayout.SetConstraints(emailLabel, new new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, AnchorTypes.East, FillType.Horizontal, new Insets(5,5,5,5), 0, 0, false));
+gridBagLayout.SetConstraints(emailTextBox, new new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, AnchorTypes.East, FillType.Horizontal, new Insets(5,5,5,5), 0, 0, false){ WeightX = 1 });
+gridBagLayout.SetConstraints(submitButton, new new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, AnchorTypes.East, FillType.Horizontal, new Insets(5,5,5,5), 0, 0, false));
 ```
 
 ---
@@ -395,10 +395,10 @@ Panel content = new Panel { BackColor = Color.White };
 
 this.Controls.AddRange(new Control[] { header, footer, sidebar, content });
 
-borderLayout.SetConstraints(header, BorderPosition.North);
-borderLayout.SetConstraints(footer, BorderPosition.South);
-borderLayout.SetConstraints(sidebar, BorderPosition.West);
-borderLayout.SetConstraints(content, BorderPosition.Center);
+borderLayout.SetPosition(header, BorderPosition.North);
+borderLayout.SetPosition(footer, BorderPosition.South);
+borderLayout.SetPosition(sidebar, BorderPosition.West);
+borderLayout.SetPosition(content, BorderPosition.Center);
 ```
 
 **When to use:** Main application window with fixed header/footer and sidebar.

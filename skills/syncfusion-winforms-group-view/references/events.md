@@ -49,9 +49,7 @@ private void GroupView1_ItemSelected(object sender, EventArgs e)
 }
 ```
 
-### Common Scenarios
-
-#### Update UI Based on Selection
+### Example: Update UI Based on Selection
 
 ```csharp
 private void GroupView1_ItemSelected(object sender, EventArgs e)
@@ -60,70 +58,14 @@ private void GroupView1_ItemSelected(object sender, EventArgs e)
     
     if (index != -1)
     {
-        // Update form title
         this.Text = $"Viewing: {this.groupView1.GroupViewItems[index].Text}";
-        
-        // Enable/disable buttons
         deleteButton.Enabled = true;
-        editButton.Enabled = true;
-        
-        // Load content in another panel
         LoadContentForItem(index);
     }
     else
     {
-        // No selection
         this.Text = "GroupView Demo";
         deleteButton.Enabled = false;
-        editButton.Enabled = false;
-    }
-}
-```
-
-#### Navigate Based on Selection
-
-```csharp
-private void GroupView1_ItemSelected(object sender, EventArgs e)
-{
-    int index = this.groupView1.SelectedItem;
-    
-    switch (index)
-    {
-        case 0: // My Computer
-            ShowComputerView();
-            break;
-        case 1: // Network
-            ShowNetworkView();
-            break;
-        case 2: // Recycle Bin
-            ShowRecycleBinView();
-            break;
-        default:
-            ShowDefaultView();
-            break;
-    }
-}
-```
-
-#### Log Selection History
-
-```csharp
-private List<string> selectionHistory = new List<string>();
-
-private void GroupView1_ItemSelected(object sender, EventArgs e)
-{
-    int index = this.groupView1.SelectedItem;
-    
-    if (index != -1)
-    {
-        string itemText = this.groupView1.GroupViewItems[index].Text;
-        selectionHistory.Add($"{DateTime.Now}: {itemText}");
-        
-        // Keep last 10 selections
-        if (selectionHistory.Count > 10)
-        {
-            selectionHistory.RemoveAt(0);
-        }
     }
 }
 ```
@@ -166,9 +108,7 @@ private void GroupView1_ItemHighlighted(object sender, EventArgs e)
 }
 ```
 
-### Common Scenarios
-
-#### Display Preview on Hover
+### Example: Display Status on Hover
 
 ```csharp
 private void GroupView1_ItemHighlighted(object sender, EventArgs e)
@@ -177,38 +117,12 @@ private void GroupView1_ItemHighlighted(object sender, EventArgs e)
     
     if (index != -1)
     {
-        // Show preview in side panel
         GroupViewItem item = this.groupView1.GroupViewItems[index];
-        previewPanel.Visible = true;
-        previewLabel.Text = item.Text;
-        previewDescription.Text = item.ToolTipText ?? "No description available";
+        statusLabel.Text = $"Hover: {item.Text}";
     }
     else
     {
-        // Hide preview
-        previewPanel.Visible = false;
-    }
-}
-```
-
-#### Update Status Bar
-
-```csharp
-private void GroupView1_ItemHighlighted(object sender, EventArgs e)
-{
-    // Ensure HighlightText is enabled
-    this.groupView1.HighlightText = true;
-    this.groupView1.HighlightItemColor = Color.AliceBlue;
-    
-    int index = this.groupView1.HighlightedItem;
-    
-    if (index != -1)
-    {
-        statusStripLabel.Text = $"Item: {this.groupView1.GroupViewItems[index].Text}";
-    }
-    else
-    {
-        statusStripLabel.Text = $"Total items: {this.groupView1.GroupViewItems.Count}";
+        statusLabel.Text = "Ready";
     }
 }
 ```
@@ -250,60 +164,7 @@ private void GroupView1_ItemRenamed(object sender, EventArgs e)
 }
 ```
 
-### Common Scenarios
 
-#### Validate Rename Operation
-
-```csharp
-private void GroupView1_ItemRenamed(object sender, EventArgs e)
-{
-    GroupItemRenamedEventArgs args = (GroupItemRenamedEventArgs)e;
-    
-    // Validate new name
-    if (string.IsNullOrWhiteSpace(args.NewLabel))
-    {
-        MessageBox.Show("Name cannot be empty. Reverting to original name.");
-        this.groupView1.GroupViewItems[args.Item].Text = args.OldLabel;
-        return;
-    }
-    
-    // Check for duplicates
-    foreach (GroupViewItem item in this.groupView1.GroupViewItems)
-    {
-        if (item.Text == args.NewLabel && item.Name != this.groupView1.GroupViewItems[args.Item].Name)
-        {
-            MessageBox.Show("An item with this name already exists.");
-            this.groupView1.GroupViewItems[args.Item].Text = args.OldLabel;
-            return;
-        }
-    }
-    
-    // Log the rename
-    LogRenameOperation(args.OldLabel, args.NewLabel);
-}
-```
-
-#### Update External Data
-
-```csharp
-private Dictionary<string, string> itemData = new Dictionary<string, string>();
-
-private void GroupView1_ItemRenamed(object sender, EventArgs e)
-{
-    GroupItemRenamedEventArgs args = (GroupItemRenamedEventArgs)e;
-    
-    // Update external data structure
-    if (itemData.ContainsKey(args.OldLabel))
-    {
-        string data = itemData[args.OldLabel];
-        itemData.Remove(args.OldLabel);
-        itemData[args.NewLabel] = data;
-    }
-    
-    // Update database or file system
-    UpdatePersistedData(args.OldLabel, args.NewLabel);
-}
-```
 
 ## GroupViewItemsReordered Event
 
@@ -342,54 +203,6 @@ private void GroupView1_ItemsReordered(object sender, EventArgs e)
 }
 ```
 
-### Common Scenarios
-
-#### Save New Order
-
-```csharp
-private void GroupView1_ItemsReordered(object sender, EventArgs e)
-{
-    // Save new order to settings or database
-    List<string> newOrder = new List<string>();
-    
-    foreach (GroupViewItem item in this.groupView1.GroupViewItems)
-    {
-        newOrder.Add(item.Name);
-    }
-    
-    SaveItemOrder(newOrder);
-    statusLabel.Text = "Item order saved";
-}
-```
-
-#### Update Priority
-
-```csharp
-private void GroupView1_ItemsReordered(object sender, EventArgs e)
-{
-    // Update priority based on position (higher position = higher priority)
-    for (int i = 0; i < this.groupView1.GroupViewItems.Count; i++)
-    {
-        GroupViewItem item = this.groupView1.GroupViewItems[i];
-        UpdateItemPriority(item.Name, i);
-    }
-}
-```
-
-#### Refresh Dependent UI
-
-```csharp
-private void GroupView1_ItemsReordered(object sender, EventArgs e)
-{
-    // Refresh other controls that depend on item order
-    RefreshNavigationMenu();
-    RefreshWorkflowSteps();
-    
-    // Notify user
-    toolStripStatusLabel.Text = "Order updated";
-}
-```
-
 ## GroupViewItemDoubleClick Event
 
 Fires when a GroupView item is double-clicked.
@@ -420,74 +233,6 @@ private void GroupView1_ItemDoubleClick(GroupView sender, GroupViewItemDoubleCli
     string itemName = clickedItem.Name;
     
     MessageBox.Show($"Double-clicked: {itemText}");
-}
-```
-
-### Common Scenarios
-
-#### Open or Execute Item
-
-```csharp
-private void GroupView1_ItemDoubleClick(GroupView sender, GroupViewItemDoubleClickEventArgs e)
-{
-    GroupViewItem item = e.SelectedItem;
-    
-    // Execute action based on item
-    switch (item.Name)
-    {
-        case "itemDocuments":
-            OpenDocumentsFolder();
-            break;
-        case "itemSettings":
-            OpenSettingsDialog();
-            break;
-        case "itemHelp":
-            ShowHelpWindow();
-            break;
-        default:
-            DefaultOpenAction(item);
-            break;
-    }
-}
-```
-
-#### Enable In-Place Renaming
-
-```csharp
-private void GroupView1_ItemDoubleClick(GroupView sender, GroupViewItemDoubleClickEventArgs e)
-{
-    // Find index of double-clicked item
-    int index = -1;
-    for (int i = 0; i < this.groupView1.GroupViewItems.Count; i++)
-    {
-        if (this.groupView1.GroupViewItems[i] == e.SelectedItem)
-        {
-            index = i;
-            break;
-        }
-    }
-    
-    if (index != -1)
-    {
-        // Start in-place rename
-        this.groupView1.InplaceRenameItem(index);
-    }
-}
-```
-
-#### Show Details Dialog
-
-```csharp
-private void GroupView1_ItemDoubleClick(GroupView sender, GroupViewItemDoubleClickEventArgs e)
-{
-    GroupViewItem item = e.SelectedItem;
-    
-    // Show details form
-    ItemDetailsForm detailsForm = new ItemDetailsForm();
-    detailsForm.ItemName = item.Text;
-    detailsForm.ItemTooltip = item.ToolTipText;
-    detailsForm.ItemImageIndex = item.ImageIndex;
-    detailsForm.ShowDialog();
 }
 ```
 
@@ -712,107 +457,7 @@ private async Task SaveRenameToServerAsync(string oldName, string newName)
 }
 ```
 
-## Complete Events Example
 
-Comprehensive example implementing all events:
-
-```csharp
-public partial class ComprehensiveEventsForm : Form
-{
-    private GroupView groupView1;
-    private Label statusLabel;
-    private Panel detailsPanel;
-    
-    public ComprehensiveEventsForm()
-    {
-        InitializeComponent();
-        SetupGroupViewWithAllEvents();
-    }
-    
-    private void SetupGroupViewWithAllEvents()
-    {
-        // Create and configure GroupView
-        this.groupView1 = new GroupView();
-        this.groupView1.Location = new Point(20, 20);
-        this.groupView1.Size = new Size(250, 400);
-        this.groupView1.FlatLook = true;
-        this.groupView1.AllowDragDrop = true;
-        
-        // Add items
-        this.groupView1.GroupViewItems.AddRange(new GroupViewItem[] {
-            new GroupViewItem("Item 1", -1, true, "First item", "item1"),
-            new GroupViewItem("Item 2", -1, true, "Second item", "item2"),
-            new GroupViewItem("Item 3", -1, true, "Third item", "item3")
-        });
-        
-        // Selection event
-        this.groupView1.GroupViewItemSelected += (sender, e) =>
-        {
-            int index = this.groupView1.SelectedItem;
-            statusLabel.Text = index != -1 
-                ? $"Selected: {this.groupView1.GroupViewItems[index].Text}"
-                : "No selection";
-        };
-        
-        // Highlight event
-        this.groupView1.HighlightText = true;
-        this.groupView1.GroupViewItemHighlighted += (sender, e) =>
-        {
-            int index = this.groupView1.HighlightedItem;
-            if (index != -1)
-            {
-                this.Text = $"Hovering: {this.groupView1.GroupViewItems[index].Text}";
-            }
-            else
-            {
-                this.Text = "GroupView Events Demo";
-            }
-        };
-        
-        // Rename event
-        this.groupView1.GroupViewItemRenamed += (sender, e) =>
-        {
-            var args = (GroupItemRenamedEventArgs)e;
-            MessageBox.Show($"Renamed:\n'{args.OldLabel}' → '{args.NewLabel}'");
-        };
-        
-        // Reorder event
-        this.groupView1.GroupViewItemsReordered += (sender, e) =>
-        {
-            MessageBox.Show("Items reordered!");
-        };
-        
-        // Double-click event
-        this.groupView1.GroupViewItemDoubleClick += (sender, e) =>
-        {
-            // Start rename on double-click
-            for (int i = 0; i < this.groupView1.GroupViewItems.Count; i++)
-            {
-                if (this.groupView1.GroupViewItems[i] == e.SelectedItem)
-                {
-                    this.groupView1.InplaceRenameItem(i);
-                    break;
-                }
-            }
-        };
-        
-        // Context menu event
-        this.groupView1.ShowContextMenu += (sender, e) =>
-        {
-            ContextMenuStrip menu = new ContextMenuStrip();
-            menu.Items.Add("Add Item", null, (s, ev) => {
-                this.groupView1.GroupViewItems.Add(
-                    new GroupViewItem($"New Item {this.groupView1.GroupViewItems.Count + 1}", -1, true, null, "newitem")
-                );
-            });
-            menu.Show(this.groupView1, this.groupView1.PointToClient(Cursor.Position));
-        };
-        
-        // Add to form
-        this.Controls.Add(this.groupView1);
-    }
-}
-```
 
 ## Best Practices
 

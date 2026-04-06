@@ -380,35 +380,10 @@ fileMenu.DropDownItems.Add(recentMenu);
 
 ## Best Practices
 
-### Hierarchy Depth
-
-**Recommended:** 2-3 levels maximum  
-**Maximum:** 4-5 levels before usability suffers
-
-**Why:** Deep hierarchies are hard to navigate, especially on small screens or with mouse precision issues.
-
-### Organization Principles
-
-1. **Group related items:** Use common parent categories
-2. **Logical hierarchy:** More specific items nest under general ones
-3. **Limit siblings:** 5-10 items per level is ideal, 15 maximum
-4. **Use separators:** Group related siblings within a submenu
-5. **Consider alternatives:** If hierarchy is too deep, flatten or use a different UI pattern
-
-### Performance Considerations
-
-**For large or dynamic submenus:**
-- Populate on DropDownOpening, not at initialization
-- Clear and rebuild instead of adding incrementally
-- Consider caching frequently accessed data
-- Use BeginUpdate/EndUpdate for bulk changes
-
-### Accessibility
-
-1. **Keyboard navigation:** Submenus work with arrow keys (→ to expand, ← to collapse)
-2. **Escape key:** Closes current submenu level
-3. **Mnemonic keys:** Works at all levels if configured
-4. **Screen readers:** Announce nesting depth and parent names
+1. **Hierarchy Depth:** Keep to 2-3 levels maximum; 4-5 levels hurts usability
+2. **Organization:** Group related items; limit 5-10 items per level (15 max)
+3. **Performance:** Populate on DropDownOpening for large/dynamic submenus
+4. **Accessibility:** Submenus work with arrow keys (→ expand, ← collapse)
 
 ## Common Patterns
 
@@ -474,27 +449,7 @@ filterMenu.DropDownItems.AddRange(new ToolStripItem[] { dateFilter, statusFilter
 
 ## Troubleshooting
 
-**Submenus not appearing:**
-- Verify DropDownItems collection is populated
-- Check that parent item is enabled
-- Ensure no exceptions in DropDownOpening event
-
-**Arrow indicator (►) not showing:**
-- Arrow appears automatically when DropDownItems has items
-- Check that items were added to DropDownItems, not Items collection
-- Verify parent is a MenuItem (not TextBox/ComboBox)
-
-**Click event fires when trying to open submenu:**
-- This is normal; submenus open on hover or click
-- Click event fires if item has both Click handler and DropDownItems
-- Consider using only DropDownItems for navigation items
-
-**Performance issues with large submenus:**
-- Use DropDownOpening to populate on-demand
-- Clear unused items after menu closes
-- Consider pagination or search for very large lists
-
-**Keyboard navigation not working:**
-- Ensure ShortcutKeys don't conflict
-- Check that items are enabled
-- Verify parent form has proper focus handling
+**Submenus not appearing:** Verify DropDownItems populated and parent enabled  
+**Arrow (►) not showing:** Check items added to DropDownItems, not Items collection  
+**Performance issues:** Use DropDownOpening to populate on-demand  
+**Keyboard nav not working:** Ensure items enabled and no ShortcutKeys conflicts

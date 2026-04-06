@@ -1,68 +1,76 @@
 # Localization
 
-## Culture-Specific Formatting
+## Using ILocalizationProvider
 
-### Setting Culture
 ```csharp
+// Program.cs (or before any form is created)
 using System.Globalization;
+using System.Threading;
+using Syncfusion.Windows.Forms.Localization;
 
-// Set chart culture
-chartControl1.Culture = new CultureInfo("de-DE");  // German
+Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
+Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
+LocalizationProvider.Provider = new MyLocalizer(); // register provider
 ```
 
-### Number Formatting
 ```csharp
-// Uses current culture for number formatting
-chartControl1.PrimaryYAxis.LabelNumberFormat = "N2";  // Respects culture
+// MyLocalizer.cs
+using System.Globalization;
+using Syncfusion.Windows.Forms.Localization;
+using Syncfusion.Windows.Forms.ResourceIdentifiers;
 
-// German: 1.234,56
-// US: 1,234.56
-```
-
-### Date Formatting
-```csharp
-chartControl1.PrimaryXAxis.ValueType = ChartValueType.DateTime;
-chartControl1.PrimaryXAxis.DateTimeFormat = "d";  // Short date (culture-specific)
-
-// German: 21.03.2024
-// US: 3/21/2024
-```
-
-## Custom Axis Labels
-
-### Manual Translation
-```csharp
-chartControl1.ChartFormatAxisLabel += (sender, e) =>
+public sealed class MyLocalizer : ILocalizationProvider
 {
-    if (e.AxisOrientation == ChartOrientation.Horizontal)
+    public string GetLocalizedString(CultureInfo culture, string name, object obj)
     {
-        // Translate month names
-        Dictionary<string, string> translations = new Dictionary<string, string>
+        // Map Syncfusion string IDs → localized text (add only what you need)
+        return name switch
         {
-            { "January", "Januar" },
-            { "February", "Februar" },
-            { "March", "März" }
-            // ... more translations
+            ResourceIdentifiers.OK     => "OK",
+            ResourceIdentifiers.Cancel => "Abbrechen",
+            ResourceIdentifiers.Apply  => "Übernehmen",
+            _ => string.Empty // return empty to fall back to Syncfusion defaults
         };
-        
-        if (translations.ContainsKey(e.Label))
-        {
-            e.Label = translations[e.Label];
-        }
     }
-};
+}
 ```
 
-## Resource-Based Localization
+Registers a custom localizer and returns translated strings for Syncfusion‑defined identifiers; empty string falls back to defaults.
+
+## Using Resource-Based Localization
 
 Create resource files (e.g., `ChartResources.de-DE.resx`) for text elements:
 
 ```csharp
-// Set localized strings
-chartControl1.Titles[0].Text = Resources.ChartTitle;
-chartControl1.PrimaryXAxis.Title = Resources.XAxisTitle;
-chartControl1.PrimaryYAxis.Title = Resources.YAxisTitle;
-series.Text = Resources.SeriesName;
+// Form1.cs (constructor)
+using System.Globalization;
+using System.Threading;
+using Syncfusion.Windows.Forms.Chart;
+using Syncfusion.Windows.Forms.Localization;
+
+public Form1()
+{
+    Thread.CurrentThread.CurrentCulture  = new CultureInfo("de-DE");
+    Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
+
+    // If your .resx lives in a project folder/namespace called "Resources"
+    SharedLocalizationResourceAccessor
+        .Instance.SetResources(this.GetType().Assembly, "Resources");
+
+    InitializeComponent();
+
+    // Apply your own .resx strings to chart text elements
+    chartControl1.Titles[0].Text        = ChartResources.ChartTitle;   // from ChartResources.de-DE.resx
+    chartControl1.PrimaryXAxis.Title    = ChartResources.XAxisTitle;
+    chartControl1.PrimaryYAxis.Title    = ChartResources.YAxisTitle;
+
+    ChartSeries series = chartControl1.Series[0];
+    series.Text = ChartResources.Series1Name;
+
+    // Culture-aware formatting (labels respect CurrentCulture)
+    chartControl1.PrimaryXAxis.ValueType = ChartValueType.DateTime;
+    chartControl1.PrimaryXAxis.DateTimeFormat = "d";
+}
 ```
 
 ## Right-to-Left Support

@@ -28,53 +28,14 @@ this.groupView1.HighlightText = true;
 
 Control the position offset of text in different item states.
 
-#### HighlightTextOffset
+#### Text Offset Properties
 
-Sets the text offset when the mouse hovers over an unselected item.
-
-```csharp
-// Offset text by 10 pixels right, 5 pixels down when highlighted
-this.groupView1.HighlightText = true;
-this.groupView1.HighlightTextOffset = new Point(10, 5);
-```
-
-#### SelectedTextOffset
-
-Sets the text offset when the item is selected (but not highlighted).
-
-```csharp
-// Offset text for selected items
-this.groupView1.HighlightText = true;
-this.groupView1.SelectedTextOffset = new Point(30, 7);
-```
-
-#### SelectedHighlightTextOffset
-
-Sets the text offset when the item is both selected and highlighted (mouse hovering over selected item).
-
-```csharp
-// Offset text for selected items when highlighted
-this.groupView1.HighlightText = true;
-this.groupView1.SelectedHighlightTextOffset = new Point(20, 6);
-```
-
-#### SelectingTextOffset
-
-Sets the text offset during the selection transition (mouse button pressed but not released).
-
-```csharp
-// Offset text during selection action
-this.groupView1.HighlightText = true;
-this.groupView1.SelectingTextOffset = new Point(40, 8);
-```
-
-**Complete Text Offset Example:**
+Configure text position offsets for different states:
 
 ```csharp
 public void ConfigureTextOffsets()
 {
-    // Enable text highlighting (required)
-    this.groupView1.HighlightText = true;
+    this.groupView1.HighlightText = true; // Required
     
     // Configure offsets for different states
     this.groupView1.HighlightTextOffset = new Point(5, 2);          // Hover
@@ -86,215 +47,63 @@ public void ConfigureTextOffsets()
 
 ### Text Formatting Properties
 
-#### TextSpacing
-
-Sets the spacing between text and other elements (image, border).
-
-```csharp
-// Add 15 pixels spacing around text
-this.groupView1.TextSpacing = 15;
-```
-
-#### TextUnderline
-
-Underlines the text of GroupView items.
-
-```csharp
-// Underline all item text
-this.groupView1.TextUnderline = true;
-```
-
-**Use Case:** Emphasize clickable items or create hyperlink-style appearance.
-
-#### TextWrap
-
-Enables text wrapping for long item labels.
-
-```csharp
-// Enable text wrapping
-this.groupView1.TextWrap = true;
-```
-
-**Effect:**
-- **true**: Long text wraps to multiple lines within item bounds
-- **false**: Long text is truncated or extends beyond item bounds
-
-**Text Formatting Example:**
+#### Text Formatting Properties
 
 ```csharp
 public void ConfigureTextFormatting()
 {
-    // Enable text features
-    this.groupView1.TextSpacing = 10;
-    this.groupView1.TextWrap = true;
-    this.groupView1.TextUnderline = false;
-    
-    // Add items with long text to demonstrate wrapping
-    this.groupView1.GroupViewItems.AddRange(new GroupViewItem[] {
-        new GroupViewItem("Short Item", 0, true, null, "item1"),
-        new GroupViewItem("This is a very long item name that will wrap", 1, true, null, "item2"),
-        new GroupViewItem("Another Long Name Example", 2, true, null, "item3")
-    });
+    this.groupView1.TextSpacing = 10;     // Spacing between text and other elements
+    this.groupView1.TextWrap = true;       // Enable wrapping for long labels
+    this.groupView1.TextUnderline = false; // Underline text (hyperlink style)
 }
 ```
 
 ### In-Place Renaming
 
-Allow users to rename GroupView items at runtime.
-
-#### InplaceRenameItem Method
-
-Activates in-place editing for a specific item by index.
-
 ```csharp
-// Rename item at index 2
-int itemIndexToRename = 2;
-this.groupView1.InplaceRenameItem(itemIndexToRename);
-```
+// Activate in-place editing for item at index
+this.groupView1.InplaceRenameItem(2);
 
-**User Experience:**
-1. Method is called with item index
-2. Item enters edit mode with text selected
-3. User types new name
-4. User presses Enter or clicks elsewhere to confirm
-5. GroupViewItemRenamed event fires with old and new labels
-
-#### CancelInplaceRenameItemAt Method
-
-Cancels an in-progress in-place edit operation.
-
-```csharp
-// Cancel any active in-place rename operation
+// Cancel active in-place edit
 this.groupView1.CancelInplaceRenameItemAt();
-```
 
-**In-Place Rename Example:**
-
-```csharp
-public void EnableInPlaceRenaming()
+// Handle rename completion
+this.groupView1.GroupViewItemRenamed += (sender, e) =>
 {
-    // Handle right-click to rename
-    this.groupView1.MouseClick += (sender, e) =>
-    {
-        if (e.Button == MouseButtons.Right && this.groupView1.HighlightedItem != -1)
-        {
-            ContextMenuStrip menu = new ContextMenuStrip();
-            menu.Items.Add("Rename", null, (s, ev) =>
-            {
-                this.groupView1.InplaceRenameItem(this.groupView1.HighlightedItem);
-            });
-            menu.Show(this.groupView1, e.Location);
-        }
-    };
-    
-    // Handle rename completion
-    this.groupView1.GroupViewItemRenamed += (sender, e) =>
-    {
-        var args = e as GroupItemRenamedEventArgs;
-        MessageBox.Show($"Renamed: '{args.OldLabel}' → '{args.NewLabel}'");
-    };
-}
+    var args = e as GroupItemRenamedEventArgs;
+    MessageBox.Show($"Renamed: '{args.OldLabel}' → '{args.NewLabel}'");
+};
 ```
 
 ## Color Settings
 
 Customize colors for highlighting and selection states.
 
-### Highlight Colors
+### Highlight and Selection Colors
 
-Colors applied when the mouse hovers over an item.
-
-#### HighlightItemColor
-
-Background color for items when highlighted (mouse hover).
+Configure colors for different item states:
 
 ```csharp
-// Set highlight background color
-this.groupView1.HighlightText = true; // Required
-this.groupView1.HighlightItemColor = Color.LavenderBlush;
-```
-
-#### HighlightTextColor
-
-Text color for items when highlighted (mouse hover).
-
-```csharp
-// Set highlight text color
-this.groupView1.HighlightText = true; // Required
-this.groupView1.HighlightTextColor = Color.Purple;
-```
-
-**Highlight Example:**
-
-```csharp
-// Configure subtle highlight effect
-this.groupView1.HighlightText = true;
-this.groupView1.HighlightItemColor = Color.FromArgb(240, 248, 255); // AliceBlue
-this.groupView1.HighlightTextColor = Color.DarkBlue;
-```
-
-### Selection Colors
-
-Colors applied to selected items in various states.
-
-#### SelectedItemColor
-
-Background color for selected items (not highlighted).
-
-```csharp
-// Set selected item background
-this.groupView1.HighlightText = true; // Required
-this.groupView1.SelectedItemColor = Color.LightGreen;
-```
-
-#### SelectedTextColor
-
-Text color for selected items (not highlighted).
-
-```csharp
-// Set selected item text color
-this.groupView1.HighlightText = true; // Required
-this.groupView1.SelectedTextColor = Color.Blue;
-```
-
-#### SelectedHighlightItemColor
-
-Background color when an item is both selected and highlighted (mouse hovering over selected item).
-
-```csharp
-// Set selected + highlighted background
-this.groupView1.HighlightText = true; // Required
-this.groupView1.SelectedHighlightItemColor = Color.LightBlue;
-```
-
-#### SelectedHighlightTextColor
-
-Text color when an item is both selected and highlighted.
-
-```csharp
-// Set selected + highlighted text color
-this.groupView1.HighlightText = true; // Required
-this.groupView1.SelectedHighlightTextColor = Color.Crimson;
-```
-
-#### SelectingItemColor
-
-Background color during the selection transition (mouse button pressed).
-
-```csharp
-// Set selecting state background
-this.groupView1.HighlightText = true; // Required
-this.groupView1.SelectingItemColor = Color.PeachPuff;
-```
-
-#### SelectingTextColor
-
-Text color during the selection transition.
-
-```csharp
-// Set selecting state text color
-this.groupView1.HighlightText = true; // Required
-this.groupView1.SelectingTextColor = Color.Red;
+public void ConfigureItemColors()
+{
+    this.groupView1.HighlightText = true; // Required
+    
+    // Highlight colors (mouse hover)
+    this.groupView1.HighlightItemColor = Color.FromArgb(240, 248, 255);
+    this.groupView1.HighlightTextColor = Color.DarkBlue;
+    
+    // Selection colors
+    this.groupView1.SelectedItemColor = Color.LightGreen;
+    this.groupView1.SelectedTextColor = Color.Blue;
+    
+    // Selected + highlighted
+    this.groupView1.SelectedHighlightItemColor = Color.LightBlue;
+    this.groupView1.SelectedHighlightTextColor = Color.Crimson;
+    
+    // Selecting (mouse button pressed)
+    this.groupView1.SelectingItemColor = Color.PeachPuff;
+    this.groupView1.SelectingTextColor = Color.Red;
+}
 ```
 
 ### Complete Color Configuration Example
@@ -379,59 +188,16 @@ this.groupView1.HighlightImage = true;
 
 ### Image Offset Properties
 
-Control the position offset of images in different item states.
-
-#### HighlightImageOffset
-
-Sets the image offset when the mouse hovers over an unselected item.
-
-```csharp
-// Offset image when highlighted
-this.groupView1.HighlightImage = true; // Required
-this.groupView1.HighlightImageOffset = new Point(5, 5);
-```
-
-#### SelectedImageOffset
-
-Sets the image offset when the item is selected (but not highlighted).
-
-```csharp
-// Offset image for selected items
-this.groupView1.HighlightImage = true; // Required
-this.groupView1.SelectedImageOffset = new Point(8, 8);
-```
-
-#### SelectedHighlightImageOffset
-
-Sets the image offset when the item is both selected and highlighted.
-
-```csharp
-// Offset image for selected + highlighted items
-this.groupView1.HighlightImage = true; // Required
-this.groupView1.SelectedHighlightImageOffset = new Point(5, 5);
-```
-
-#### SelectingImageOffset
-
-Sets the image offset during the selection transition.
-
-```csharp
-// Offset image during selection
-this.groupView1.HighlightImage = true; // Required
-this.groupView1.SelectingImageOffset = new Point(6, 6);
-```
-
-**Complete Image Offset Example:**
+Configure image position offsets for different states:
 
 ```csharp
 public void ConfigureImageOffsets()
 {
-    // Enable image highlighting (required)
-    this.groupView1.HighlightImage = true;
+    this.groupView1.HighlightImage = true; // Required
     
     // Configure offsets for visual feedback
     this.groupView1.HighlightImageOffset = new Point(3, 3);          // Hover
-    this.groupView1.SelectedImageOffset = new Point(0, 0);           // Selected (no shift)
+    this.groupView1.SelectedImageOffset = new Point(0, 0);           // Selected
     this.groupView1.SelectedHighlightImageOffset = new Point(2, 2);  // Selected + Hover
     this.groupView1.SelectingImageOffset = new Point(5, 5);          // Pressing
 }
@@ -439,20 +205,11 @@ public void ConfigureImageOffsets()
 
 ### Image Spacing
 
-Control spacing between the image and the item's highlighted edge.
-
 ```csharp
-// Set 7 pixels spacing between image and item edge
+// Set spacing between image and item edge (recommended: 5-10 pixels)
 this.groupView1.HighlightImage = true; // Required
 this.groupView1.ImageSpacing = 7;
 ```
-
-**Effect:** Creates padding between the image and the item's border, preventing images from appearing cramped.
-
-**Recommended Values:**
-- **3-5 pixels**: Compact spacing for toolbox interfaces
-- **7-10 pixels**: Comfortable spacing for standard lists
-- **12-15 pixels**: Generous spacing for large icons
 
 ### Complete Image Configuration Example
 

@@ -410,59 +410,6 @@ public class TabbedWindowExample : Form
 }
 ```
 
-**VB.NET Example:**
-
-```vb
-Private Sub SetupTabbedWindows()
-    ' Create DockingManager
-    Me.dockingManager1 = New DockingManager(Me.components)
-    Me.dockingManager1.HostControl = Me
-    
-    ' Enable docking
-    Me.dockingManager1.SetEnableDocking(panel1, True)
-    Me.dockingManager1.SetEnableDocking(panel2, True)
-    Me.dockingManager1.SetEnableDocking(panel3, True)
-    
-    ' Set labels
-    Me.dockingManager1.SetDockLabel(panel1, "Toolbox")
-    Me.dockingManager1.SetDockLabel(panel2, "Server Explorer")
-    Me.dockingManager1.SetDockLabel(panel3, "Team Explorer")
-    
-    ' Create tab group
-    Me.dockingManager1.DockControl(panel1, Me, DockingStyle.Left, 200)
-    Me.dockingManager1.DockControl(panel2, panel1, DockingStyle.Tabbed, 200)
-    Me.dockingManager1.DockControl(panel3, panel1, DockingStyle.Tabbed, 200)
-    
-    ' Configure tabs
-    Me.dockingManager1.DockTabAlignment = DockTabAlignment.Bottom
-    Me.dockingManager1.AllowTabsMoving = True
-    Me.dockingManager1.ShowDockTabScrollButton = True
-    
-    ' Customize appearance
-    Me.dockingManager1.DockTabFont = New Font("Segoe UI", 9.0F)
-    Me.dockingManager1.ActiveDockTabBackColor = Color.DarkBlue
-    Me.dockingManager1.ActiveDockTabForeColor = Color.White
-End Sub
-
-Private Sub CheckTabbedGroup()
-    ' Check if controls are tabbed together
-    Dim sameGroup As Boolean = Me.dockingManager1.IsSameTabbedGroup(panel1, panel2)
-    
-    If sameGroup Then
-        MessageBox.Show("Panel1 and Panel2 are in the same tab group")
-    Else
-        MessageBox.Show("Panel1 and Panel2 are not in the same tab group")
-    End If
-End Sub
-
-Private Sub ReorderTabs()
-    ' Change tab order
-    Me.dockingManager1.SetTabPosition(panel3, 0)
-    Me.dockingManager1.SetTabPosition(panel2, 1)
-    Me.dockingManager1.SetTabPosition(panel1, 2)
-End Sub
-```
-
 ## Best Practices
 
 1. **Group related windows** - Tab similar tools together (Properties + Events)

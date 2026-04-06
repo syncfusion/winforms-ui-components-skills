@@ -108,50 +108,6 @@ borderLayout1.SetPosition(contentPanel, BorderPosition.Center);
 borderLayout1.SetPosition(footerPanel, BorderPosition.South);
 ```
 
-**VB.NET:**
-```vb
-' Create BorderLayout
-Dim borderLayout1 As BorderLayout = New BorderLayout()
-borderLayout1.ContainerControl = Me
-borderLayout1.HGap = 10
-borderLayout1.VGap = 10
-
-' Header panel with toolbar
-Dim headerPanel As Panel = New Panel() With {.Height = 50, .BackColor = Color.FromArgb(51, 102, 153)}
-
-' Add toolbar buttons
-Dim newBtn As ButtonAdv = New ButtonAdv() With {.Text = "New", .Dock = DockStyle.Left}
-Dim openBtn As ButtonAdv = New ButtonAdv() With {.Text = "Open", .Dock = DockStyle.Left}
-Dim saveBtn As ButtonAdv = New ButtonAdv() With {.Text = "Save", .Dock = DockStyle.Left}
-
-headerPanel.Controls.Add(newBtn)
-headerPanel.Controls.Add(openBtn)
-headerPanel.Controls.Add(saveBtn)
-
-' Content panel (main work area)
-Dim contentPanel As Panel = New Panel() With {.BackColor = Color.White}
-
-' Add content
-Dim dataGrid As DataGrid = New DataGrid() With {.Dock = DockStyle.Fill}
-contentPanel.Controls.Add(dataGrid)
-
-' Footer panel with status
-Dim footerPanel As Panel = New Panel() With {.Height = 30, .BackColor = Color.FromArgb(240, 240, 240)}
-
-Dim statusLabel As Label = New Label() With {.Text = "Ready", .Dock = DockStyle.Left}
-footerPanel.Controls.Add(statusLabel)
-
-' Add panels to form
-Me.Controls.Add(headerPanel)
-Me.Controls.Add(contentPanel)
-Me.Controls.Add(footerPanel)
-
-' Position panels
-borderLayout1.SetPosition(headerPanel, BorderPosition.North)
-borderLayout1.SetPosition(contentPanel, BorderPosition.Center)
-borderLayout1.SetPosition(footerPanel, BorderPosition.South)
-```
-
 ### Use Cases
 - Document editors
 - Web browsers
@@ -403,93 +359,23 @@ contentWrapperPanel.Controls.Add(outputPanel);
 
 ### Handling Resizing
 
-BorderLayout automatically adjusts the center and border positions when the container is resized:
+BorderLayout automatically adjusts when container is resized:
+- North/South panels keep their heights
+- East/West panels keep their widths  
+- Center panel fills remaining space
 
 ```csharp
-// BorderLayout responds to form resize automatically
-this.AutoScaleMode = AutoScaleMode.Font;
-this.Size = new Size(800, 600);
-
-// When user resizes form, BorderLayout recalculates positions
-// - North/South panels keep their heights
-// - East/West panels keep their widths  
-// - Center panel fills remaining space
-```
-
-### Minimum Size Enforcement
-
-Set minimum form size to prevent overlapping:
-
-```csharp
-// Set minimum size to prevent controls from overlapping
+// Set minimum size to prevent overlapping
 this.MinimumSize = new Size(400, 300);
-
-// Or calculate based on panel sizes
-int minWidth = 150 + 200 + 100;  // Left + Center + Right
-int minHeight = 50 + 100 + 40;   // Top + Center + Bottom
-this.MinimumSize = new Size(minWidth, minHeight);
 ```
 
 ## Best Practices
 
-### 1. Set Fixed Sizes First
-Always set heights for North/South and widths for East/West before positioning:
-
-```csharp
-// Correct - Set sizes first
-Panel headerPanel = new Panel() { Height = 50 };
-this.Controls.Add(headerPanel);
-borderLayout1.SetPosition(headerPanel, BorderPosition.North);
-
-// Avoid changing size after positioning
-// headerPanel.Height = 60;  // Don't do this
-```
-
-### 2. Use Container Controls for Multiple Items
-Never position multiple controls to the same border position; use a container:
-
-```csharp
-// Wrong - Both controls try to occupy North
-borderLayout1.SetPosition(button1, BorderPosition.North);
-borderLayout1.SetPosition(button2, BorderPosition.North);  // Overlaps!
-
-// Correct - Use panel container
-Panel toolbarPanel = new Panel();
-toolbarPanel.Controls.Add(button1);
-toolbarPanel.Controls.Add(button2);
-borderLayout1.SetPosition(toolbarPanel, BorderPosition.North);
-```
-
-### 3. Configure Spacing Early
-Set HGap and VGap immediately after creating BorderLayout:
-
-```csharp
-BorderLayout borderLayout1 = new BorderLayout();
-borderLayout1.ContainerControl = this;
-borderLayout1.HGap = 10;  // Set spacing early
-borderLayout1.VGap = 10;
-```
-
-### 4. Use Dock Property for Internal Layout
-Inside container panels, use Dock for child controls:
-
-```csharp
-// Inside a panel, use Dock to arrange children
-button1.Dock = DockStyle.Left;
-button2.Dock = DockStyle.Left;
-label.Dock = DockStyle.Right;
-```
-
-### 5. Keep Center Panel Empty of Size Constraints
-Don't set explicit Width/Height on center panel:
-
-```csharp
-// Wrong - Constrains center panel
-Panel contentPanel = new Panel() { Width = 400, Height = 300 };
-
-// Correct - Let it fill remaining space
-Panel contentPanel = new Panel();
-```
+1. **Set Fixed Sizes First:** Set heights for North/South and widths for East/West before positioning
+2. **Use Container Controls:** Never position multiple controls to same border position; use a panel container
+3. **Configure Spacing Early:** Set HGap and VGap immediately after creating BorderLayout
+4. **Use Dock Property:** Inside panels, use Dock for child controls (DockStyle.Left, Right, Fill)
+5. **Keep Center Panel Flexible:** Don't set explicit Width/Height on center panel; let it fill remaining space
 
 ## When to Use BorderLayout
 
@@ -507,15 +393,5 @@ Panel contentPanel = new Panel();
 - All controls need to be the same size
 - You need complex wrapping behavior
 
-### Comparison with Alternatives
-
-| Feature | BorderLayout | DockStyle | TableLayoutPanel | FlowLayoutPanel |
-|---------|-------------|-----------|------------------|-----------------|
-| **Border regions** | ✓ | ✓ | ✗ | ✗ |
-| **Explicit spacing** | ✓ | ✗ | ✓ | ✓ |
-| **Fixed sizes** | ✓ | ✓ | ✓ | ✗ |
-| **Simple setup** | ✓ | ~ | ~ | ✓ |
-| **Responsive fill** | ✓ | ✓ | ✓ | ✓ |
-
 ### Recommendation
-Use BorderLayout for **standard application layouts** with distinct border regions and a central content area. It's more structured than Dock and easier to understand than TableLayoutPanel for simple 5-zone layouts.
+Use BorderLayout for **standard application layouts** with distinct border regions and central content area. It's more structured than Dock and easier than TableLayoutPanel for simple 5-zone layouts.

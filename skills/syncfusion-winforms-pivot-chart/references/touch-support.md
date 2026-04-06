@@ -26,16 +26,11 @@ pivotChart1.EnableTouchMode = true;
 ```csharp
 // Configure touch settings
 pivotChart1.EnableTouchMode = true;
-pivotChart1.TouchSensitivity = TouchSensitivity.High;
-pivotChart1.MinimumTouchSize = 44;  // Minimum 44px for touch targets (Microsoft guidelines)
 ```
 
 ## Touch-Friendly UI Elements
 
 ```csharp
-// Increase expander size for touch
-pivotChart1.ExpanderSize = new Size(40, 40);  // Larger touch targets
-
 // Increase legend item size
 pivotChart1.Legend.ItemsSize = new Size(200, 40);
 ```

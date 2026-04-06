@@ -20,7 +20,7 @@ Use this skill when you need to:
 - Configure chart axes, legends, titles, or appearance
 - Export charts to PDF, Excel, Word, or images
 - Add statistical analysis or formulas to charts
-- Customize chart styling, colors, or themes
+- Customize chart styling, colors
 
 ## Component Overview
 
@@ -269,10 +269,10 @@ chartSeries.PrepareStyle += (sender, args) =>
 ### Pattern 4: Export Chart to PDF
 ```csharp
 // Export to PDF
-chartControl1.SaveImage("chart.pdf", ChartImageFormat.PDF);
+chartControl1.SaveImage("chart.pdf");
 
 // Export to image
-chartControl1.SaveImage("chart.png", ChartImageFormat.Png);
+chartControl1.SaveImage("chart.png");
 ```
 
 ## Key Properties
@@ -282,7 +282,6 @@ chartControl1.SaveImage("chart.png", ChartImageFormat.Png);
 - `PrimaryXAxis`, `PrimaryYAxis` - Main axes configuration
 - `Legend` - Legend visibility and appearance
 - `Titles` - Collection of chart titles
-- `Skins` - Apply predefined themes
 - `ShowToolTips` - Enable interactive tooltips
 
 **ChartSeries:**

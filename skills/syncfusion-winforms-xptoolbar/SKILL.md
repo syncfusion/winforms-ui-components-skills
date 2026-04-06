@@ -440,14 +440,6 @@ comboBoxBarItem1.SelectedIndexChanged += (sender, e) => {
 
 ---
 
-## Related Skills
-
-- **MainFrameBarManager:** Advanced menu and toolbar management
-- **RibbonControlAdv:** Office-style Ribbon interface
-- **StatusStripEx:** Status bar for bottom of form
-
----
-
 ## See Also
 
 - [Syncfusion XPToolBar Documentation](https://help.syncfusion.com/windowsforms/xptoolbar/overview)

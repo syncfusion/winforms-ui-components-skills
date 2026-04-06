@@ -255,9 +255,10 @@ series.Points.Add(2, new double[] { 25, 40 });
 Each chart type may have specific style properties:
 
 ```csharp
+chartControl1.Series[0].ExplodeIndex = 2; // Explode 3rd slice
+
 // Pie/Funnel specific
-series.ConfigItems.PieItem.LabelStyle = ChartAccumulationLabelStyle.Outside;
-series.ConfigItems.PieItem.ExplodeIndex = 2;  // Explode 3rd slice
+series.ConfigItems.PieItem.LabelStyle = ChartAccumulationLabelStyle.Outside; 
 
 // Candle/OHLC specific
 series.Style.Interior = new BrushInfo(GradientStyle.Vertical, Color.Green, Color.Red);
