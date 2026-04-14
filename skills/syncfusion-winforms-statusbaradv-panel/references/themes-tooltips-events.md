@@ -917,4 +917,4 @@ You have now completed all StatusBarAdvPanel documentation! Review:
 - **[Alignment and Borders](alignment-and-borders.md)** - Positioning and borders
 
 For related components:
-- **[Implementing Status Bars (StatusBarAdv)](../../implementing-status-bars/)** - Parent control for hosting panels
+- **Implementing Status Bars (StatusBarAdv)** — Parent control for hosting panels in the `syncfusion-winforms-status-bar` skill

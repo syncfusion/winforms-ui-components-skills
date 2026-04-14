@@ -237,22 +237,21 @@ End Class
 Apply a modern gradient background with Metro styling:
 
 ```csharp
-using Syncfusion.Drawing;
-
-// Set gradient background
+// Set gradient background (will be overridden if Metro style is applied)
 statusBarAdv1.BackgroundColor = new BrushInfo(
     GradientStyle.Horizontal,
     Color.AliceBlue,
     Color.LightSteelBlue
 );
 
-// Apply Metro style
+// Apply Metro style (this overrides BackgroundColor)
 statusBarAdv1.Style = StatusbarStyle.Metro;
 
 // Set metro accent color
 statusBarAdv1.MetroColor = ColorTranslator.FromHtml("#16a5dc");
 statusBarAdv1.UseMetroColorAsBorder = true;
 ```
+> **Note:** When `Style = StatusbarStyle.Metro` is set, any custom `BackgroundColor` gradients are ignored. Use `MetroColor` and `UseMetroColorAsBorder` for Metro styling instead.
 
 ### 2. Custom Panel Alignment
 
@@ -316,12 +315,18 @@ statusBarAdv1.AutoHeightControls = true;
 
 ### StatusBarAdvPanel Properties
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `PanelType` | StatusBarAdvPanelType | Panel content type: CurrentCulture, ShortDate, ShortTime, etc. |
-| `Size` | Size | Panel dimensions |
-| `Text` | string | Custom text to display in panel |
-| `HAlign` | HorzFlowAlign | Horizontal alignment: Left, Center, Right, Justify |
+| Property   | Type                  | Description |
+|------------|-----------------------|-------------|
+| `PanelType` | StatusBarAdvPanelType | Panel content type. Values include: `None` (no content), `Text` (custom text), `CurrentCulture` (culture info), `ShortDate` (date), `ShortTime` (time), `Owner` (owner‑drawn content). |
+| `Size`      | Size                  | Panel dimensions |
+| `Text`      | string                | Custom text to display in panel |
+
+### StatusBarAdv Extender Methods
+
+| Method | Description |
+|--------|-------------|
+| `SetHAlign(StatusBarAdvPanel, HorzFlowAlign)` | Sets horizontal alignment for a specific panel (Left, Center, Right, Justify). |
+| `GetHAlign(StatusBarAdvPanel)` | Gets the current horizontal alignment of a specific panel. |
 
 ## Common Use Cases
 

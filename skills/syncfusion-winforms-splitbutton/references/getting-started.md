@@ -7,8 +7,6 @@ This guide covers the basic setup and implementation of the Syncfusion WinForms 
 The SplitButton control requires the following assemblies:
 
 **Required Assemblies:**
-- `Syncfusion.Grid.Base`
-- `Syncfusion.Grid.Windows`
 - `Syncfusion.Shared.Base`
 - `Syncfusion.Shared.Windows`
 - `Syncfusion.Tools.Base`

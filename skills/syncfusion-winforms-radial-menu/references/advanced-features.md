@@ -1,58 +1,50 @@
 # Advanced Features and Configuration
 
-## Table of Contents
-- [WedgeCount Property](#wedgecount-property)
-- [MenuVisibility Property](#menuvisibility-property)
-- [PersistPreviousState Property](#persistpreviousstate-property)
-- [ImageList Configuration](#imagelist-configuration)
-- [UseIndexBasedOrder Property](#useindexbasedorder-property)
-- [Keyboard Support](#keyboard-support)
-- [SuperAccelerator Configuration](#superaccelerator-configuration)
-- [Tooltip Support](#tooltip-support)
-- [Complete Advanced Examples](#complete-advanced-examples)
-- [Best Practices for Complex Scenarios](#best-practices-for-complex-scenarios)
+```markdown
+# Advanced features — condensed
 
-## WedgeCount Property
+Short recipes for the advanced APIs you will use most: wedge count, visibility, persistence, index ordering and keyboard support. Each snippet has a VB counterpart.
 
-The `WedgeCount` property determines the maximum number of menu items (slices/wedges) visible at each level of the RadialMenu. This is crucial for managing menu density and ensuring items are large enough for interaction.
-
-### Understanding WedgeCount
+Wedge count and visibility (C#):
 
 ```csharp
-// Set maximum visible items per level
-this.radialMenu1.WedgeCount = 8;
+radialMenu.WedgeCount = 6;       // items per level
+radialMenu.MenuVisibility = false; // only center icon shown initially
 ```
 
-**How WedgeCount Works:**
-- Defines slice count in the circular menu
-- Items beyond this count require drill-down navigation
-- Each menu level respects this maximum
-- Affects touch target size (fewer wedges = larger targets)
+VB.NET:
 
-**Common WedgeCount Values:**
-
-```csharp
-// Minimal (4 items) - Large touch targets
-this.radialMenu1.WedgeCount = 4;
-
-// Small (6 items) - Balanced for touch
-this.radialMenu1.WedgeCount = 6;
-
-// Medium (8 items) - Standard desktop use
-this.radialMenu1.WedgeCount = 8;
-
-// Large (10 items) - Mouse-optimized
-this.radialMenu1.WedgeCount = 10;
-
-// Maximum (12 items) - Dense, precise mouse control
-this.radialMenu1.WedgeCount = 12;
+```vbnet
+radialMenu.WedgeCount = 6
+radialMenu.MenuVisibility = False
 ```
 
-### Choosing Appropriate WedgeCount
+Persist previous state (remember submenu level):
 
 ```csharp
-private void ConfigureWedgeCountForPlatform()
-{
+radialMenu.PersistPreviousState = true;
+```
+
+Keyboard accelerators (C#):
+
+```csharp
+var sa = new SuperAccelerator(this);
+sa.SetAccelerator(myItem, "N"); // Alt+N
+```
+
+VB.NET:
+
+```vbnet
+Dim sa = New SuperAccelerator(Me)
+sa.SetAccelerator(myItem, "N")
+```
+
+Performance tips:
+- For very large menus, lazy-load submenu items on first drill (create items inside the parent `Opening`/`ItemOpening` handler).
+- Persist only when it improves UX; context menus often should not persist.
+
+This page now contains compact, copy-ready advanced patterns for C# and VB.
+```
     // Touch-first tablet interface
     if (IsTouchEnabled())
     {

@@ -1,6 +1,6 @@
 ---
 name: syncfusion-winforms-syntax-editor
-description: Guide for implementing Syncfusion EditControl (SyntaxEditor) in Windows Forms applications. Use when creating interactive code editors with syntax highlighting, IntelliSense, multi-language support, or Visual Studio-like editing capabilities. Covers installation, syntax highlighting for 12+ built-in languages (C#, VB.NET, XML, HTML, Java, SQL, PowerShell, JavaScript), custom language configuration, code outlining, auto-completion, find/replace dialogs, file operations, export (XML/RTF/HTML), split views, and comprehensive event handling for building professional code editor applications.
+description: Guide for implementing Syncfusion EditControl (SyntaxEditor) in Windows Forms applications. Use when creating interactive code editors with syntax highlighting, IntelliSense, multi-language support, or Visual Studio-like editing capabilities. Covers installation, syntax highlighting for 11 built-in languages (C#, VB.NET, XML, HTML, Java, SQL, PowerShell, JavaScript), custom language configuration, code outlining, auto-completion, find/replace dialogs, file operations, export (XML/RTF/HTML), split views, and comprehensive event handling for building professional code editor applications.
 metadata:
   author: "Syncfusion Inc"
   version: "33.1.44"
@@ -39,7 +39,7 @@ Use this skill when you need to:
 ### Key Capabilities
 
 The EditControl provides comprehensive code editing features:
-- **Syntax Highlighting**: Built-in support for 12+ languages (C#, VB.NET, XML, HTML, Java, SQL, PowerShell, JavaScript, VBScript, Delphi, C, Text) plus custom language configuration via XML
+- **Syntax Highlighting**: Built-in support for 11 languages (C#, VB.NET, XML, HTML, Java, SQL, PowerShell, JavaScript, VBScript, Delphi, C) plus custom language configuration via XML
 - **Editing Features**: Clipboard operations, unlimited undo/redo, drag-and-drop, normal and rectangular block selection, change tracking with line modification markers
 - **IntelliSense**: Auto-complete with predefined data, auto-correct for common typos, context tooltips for collapsed code blocks, custom IntelliSense popup
 - **Code Outlining**: Expand/collapse code blocks with configurable outlining regions, bracket matching, collapsible sections
@@ -423,7 +423,7 @@ private void SaveFile_Click(object sender, EventArgs e)
     }
     else
     {
-        editControl1.Save(currentFilePath);
+        editControl1.SaveFile(currentFilePath);
     }
 }
 
@@ -436,7 +436,7 @@ private void SaveFileAs_Click(object sender, EventArgs e)
     
     if (saveDialog.ShowDialog() == DialogResult.OK)
     {
-        editControl1.Save(saveDialog.FileName);
+        editControl1.SaveFile(saveDialog.FileName);
         currentFilePath = saveDialog.FileName;
         this.Text = Path.GetFileName(currentFilePath) + " - Code Editor";
     }
@@ -450,13 +450,25 @@ private void SaveFileAs_Click(object sender, EventArgs e)
 editControl1 = new EditControl { Dock = DockStyle.Fill, ShowLineNumbers = true };
 editControl1.ApplyConfiguration(KnownLanguages.CSharp);
 
-// Add auto-complete items
-editControl1.AutoCompleteList.AddRange(new[] { "Console", "Console.WriteLine", 
-    "string", "int", "public", "private", "class" });
+// Configure IntelliSense suggestions using ContextChoiceController
+// Populate suggestions when the context choice opens so they are context-aware
+editControl1.ContextChoiceOpen += (s, e) =>
+{
+    var controller = editControl1.ContextChoiceController;
+    controller.Items.Clear();
+    controller.Items.Add("Console");
+    controller.Items.Add("Console.WriteLine");
+    controller.Items.Add("string");
+    controller.Items.Add("int");
+    controller.Items.Add("public");
+    controller.Items.Add("private");
+    controller.Items.Add("class");
+};
 
-// Enable auto-correct
-editControl1.AutoCorrectList.Add("teh", "the");
-editControl1.AutoCorrectList.Add("cosole", "console");
+// Configure simple auto-replace (auto-correct) triggers on the editor language
+editControl1.Language.AutoReplaceTriggers.Add(new AutoReplaceTrigger("teh", "the"));
+editControl1.Language.AutoReplaceTriggers.Add(new AutoReplaceTrigger("cosole", "console"));
+editControl1.UseAutoreplaceTriggers = true;
 
 this.Controls.Add(editControl1);
 ```
@@ -479,7 +491,7 @@ this.Controls.Add(editControl1);
 | **ContextChoiceOpen** | `bool` | Gets whether IntelliSense context menu is open |
 | **CanUndo** | `bool` | Indicates if undo operation is available |
 | **CanRedo** | `bool` | Indicates if redo operation is available |
-| **Modified** | `bool` | Indicates if the document has been modified |
+| **IsModified** | `bool` | Indicates if the document has been modified |
 
 ### Key Methods
 
@@ -487,19 +499,20 @@ this.Controls.Add(editControl1);
 |--------|-------------|
 | **ApplyConfiguration(KnownLanguages)** | Applies built-in syntax highlighting configuration |
 | **LoadFile(string)** | Loads a file into the editor |
-| **Save(string)** | Saves the current content to a file |
-| **SaveAs(string)** | Saves content to a new file |
+| **Save()** | Opens the Save dialog (no arguments) |
+| **SaveFile(string)** | Saves the current content to a specified path |
+| **SaveAs()** | Opens the Save As dialog |
 | **Undo()** | Performs undo operation |
 | **Redo()** | Performs redo operation |
 | **Cut()** | Cuts selected text to clipboard |
 | **Copy()** | Copies selected text to clipboard |
 | **Paste()** | Pastes text from clipboard |
 | **SelectAll()** | Selects all text in the editor |
-| **Find()** | Opens the find dialog |
-| **Replace()** | Opens the replace dialog |
-| **GoToLine(int)** | Navigates to specified line number |
-| **SetText(string)** | Sets text content programmatically |
-| **Export(string, ExportType)** | Exports content to XML, RTF, or HTML |
+| **ShowFindDialog()** | Opens the find dialog |
+| **ShowReplaceDialog()** | Opens the replace dialog |
+| **GoTo(int)** | Navigates to specified line number |
+| **Text (property)** | Gets or sets the text content of the editor |
+| **SaveAsXML(string)**, **SaveAsHTML(string)**, **SaveAsRTF(string)** | Export content to XML, HTML, or RTF formats |
 | **Print()** | Opens print dialog for the document |
 
 ## Common Use Cases

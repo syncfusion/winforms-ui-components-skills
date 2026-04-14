@@ -25,12 +25,13 @@ The **BackgroundColor** property uses the **BrushInfo** class to configure all b
 
 ```csharp
 // Two-color gradient
-BrushInfo brush = new BrushInfo(GradientStyle style, Color startColor, Color endColor);
+BrushInfo brush = new BrushInfo(GradientStyle style, Color backColor, Color foreColor);
 
-//Note: In Syncfusion’s API, the first color (ForeColor) is rendered as the starting color of the gradient, and the second color (BackColor) is rendered as the ending color. This differs from System.Drawing conventions.
+// Multi-color gradient
+BrushInfo brush = new BrushInfo(GradientStyle style, Color[] gradientColors);
 
 // Solid color
-BrushInfo brush = new BrushInfo(Color color);
+BrushInfo brush = new BrushInfo(BrushStyle.Solid, Color color, Color unused);
 ```
 
 ---
@@ -44,530 +45,62 @@ The **Style** property determines how the background is rendered.
 
 ### Available Styles
 
-| Style | Description |
-|-------|-------------|
-| **Gradient** | Gradient transitions between colors |
-| **Solid** | Single solid color |
-| **Pattern** | Pattern fill with colors |
-| **None** | No background (transparent) |
+````markdown
+# Background Styling (trimmed)
 
----
+This file summarizes common background options for `GradientPanelExt` with compact C# examples and a single VB sample for parity.
 
-### Gradient Style (Default)
+## BrushInfo and Styles
 
-Creates smooth color transitions.
+The `BackgroundColor` property uses `Syncfusion.Drawing.BrushInfo` to configure solid, pattern, and gradient backgrounds.
 
-**C# Example:**
 ```csharp
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.Horizontal,
-    Color.Blue,
-    Color.LightBlue
-);
-// Style is automatically set to Gradient
+// Two-color gradient (C# compact)
+gradientPanel.BackgroundColor = new BrushInfo(GradientStyle.Horizontal, Color.DarkBlue, Color.SkyBlue);
+
+// Solid color
+gradientPanel.BackgroundColor = new BrushInfo(BrushStyle.Solid, Color.LightGray, Color.Empty);
 ```
 
-**VB.NET Example:**
+**VB.NET (compact):**
 ```vb
-gradientPanel.BackgroundColor = New BrushInfo( _
-    GradientStyle.Horizontal, _
-    Color.Blue, _
-    Color.LightBlue _
-)
+' Single compact VB example kept for parity
+gradientPanel.BackgroundColor = New BrushInfo(GradientStyle.Horizontal, Color.DarkBlue, Color.SkyBlue)
 ```
 
----
-
-### Solid Style
-
-Single uniform color (no gradient).
-
-**C# Example:**
-```csharp
-gradientPanel.BackgroundColor = new BrushInfo(Color.LightGray);
-```
-
-**VB.NET Example:**
-```vb
-gradientPanel.BackgroundColor = New BrushInfo(Color.LightGray)
-```
-
----
-
-### None Style
-
-Transparent background.
-
-**C# Example:**
-```csharp
-gradientPanel.BackColor = Color.Transparent;
-```
-
----
-
-## Gradient Styles
-
-The **GradientStyle** property controls the direction and pattern of color transitions.
-
-**Property:** `BackgroundColor.GradientStyle`  
-**Type:** `GradientStyle` enum
-
-### Available Gradient Styles
-
-| Style | Description | Direction |
-|-------|-------------|-----------|
-| **Horizontal** | Left to right transition | → |
-| **Vertical** | Top to bottom transition | ↓ |
-| **ForwardDiagonal** | Top-left to bottom-right | ↘ |
-| **BackwardDiagonal** | Top-right to bottom-left | ↙ |
-| **PathRectangle** | Rectangular path from edges to center | ⊡ |
-| **PathEllipse** | Elliptical path from edges to center | ◯ |
-
----
-
-### Horizontal Gradient
-
-Left to right color transition.
-
-**C# Example:**
-```csharp
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.Horizontal,
-    Color.DarkBlue,
-    Color.SkyBlue
-);
-```
-
-**Best For:** Headers, wide panels, left-right progression
-
----
-
-### Vertical Gradient
-
-Top to bottom color transition.
-
-**C# Example:**
-```csharp
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.Vertical,
-    Color.Red,   // start color
-    Color.Green  // end color
-);
-
-```
-
-**Best For:** Tall panels, top-down hierarchy, sky/ground effects
-
----
-
-### ForwardDiagonal Gradient
-
-Diagonal from top-left to bottom-right.
-
-**C# Example:**
-```csharp
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.ForwardDiagonal,
-    Color.Purple,
-    Color.Pink
-);
-```
-
-**Best For:** Dynamic backgrounds, modern designs
-
----
-
-### BackwardDiagonal Gradient
-
-Diagonal from top-right to bottom-left.
-
-**C# Example:**
-```csharp
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.BackwardDiagonal,
-    Color.Green,
-    Color.LightGreen
-);
-```
-
-**Best For:** Alternative diagonal effect, variety
-
----
-
-### PathRectangle Gradient
-
-Rectangular path from edges inward to center.
-
-**C# Example:**
-```csharp
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.PathRectangle,
-    Color.DarkRed,
-    Color.LightCoral
-);
-```
-
-**Best For:** Centered focus, spotlight effects, attention-grabbing
-
----
-
-### PathEllipse Gradient
-
-Elliptical/circular path from edges to center.
-
-**C# Example:**
-```csharp
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.PathEllipse,
-    Color.DarkGreen,
-    Color.LightGreen
-);
-```
-
-**Best For:** Radial effects, soft focus, circular emphasis
-
----
-
-## Multi-Color Gradients
-
-Use **GradientColors** array for gradients with 3+ colors.
-
-**Property:** `BackgroundColor.GradientColors`  
-**Type:** `Color[]` array
-
-### Three-Color Gradient
-
-**C# Example:**
-```csharp
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.Horizontal,
-    Color.Blue,
-    Color.Red
-);
-```
-
-**VB.NET Example:**
-```vb
-gradientPanel.BackgroundColor = New BrushInfo( _
-    GradientStyle.Horizontal, _
-    New Color() { _
-        Color.Blue, _
-        Color.Red _
-    } _
-)
-```
-
----
-
-### Five-Color Gradient
-
-**C# Example:**
-```csharp
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.PathEllipse,
-    Color.LavenderBlush,
-    Color.LightBlue
-);
-```
-
-**Result:** Smooth rainbow-like transition with 5 color stops
-
----
-
-### Code-Based Multi-Color Setup
+## Multi-Color and Patterns (C#)
 
 ```csharp
-// Create array
-Color[] rainbowColors = new Color[]
-{
-    Color.Red,
-    Color.Orange,
-    Color.Yellow,
-    Color.Green,
-    Color.Blue,
-    Color.Indigo,
-    Color.Violet
-};
+// Multi-color gradient
+gradientPanel.BackgroundColor = new BrushInfo(GradientStyle.PathEllipse, new Color[] { Color.Red, Color.Orange, Color.Yellow });
 
-// Apply to panel
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.Vertical,
-    Color.Red,   // start color
-    Color.Green  // end color
-);
-// Syncfusion’s BrushInfo supports only two‑color gradients. For multi‑stop gradients (rainbow effects), use System.Drawing.Drawing2D.LinearGradientBrush or PathGradientBrush in custom paint code.
+// Pattern brush
+BrushInfo pattern = new BrushInfo();
+pattern.Style = BrushStyle.Pattern;
+pattern.PatternStyle = PatternStyle.DiagonalCross;
+pattern.BackColor = Color.White;
+pattern.ForeColor = Color.DarkGoldenrod;
+gradientPanel.BackgroundColor = pattern;
 ```
 
-**Note:** First color in array = BackColor, Last color = ForeColor
+## Background Images (C#)
 
----
-
-## Pattern Backgrounds
-
-Use **PatternStyle** for patterned fills with two colors.
-
-**Property:** `BackgroundColor.PatternStyle`  
-**Type:** `PatternStyle` enum (50+ patterns)
-
-### Common Pattern Styles
-
-| Pattern | Description |
-|---------|-------------|
-| **DarkDownwardDiagonal** | Diagonal lines (dark) |
-| **DarkUpwardDiagonal** | Diagonal lines (dark) |
-| **LightHorizontal** | Horizontal lines (light) |
-| **LightVertical** | Vertical lines (light) |
-| **DottedGrid** | Dotted grid pattern |
-| **DiagonalCross** | Diagonal cross-hatch |
-| **Cross** | Horizontal/vertical cross |
-| **ZigZag** | Zigzag pattern |
-
-### Using Pattern Style
-
-**C# Example:**
 ```csharp
-BrushInfo patternBrush = new BrushInfo();
-patternBrush.Style = BrushStyle.Pattern;
-patternBrush.PatternStyle = PatternStyle.DarkDownwardDiagonal;
-patternBrush.BackColor = Color.White;      // Pattern background
-patternBrush.ForeColor = Color.DarkBlue;   // Pattern lines
-
-gradientPanel.BackgroundColor = patternBrush;
-```
-
-**VB.NET Example:**
-```vb
-Dim patternBrush As New BrushInfo()
-patternBrush.Style = BrushStyle.Pattern
-patternBrush.PatternStyle = PatternStyle.DarkDownwardDiagonal
-patternBrush.BackColor = Color.White
-patternBrush.ForeColor = Color.DarkBlue
-
-gradientPanel.BackgroundColor = patternBrush
-```
-
----
-
-## Background Images
-
-Add images behind or over gradient backgrounds.
-
-**Property:** `BackgroundImage`  
-**Type:** `Image`
-
-**Property:** `BackgroundImageLayout`  
-**Type:** `ImageLayout` enum
-
-### ImageLayout Options
-
-| Layout | Description |
-|--------|-------------|
-| **None** | Top-left, actual size |
-| **Tile** | Repeat image |
-| **Center** | Centered, actual size |
-| **Stretch** | Stretch to fill |
-| **Zoom** | Scale proportionally to fit |
-
-### Setting Background Image
-
-**C# Example:**
-```csharp
-// Load image from resources
-gradientPanel.BackgroundImage = Properties.Resources.BackgroundTexture;
-gradientPanel.BackgroundImageLayout = ImageLayout.Stretch;
-
-// Or from file
-gradientPanel.BackgroundImage = Image.FromFile("background.png");
-gradientPanel.BackgroundImageLayout = ImageLayout.Tile;
-```
-
-**VB.NET Example:**
-```vb
-' Load image from resources
-gradientPanel.BackgroundImage = My.Resources.BackgroundTexture
-gradientPanel.BackgroundImageLayout = ImageLayout.Stretch
-
-' Or from file
-gradientPanel.BackgroundImage = Image.FromFile("background.png")
-gradientPanel.BackgroundImageLayout = ImageLayout.Tile
-```
-
----
-
-### Combining Image + Gradient
-
-**C# Example:**
-```csharp
-// Set gradient
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.Vertical,
-    Color.FromArgb(100, 0, 0, 139),    // Semi-transparent dark blue
-    Color.FromArgb(100, 135, 206, 250)  // Semi-transparent sky blue
-);
-
-// Add background image
 gradientPanel.BackgroundImage = Properties.Resources.Texture;
-gradientPanel.BackgroundImageLayout = ImageLayout.Tile;
+gradientPanel.BackgroundImageLayout = ImageLayout.Stretch;
 ```
-
-**Result:** Image shows through semi-transparent gradient overlay
-
----
-
-## Complete Examples
-
-### Example 1: Professional Dashboard Panel
-
-```csharp
-GradientPanelExt dashboardPanel = new GradientPanelExt
-{
-    Size = new Size(600, 400),
-    Location = new Point(20, 20),
-    CornerRadius = 10
-};
-
-// Subtle vertical gradient (light theme)
-dashboardPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.Vertical,
-    Color.FromArgb(245, 245, 245),  // Very light gray
-    Color.White
-);
-
-this.Controls.Add(dashboardPanel);
-```
-
----
-
-### Example 2: Attention-Grabbing Alert Panel
-
-```csharp
-GradientPanelExt alertPanel = new GradientPanelExt
-{
-    Size = new Size(400, 150),
-    Location = new Point(50, 50),
-    CornerRadius = 12
-};
-
-// PathEllipse with warm colors (center glow)
-alertPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.PathEllipse,
-    Color.Red,      // start color
-    Color.Orange    // end color
-);
-
-this.Controls.Add(alertPanel);
-```
-
----
-
-### Example 3: Multi-Color Rainbow Panel
-
-```csharp
-GradientPanelExt rainbowPanel = new GradientPanelExt
-{
-    Size = new Size(500, 100),
-    CornerRadius = 8
-};
-
-// Horizontal rainbow
-rainbowPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.Horizontal,
-        Color.FromArgb(255, 0, 0),      // Red
-        Color.FromArgb(255, 127, 0),    // Orange
-);
-
-this.Controls.Add(rainbowPanel);
-```
-
----
-
-### Example 4: Pattern Background Panel
-
-```csharp
-GradientPanelExt patternPanel = new GradientPanelExt
-{
-    Size = new Size(350, 250),
-    CornerRadius = 10
-};
-
-// Diagonal cross pattern
-BrushInfo patternBrush = new BrushInfo();
-patternBrush.Style = BrushStyle.Pattern;
-patternBrush.PatternStyle = PatternStyle.DiagonalCross;
-patternBrush.BackColor = Color.LightYellow;
-patternBrush.ForeColor = Color.DarkGoldenrod;
-
-patternPanel.BackgroundColor = patternBrush;
-
-this.Controls.Add(patternPanel);
-```
-
----
 
 ## Best Practices
+- Prefer subtle two-color gradients for readability.
+- Use `PathEllipse/PathRectangle` sparingly for emphasis.
+- For patterns, ensure contrast for legibility.
 
-### 1. Choose Appropriate Gradient Style
+## Related
+- Getting started: [getting-started.md](getting-started.md)
+- Border settings: [border-corner-settings.md](border-corner-settings.md)
+- Primitives: [primitives.md](primitives.md)
 
-```csharp
-// Headers: Horizontal
-headerPanel.BackgroundColor = new BrushInfo(GradientStyle.Horizontal, ...);
-
-// Sidebars: Vertical
-sidebarPanel.BackgroundColor = new BrushInfo(GradientStyle.Vertical, ...);
-
-// Focus elements: PathEllipse
-focusPanel.BackgroundColor = new BrushInfo(GradientStyle.PathEllipse, ...);
-```
-
-### 2. Use Subtle Gradients for Readability
-
-```csharp
-// Good: Subtle difference
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.Vertical,
-    Color.FromArgb(240, 240, 240),
-    Color.White
-);
-
-// Avoid: Too much contrast makes text hard to read
-// Color.Black to Color.White
-```
-
-### 3. Coordinate with Content
-
-```csharp
-// Dark gradient → Light text
-darkPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.Horizontal,
-    Color.DarkSlateGray,
-    Color.Gray
-);
-
-Label lightText = new Label
-{
-    ForeColor = Color.White,
-    BackColor = Color.Transparent
-};
-darkPanel.Controls.Add(lightText);
-```
-
-### 4. Performance Considerations
-
-- Simple gradients (2 colors) render faster than multi-color (5+)
-- PathEllipse/PathRectangle are more resource-intensive than Horizontal/Vertical
-- Solid is fastest (no gradient calculation)
-- Consider performance for many panels or frequent repaints
-
----
-
-## Troubleshooting
-
-### Gradient Not Visible
-
-**Check:**
-1. BackgroundColor.Style is Gradient (not None or Solid)
-2. BackColor and ForeColor are different
-3. GradientStyle is set (not None)
+````
 
 ```csharp
 // Verify
@@ -604,14 +137,8 @@ brush.PatternStyle = PatternStyle.DarkDownwardDiagonal;
 
 ```csharp
 // Correct multi-color
-Color[] colors = new Color[] { Color.Red, Color.Green };
-gradientPanel.BackgroundColor = new BrushInfo(
-    GradientStyle.Vertical,
-    Color.Red,   // start color
-    Color.Green  // end color
-);
-//Syncfusion’s BrushInfo supports only two‑color gradients. For multi‑stop gradients (rainbow effects), use System.Drawing.Drawing2D.LinearGradientBrush or PathGradientBrush in custom paint code.
-
+Color[] colors = new Color[] { Color.Red, Color.Yellow, Color.Green };
+BrushInfo brush = new BrushInfo(GradientStyle.Horizontal, colors);
 ```
 
 ---

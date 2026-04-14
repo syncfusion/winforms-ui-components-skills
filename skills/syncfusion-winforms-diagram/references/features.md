@@ -111,12 +111,7 @@ private void SaveDiagram(string filePath)
     // Save as binary
     using (FileStream stream = new FileStream(filePath, FileMode.Create))
     {
-        AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
         
-        BinaryFormatter formatter = new BinaryFormatter();
-        formatter.Serialize(stream, diagram1.Model);
-        
-        AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
     }
 }
 
@@ -134,14 +129,7 @@ private void LoadDiagram(string filePath)
 {
     using (FileStream stream = new FileStream(filePath, FileMode.Open))
     {
-        AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
         
-        BinaryFormatter formatter = new BinaryFormatter();
-        DiagramModel model = (DiagramModel)formatter.Deserialize(stream);
-        
-        diagram1.Model = model;
-        
-        AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
     }
 }
 ```
@@ -726,8 +714,7 @@ public class DiagramFeatureManager
     {
         using (FileStream stream = new FileStream(filePath, FileMode.Create))
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, diagram.Model);
+            
         }
     }
     
@@ -735,8 +722,7 @@ public class DiagramFeatureManager
     {
         using (FileStream stream = new FileStream(filePath, FileMode.Open))
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            diagram.Model = (DiagramModel)formatter.Deserialize(stream);
+            
         }
     }
 }

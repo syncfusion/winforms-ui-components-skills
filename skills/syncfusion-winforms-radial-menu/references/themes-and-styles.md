@@ -50,172 +50,58 @@ private void ApplyDefaultTheme()
     this.radialMenu1.Size = new Size(300, 300);
     this.radialMenu1.Location = new Point(100, 100);
     this.radialMenu1.Visible = true;
-    this.radialMenu1.MenuVisibility = true;
-    
-    // Add menu items
-    RadialMenuItem item1 = new RadialMenuItem();
-    item1.Text = "New";
-    
-    RadialMenuItem item2 = new RadialMenuItem();
-    item2.Text = "Open";
-    
-    RadialMenuItem item3 = new RadialMenuItem();
-    item3.Text = "Save";
-    
-    this.radialMenu1.Items.Add(item1);
-    this.radialMenu1.Items.Add(item2);
-    this.radialMenu1.Items.Add(item3);
-}
-```
+    ```markdown
+    # Themes & styles — condensed
 
-**When to Use Default Theme:**
-- Legacy applications requiring classic appearance
-- Internal business tools without specific branding
-- Prototyping before final theme selection
-- Applications supporting older Windows versions
-- When custom styling will be applied later
+    RadialMenu exposes `RadialMenuStyle` (Default, Office2016Colorful, Office2016White, Office2016DarkGray, Office2016Black). Use the style enum to apply themes; small examples below show C# and VB usage.
 
-**Result:**
-A straightforward, professional menu with neutral styling that works in most contexts.
+    Apply theme (C#):
 
-## Office2016Colorful Theme
+    ```csharp
+    radialMenu.Style = RadialMenuStyle.Office2016Colorful;
+    ```
 
-The Office2016Colorful theme features vibrant colors and modern visual design, reflecting Microsoft Office 2016's colorful theme option.
+    VB.NET:
 
-### Applying Office2016Colorful Theme
+    ```vbnet
+    radialMenu.Style = RadialMenuStyle.Office2016Colorful
+    ```
 
-```csharp
-// Apply Office2016Colorful theme
-this.radialMenu1.Style = RadialMenuStyle.Office2016Colorful;
-```
+    Theme quick guidance:
+    - `Office2016Colorful` — vibrant, use on light backgrounds with colorful icons.
+    - `Office2016White` — minimalist, professional.
+    - `Office2016DarkGray` / `Office2016Black` — dark themes, prefer light icons and higher contrast.
 
-**Visual Characteristics:**
-- Bright, vibrant color accents
-- Modern, flat design language
-- High visual contrast
-- Colorful hover effects
-- Energetic, contemporary appearance
+    Small theme switcher (C#):
 
-**Complete Example:**
-
-```csharp
-private void ApplyOffice2016ColorfulTheme()
-{
-    // Set Office2016Colorful theme
-    this.radialMenu1.Style = RadialMenuStyle.Office2016Colorful;
-    
-    // Optimize for colorful theme
-    this.radialMenu1.Size = new Size(320, 320);
-    this.radialMenu1.DisplayStyle = DisplayStyle.ImageAboveText;
-    this.radialMenu1.MenuItemImageSize = new Size(28, 28);
-    this.radialMenu1.WedgeCount = 6;
-    
-    // Set up colorful icons
-    ImageListAdv imageList = new ImageListAdv(this.components);
-    imageList.Images.Add(LoadColorfulIcon("new"));
-    imageList.Images.Add(LoadColorfulIcon("open"));
-    imageList.Images.Add(LoadColorfulIcon("save"));
-    imageList.Images.Add(LoadColorfulIcon("print"));
-    
-    this.radialMenu1.ImageList = imageList;
-    
-    // Add items
-    string[] actions = { "New", "Open", "Save", "Print" };
-    for (int i = 0; i < actions.Length; i++)
+    ```csharp
+    void ApplyTheme(string name)
     {
-        RadialMenuItem item = new RadialMenuItem();
-        item.Text = actions[i];
-        item.ImageIndex = i;
-        item.Click += Action_Click;
-        this.radialMenu1.Items.Add(item);
+        switch(name)
+        {
+            case "Colorful": radialMenu.Style = RadialMenuStyle.Office2016Colorful; break;
+            case "White": radialMenu.Style = RadialMenuStyle.Office2016White; break;
+            case "Dark": radialMenu.Style = RadialMenuStyle.Office2016DarkGray; break;
+            default: radialMenu.Style = RadialMenuStyle.Default; break;
+        }
     }
-}
+    ```
 
-private Image LoadColorfulIcon(string name)
-{
-    // Load or create vibrant icons that complement the theme
-    return Image.FromFile($"icons/colorful/{name}.png");
-}
-```
+    VB.NET equivalent:
 
-**When to Use Office2016Colorful Theme:**
-- Modern desktop applications targeting Windows 10/11
-- Creative tools and design software
-- Applications requiring visual energy and engagement
-- Touch-enabled devices where color helps differentiation
-- Younger or design-focused user demographics
+    ```vbnet
+    Sub ApplyTheme(name As String)
+        Select Case name
+            Case "Colorful": radialMenu.Style = RadialMenuStyle.Office2016Colorful
+            Case "White": radialMenu.Style = RadialMenuStyle.Office2016White
+            Case "Dark": radialMenu.Style = RadialMenuStyle.Office2016DarkGray
+            Case Else: radialMenu.Style = RadialMenuStyle.Default
+        End Select
+    End Sub
+    ```
 
-**Best Practices:**
-```csharp
-// Pair with colorful, high-contrast icons
-this.radialMenu1.Style = RadialMenuStyle.Office2016Colorful;
-this.radialMenu1.DisplayStyle = DisplayStyle.ImageAboveText;  // Show both text and icons
-
-// Use on light backgrounds for best effect
-this.ParentForm.BackColor = Color.White;
-
-// Ensure icons are vibrant and match theme energy
-imageList.Images.Add(CreateVibriantIcon());
-```
-
-**Result:**
-A lively, modern menu that stands out visually and attracts user attention.
-
-## Office2016White Theme
-
-The Office2016White theme provides a clean, minimalist appearance with white and light gray tones, ideal for distraction-free interfaces.
-
-### Applying Office2016White Theme
-
-```csharp
-// Apply Office2016White theme
-this.radialMenu1.Style = RadialMenuStyle.Office2016White;
-```
-
-**Visual Characteristics:**
-- Clean white background
-- Subtle gray accents
-- Minimalist design
-- Low visual weight
-- Professional, uncluttered appearance
-
-**Complete Example:**
-
-```csharp
-private void ApplyOffice2016WhiteTheme()
-{
-    // Set Office2016White theme
-    this.radialMenu1.Style = RadialMenuStyle.Office2016White;
-    
-    // Configure for clean appearance
-    this.radialMenu1.Size = new Size(300, 300);
-    this.radialMenu1.DisplayStyle = DisplayStyle.ImageAboveText;
-    this.radialMenu1.MenuItemImageSize = new Size(24, 24);
-    
-    // Use subtle, monochrome icons
-    ImageListAdv imageList = new ImageListAdv(this.components);
-    imageList.Images.Add(CreateMonochromeIcon("edit", Color.DarkGray));
-    imageList.Images.Add(CreateMonochromeIcon("cut", Color.DarkGray));
-    imageList.Images.Add(CreateMonochromeIcon("copy", Color.DarkGray));
-    imageList.Images.Add(CreateMonochromeIcon("paste", Color.DarkGray));
-    
-    this.radialMenu1.ImageList = imageList;
-    
-    // Add items with clean text
-    string[] actions = { "Edit", "Cut", "Copy", "Paste" };
-    for (int i = 0; i < actions.Length; i++)
-    {
-        RadialMenuItem item = new RadialMenuItem();
-        item.Text = actions[i];
-        item.ImageIndex = i;
-        this.radialMenu1.Items.Add(item);
-    }
-    
-    // Set form background to complement white theme
-    this.ParentForm.BackColor = Color.FromArgb(250, 250, 250);
-}
-
-private Image CreateMonochromeIcon(string iconName, Color tint)
+    Keep theme code small and prefer testing each theme with your real icons and backgrounds.
+    ```
 {
     // Create or load monochrome icons
     Bitmap icon = new Bitmap(32, 32);

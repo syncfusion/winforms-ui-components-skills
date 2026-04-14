@@ -447,7 +447,7 @@ public class MemoryEfficientEditor : Form
         if (disposing)
         {
             // Dispose all pages and their controls
-            DisposePage Collection(splitter.PrimaryPages);
+            DisposePageCollection(splitter.PrimaryPages);
             DisposePageCollection(splitter.SecondaryPages);
             
             splitter?.Dispose();

@@ -292,6 +292,7 @@ private void ConfigureTransparentSplash()
 | **DesktopAlignment** | SplashAlignment | Position on desktop (Center, SystemTray, corners, Custom) |
 | **HostForm** | Form | Parent form of the SplashControl |
 | **HideHostForm** | bool | Hide parent form during splash display |
+| **HostFormWindowState** | FormWindowState | Controls the state of the host form (Normal, Minimized, Maximized) |
 | **ShowAnimation** | bool | Enable left-to-right animation effect |
 | **CustomSplashPanel** | SplashPanel | Custom panel to display instead of image |
 | **UseCustomSplashPanel** | bool | Use CustomSplashPanel instead of SplashImage |

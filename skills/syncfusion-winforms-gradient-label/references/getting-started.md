@@ -13,8 +13,6 @@ The GradientLabel control requires specific Syncfusion assemblies to function pr
 - `Syncfusion.Shared.Windows.dll` - Windows-specific shared functionality
 - `Syncfusion.Tools.Base.dll` - Tools package base
 - `Syncfusion.Tools.Windows.dll` - Tools package containing GradientLabel
-- `Syncfusion.Grid.Base.dll` - Grid base components (dependency)
-- `Syncfusion.Grid.Windows.dll` - Grid Windows components (dependency)
 
 ### NuGet Package Installation
 

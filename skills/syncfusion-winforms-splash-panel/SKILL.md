@@ -295,6 +295,7 @@ eventSplash.ShowSplash();
 | `BorderStyle` | Border3DStyle | 3D border style for splash |
 | `TransparentColor` | Color | Transparent color for background |
 | `ShowInTaskbar` | bool | Display splash in Windows taskbar |
+| `SlideStyle` | SlideStyle | Animation style. Values include: `Slide` (basic slide transitions), `Horizontal`, `Vertical`, `FadeIn`, and `Marquee` (continuous marquee transitions). |
 
 ## Key Methods
 
@@ -308,6 +309,17 @@ eventSplash.ShowSplash();
 | `IsShowing()` | Check if splash is currently displayed |
 | `SuspendAutoCloseMode()` | Suspend auto-close timer |
 | `RestoreAutoCloseMode()` | Restore auto-close timer |
+
+## Key Events
+
+| Event              | EventArgs Type        | Description |
+|--------------------|-----------------------|-------------|
+| `BeforeSplash`     | CancelEventArgs       | Raised before splash is displayed; can be canceled. |
+| `SplashDisplayed`  | EventArgs             | Raised after the splash panel becomes visible. |
+| `SplashClosing`    | CancelEventArgs       | Raised before the splash closes; can be canceled. |
+| `SplashClosed`     | SplashClosedEventArgs | Raised after the splash has closed; provides close type. |
+| `SplashMouseEnter` | EventArgs             | Raised when the mouse enters the splash panel. |
+| `SplashMouseLeave` | EventArgs             | Raised when the mouse leaves the splash panel. |
 
 ## Common Use Cases
 

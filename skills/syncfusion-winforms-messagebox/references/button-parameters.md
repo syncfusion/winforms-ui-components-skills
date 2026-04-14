@@ -101,81 +101,161 @@ MessageBoxAdv.Show(Me, message, "Connection Error", _
 
 MessageBoxAdv supports multiple button combinations using the `MessageBoxButtons` enum.
 
-### Available Combinations
 
-| Enum Value | Buttons Displayed | Common Use Cases |
-|------------|-------------------|------------------|
-| `OK` | OK | Information messages, simple alerts |
-| `OKCancel` | OK, Cancel | Optional actions, confirmable operations |
-| `YesNo` | Yes, No | Binary decisions, confirmations |
-| `YesNoCancel` | Yes, No, Cancel | Three-option decisions, save confirmations |
-| `RetryCancel` | Retry, Cancel | Error recovery, connection failures |
-| `AbortRetryIgnore` | Abort, Retry, Ignore | Critical errors, multi-option recovery |
+# Button Parameters and Features
 
----
+Concise reference for `MessageBoxAdv` button/icon/behavior parameters. Examples are C#-first; a single VB.NET parity example is provided at the end.
 
-### OK Button
-
-Display message box with single OK button (default).
-
-**C#:**
-```csharp
-MessageBoxAdv.Show(this, 
-    "Backup completed successfully!", 
-    "Backup Complete", 
-    MessageBoxButtons.OK, 
-    MessageBoxIcon.Information);
-```
-
-**VB.NET:**
-```vb
-MessageBoxAdv.Show(Me, _
-    "Backup completed successfully!", _
-    "Backup Complete", _
-    MessageBoxButtons.OK, _
-    MessageBoxIcon.Information)
-```
-
-**Return Value:** `DialogResult.OK`
+## Table of Contents
+- Caption
+- Message text
+- Buttons (enum)
+- Icons
+- RTL
+- Details view
+- Resizing
+- Examples & VB parity
 
 ---
 
-### OKCancel Buttons
+## Caption
 
-Present cancelable operation.
+- Type: `string` (3rd parameter to `Show`)
+- Keep captions short and contextual (2–5 words).
 
 **C#:**
 ```csharp
-DialogResult result = MessageBoxAdv.Show(this, 
-    "Do you want to proceed with the update?", 
-    "Confirm Update", 
-    MessageBoxButtons.OKCancel, 
-    MessageBoxIcon.Question);
+MessageBoxAdv.Show(this, "Operation completed.", "Success");
+```
 
-if (result == DialogResult.OK)
+---
+
+## Message text
+
+- Type: `string` (2nd parameter)
+- Use `\n` or `Environment.NewLine` for line breaks in multi-line messages.
+
+**C#:**
+```csharp
+string msg = "Failed to connect to database.\nServer: db.company.com";
+MessageBoxAdv.Show(this, msg, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+```
+
+---
+
+## Buttons (common `MessageBoxButtons` values)
+
+| Value | Typical use |
+|---|---|
+| `OK` | Simple notification |
+| `OKCancel` | Confirmable action |
+| `YesNo` | Binary decision |
+| `YesNoCancel` | Save/close prompts |
+| `RetryCancel` | Recoverable errors |
+| `AbortRetryIgnore` | Batch processing error handling |
+
+**C# example (OKCancel):**
+```csharp
+var r = MessageBoxAdv.Show(this, "Proceed with update?", "Confirm Update", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+if (r == DialogResult.OK) ApplyUpdate();
+```
+
+---
+
+## Icons
+
+Use the `MessageBoxIcon` enum for standard icons; custom images may be passed as an `Image` with size.
+
+**C# (built-in):**
+```csharp
+MessageBoxAdv.Show(this, "Delete completed.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+```
+
+**C# (custom):**
+```csharp
+Image icon = Properties.Resources.AppIcon;
+MessageBoxAdv.Show(this, "Upload complete", "Upload", MessageBoxButtons.OK, icon, new Size(48,48));
+```
+
+---
+
+## Right-to-Left (RTL)
+
+Set `MessageBoxAdv.RightToLeft = RightToLeft.Yes` to enable RTL layout (reversed button order, right-aligned text).
+
+**C#:**
+```csharp
+MessageBoxAdv.RightToLeft = RightToLeft.Yes;
+MessageBoxAdv.Show(this, "هل تريد حفظ التغييرات؟", "تغييرات غير محفوظة", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+MessageBoxAdv.RightToLeft = RightToLeft.No;
+```
+
+---
+
+## Details view
+
+Pass a `details` string as the last parameter to `Show()` to enable an expandable details pane (stack traces, logs).
+
+**C#:**
+```csharp
+string details = "Stack trace...\nMore info...";
+MessageBoxAdv.Show(this, "Operation failed.", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, details);
+```
+
+---
+
+## Resizing
+
+Toggle `MessageBoxAdv.CanResize = true` to allow user resizing; combine with details for long content.
+
+**C#:**
+```csharp
+MessageBoxAdv.CanResize = true;
+MessageBoxAdv.Show(this, "Long message...", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+MessageBoxAdv.CanResize = false;
+```
+
+---
+
+## Short examples + VB parity
+
+**C# (retry loop pattern):**
+```csharp
+bool success = false;
+while (!success)
 {
-    PerformUpdate();
+    try { Connect(); success = true; }
+    catch (Exception ex)
+    {
+        var r = MessageBoxAdv.Show(this, $"Connect failed:\n{ex.Message}", "Connection Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+        if (r == DialogResult.Cancel) break;
+    }
 }
 ```
 
-**VB.NET:**
+**VB.NET parity (single example):**
 ```vb
-Dim result As DialogResult = MessageBoxAdv.Show(Me, _
-    "Do you want to proceed with the update?", _
-    "Confirm Update", _
-    MessageBoxButtons.OKCancel, _
-    MessageBoxIcon.Question)
-
-If result = DialogResult.OK Then
-    PerformUpdate()
+### YesNo Buttons
+Dim result As DialogResult = MessageBoxAdv.Show(Me, "Do you want to retry?", "Connection Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error)
+If result = DialogResult.Retry Then
+    ' Retry logic here
 End If
 ```
 
-**Return Values:** `DialogResult.OK` or `DialogResult.Cancel`
+---
+
+## Best practices
+- Use appropriate button sets for the decision complexity
+- Match icon severity to message importance
+- Keep captions concise
+- Use details for technical diagnostics only
 
 ---
 
-### YesNo Buttons
+## Next steps
+- See [visual-styles.md](visual-styles.md) for theming
+- See [localization.md](localization.md) for multilanguage guidance
+
 
 Simple binary decision.
 

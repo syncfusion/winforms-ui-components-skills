@@ -86,11 +86,11 @@ SfListView
 - Programmatic selection
 - Selection appearance customization
 
-📄 **Read:** [references/checkbox-selection.md](references/checkbox-selection.md)
-- CheckBoxMode property
+- 📄 **Read:** [references/checkbox-selection.md](references/checkbox-selection.md)
+- CheckBoxSelectionMode property
 - CheckedItems collection
 - CheckedIndices property
-- CheckStateChanged event
+- ItemChecking and ItemChecked events
 - Select all functionality
 - Recursive checking in grouped lists
 - Checkbox appearance customization
@@ -364,10 +364,10 @@ listView.DisplayMember = "CountryName";
 
 | Property | Type | Description |
 |----------|------|-------------|
-| **CheckBoxMode** | CheckBoxMode | None, Default, SelectAll |
+| **CheckBoxSelectionMode** | CheckBoxSelectionMode | None, Default, SelectAll |
 | **CheckedIndices** | List<int> | Indices of checked items |
-| **RecursiveCheckState** | bool | Enable recursive checking in groups |
-| **ShowCheckBox** | bool | Show/hide checkboxes |
+| **AllowRecursiveChecking** | bool | Enable recursive checking in groups |
+| **ShowCheckBoxes** | bool | Show/hide checkboxes |
 
 ### Appearance Properties
 
@@ -390,7 +390,8 @@ listView.DisplayMember = "CountryName";
 | Event | Description |
 |-------|-------------|
 | **SelectionChanged** | Fired when selection changes |
-| **CheckStateChanged** | Fired when checkbox state changes |
+| **ItemChecking** | Fired while an item is being checked (cancelable) |
+| **ItemChecked** | Fired after an item's checked state has changed |
 | **ItemsSourceChanged** | Fired when DataSource changes |
 | **DrawItem** | Custom drawing for items |
 | **QueryItemHeight** | Dynamic item height calculation |
@@ -491,10 +492,10 @@ Use ListView for simpler list-based data display without complex grid features.
 - Consider virtualization for very large datasets
 
 ### Checkbox Issues
-- Verify CheckBoxMode is not None
-- Check RecursiveCheckState setting for grouped lists
-- Use CheckStateChanged event, not SelectionChanged
-- Ensure CheckedItems vs SelectedItems distinction
+- Verify `CheckBoxSelectionMode` is not `None`
+- Check `AllowRecursiveChecking` setting for grouped lists
+- Use `ItemChecking` / `ItemChecked` events, not `SelectionChanged`
+- Ensure `CheckedItems` vs `SelectedItems` distinction
 
 ---
 

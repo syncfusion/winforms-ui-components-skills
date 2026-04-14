@@ -151,7 +151,7 @@ favoriteRating.Value = 4;
 ```csharp
 // Apply Office 2016 Colorful theme
 RatingControl themedRating = new RatingControl();
-themedRating.Style = RatingControl.Style.Office2016Colorful;
+themedRating.VisualStyle  = RatingControl.Style.Office2016Colorful;
 themedRating.Value = 5;
 ```
 
@@ -180,7 +180,7 @@ feedbackRating.Value = 0; // No initial selection
 feedbackRating.Precision = PrecisionMode.Half;
 
 // Handle rating changes
-feedbackRating.ValueChanged += (s, e) => {
+feedbackRating.RatingChanged  += (s, e) => {
     float rating = feedbackRating.Value;
     MessageBox.Show($"User rated: {rating} stars");
 };
@@ -251,7 +251,7 @@ customImageRating.Value = 3;
 
 | Property | Type | Description | When to Use |
 |----------|------|-------------|-------------|
-| **Style** | `RatingControl.Style` | Visual style (Office2007/2010/2016, Metro) | Apply Office themes |
+| **VisualStyle** | `RatingControl.Style` | Visual style (Office2007/2010/2016, Metro) | Apply Office themes |
 | **OfficeColorScheme** | `OfficeColorSchemes` | Blue, Silver, Black color scheme | Office theme color variants |
 | **ApplyGradientColors** | `bool` | Enable gradient color properties | Custom gradient effects |
 | **ItemHighlightColor** | `Color` | Hover state color | Custom hover appearance |
@@ -315,10 +315,10 @@ customImageRating.Value = 3;
 
 ## Events
 
-**ValueChanged:** Raised when the rating value changes (user interaction).
+**RatingChanged:** Raised when the rating value changes (user interaction).
 
 ```csharp
-ratingControl1.ValueChanged += (sender, e) => {
+ratingControl1.RatingChanged  += (sender, e) => {
     float newRating = ratingControl1.Value;
     // Process rating change
 };

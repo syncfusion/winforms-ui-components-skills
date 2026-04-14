@@ -151,57 +151,6 @@ public partial class VolumeControl : Form
 }
 ```
 
-**VB.NET:**
-```vbnet
-Imports System
-Imports System.Windows.Forms
-Imports Syncfusion.Windows.Forms.Tools
-
-Public Partial Class VolumeControl
-    Inherits Form
-    
-    Private volumeSlider As RadialSlider
-    Private lblVolume As Label
-    
-    Public Sub New()
-        InitializeComponent()
-        SetupVolumeControl()
-    End Sub
-    
-    Private Sub SetupVolumeControl()
-        ' Create radial slider
-        volumeSlider = New RadialSlider With {
-            .Location = New System.Drawing.Point(50, 50),
-            .Size = New System.Drawing.Size(250, 250),
-            .MinimumValue = 0,
-            .MaximumValue = 100,
-            .Value = 50,
-            .SliderDivision = 10,
-            .SliderStyle = SliderStyles.Frame
-        }
-        
-        ' Create label for volume display
-        lblVolume = New Label With {
-            .Location = New System.Drawing.Point(50, 310),
-            .Size = New System.Drawing.Size(250, 30),
-            .Text = "Volume: 50",
-            .TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        }
-        
-        ' Handle value changes
-        AddHandler volumeSlider.ValueChanged, AddressOf VolumeSlider_ValueChanged
-        
-        ' Add to form
-        Me.Controls.Add(volumeSlider)
-        Me.Controls.Add(lblVolume)
-    End Sub
-    
-    Private Sub VolumeSlider_ValueChanged(sender As Object, e As RadialSlider.ValueChangedEventArgs)
-        lblVolume.Text = $"Volume: {volumeSlider.Value}"
-    End Sub
-End Class
-```
-
 ## Common Patterns
 
 ### Pattern 1: Temperature Control with Custom Text
@@ -237,84 +186,16 @@ private void TempSlider_DrawText(object sender, RadialSlider.DrawTextEventArgs e
     
     if (temp <= 33)
     {
-        e.ForeColor = System.Drawing.Brushes.Blue; // Cold
+        e.ForeColor = System.Drawing.Color.Blue; // Cold
     }
     else if (temp > 33 && temp <= 66)
     {
-        e.ForeColor = System.Drawing.Brushes.Orange; // Warm
+       e.ForeColor = System.Drawing.Color.Orange; // Warm
     }
     else
     {
-        e.ForeColor = System.Drawing.Brushes.Red; // Hot
+        e.ForeColor = System.Drawing.Color.Red; // Hot
     }
-}
-```
-
-### Pattern 2: Custom Styled Dial Control
-
-**C#:**
-```csharp
-private void CreateCustomStyledDial()
-{
-    RadialSlider dial = new RadialSlider
-    {
-        Size = new System.Drawing.Size(280, 280),
-        MinimumValue = 0,
-        MaximumValue = 200,
-        SliderDivision = 20,
-        
-        // Custom colors
-        BackgroundColor = System.Drawing.Color.FromArgb(30, 30, 30), // Dark background
-        InnerCircleColor = System.Drawing.Color.FromArgb(60, 60, 60),
-        OuterCircleColor = System.Drawing.Color.FromArgb(80, 80, 80),
-        SliderNeedleColor = System.Drawing.Color.LimeGreen,
-        ForeColor = System.Drawing.Color.White,
-        
-        // Dotted needle for modern look
-        NeedleType = SliderNeedleType.DottedLine,
-        SliderStyle = SliderStyles.Frame
-    };
-    
-    this.Controls.Add(dial);
-}
-```
-
-### Pattern 3: Font Size Selector
-
-**C#:**
-```csharp
-private RadialSlider fontSizeSlider;
-private RichTextBox textPreview;
-
-private void SetupFontSizeSelector()
-{
-    // Create slider for font size selection
-    fontSizeSlider = new RadialSlider
-    {
-        MinimumValue = 8,
-        MaximumValue = 72,
-        Value = 12,
-        SliderDivision = 8
-    };
-    
-    // Create preview textbox
-    textPreview = new RichTextBox
-    {
-        Text = "Sample Text",
-        ReadOnly = true
-    };
-    
-    // Update font size on value change
-    fontSizeSlider.ValueChanged += (s, e) =>
-    {
-        textPreview.SelectionFont = new System.Drawing.Font(
-            textPreview.Font.Name,
-            (float)fontSizeSlider.Value
-        );
-    };
-    
-    this.Controls.Add(fontSizeSlider);
-    this.Controls.Add(textPreview);
 }
 ```
 

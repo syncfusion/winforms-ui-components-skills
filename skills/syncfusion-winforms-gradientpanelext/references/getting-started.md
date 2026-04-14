@@ -127,71 +127,34 @@ using System.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 using Syncfusion.Drawing;
 
-namespace MyWinFormsApp
+// Create and configure a small GradientPanelExt
+GradientPanelExt gradientPanel = new GradientPanelExt
 {
-    public partial class Form1 : Form
-    {
-        public Form1()
-        {
-            InitializeComponent();
-            
-            // Create GradientPanelExt
-            GradientPanelExt gradientPanel = new GradientPanelExt();
-            
-            // Set size and location
-            gradientPanel.Size = new Size(400, 200);
-            gradientPanel.Location = new Point(20, 20);
-            
-            // Set gradient background
-            gradientPanel.BackgroundColor = new BrushInfo(
-                GradientStyle.Horizontal,
-                Color.Navy,
-                Color.SkyBlue
-            );
-            
-            // Rounded corners
-            gradientPanel.CornerRadius = 10;
-            
-            // Add to form
-            this.Controls.Add(gradientPanel);
-        }
-    }
-}
+    Size = new Size(400, 200),
+    Location = new Point(20, 20),
+    BackgroundColor = new BrushInfo(GradientStyle.Horizontal, Color.Navy, Color.SkyBlue),
+    CornerRadius = 10
+};
+
+this.Controls.Add(gradientPanel);
 ```
 
-**VB.NET Example:**
+**VB.NET Example (single compact sample):**
 ```vb
-Imports System
 Imports System.Drawing
 Imports System.Windows.Forms
 Imports Syncfusion.Windows.Forms.Tools
 Imports Syncfusion.Drawing
 
-Public Class Form1
-    Public Sub New()
-        InitializeComponent()
-        
-        ' Create GradientPanelExt
-        Dim gradientPanel As New GradientPanelExt()
-        
-        ' Set size and location
-        gradientPanel.Size = New Size(400, 200)
-        gradientPanel.Location = New Point(20, 20)
-        
-        ' Set gradient background
-        gradientPanel.BackgroundColor = New BrushInfo( _
-            GradientStyle.Horizontal, _
-            Color.Navy, _
-            Color.SkyBlue _
-        )
-        
-        ' Rounded corners
-        gradientPanel.CornerRadius = 10
-        
-        ' Add to form
-        Me.Controls.Add(gradientPanel)
-    End Sub
-End Class
+' Compact VB example
+Dim gradientPanel As New GradientPanelExt() With {
+    .Size = New Size(400, 200),
+    .Location = New Point(20, 20),
+    .BackgroundColor = New BrushInfo(GradientStyle.Horizontal, Color.Navy, Color.SkyBlue),
+    .CornerRadius = 10
+}
+
+Me.Controls.Add(gradientPanel)
 ```
 
 ---

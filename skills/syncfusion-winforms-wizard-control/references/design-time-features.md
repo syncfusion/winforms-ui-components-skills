@@ -285,147 +285,36 @@ layout.SelectedCardIndex = 2;  // Show third page
 
 ## Design-Time Best Practices
 
-### Page Creation Strategy
+- **Simple wizards (3–5 pages):** Use smart tags to add pages one at a time, configure each immediately.
+- **Complex wizards (6+ pages):** Open collection editor, add all pages at once, configure in batch.
+- **First page:** Set `BackVisible = False` in Property Grid.
+- **Last page:** Set `NextVisible = False`, `FinishVisible = True` (and optionally `CancelVisible = False`).
+- **Adding controls:** Navigate to the target page first (smart tag or `SelectedWizardPage` drop-down), then drag from Toolbox.
+- **Layout:** Use `TableLayoutPanel` or `Panel` for complex page layouts — `Dock = DockStyle.Fill`.
+- **Naming:** Set `LayoutName` on every page (e.g., `"WelcomePage"`) for programmatic lookup.
+- **Testing:** Click Back/Next in designer for visual transition preview; run (F5) to test validation and events.
 
-**For Simple Wizards (3-5 pages):**
-- Use smart tags to add pages quickly
-- Configure each page immediately after creation
+### Common Mistakes
 
-**For Complex Wizards (6+ pages):**
-- Open collection editor
-- Add all pages at once
-- Configure page properties in batch
-- Close editor and add controls to pages
-
-### Configuring Button Visibility
-
-**At Design Time:**
-
-1. Navigate to first page
-2. Select page in designer
-3. Property Grid → `BackVisible` = `False`
-4. Navigate to last page
-5. Property Grid → `NextVisible` = `False`
-6. Property Grid → `FinishVisible` = `True`
-7. Property Grid → `CancelVisible` = `False` (optional)
-
-**Result:** First page has no Back button, last page has Finish instead of Next.
-
-### Adding Controls to Pages
-
-**Workflow:**
-
-1. Navigate to desired page (smart tag or Property Grid)
-2. Drag controls from Toolbox onto page
-3. Position and size controls
-4. Configure control properties
-5. Repeat for each page
-
-**Tip:** Use Layout containers (Panel, TableLayoutPanel) for complex layouts:
-```csharp
-// Add TableLayoutPanel to page for organized layout
-TableLayoutPanel layout = new TableLayoutPanel
-{
-    Dock = DockStyle.Fill,
-    ColumnCount = 2,
-    RowCount = 3
-};
-wizardControlPage1.Controls.Add(layout);
-```
-
-### Testing Navigation in Designer
-
-**Limited Testing Available:**
-- Click Back/Next buttons in designer to see transitions
-- Pages update visually
-- Cannot test validation or events at design time
-- Run application (F5) to test full functionality
-
-### Naming Pages
-
-**Best Practice:** Set `LayoutName` property for all pages:
-
-1. Select page in designer
-2. Property Grid → `LayoutName` = `"WelcomePage"`
-3. Easier to identify pages in code
-4. Enables finding pages by name: `FindPageByName("WelcomePage")`
-
-### Common Design-Time Mistakes
-
-**Mistake 1: Not Setting BackVisible on First Page**
-- **Problem:** Back button shows on welcome page
-- **Solution:** First page → `BackVisible` = `False`
-
-**Mistake 2: Last Page Shows Next Instead of Finish**
-- **Problem:** User clicks Next on final page
-- **Solution:** Last page → `NextVisible` = `False`, `FinishVisible` = `True`
-
-**Mistake 3: Controls Added to WizardControl Instead of WizardControlPage**
-- **Problem:** Controls appear on all pages or behind navigation
-- **Solution:** Ensure correct page is selected before adding controls
-
-**Mistake 4: Pages Created But Not Configured**
-- **Problem:** Pages have default "WizardControlPage1" titles
-- **Solution:** Configure Title and Description for each page
-
-**Mistake 5: Reordering Pages in Code After Design-Time Setup**
-- **Problem:** Page order doesn't match expected sequence
-- **Solution:** Use collection editor for reordering, or set NextPage/PreviousPage properties
+| Mistake | Solution |
+|---------|----------|
+| Back button visible on first page | First page → `BackVisible = False` |
+| Next shown on last page instead of Finish | Last page → `NextVisible = False`, `FinishVisible = True` |
+| Controls added to WizardControl (not page) | Verify correct page is selected before dragging controls |
+| Pages show default "WizardControlPage1" title | Set `Title` and `Description` for each page |
+| Reordering pages in code breaks sequence | Use collection editor Up/Down arrows, or set `NextPage`/`PreviousPage` |
 
 ## Troubleshooting Design-Time Issues
 
-### Issue: Smart Tag Not Appearing
-
-**Solutions:**
-- Ensure WizardControl is selected (click on it)
-- Check that control has focus (border with resize handles visible)
-- Close and reopen designer
-- Rebuild solution
-
-### Issue: Collection Editor Shows Wrong Type
-
-**Problem:** In .NET Core/5+, collection editor may show generic title
-
-**Solution:**
-- This is a known Visual Studio issue (GitHub #14049)
-- Functionality is not affected
-- Use editor normally despite title display
-
-### Issue: Cannot Add Controls to Page
-
-**Solutions:**
-- Verify correct page is selected (check Property Grid shows WizardControlPage)
-- Ensure page is visible in designer
-- Try navigating to page using smart tag
-- Close and reopen form designer
-
-### Issue: Page Changes Not Saving
-
-**Solutions:**
-- Click "Save" after modifying properties
-- Close collection editor with "OK" button (not X)
-- Rebuild solution to ensure changes persist
-- Check .Designer.cs file to verify changes
-
-### Issue: SelectedWizardPage Dropdown Empty
-
-**Solutions:**
-- Ensure pages have been added to WizardPages collection
-- Close and reopen designer
-- Rebuild solution
+| Issue | Solution |
+|-------|----------|
+| Smart tag not appearing | Click control to select it; rebuild solution; reopen designer |
+| Collection editor shows generic title | Known .NET Core/5+ issue (GitHub #14049) — functionality unaffected |
+| Cannot add controls to page | Verify page is selected (Property Grid shows WizardControlPage); navigate to page via smart tag |
+| Page changes not saving | Close collection editor with OK (not X); rebuild; check `.Designer.cs` |
+| SelectedWizardPage dropdown empty | Add pages to WizardPages first; reopen designer |
 
 ## Next Steps
 
-After mastering design-time features:
-
-1. **Getting Started** → Read: [getting-started.md](getting-started.md)
-   - Review programmatic page creation
-   - Understand assembly requirements
-
-2. **Validation and Events** → Read: [page-validation-events.md](page-validation-events.md)
-   - Implement page validation
-   - Handle navigation events
-
-3. **Return to Main Guide** → Read: [../SKILL.md](../SKILL.md)
-   - Review all wizard capabilities
-   - Access additional references
+- [getting-started.md](getting-started.md) — assembly requirements and programmatic setup
+- [page-validation-events.md](page-validation-events.md) — implement page validation and events

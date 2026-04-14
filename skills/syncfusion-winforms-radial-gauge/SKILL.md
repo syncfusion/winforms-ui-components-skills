@@ -420,7 +420,6 @@ ApplyTheme(this.Controls, ThemeStyle.Office2016Colorful);
 | `Value` | float (Radial/Linear) / string (Digital) | Current displayed value |
 | `MinimumValue` | float | Minimum scale value (Radial/Linear only) |
 | `MaximumValue` | float | Maximum scale value (Radial/Linear only) |
-| `VisualStyle` | ThemeStyle | Theme: Blue, Black, Silver, Metro, Office2016*, Custom |
 | `DataSource` | object | Data source for binding |
 | `DisplayMember` | string | Column name for value binding |
 | `DisplayRecordIndex` | int | Row index for value binding |
@@ -433,6 +432,7 @@ ApplyTheme(this.Controls, ThemeStyle.Office2016Colorful);
 | `StartAngle` | int | Starting angle of arc (degrees) |
 | `SweepAngle` | int | Arc span length (degrees) |
 | `ShowNeedle` | bool | Display pointer needle |
+| `VisualStyle` | ThemeStyle | Theme: Blue, Black, Silver, Metro, Office2016*, Custom |
 | `NeedleStyle` | NeedleStyle | Default, Advanced, Pointer |
 | `EnableCustomNeedles` | bool | Allow multiple needles |
 | `Ranges` | RangeCollection | Color-coded value ranges |
@@ -446,6 +446,7 @@ ApplyTheme(this.Controls, ThemeStyle.Office2016Colorful);
 | `LinearFrameType` | LinearFrameType | Horizontal or Vertical |
 | `PointerPlacement` | Placement | Top, Center, Bottom |
 | `ShowNeedle` | bool | Display pointer |
+| `VisualStyle` | ThemeStyle | Theme: Blue, Black, Silver, Metro, Office2016*, Custom |
 | `Ranges` | LinearRangeCollection | Color-coded value ranges |
 | `MajorDifference` | float | Spacing between major ticks |
 | `MinorTickCount` | int | Number of minor ticks between majors |
@@ -460,6 +461,7 @@ ApplyTheme(this.Controls, ThemeStyle.Office2016Colorful);
 | `SegmentSpacing` | float | Spacing between characters |
 | `ShowInvisibleSegments` | bool | Show inactive segments |
 | `RoundCornerRadius` | int | Corner rounding radius |
+**Note:** DigitalGauge does not support the `VisualStyle` property. Use `ForeColor` and `BackColor` for styling instead.
 
 ## Common Use Cases
 

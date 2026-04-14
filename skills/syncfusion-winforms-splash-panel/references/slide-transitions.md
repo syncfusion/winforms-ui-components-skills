@@ -455,4 +455,3 @@ End Sub
 - **[Display Methods](./display-methods.md)** - Explore different ways to show and hide splash panels
 - **[Animation and Appearance](./animation-appearance.md)** - Configure visual appearance and basic animations
 - **[Events](./events.md)** - Handle splash panel lifecycle events
-- **[Time Interval Configuration](./time-interval.md)** - Control splash panel display duration

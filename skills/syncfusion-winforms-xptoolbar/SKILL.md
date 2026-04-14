@@ -243,7 +243,7 @@ xpToolBar1.Bar.Items.Add(fileMenu);
 // Font selector combo box
 ComboBoxBarItem fontCombo = new ComboBoxBarItem();
 fontCombo.Text = "Font:";
-fontCombo.Items.AddRange(new string[] { "Arial", "Calibri", "Times New Roman" });
+fontCombo.ChoiceList.AddRange(new string[] { "Arial", "Calibri", "Times New Roman" });
 fontCombo.SelectedIndex = 0;
 
 // Font size text box

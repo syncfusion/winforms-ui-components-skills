@@ -49,195 +49,63 @@ colorPalette.Text = "Color";
 colorPalette.ImageIndex = 0;  // Icon for color palette item
 
 // Add to RadialMenu
-this.radialMenu1.Items.Add(colorPalette);
-```
+```markdown
+# Special elements (color, font, slider) — condensed
 
-### Configuring Custom Icon
+RadialMenu supports three built-in special elements: `RadialColorPalette`, `RadialFontListBox`, and `RadialMenuSlider`. Below are minimal examples (C# + VB) showing how to add each and handle their main events.
 
-Color palette items typically need a visual icon to indicate their purpose.
-
-```csharp
-// Set up ImageListAdv with color palette icon
-ImageListAdv imageList = new ImageListAdv(this.components);
-imageList.Images.Add(Image.FromFile("icons/color-palette.png"));
-imageList.Images.Add(Image.FromFile("icons/font.png"));
-imageList.Images.Add(Image.FromFile("icons/size.png"));
-
-// Attach to RadialMenu
-this.radialMenu1.ImageList = imageList;
-
-// Create color palette with icon
-RadialColorPalette colorPalette = new RadialColorPalette();
-colorPalette.Text = "Color";
-colorPalette.ImageIndex = 0;  // First image (color-palette.png)
-
-this.radialMenu1.Items.Add(colorPalette);
-```
-
-### Handling ColorSelected Event
-
-The `ColorSelected` event fires when a user picks a color from the palette.
+RadialColorPalette (C#):
 
 ```csharp
-private void SetupColorPalette()
-{
-    RadialColorPalette colorPalette = new RadialColorPalette();
-    colorPalette.Text = "Text Color";
-    colorPalette.ImageIndex = 0;
-    
-    // Attach event handler
-    colorPalette.ColorSelected += ColorPalette_ColorSelected;
-    
-    this.radialMenu1.Items.Add(colorPalette);
-}
-
-private void ColorPalette_ColorSelected(object sender, ColorSelectedEventArgs e)
-{
-    // Get the selected color
-    Color selectedColor = e.Color;
-    
-    // Apply to text selection
-    if (richTextBox1.SelectionLength > 0)
-    {
-        richTextBox1.SelectionColor = selectedColor;
-    }
-    else
-    {
-        // Apply to future text if no selection
-        richTextBox1.ForeColor = selectedColor;
-    }
-    
-    // Update status bar
-    statusLabel.Text = $"Color changed to: {selectedColor.Name}";
-}
+var palette = new RadialColorPalette { Text = "Color", ImageIndex = 0 };
+palette.ColorSelected += (s,e) => ApplyColor(e.Color);
+radialMenu.Items.Add(palette);
 ```
 
-**Result:**
-When users select a color, it's immediately applied to the selected text in the RichTextBox.
+VB.NET equivalent:
 
-### Complete Color Palette Example
-
-```csharp
-public class ColorFormattingDemo : Form
-{
-    private RichTextBox editor;
-    private RadialMenu radialMenu;
-    private Label statusLabel;
-
-    private void InitializeColorPalette()
-    {
-        // Create RadialMenu
-        this.radialMenu = new RadialMenu();
-        this.radialMenu.Style = RadialMenuStyle.Office2016Colorful;
-        this.radialMenu.Size = new Size(320, 320);
-        this.radialMenu.Location = new Point(50, 50);
-        this.radialMenu.Visible = true;
-        this.radialMenu.MenuVisibility = true;
-
-        // Set up image list
-        ImageListAdv imageList = new ImageListAdv(this.components);
-        // Add color palette icon (you would use actual image file)
-        imageList.Images.Add(CreateColorIcon());
-        this.radialMenu.ImageList = imageList;
-
-        // Create text color palette
-        RadialColorPalette textColorPalette = new RadialColorPalette();
-        textColorPalette.Text = "Text Color";
-        textColorPalette.ImageIndex = 0;
-        textColorPalette.ColorSelected += (s, e) =>
-        {
-            if (editor.SelectionLength > 0)
-                editor.SelectionColor = e.Color;
-            else
-                editor.ForeColor = e.Color;
-            
-            statusLabel.Text = $"Text color: {e.Color.Name}";
-        };
-
-        // Create background color palette
-        RadialColorPalette backColorPalette = new RadialColorPalette();
-        backColorPalette.Text = "Highlight";
-        backColorPalette.ImageIndex = 0;
-        backColorPalette.ColorSelected += (s, e) =>
-        {
-            if (editor.SelectionLength > 0)
-                editor.SelectionBackColor = e.Color;
-            else
-                editor.BackColor = e.Color;
-            
-            statusLabel.Text = $"Background color: {e.Color.Name}";
-        };
-
-        // Add to menu
-        this.radialMenu.Items.Add(textColorPalette);
-        this.radialMenu.Items.Add(backColorPalette);
-
-        this.Controls.Add(this.radialMenu);
-    }
-
-    private Image CreateColorIcon()
-    {
-        // Create a simple color icon programmatically
-        Bitmap bmp = new Bitmap(32, 32);
-        using (Graphics g = Graphics.FromImage(bmp))
-        {
-            g.Clear(Color.Transparent);
-            g.FillEllipse(Brushes.Red, 4, 4, 24, 24);
-            g.DrawEllipse(Pens.Black, 4, 4, 24, 24);
-        }
-        return bmp;
-    }
-}
+```vbnet
+Dim palette As New RadialColorPalette With {.Text = "Color", .ImageIndex = 0}
+AddHandler palette.ColorSelected, Sub(s,e) ApplyColor(e.Color)
+radialMenu.Items.Add(palette)
 ```
 
-**Result:**
-A fully functional color selection menu with separate palettes for text color and background highlighting.
-
-## RadialFontListBox
-
-`RadialFontListBox` displays a list of all installed fonts on the system, allowing users to select a font family for text formatting.
-
-### Creating a RadialFontListBox
+RadialFontListBox (C#):
 
 ```csharp
-// Create the font list box instance
-RadialFontListBox fontListBox = new RadialFontListBox();
-fontListBox.Text = "Font";
-fontListBox.ImageIndex = 1;  // Icon for font selection
-
-// Add to RadialMenu
-this.radialMenu1.Items.Add(fontListBox);
+var fontBox = new RadialFontListBox { Text = "Font", ImageIndex = 1 };
+fontBox.SelectedFontChanged += (s,e) => ApplyFont(e.FontName);
+radialMenu.Items.Add(fontBox);
 ```
 
-### Handling SelectedFontChanged Event
+VB.NET equivalent:
 
-The `SelectedFontChanged` event fires when a user selects a font from the list.
+```vbnet
+Dim fontBox As New RadialFontListBox With {.Text = "Font", .ImageIndex = 1}
+AddHandler fontBox.SelectedFontChanged, Sub(s,e) ApplyFont(e.FontName)
+radialMenu.Items.Add(fontBox)
+```
+
+RadialMenuSlider (C#):
 
 ```csharp
-private void SetupFontListBox()
-{
-    // Set up image list with font icon
-    ImageListAdv imageList = new ImageListAdv(this.components);
-    imageList.Images.Add(Image.FromFile("icons/color.png"));      // Index 0
-    imageList.Images.Add(Image.FromFile("icons/font.png"));       // Index 1
-    imageList.Images.Add(Image.FromFile("icons/size.png"));       // Index 2
-    this.radialMenu1.ImageList = imageList;
+var slider = new RadialMenuSlider { Text = "Size", MinimumValue = 8, MaximumValue = 72 };
+slider.SliderValueChanged += (s,e) => ApplySize(e.Value);
+radialMenu.Items.Add(slider);
+```
 
-    // Create font list box
-    RadialFontListBox fontListBox = new RadialFontListBox();
-    fontListBox.Text = "Font";
-    fontListBox.ImageIndex = 1;  // Font icon
-    
-    // Attach event handler
-    fontListBox.SelectedFontChanged += FontListBox_SelectedFontChanged;
-    
-    this.radialMenu1.Items.Add(fontListBox);
-}
+VB.NET equivalent:
 
-private void FontListBox_SelectedFontChanged(object sender, SelectedFontChangedEventArgs e)
-{
-    // Get the selected font family
-    string selectedFont = e.FontName;
+```vbnet
+Dim slider As New RadialMenuSlider With {.Text = "Size", .MinimumValue = 8, .MaximumValue = 72}
+AddHandler slider.SliderValueChanged, Sub(s,e) ApplySize(e.Value)
+radialMenu.Items.Add(slider)
+```
+
+Image notes: attach an `ImageListAdv` to `radialMenu.ImageList` and set `ImageIndex` for each special element. Keep icons small (24–36 px) and prefer embedded resources.
+
+This file now shows minimal, copy-paste-ready examples for the three special elements with VB parity.
+```
     
     // Apply to text selection
     if (richTextBox1.SelectionLength > 0)
@@ -260,6 +128,50 @@ private void FontListBox_SelectedFontChanged(object sender, SelectedFontChangedE
     // Update status
     statusLabel.Text = $"Font changed to: {selectedFont}";
 }
+```
+
+```vbnet
+' VB.NET equivalent
+Private Sub SetupFontListBox()
+    ' Set up image list with font icon
+    Dim imageList As New ImageListAdv(Me.components)
+    imageList.Images.Add(Image.FromFile("icons/color.png"))     ' Index 0
+    imageList.Images.Add(Image.FromFile("icons/font.png"))      ' Index 1
+    imageList.Images.Add(Image.FromFile("icons/size.png"))      ' Index 2
+    Me.radialMenu1.ImageList = imageList
+
+    ' Create font list box
+    Dim fontListBox As New RadialFontListBox()
+    fontListBox.Text = "Font"
+    fontListBox.ImageIndex = 1  ' Font icon
+
+    ' Attach event handler
+    AddHandler fontListBox.SelectedFontChanged, AddressOf FontListBox_SelectedFontChanged
+
+    Me.radialMenu1.Items.Add(fontListBox)
+End Sub
+
+Private Sub FontListBox_SelectedFontChanged(sender As Object, e As SelectedFontChangedEventArgs)
+    ' Get the selected font family
+    Dim selectedFont As String = e.FontName
+
+    ' Apply to text selection
+    If editor.SelectionLength > 0 Then
+        Dim currentFont As Font = editor.SelectionFont
+        If currentFont IsNot Nothing Then
+            ' Create new font with selected family, keeping current size and style
+            Dim newFont As New Font(selectedFont, currentFont.Size, currentFont.Style)
+            editor.SelectionFont = newFont
+        End If
+    Else
+        ' Apply to entire control if no selection
+        Dim currentFont As Font = editor.Font
+        editor.Font = New Font(selectedFont, currentFont.Size, currentFont.Style)
+    End If
+
+    ' Update status
+    statusLabel.Text = $"Font changed to: {selectedFont}"
+End Sub
 ```
 
 **Result:**
@@ -368,6 +280,17 @@ menuSlider.MaximumValue = 72;   // Maximum value
 this.radialMenu1.Items.Add(menuSlider);
 ```
 
+```vbnet
+' VB.NET equivalent
+Dim menuSlider As New RadialMenuSlider()
+menuSlider.Text = "Size"
+menuSlider.ImageIndex = 2
+menuSlider.MinimumValue = 8    ' Minimum value
+menuSlider.MaximumValue = 72   ' Maximum value
+
+Me.radialMenu1.Items.Add(menuSlider)
+```
+
 ### Configuring Value Range
 
 Set appropriate minimum and maximum values based on your use case.
@@ -451,6 +374,58 @@ private void SizeSlider_ValueChanged(object sender, SliderValueChangedEventArgs 
     // Update status
     statusLabel.Text = $"Font size: {fontSize}pt";
 }
+```
+
+```vbnet
+' VB.NET equivalent
+Private Sub SetupFontSizeSlider()
+    ' Set up image list
+    Dim imageList As New ImageListAdv(Me.components)
+    imageList.Images.Add(Image.FromFile("icons/size.png"))
+    Me.radialMenu1.ImageList = imageList
+
+    ' Create font size slider
+    Dim sizeSlider As New RadialMenuSlider()
+    sizeSlider.Text = "Font Size"
+    sizeSlider.ImageIndex = 0
+    sizeSlider.MinimumValue = 8
+    sizeSlider.MaximumValue = 72
+
+    ' Attach event handler
+    AddHandler sizeSlider.SliderValueChanged, AddressOf SizeSlider_ValueChanged
+
+    Me.radialMenu1.Items.Add(sizeSlider)
+End Sub
+
+Private Sub SizeSlider_ValueChanged(sender As Object, e As SliderValueChangedEventArgs)
+    ' Get the selected value
+    Dim fontSize As Integer = e.Value
+
+    ' Apply to text selection
+    If editor.SelectionLength > 0 Then
+        Dim currentFont As Font = editor.SelectionFont
+        If currentFont IsNot Nothing Then
+            ' Create new font with selected size
+            Dim newFont As New Font(
+                currentFont.FontFamily,
+                fontSize,
+                currentFont.Style
+            )
+            editor.SelectionFont = newFont
+        End If
+    Else
+        ' Apply to entire control if no selection
+        Dim currentFont As Font = editor.Font
+        editor.Font = New Font(
+            currentFont.FontFamily,
+            fontSize,
+            currentFont.Style
+        )
+    End If
+
+    ' Update status
+    statusLabel.Text = $"Font size: {fontSize}pt"
+End Sub
 ```
 
 **Result:**

@@ -165,51 +165,17 @@ private void btnToggleRotation_Click(object sender, EventArgs e)
 ### Rotation with Play/Pause
 
 ```csharp
-public partial class Form1 : Form
+// Minimal play/pause helpers (integrate into your form)
+private void PlayRotation(Carousel c)
 {
-    private Carousel carousel1;
-    private bool isRotating = false;
-    
-    private void InitializeCarouselControls()
-    {
-        carousel1 = new Carousel();
-        carousel1.ImageSlides = true;
-        carousel1.Dock = DockStyle.Fill;
-        carousel1.TransitionSpeed = 2.0f;
-        carousel1.FilePath = "Images";
-        
-        // Initially not rotating
-        carousel1.RotateAlways = false;
-        
-        // Play button
-        Button btnPlay = new Button();
-        btnPlay.Text = "▶ Play";
-        btnPlay.Click += (s, e) => PlayRotation();
-        
-        // Pause button
-        Button btnPause = new Button();
-        btnPause.Text = "⏸ Pause";
-        btnPause.Click += (s, e) => PauseRotation();
-        
-        this.Controls.Add(carousel1);
-        this.Controls.Add(btnPlay);
-        this.Controls.Add(btnPause);
-    }
-    
-    private void PlayRotation()
-    {
-        carousel1.RotateAlways = true;
-        isRotating = true;
-    }
-    
-    private void PauseRotation()
-    {
-        carousel1.RotateAlways = false;
-        isRotating = false;
-    }
+    c.RotateAlways = true;
+}
+
+private void PauseRotation(Carousel c)
+{
+    c.RotateAlways = false;
 }
 ```
-
 ## Integration with Transition Speed
 
 The rotation speed is controlled by the `TransitionSpeed` property when `RotateAlways` is enabled.
@@ -346,222 +312,62 @@ namespace ProductShowcase
     public partial class Form1 : Form
     {
         private Carousel productCarousel;
-        
+
         public Form1()
         {
             InitializeComponent();
             CreateProductShowcase();
         }
-        
+
         private void CreateProductShowcase()
         {
             productCarousel = new Carousel();
             productCarousel.Size = new Size(800, 600);
-            productCarousel.Location = new Point(50, 50);
             productCarousel.ImageSlides = true;
-            
+
             // Auto-rotation settings
             productCarousel.RotateAlways = true;
             productCarousel.TransitionSpeed = 2.0f;
-            
+
             // Visual settings
             productCarousel.CarouselPath = CarouselPath.Default;
             productCarousel.Perspective = 4.5f;
             productCarousel.ShowImagePreview = true;
             productCarousel.ShowImageShadow = true;
-            productCarousel.ImageHighlightColor = Color.Gold;
-            
+
             // Load product images
             productCarousel.FilePath = "Products";
-            
+
             this.Controls.Add(productCarousel);
         }
     }
 }
 ```
 
-### Example 2: Slideshow with Controls
+### Slideshow (control-focused snippet)
 
 ```csharp
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Syncfusion.Windows.Forms.Tools;
-
-namespace Slideshow
-{
-    public partial class Form1 : Form
-    {
-        private Carousel slideshowCarousel;
-        private Button btnPlayPause;
-        private TrackBar trackBarSpeed;
-        private bool isPlaying = false;
-        
-        public Form1()
-        {
-            InitializeComponent();
-            InitializeSlideshow();
-            CreateControls();
-        }
-        
-        private void InitializeSlideshow()
-        {
-            slideshowCarousel = new Carousel();
-            slideshowCarousel.Size = new Size(900, 600);
-            slideshowCarousel.Location = new Point(50, 50);
-            slideshowCarousel.ImageSlides = true;
-            slideshowCarousel.FilePath = "Slideshow";
-            
-            // Initial settings
-            slideshowCarousel.RotateAlways = false;
-            slideshowCarousel.TransitionSpeed = 1.5f;
-            slideshowCarousel.ShowImagePreview = true;
-            slideshowCarousel.BackColor = Color.Black;
-            
-            this.Controls.Add(slideshowCarousel);
-        }
-        
-        private void CreateControls()
-        {
-            // Play/Pause button
-            btnPlayPause = new Button();
-            btnPlayPause.Text = "▶ Play";
-            btnPlayPause.Size = new Size(100, 40);
-            btnPlayPause.Location = new Point(400, 670);
-            btnPlayPause.Click += BtnPlayPause_Click;
-            this.Controls.Add(btnPlayPause);
-            
-            // Speed control
-            Label lblSpeed = new Label();
-            lblSpeed.Text = "Speed:";
-            lblSpeed.Location = new Point(520, 675);
-            lblSpeed.AutoSize = true;
-            this.Controls.Add(lblSpeed);
-            
-            trackBarSpeed = new TrackBar();
-            trackBarSpeed.Minimum = 5;
-            trackBarSpeed.Maximum = 40;
-            trackBarSpeed.Value = 15;
-            trackBarSpeed.Size = new Size(200, 45);
-            trackBarSpeed.Location = new Point(580, 665);
-            trackBarSpeed.Scroll += TrackBarSpeed_Scroll;
-            this.Controls.Add(trackBarSpeed);
-        }
-        
-        private void BtnPlayPause_Click(object sender, EventArgs e)
-        {
-            isPlaying = !isPlaying;
-            slideshowCarousel.RotateAlways = isPlaying;
-            btnPlayPause.Text = isPlaying ? "⏸ Pause" : "▶ Play";
-        }
-        
-        private void TrackBarSpeed_Scroll(object sender, EventArgs e)
-        {
-            float speed = trackBarSpeed.Value / 10.0f;
-            slideshowCarousel.TransitionSpeed = speed;
-        }
-    }
-}
+// Use a small control-focused example rather than a full Form class
+var slideshowCarousel = new Carousel { ImageSlides = true, FilePath = "Slideshow" };
+slideshowCarousel.TransitionSpeed = 1.5f;
+// Attach play/pause button handlers to toggle slideshowCarousel.RotateAlways
 ```
 
-### Example 3: Auto-Rotating Dashboard
+### Dashboard (snippet for metric updates)
 
 ```csharp
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Syncfusion.Windows.Forms.Tools;
-
-namespace Dashboard
+// Create panels and add to a Carousel, then update labels via a Timer
+void UpdateMetrics(Carousel dashboardCarousel)
 {
-    public partial class Form1 : Form
+    var rnd = new Random();
+    foreach (Control item in dashboardCarousel.Controls)
     {
-        private Carousel dashboardCarousel;
-        private Timer updateTimer;
-        
-        public Form1()
+        if (item is Panel panel)
         {
-            InitializeComponent();
-            CreateDashboard();
-            StartDataUpdates();
-        }
-        
-        private void CreateDashboard()
-        {
-            dashboardCarousel = new Carousel();
-            dashboardCarousel.Dock = DockStyle.Fill;
-            dashboardCarousel.CarouselPath = CarouselPath.Orbital;
-            
-            // Slow auto-rotation for dashboards
-            dashboardCarousel.RotateAlways = true;
-            dashboardCarousel.TransitionSpeed = 1.0f;
-            dashboardCarousel.Perspective = 3.5f;
-            dashboardCarousel.BackColor = Color.FromArgb(20, 20, 20);
-            
-            // Add metric panels
-            AddMetricPanel("CPU Usage", "45%", Color.FromArgb(52, 152, 219));
-            AddMetricPanel("Memory", "2.1 GB", Color.FromArgb(46, 204, 113));
-            AddMetricPanel("Network", "125 Mbps", Color.FromArgb(155, 89, 182));
-            AddMetricPanel("Disk", "67%", Color.FromArgb(241, 196, 15));
-            AddMetricPanel("Active Users", "1,234", Color.FromArgb(230, 126, 34));
-            AddMetricPanel("Requests", "5.2K/s", Color.FromArgb(231, 76, 60));
-            
-            this.Controls.Add(dashboardCarousel);
-        }
-        
-        private void AddMetricPanel(string title, string value, Color color)
-        {
-            Panel panel = new Panel();
-            panel.Size = new Size(180, 140);
-            panel.BackColor = color;
-            
-            Label lblTitle = new Label();
-            lblTitle.Text = title;
-            lblTitle.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblTitle.ForeColor = Color.White;
-            lblTitle.Location = new Point(15, 15);
-            lblTitle.AutoSize = true;
-            
-            Label lblValue = new Label();
-            lblValue.Text = value;
-            lblValue.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
-            lblValue.ForeColor = Color.White;
-            lblValue.Location = new Point(15, 55);
-            lblValue.AutoSize = true;
-            lblValue.Tag = title; // For updates
-            
-            panel.Controls.Add(lblTitle);
-            panel.Controls.Add(lblValue);
-            
-            dashboardCarousel.Controls.Add(panel);
-            dashboardCarousel.Items.Add(panel);
-        }
-        
-        private void StartDataUpdates()
-        {
-            updateTimer = new Timer();
-            updateTimer.Interval = 2000; // Update every 2 seconds
-            updateTimer.Tick += UpdateMetrics;
-            updateTimer.Start();
-        }
-        
-        private void UpdateMetrics(object sender, EventArgs e)
-        {
-            Random rnd = new Random();
-            
-            foreach (Control item in dashboardCarousel.Controls)
+            foreach (Control ctrl in panel.Controls)
             {
-                if (item is Panel panel)
-                {
-                    foreach (Control ctrl in panel.Controls)
-                    {
-                        if (ctrl is Label lbl && lbl.Tag != null)
-                        {
-                            // Simulate metric updates
-                            lbl.Text = $"{rnd.Next(10, 99)}%";
-                        }
-                    }
-                }
+                if (ctrl is Label lbl && lbl.Tag != null)
+                    lbl.Text = $"{rnd.Next(10,99)}%";
             }
         }
     }

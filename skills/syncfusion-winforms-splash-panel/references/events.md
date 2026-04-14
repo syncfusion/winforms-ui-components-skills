@@ -682,4 +682,3 @@ End Class
 - **[Display Methods](./display-methods.md)** - Explore different ways to show and hide splash panels
 - **[Animation and Appearance](./animation-appearance.md)** - Configure visual appearance and animations
 - **[Slide Transitions](./slide-transitions.md)** - Configure advanced slide and marquee animations
-- **[Time Interval Configuration](./time-interval.md)** - Control splash panel display duration

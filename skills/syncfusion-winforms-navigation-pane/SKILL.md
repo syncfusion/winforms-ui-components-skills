@@ -8,7 +8,7 @@ metadata:
 
 # Implementing Navigation Panes (GroupBar) in Syncfusion WinForms
 
-This skill guides you in implementing **Syncfusion WinForms GroupBar** (Navigation Pane) control—an Outlook-style navigation container that displays hierarchical groups with collapsible sections and child item collections.
+This skill guides you in implementing **Syncfusion.Tools.WinForms** (Navigation Pane) control—an Outlook-style navigation container that displays hierarchical groups with collapsible sections and child item collections.
 
 ## When to Use This Skill
 
@@ -236,7 +236,7 @@ groupBar.GroupBarItems.Add(mailItem);
 
 // Handle item click
 mailView.GroupViewItemSelected += (s, e) => {
-    string folderName = e.Item.Text;
+    string folderName = ((sender as GroupView)?.SelectedItem >= 0 ? (sender as GroupView).GroupViewItems[(sender as GroupView).SelectedItem].Text : null)`;
     LoadMailFolder(folderName);
 };
 
@@ -329,7 +329,7 @@ navPane.GroupBarItems.AddRange(new GroupBarItem[] {
 
 // Handle item selection
 navPane.GroupBarItemSelected += (s, e) => {
-    string selectedSection = e.Item.Text;
+    string selectedSection = ((sender as GroupView)?.SelectedItem >= 0 ? (sender as GroupView).GroupViewItems[(sender as GroupView).SelectedItem].Text : null)`;
     LoadSection(selectedSection);
 };
 

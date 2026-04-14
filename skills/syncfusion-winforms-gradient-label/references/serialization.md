@@ -120,11 +120,10 @@ public BrushInfo LoadGradientFromXml(string filePath)
             return null;
         }
 
-        XmlSerializer serializer = new XmlSerializer(typeof(BrushInfo));
-        using (FileStream fs = new FileStream(filePath, FileMode.Open))
+        GradientLabelConfig loadedConfig = GradientLabelConfigManager.LoadConfig("label_config.xml");
+        if (loadedConfig != null)
         {
-            BrushInfo brushInfo = (BrushInfo)serializer.Deserialize(fs);
-            return brushInfo;
+            loadedConfig.ApplyTo(gradientLabel1);
         }
     }
     catch (Exception ex)

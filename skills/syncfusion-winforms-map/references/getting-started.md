@@ -120,8 +120,8 @@ All three files must share the same prefix (8.3 naming convention):
 
 **Sources:**
 - ESRI shape file repositories
-- Natural Earth Data: https://www.naturalearthdata.com/
-- DIVA-GIS: https://www.diva-gis.org/
+- Internally curated reference shape datasets provided with the application
+- Organization-owned validated geographic datasets maintained in source control
 - Government GIS portals
 - Custom GIS data exports
 

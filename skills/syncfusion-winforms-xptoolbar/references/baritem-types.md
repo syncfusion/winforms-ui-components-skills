@@ -429,7 +429,7 @@ fontList.Text = "Font Style";
 fontList.SizeToFit = true;
 
 // Add child items
-fontList.ChildCaptions.AddRange(new string[] {
+fontList.ChoiceList.AddRange(new string[] {
     "Bold",
     "Italic",
     "Underline",
@@ -452,7 +452,7 @@ fontList.Text = "Font Style"
 fontList.SizeToFit = True
 
 ' Add child items
-fontList.ChildCaptions.AddRange(New String() {
+fontList.ChoiceList.AddRange(New String() {
     "Bold",
     "Italic",
     "Underline",

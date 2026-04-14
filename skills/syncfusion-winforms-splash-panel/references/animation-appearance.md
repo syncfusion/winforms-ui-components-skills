@@ -536,4 +536,3 @@ Me.toolTip1.SetToolTip(Me.splashPanel1, "Splash Panel Tooltip")
 - **[Display Methods](./display-methods.md)** - Explore different ways to show and hide splash panels
 - **[Slide Transitions](./slide-transitions.md)** - Configure advanced slide and marquee animations
 - **[Events](./events.md)** - Handle splash panel lifecycle events
-- **[Time Interval Configuration](./time-interval.md)** - Control splash panel display duration

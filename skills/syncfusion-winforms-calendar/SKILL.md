@@ -70,6 +70,11 @@ The SfCalendar provides comprehensive calendar functionality:
 - Selection changed events
 - Programmatic date selection
 
+## Events
+
+- **SelectedDateChanged**: Raised when the single `SelectedDate` property changes.
+- **SelectionChanged**: Raised when the `SelectedDates` collection changes in multiple‑selection mode.
+
 ### Views and Navigation
 📄 **Read:** [references/views-and-navigation.md](references/views-and-navigation.md)
 - Month view (default view)

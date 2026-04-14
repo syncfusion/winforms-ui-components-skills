@@ -162,9 +162,9 @@ navigationIcons.Images.Add("calendar", Properties.Resources.CalendarIcon32);
 navigationIcons.Images.Add("contacts", Properties.Resources.ContactsIcon32);
 
 // Assign icons to items
-this.groupBarItem1.NavigationPaneIcon = navigationIcons.Images["mail"];
-this.groupBarItem2.NavigationPaneIcon = navigationIcons.Images["calendar"];
-this.groupBarItem3.NavigationPaneIcon = navigationIcons.Images["contacts"];
+this.groupBarItem1.NavigationPaneIcon = new Icon("mail.ico");
+this.groupBarItem2.NavigationPaneIcon = new Icon("calendar.ico");
+this.groupBarItem3.NavigationPaneIcon = new Icon("contacts.ico");
 
 // Enable large image mode for navigation pane
 this.groupBarItem1.LargeImageMode = true;

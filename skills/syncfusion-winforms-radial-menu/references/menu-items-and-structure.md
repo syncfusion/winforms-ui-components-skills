@@ -12,192 +12,68 @@
 - [Best Practices](#best-practices)
 - [Common Issues and Solutions](#common-issues-and-solutions)
 
-## RadialMenuItem Overview
+```markdown
+# Menu items & hierarchy — condensed
 
-`RadialMenuItem` is the fundamental building block of the RadialMenu control. Each menu item represents an action or submenu that users can interact with. Menu items support text, icons, checkboxes, radio buttons, and hierarchical nesting for complex menu structures.
+RadialMenuItem is the core element. Keep labels short, use `ImageListAdv` for icons, and use `WedgeCount` to control density.
 
-**Key Capabilities:**
-- Display text labels and icons
-- Support checkbox and radio button modes
-- Create nested submenu hierarchies
-- Handle click events for user actions
-- Group related items together
-- Maintain checked/unchecked states
-
-**When to Use RadialMenuItem:**
-- Building context menus with multiple actions
-- Creating format toolbars (bold, italic, underline)
-- Implementing touch-friendly navigation
-- Designing hierarchical menu systems
-- Providing quick access to common commands
-
-## Creating Menu Items
-
-Menu items are created by instantiating the `RadialMenuItem` class and adding them to the RadialMenu's Items collection.
-
-**Basic Item Creation:**
+Create items (C#):
 
 ```csharp
-using Syncfusion.Windows.Forms.Tools;
+// Create and add items quickly
+var names = new[] { "New", "Open", "Save", "Close" };
+foreach (var n in names)
+    radialMenu.Items.Add(new RadialMenuItem { Text = n });
 
-// Create a single menu item
-RadialMenuItem editItem = new RadialMenuItem();
-editItem.Text = "Edit";
-
-// Add to RadialMenu
-this.radialMenu1.Items.Add(editItem);
+// Shared click handler
+radialMenu.Items[0].Click += (s,e)=> MessageBox.Show(((RadialMenuItem)s).Text);
 ```
 
-**Creating Multiple Items Efficiently:**
+VB.NET equivalent:
 
-```csharp
-private void CreateMenuItems()
-{
-    // Array of item names
-    string[] itemNames = { "New", "Open", "Save", "Close", "Print", "Export" };
+```vbnet
+Dim names = {"New", "Open", "Save", "Close"}
+For Each n In names
+    radialMenu.Items.Add(New RadialMenuItem With {.Text = n})
+Next
 
-    // Create and add items in a loop
-    foreach (string name in itemNames)
-    {
-        RadialMenuItem item = new RadialMenuItem();
-        item.Text = name;
-        item.Click += MenuItem_Click;  // Attach event handler
-        this.radialMenu1.Items.Add(item);
-    }
-}
-
-private void MenuItem_Click(object sender, EventArgs e)
-{
-    RadialMenuItem clickedItem = sender as RadialMenuItem;
-    MessageBox.Show($"You clicked: {clickedItem.Text}");
-}
+AddHandler radialMenu.Items(0).Click, Sub(s,e) MessageBox.Show(DirectCast(s, RadialMenuItem).Text)
 ```
 
-**Result:**
-Six menu items are created programmatically with consistent event handling.
-
-## Item Properties
-
-Each RadialMenuItem has several important properties for customization.
-
-### Text Property
-
-The `Text` property sets the label displayed on the menu item.
+Check mode (toggles) examples:
 
 ```csharp
-RadialMenuItem item = new RadialMenuItem();
-item.Text = "Save Document";  // Clear, descriptive label
+var bold = new RadialMenuItem { Text = "Bold", CheckMode = CheckMode.Check };
+var align = new RadialMenuItem { Text = "Left", CheckMode = CheckMode.Option, GroupName = "align" };
+radialMenu.Items.Add(bold);
+radialMenu.Items.Add(align);
 ```
 
-**Best Practices for Text:**
-- Keep text short (1-2 words)
-- Use title case (e.g., "Save File" not "save file")
-- Avoid abbreviations unless well-known
-- Consider internationalization
-
-### ImageIndex Property
-
-The `ImageIndex` property links the menu item to an image in the RadialMenu's ImageList.
-
-```csharp
-// First, set up the ImageList
-ImageListAdv imageList = new ImageListAdv(this.components);
-imageList.Images.Add(Image.FromFile("icons/new.png"));      // Index 0
-imageList.Images.Add(Image.FromFile("icons/open.png"));     // Index 1
-imageList.Images.Add(Image.FromFile("icons/save.png"));     // Index 2
-
-this.radialMenu1.ImageList = imageList;
-
-// Create items with image indices
-RadialMenuItem newItem = new RadialMenuItem();
-newItem.Text = "New";
-newItem.ImageIndex = 0;  // References first image
-
-RadialMenuItem openItem = new RadialMenuItem();
-openItem.Text = "Open";
-openItem.ImageIndex = 1;  // References second image
-
-RadialMenuItem saveItem = new RadialMenuItem();
-saveItem.Text = "Save";
-saveItem.ImageIndex = 2;  // References third image
-
-this.radialMenu1.Items.Add(newItem);
-this.radialMenu1.Items.Add(openItem);
-this.radialMenu1.Items.Add(saveItem);
-
-// Set display style to show both text and images
-this.radialMenu1.DisplayStyle = DisplayStyle.ImageAboveText;
+```vbnet
+Dim bold = New RadialMenuItem With {.Text = "Bold", .CheckMode = CheckMode.Check}
+Dim left = New RadialMenuItem With {.Text = "Left", .CheckMode = CheckMode.Option, .GroupName = "align"}
+radialMenu.Items.Add(bold)
+radialMenu.Items.Add(left)
 ```
 
-**Result:**
-Menu items display with icons above text labels, providing visual cues for quick recognition.
-
-### ImageSize Property
-
-Individual items can have custom image sizes different from the default.
+Hierarchical (submenus): add children to a parent item's `Items` collection.
 
 ```csharp
-// Set uniform size for all items
-this.radialMenu1.MenuItemImageSize = new Size(24, 24);
-
-// Override size for specific item (e.g., emphasize important action)
-RadialMenuItem importantItem = new RadialMenuItem();
-importantItem.Text = "Save";
-importantItem.ImageIndex = 2;
-importantItem.ImageSize = new Size(32, 32);  // Larger than default
+var file = new RadialMenuItem { Text = "File" };
+file.Items.Add(new RadialMenuItem { Text = "New" });
+file.Items.Add(new RadialMenuItem { Text = "Open" });
+radialMenu.Items.Add(file);
 ```
 
-**Result:**
-The "Save" item has a larger icon, drawing user attention to this important action.
+Event handling: use shared handlers and inspect `sender` as `RadialMenuItem`.
 
-## CheckMode Property
+Best practices (short):
+- Keep depth to 2–3 levels.
+- Use `GroupName` for mutually exclusive options.
+- Use `WedgeCount` to balance item size.
 
-The `CheckMode` property enables checkboxes or radio buttons on menu items, allowing users to toggle options or select from mutually exclusive choices.
-
-**CheckMode Options:**
-- **None** - No checkbox (default behavior)
-- **Check** - Checkbox mode (multiple selections allowed)
-- **Option** - Radio button mode (single selection in group)
-
-### None Mode (Default)
-
-Items without checkboxes are used for immediate actions.
-
-```csharp
-RadialMenuItem actionItem = new RadialMenuItem();
-actionItem.Text = "Execute";
-actionItem.CheckMode = CheckMode.None;  // Default, can omit
-actionItem.Click += (s, e) =>
-{
-    // Perform action immediately
-    PerformOperation();
-};
+This page is a focused reference for item creation, grouping, events and small examples in C# and VB.
 ```
-
-**When to Use:**
-- Commands that execute immediately (Save, Print, Export)
-- Navigation items that open submenus
-- Actions that don't maintain state
-
-### Check Mode (Checkboxes)
-
-Checkbox mode allows multiple items to be checked simultaneously.
-
-```csharp
-private void CreateTextFormattingMenu()
-{
-    // Create formatting option items
-    RadialMenuItem boldItem = new RadialMenuItem();
-    boldItem.Text = "Bold";
-    boldItem.CheckMode = CheckMode.Check;  // Enable checkbox
-    boldItem.Click += FormatToggle_Click;
-
-    RadialMenuItem italicItem = new RadialMenuItem();
-    italicItem.Text = "Italic";
-    italicItem.CheckMode = CheckMode.Check;
-    italicItem.Click += FormatToggle_Click;
-
-    RadialMenuItem underlineItem = new RadialMenuItem();
     underlineItem.Text = "Underline";
     underlineItem.CheckMode = CheckMode.Check;
     underlineItem.Click += FormatToggle_Click;

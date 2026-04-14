@@ -351,10 +351,7 @@ try
 {
     using (FileStream stream = new FileStream(filePath, FileMode.Open))
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        formatter.Binder = new VersionDeserializationBinder();
-        DiagramModel model = (DiagramModel)formatter.Deserialize(stream);
-        diagram1.Model = model;
+       
     }
 }
 catch (SerializationException ex)

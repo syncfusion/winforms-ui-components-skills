@@ -54,8 +54,7 @@ The **Syncfusion Pivot Chart** is a lightweight, high-performance control that r
 ### Data Binding
 
 📄 **Read:** [references/data-binding.md](references/data-binding.md)
-- Binding IEnumerable lists
-- Binding DataTable sources
+- Binding IEnumerable lists and DataTable sources
 - Configuring ItemSource property
 - Setting up PivotAxis for hierarchical data
 - Configuring PivotLegend for series categorization
@@ -129,8 +128,7 @@ The **Syncfusion Pivot Chart** is a lightweight, high-performance control that r
 📄 **Read:** [references/sorting.md](references/sorting.md)
 - Sorting pivot data in charts
 - Ascending and descending sort orders
-- Multiple field sorting
-- Custom sort logic
+- Multiple field sorting and Custom sort logic
 - Sort configuration options
 
 ### Export
@@ -146,8 +144,7 @@ The **Syncfusion Pivot Chart** is a lightweight, high-performance control that r
 
 📄 **Read:** [references/zooming-scrolling.md](references/zooming-scrolling.md)
 - Interactive zoom functionality
-- Scroll support for large datasets
-- Mouse wheel zoom operations
+- Scroll support for large datasets and Mouse wheel zoom operations
 - Zoom configuration and customization
 - Scrollbar appearance and behavior
 
@@ -164,8 +161,7 @@ The **Syncfusion Pivot Chart** is a lightweight, high-performance control that r
 
 📄 **Read:** [references/appearance-customization.md](references/appearance-customization.md)
 - Chart area customization
-- Series styling and colors
-- Color palette configuration
+- Series styling and colors and Color palette configuration
 - Print support and settings
 - Custom styling options
 
@@ -175,10 +171,8 @@ The **Syncfusion Pivot Chart** is a lightweight, high-performance control that r
 - Common issues and solutions
 - Data binding errors and fixes
 - Performance optimization tips
-- How to enable drill-down
-- How to print the pivot chart
-- How to set custom color palettes
-- Debugging and diagnostic tips
+- How to enable drill-down and to print the pivot chart
+- How to set custom color palettes, debugging and diagnostic tips
 
 ## Quick Start Example
 
@@ -476,30 +470,17 @@ private void ConfigureMultipleCalculations()
 - Analyze budget vs. actual spending with hierarchical drill-down
 - Visualize profit/loss trends across business units
 
-### Inventory Management
-- Visualize stock levels across warehouses, products, and categories
-- Drill down to specific product lines or locations
-- Track inventory movements over time
-
 ### Marketing Analytics
 - Analyze campaign performance by channel, region, and time period
 - Compare multiple KPIs (impressions, clicks, conversions)
 - Drill down from campaign level to ad group level
-
-### Resource Planning
-- Visualize resource allocation across projects, teams, and time periods
-- Analyze utilization rates with hierarchical breakdown
-- Track capacity vs. demand trends
 
 ## Performance Considerations
 
 1. **Use BeginUpdate/EndUpdate** for bulk data operations to prevent multiple redraws
 2. **Limit hierarchy depth** - 3-4 levels is optimal for performance and usability
 3. **Filter data** before binding rather than binding entire dataset
-4. **Disable EnableUpdating** if real-time updates aren't needed
-5. **Use appropriate chart types** - simpler types (Line, Column) render faster than complex types
-6. **Optimize data model** - ensure data classes are lightweight
-7. **Consider data volume** - for very large datasets (100k+ rows), pre-aggregate data
+4. **Consider data volume** - for very large datasets (100k+ rows), pre-aggregate data
 
 ## Best Practices
 
@@ -508,16 +489,4 @@ private void ConfigureMultipleCalculations()
 3. **Use descriptive TotalHeader values** for better user understanding
 4. **Format calculations** appropriately (currency, percentages, numbers)
 5. **Enable drill-down** only if data has meaningful hierarchical structure
-6. **Provide chart type selection** if users need different visualizations
-7. **Handle empty data** gracefully with appropriate messages
-8. **Test with representative data volumes** to ensure performance
-9. **Use grouping bar or field list** for interactive user exploration
-10. **Consider export functionality** for reporting requirements
-
-## Related Components
-
-- **Pivot Grid** - Tabular view of pivot data (pair with Pivot Chart)
-- **Chart Control** - Standard charting for non-pivot data
-- **Data Grid** - Display detailed raw data
-- **Gantt Chart** - Project scheduling visualization
-- **TreeMap** - Hierarchical data visualization alternative
+6. **Use grouping bar or field list** for interactive user exploration

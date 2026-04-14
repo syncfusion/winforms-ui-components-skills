@@ -138,12 +138,12 @@ public class TileLayoutExample : Form
         // Create first LayoutGroup
         layoutGroup1 = new LayoutGroup();
         layoutGroup1.Text = "Photos";
-        layoutGroup1.BackColor = ColorTranslator.FromHtml("#fa8c6f5");
+        layoutGroup1.BackColor = ColorTranslator.FromHtml("#8C6FF5");
         
         // Create second LayoutGroup
         layoutGroup2 = new LayoutGroup();
         layoutGroup2.Text = "Documents";
-        layoutGroup2.BackColor = ColorTranslator.FromHtml("#fa8c6f5");
+        layoutGroup1.BackColor = ColorTranslator.FromHtml("#8C6FF5");
         
         // Create ImageStreamer tiles with images
         imageStreamer1 = new ImageStreamer();

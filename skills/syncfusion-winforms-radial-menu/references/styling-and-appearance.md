@@ -1,245 +1,58 @@
 # Styling and Appearance Customization
 
 ## Table of Contents
-- [Appearance Overview](#appearance-overview)
-- [Drill Region Customization](#drill-region-customization)
-- [Outer Rim Styling](#outer-rim-styling)
-- [Arc Gap Configuration](#arc-gap-configuration)
-- [Display Style Options](#display-style-options)
-- [Image Size Customization](#image-size-customization)
-- [Center Icon Configuration](#center-icon-configuration)
-- [Complete Styling Examples](#complete-styling-examples)
-- [Visual Customization Patterns](#visual-customization-patterns)
-- [Best Practices](#best-practices)
+```markdown
+# Styling & appearance — condensed
 
-## Appearance Overview
+This page focuses on the most-used appearance APIs and small C# + VB examples to set theme, display style, rim and wedge sizing.
 
-RadialMenu provides extensive customization options for visual appearance, allowing you to create menus that match your application's design language. You can customize colors, sizes, spacing, and display modes to create the perfect user experience.
-
-**Customizable Elements:**
-- **Drill Region** - The clickable area for navigating submenus
-- **Outer Rim** - The static border ring around the menu
-- **Arc Gap** - Space between rim and hover highlighting
-- **Display Style** - How text and images are arranged
-- **Image Sizes** - Icon dimensions for menu items
-- **Center Icon** - The icon displayed at menu center
-
-**When to Customize Appearance:**
-- Brand alignment with corporate colors
-- High-contrast accessibility requirements
-- Touch vs. mouse interface optimization
-- Dark mode vs. light mode theming
-- Icon-focused vs. text-focused navigation
-
-## Drill Region Customization
-
-The drill region is the circular area that appears when an item has submenus. Users click this area to navigate into nested menu levels. You can customize both the default state and hover state colors.
-
-### Default State Color
-
-The `OuterArcColor` property sets the color of the drill region in its normal (non-hover) state.
+Set theme (C# / VB):
 
 ```csharp
-// Set drill region color
-this.radialMenu1.OuterArcColor = Color.Black;
+radialMenu.Style = RadialMenuStyle.Office2016Colorful;
 ```
 
-**Common Use Cases:**
+```vbnet
+radialMenu.Style = RadialMenuStyle.Office2016Colorful
+```
+
+Display style and images:
 
 ```csharp
-// Dark theme drill region
-this.radialMenu1.OuterArcColor = Color.FromArgb(45, 45, 48);
-
-// Light theme drill region  
-this.radialMenu1.OuterArcColor = Color.FromArgb(240, 240, 240);
-
-// Accent color drill region
-this.radialMenu1.OuterArcColor = Color.FromArgb(0, 120, 215);  // Windows blue
-
-// High contrast drill region
-this.radialMenu1.OuterArcColor = Color.Black;
+radialMenu.DisplayStyle = DisplayStyle.ImageAboveText;
+radialMenu.MenuItemImageSize = new Size(24,24);
+radialMenu.WedgeCount = 6; // items per level
 ```
 
-**Result:**
-The drill region matches your color scheme, providing visual consistency throughout the menu.
+```vbnet
+radialMenu.DisplayStyle = DisplayStyle.ImageAboveText
+radialMenu.MenuItemImageSize = New Size(24,24)
+radialMenu.WedgeCount = 6
+```
 
-### Hover State Color
-
-The `OuterArcHighLightedColor` property sets the color when users hover over the drill region.
+Rim and drill region (examples):
 
 ```csharp
-// Set hover color for drill region
-this.radialMenu1.OuterArcHighLightedColor = Color.FromArgb(64, 64, 64);
+radialMenu.RimBackground = Color.FromArgb(0,120,215);
+radialMenu.OuterRimThickness = 20;
+radialMenu.OuterArcColor = Color.FromArgb(37,37,38);
+radialMenu.OuterArcHighLightedColor = Color.FromArgb(62,62,66);
 ```
 
-**Creating Effective Hover States:**
-
-```csharp
-private void ConfigureDrillRegionWithHover()
-{
-    // Dark gray normal state
-    this.radialMenu1.OuterArcColor = Color.FromArgb(30, 30, 30);
-    
-    // Lighter gray on hover (provides clear feedback)
-    this.radialMenu1.OuterArcHighLightedColor = Color.FromArgb(80, 80, 80);
-}
+```vbnet
+radialMenu.RimBackground = Color.FromArgb(0,120,215)
+radialMenu.OuterRimThickness = 20
+radialMenu.OuterArcColor = Color.FromArgb(37,37,38)
+radialMenu.OuterArcHighLightedColor = Color.FromArgb(62,62,66)
 ```
 
-**Color Relationship Best Practices:**
+Quick guidelines:
+- Use larger `OuterRimThickness` and `MenuItemImageSize` for touch targets.
+- Ensure `OuterArcHighLightedColor` contrasts clearly with `OuterArcColor`.
+- Prefer `ImageAboveText` for general desktop apps; `Image` or `Text` only when appropriate.
 
-```csharp
-// Pattern 1: Lighter hover (for dark themes)
-this.radialMenu1.OuterArcColor = Color.Black;
-this.radialMenu1.OuterArcHighLightedColor = Color.FromArgb(60, 60, 60);
-
-// Pattern 2: Darker hover (for light themes)
-this.radialMenu1.OuterArcColor = Color.FromArgb(220, 220, 220);
-this.radialMenu1.OuterArcHighLightedColor = Color.FromArgb(180, 180, 180);
-
-// Pattern 3: Accent color hover
-this.radialMenu1.OuterArcColor = Color.Gray;
-this.radialMenu1.OuterArcHighLightedColor = Color.DodgerBlue;
+This condensed reference shows the concise property calls and platform tips needed for styling.
 ```
-
-**Result:**
-Users receive clear visual feedback when hovering over the drill region, improving usability.
-
-### Complete Drill Region Example
-
-```csharp
-private void CustomizeDrillRegion()
-{
-    // Configure for modern dark theme
-    this.radialMenu1.OuterArcColor = Color.FromArgb(37, 37, 38);  // VS Code dark
-    this.radialMenu1.OuterArcHighLightedColor = Color.FromArgb(62, 62, 66);  // Hover shade
-    
-    // OR configure for light theme
-    // this.radialMenu1.OuterArcColor = Color.FromArgb(245, 245, 245);
-    // this.radialMenu1.OuterArcHighLightedColor = Color.FromArgb(200, 200, 200);
-    
-    // OR configure for accent theme
-    // this.radialMenu1.OuterArcColor = Color.FromArgb(0, 99, 177);  // Deep blue
-    // this.radialMenu1.OuterArcHighLightedColor = Color.FromArgb(0, 150, 255);  // Bright blue
-}
-```
-
-**Result:**
-A professionally styled drill region that provides clear visual feedback and matches your theme.
-
-## Outer Rim Styling
-
-The outer rim is the static border ring that frames the entire RadialMenu. It provides visual definition and can be customized for color and thickness.
-
-### Rim Background Color
-
-The `RimBackground` property sets the color of the outer rim.
-
-```csharp
-// Set outer rim color
-this.radialMenu1.RimBackground = Color.Blue;
-```
-
-**Common Rim Color Patterns:**
-
-```csharp
-// Subtle neutral rim
-this.radialMenu1.RimBackground = Color.FromArgb(200, 200, 200);
-
-// Bold accent rim
-this.radialMenu1.RimBackground = Color.FromArgb(0, 120, 215);  // Windows blue
-
-// Dark theme rim
-this.radialMenu1.RimBackground = Color.FromArgb(50, 50, 50);
-
-// Gradient effect (requires custom rendering)
-this.radialMenu1.RimBackground = Color.Navy;
-
-// Transparent rim (blends with background)
-this.radialMenu1.RimBackground = Color.Transparent;
-```
-
-**Result:**
-The rim color creates a visual frame that can match your brand or provide contrast.
-
-### Rim Thickness
-
-The `OuterRimThickness` property controls the width of the rim in pixels.
-
-```csharp
-// Set rim thickness
-this.radialMenu1.OuterRimThickness = 20;
-```
-
-**Thickness Guidelines:**
-
-```csharp
-// Thin rim (minimalist, more menu space)
-this.radialMenu1.OuterRimThickness = 8;
-
-// Medium rim (balanced, recommended default)
-this.radialMenu1.OuterRimThickness = 16;
-
-// Thick rim (bold, touch-friendly)
-this.radialMenu1.OuterRimThickness = 28;
-
-// Extra thick rim (very prominent frame)
-this.radialMenu1.OuterRimThickness = 40;
-```
-
-**Choosing Rim Thickness:**
-
-```csharp
-private void ConfigureRimForContext()
-{
-    // For mouse-focused desktop applications
-    this.radialMenu1.OuterRimThickness = 12;  // Thin, elegant
-    
-    // For touch-focused tablet applications
-    this.radialMenu1.OuterRimThickness = 32;  // Thick, easy to tap
-    
-    // For balanced desktop/touch hybrid
-    this.radialMenu1.OuterRimThickness = 20;  // Medium thickness
-}
-```
-
-**Result:**
-Rim thickness affects both aesthetics and usability, especially for touch interfaces.
-
-### Complete Rim Customization Example
-
-```csharp
-private void CustomizeOuterRim()
-{
-    // Professional blue theme
-    this.radialMenu1.RimBackground = Color.FromArgb(0, 99, 177);  // Corporate blue
-    this.radialMenu1.OuterRimThickness = 24;  // Prominent but not overwhelming
-    
-    // Ensure rim is visible against background
-    this.radialMenu1.BackColor = Color.White;
-}
-
-private void CreateGradientRimEffect()
-{
-    // Outer rim with complementary color
-    this.radialMenu1.RimBackground = Color.DarkBlue;
-    this.radialMenu1.OuterRimThickness = 28;
-    
-    // Inner region with lighter shade
-    this.radialMenu1.OuterArcColor = Color.FromArgb(30, 60, 120);
-    
-    // Creates visual depth effect
-}
-```
-
-**Result:**
-A visually appealing rim that enhances the menu's professional appearance.
-
-## Arc Gap Configuration
-
-The `OuterArcGap` property controls the spacing between the outer rim and the highlighted arc that appears on hover. This gap creates visual breathing room and helps distinguish interactive elements.
-
-### Setting Arc Gap
-
 ```csharp
 // Set gap between rim and hover arc
 this.radialMenu1.OuterArcGap = 50;

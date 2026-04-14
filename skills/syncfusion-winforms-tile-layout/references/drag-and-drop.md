@@ -371,7 +371,7 @@ private void MakeTileNonDraggable(ImageStreamer tile)
     tile.Tag = "locked";
     
     // Capture mouse events to prevent drag
-    tile.MouseDown += (s, e) =>
+    tile.PreviewMouseDown  += (s, e) =>
     {
         if (tile.Tag?.ToString() == "locked")
         {

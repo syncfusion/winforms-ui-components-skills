@@ -28,15 +28,15 @@ Gauge controls support:
 **Via Package Manager Console:**
 
 ```powershell
-Install-Package Syncfusion.Tools.Windows
+Install-Package Syncfusion.Gauge.Windows
 ```
 
 **Via NuGet Package Manager UI:**
 1. Right-click project → Manage NuGet Packages
-2. Search for "Syncfusion.Tools.Windows"
+2. Search for "Syncfusion.Gauge.Windows"
 3. Select package → Install
 
-**Note:** The Tools.Windows package includes gauge controls plus additional components.
+**Note:** The Syncfusion.Gauge.Windows package includes gauge controls plus additional components.
 
 ### Method 2: Assembly Reference (Local Install)
 

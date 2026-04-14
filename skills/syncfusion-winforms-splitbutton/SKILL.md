@@ -6,6 +6,17 @@ metadata:
   version: "33.1.44"
 ---
 
+## Assembly Dependencies
+
+**Required assemblies:**
+- `Syncfusion.Shared.Base`
+- `Syncfusion.Shared.Windows`
+- `Syncfusion.Tools.Base`
+- `Syncfusion.Tools.Windows`
+
+**NuGet Package:**
+Install-Package Syncfusion.Tools.Windows
+
 # Implementing Split Buttons
 
 ## When to Use This Skill
@@ -188,9 +199,6 @@ splitButton1.DropDownItems.RemoveAt(0);
 Apply Office2016 theme to match application:
 
 ```csharp
-// Set visual style
-splitButton1.Style = SplitButtonVisualStyle.Office2016Colorful;
-
 // Or use ThemeName property
 splitButton1.ThemeName = "Office2019Colorful";
 ```

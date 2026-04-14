@@ -1,4 +1,4 @@
-# Orientation and Layout
+﻿# Orientation and Layout
 
 This guide covers orientation options and layout considerations for the ProgressBarAdv control.
 

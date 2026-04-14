@@ -82,131 +82,45 @@ Add the following namespace at the top of your form's code file:
 **C#:**
 ```csharp
 using Syncfusion.Windows.Forms.Tools;
-```
+# Quick start — RadioButtonAdv (condensed)
 
-**VB.NET:**
-```vb
-Imports Syncfusion.Windows.Forms.Tools
-```
+This short guide shows the minimal steps to add a `RadioButtonAdv` to a WinForms form using C#.
 
-### Step 4: Create RadioButtonAdv Instance
+## Prerequisites
 
-Declare and instantiate the RadioButtonAdv control:
+- Syncfusion WinForms installed and referenced in the project.
 
-**C#:**
+## Minimal code example (C#)
+
 ```csharp
-private Syncfusion.Windows.Forms.Tools.RadioButtonAdv radioButtonAdv1;
-
-public Form1()
-{
-    InitializeComponent();
-    
-    // Create instance
-    this.radioButtonAdv1 = new Syncfusion.Windows.Forms.Tools.RadioButtonAdv();
-}
-```
-
-**VB.NET:**
-```vb
-Private radioButtonAdv1 As Syncfusion.Windows.Forms.Tools.RadioButtonAdv
-
-Public Sub New()
-    InitializeComponent()
-    
-    ' Create instance
-    Me.radioButtonAdv1 = New Syncfusion.Windows.Forms.Tools.RadioButtonAdv()
-End Sub
-```
-
-### Step 5: Configure Basic Properties
-
-Set the essential properties for the RadioButtonAdv control:
-
-**C#:**
-```csharp
-// Set text and appearance
-this.radioButtonAdv1.Text = "Option 1";
-this.radioButtonAdv1.Location = new System.Drawing.Point(20, 20);
-this.radioButtonAdv1.Size = new System.Drawing.Size(150, 25);
-this.radioButtonAdv1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-this.radioButtonAdv1.ForeColor = System.Drawing.Color.Navy;
-this.radioButtonAdv1.BackColor = System.Drawing.Color.White;
-
-// Add to form
-this.Controls.Add(this.radioButtonAdv1);
-```
-
-**VB.NET:**
-```vb
-' Set text and appearance
-Me.radioButtonAdv1.Text = "Option 1"
-Me.radioButtonAdv1.Location = New System.Drawing.Point(20, 20)
-Me.radioButtonAdv1.Size = New System.Drawing.Size(150, 25)
-Me.radioButtonAdv1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10F)
-Me.radioButtonAdv1.ForeColor = System.Drawing.Color.Navy
-Me.radioButtonAdv1.BackColor = System.Drawing.Color.White
-
-' Add to form
-Me.Controls.Add(Me.radioButtonAdv1)
-```
-
-## Complete Working Example
-
-Here's a complete example that creates a group of three RadioButtonAdv controls with modern styling:
-
-**C#:**
-```csharp
-using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
-namespace RadioButtonAdvDemo
+public class MainForm : Form
 {
-    public partial class Form1 : Form
+    public MainForm()
     {
-        private RadioButtonAdv radioOption1;
-        private RadioButtonAdv radioOption2;
-        private RadioButtonAdv radioOption3;
-        private Label lblTitle;
-        private Button btnSubmit;
+        Text = "RadioButtonAdv Quick Start";
+        Size = new Size(420, 200);
 
-        public Form1()
-        {
-            InitializeComponent();
-            InitializeRadioButtons();
-        }
+        var r1 = new RadioButtonAdv { Text = "Option A", Location = new Point(20, 20), Size = new Size(360, 30) };
+        var r2 = new RadioButtonAdv { Text = "Option B", Location = new Point(20, 60), Size = new Size(360, 30) };
+        Controls.Add(r1); Controls.Add(r2);
+    }
+}
+```
 
-        private void InitializeRadioButtons()
-        {
-            // Title label
-            this.lblTitle = new Label();
-            this.lblTitle.Text = "Select Your Preference:";
-            this.lblTitle.Location = new Point(20, 10);
-            this.lblTitle.Size = new Size(300, 20);
-            this.lblTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            this.Controls.Add(this.lblTitle);
+## Notes
 
-            // First radio button
-            this.radioOption1 = new RadioButtonAdv();
-            this.radioOption1.Text = "Standard Option";
-            this.radioOption1.Location = new Point(30, 40);
-            this.radioOption1.Size = new Size(200, 25);
-            this.radioOption1.Style = RadioButtonAdvStyle.Office2016Colorful;
-            this.radioOption1.Checked = true;
-            this.radioOption1.CheckedChanged += RadioButton_CheckedChanged;
-            this.Controls.Add(this.radioOption1);
+- Use the Designer for visual placement or code for dynamic creation.
+- Common properties: `Checked`, `Text`, `BackgroundStyle`, `GradientStart`, `GradientEnd`, `BorderStyle`, `ImageCheckBox`.
 
-            // Second radio button
-            this.radioOption2 = new RadioButtonAdv();
-            this.radioOption2.Text = "Premium Option";
-            this.radioOption2.Location = new Point(30, 70);
-            this.radioOption2.Size = new Size(200, 25);
-            this.radioOption2.Style = RadioButtonAdvStyle.Office2016Colorful;
-            this.radioOption2.CheckedChanged += RadioButton_CheckedChanged;
-            this.Controls.Add(this.radioOption2);
+## Next steps
 
-            // Third radio button
+- See `appearance-customization.md` for styling examples.
+- See `events.md` for selection and change handling.
+
             this.radioOption3 = new RadioButtonAdv();
             this.radioOption3.Text = "Enterprise Option";
             this.radioOption3.Location = new Point(30, 100);
