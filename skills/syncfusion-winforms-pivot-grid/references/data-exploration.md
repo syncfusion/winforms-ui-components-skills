@@ -3,8 +3,6 @@
 ## Table of Contents
 - [Overview](#overview)
 - [Hyperlink Cells](#hyperlink-cells)
-- [Drill-Through Functionality](#drill-through-functionality)
-- [Data Visualization](#data-visualization)
 - [Interactive Navigation](#interactive-navigation)
 - [Tooltips](#tooltips)
 
@@ -22,150 +20,35 @@ Hyperlink cells allow users to click on values to drill into underlying data or 
 using Syncfusion.Windows.Forms.PivotAnalysis;
 
 // Enable hyperlink cells
-pivotGridControl1.TableControl.EnableHyperlinkCells = true;
+this.pivotGridControl1.TableModel.QueryCellInfo += TableModel_QueryCellInfo;
+
+private void TableModel_QueryCellInfo(object sender, Syncfusion.Windows.Forms.Grid.GridQueryCellInfoEventArgs e)
+{
+    if (e.RowIndex > this.pivotGridControl1.PivotColumns.Count + (this.pivotGridControl1.PivotCalculations.Count > 1 ? 1 : 0) && e.ColIndex > this.pivotGridControl1.PivotRows.Count && e.Style.CellValue != null)
+    {
+        e.Style.CellType = "HyperlinkCell";
+        e.Style.Tag = null;
+    }
+}
 ```
 
-### Handling Hyperlink Clicks
+### Setting hyperlink information to cells
 
 ```csharp
 // Subscribe to hyperlink click event
-pivotGridControl1.HyperlinkCellClick += PivotGridControl1_HyperlinkCellClick;
+pivotGridControl1.TableModel_QueryCellInfo += TableModel_QueryCellInfo;
 
-private void PivotGridControl1_HyperlinkCellClick(object sender, 
-    HyperlinkCellClickEventArgs e)
+private void TableModel_QueryCellInfo(object sender, GridQueryCellInfoEventArgs e)
 {
-    // Get clicked cell information
-    string cellValue = e.Text;
-    int rowIndex = e.RowIndex;
-    int colIndex = e.ColIndex;
-    
-    Console.WriteLine($"Clicked: {cellValue} at ({rowIndex}, {colIndex})");
-    
-    // Show drill-through data
-    ShowDrillThroughData(rowIndex, colIndex);
-    
-    // Or cancel default behavior
-    // e.Cancel = true;
-}
-```
-
-## Drill-Through Functionality
-
-Drill-through displays the underlying detail records that contribute to a summary cell value.
-
-### Basic Drill-Through
-
-```csharp
-private void ShowDrillThroughData(int rowIndex, int colIndex)
-{
-    // Get the underlying data for the clicked cell
-    var drillData = pivotGridControl1.InternalEngine.GetRawItemsFor(rowIndex, colIndex);
-    
-    if (drillData != null && drillData.Count > 0)
+    if (e.ColIndex < this.pivotGridControl1.PivotRows.Count && e.Style.CellValue != null)
     {
-        // Display in a data grid
-        DataGridView detailGrid = new DataGridView
-        {
-            DataSource = drillData,
-            Dock = DockStyle.Fill,
-            ReadOnly = true,
-            AllowUserToAddRows = false
-        };
-        
-        // Show in new form
-        Form detailForm = new Form
-        {
-            Text = $"Drill-Through Data ({drillData.Count} records)",
-            Size = new Size(800, 600),
-            StartPosition = FormStartPosition.CenterParent
-        };
-        detailForm.Controls.Add(detailGrid);
-        detailForm.ShowDialog();
-    }
-    else
-    {
-        MessageBox.Show("No detail data available for this cell.");
+        e.Style.CellType = "HyperlinkCell";
+        if (e.Style.CellValue.ToString().Contains("Bike"))
+            e.Style.Tag = "https://en.wikipedia.org/wiki/Types_of_motorcycles";
+        else if (e.Style.CellValue.ToString().Contains("Car"))
+            e.Style.Tag = "https://en.wikipedia.org/wiki/Car_classification";
     }
 }
-```
-
-### Custom Drill-Through Dialog
-
-```csharp
-private void ShowCustomDrillThrough(object sender, HyperlinkCellClickEventArgs e)
-{
-    // Get raw data
-    var rawData = pivotGridControl1.InternalEngine.GetRawItemsFor(e.RowIndex, e.ColIndex);
-    
-    if (rawData != null)
-    {
-        // Create custom view
-        StringBuilder details = new StringBuilder();
-        details.AppendLine($"Cell Value: {e.Text}");
-        details.AppendLine($"Record Count: {rawData.Count}");
-        details.AppendLine("\nDetail Records:");
-        
-        foreach (var item in rawData.Take(10))  // Show first 10
-        {
-            // Assuming ProductSales data model
-            if (item is ProductSales sale)
-            {
-                details.AppendLine($"- {sale.Product}: {sale.Amount:C} ({sale.Quantity} units)");
-            }
-        }
-        
-        MessageBox.Show(details.ToString(), "Drill-Through Details", 
-                       MessageBoxButtons.OK, MessageBoxIcon.Information);
-    }
-}
-```
-
-## Data Visualization
-
-### Highlighting Patterns
-
-```csharp
-// Highlight cells based on drill-through data count
-pivotGridControl1.TableControl.QueryCellStyle += (s, e) =>
-{
-    if (e.RowIndex > 0 && e.ColIndex > 0)
-    {
-        var rawData = pivotGridControl1.InternalEngine.GetRawItemsFor(
-            e.RowIndex, e.ColIndex);
-        
-        if (rawData != null)
-        {
-            int count = rawData.Count;
-            
-            // Color intensity based on record count
-            if (count > 100)
-                e.Style.BackColor = Color.DarkGreen;
-            else if (count > 50)
-                e.Style.BackColor = Color.LightGreen;
-            else if (count > 10)
-                e.Style.BackColor = Color.LightYellow;
-        }
-    }
-};
-```
-
-### Visual Indicators
-
-```csharp
-// Add visual indicators for clickable cells
-pivotGridControl1.TableControl.QueryCellStyle += (s, e) =>
-{
-    if (pivotGridControl1.TableControl.EnableHyperlinkCells)
-    {
-        if (e.RowIndex > 0 && e.ColIndex > 0)
-        {
-            // Make value cells look like hyperlinks
-            e.Style.ForeColor = Color.Blue;
-            e.Style.Font.Underline = true;
-            e.Style.CellTipText = "Click to view details";
-        }
-    }
-};
 ```
 
 ## Interactive Navigation
@@ -254,156 +137,16 @@ Display additional information on hover:
 
 ```csharp
 // Enable cell tooltips
-pivotGridControl1.TableControl.ActivateCurrentCellBehavior = 
-    GridCellActivateAction.SetCurrent;
+this.pivotGridControl1.TableModel.QueryCellInfo += TableModel_QueryCellInfo;
 
 // Customize tooltip content
-pivotGridControl1.TableControl.QueryCellStyle += (s, e) =>
+private void TableModel_QueryCellInfo(object sender, GridQueryCellInfoEventArgs e)
 {
-    if (e.RowIndex > 0 && e.ColIndex > 0)
-    {
-        var rawData = pivotGridControl1.InternalEngine.GetRawItemsFor(
-            e.RowIndex, e.ColIndex);
-        
-        if (rawData != null)
-        {
-            string tooltip = $"Value: {e.Style.CellValue}\n" +
-                           $"Record Count: {rawData.Count}\n" +
-                           $"Click to view details";
-            e.Style.CellTipText = tooltip;
-        }
-    }
-};
-```
-
-### Rich Tooltips
-
-```csharp
-// Show statistical information in tooltip
-pivotGridControl1.TableControl.QueryCellStyle += (s, e) =>
-{
-    if (e.RowIndex > 0 && e.ColIndex > 0)
-    {
-        var rawData = pivotGridControl1.InternalEngine.GetRawItemsFor(
-            e.RowIndex, e.ColIndex);
-        
-        if (rawData != null && rawData.Count > 0)
-        {
-            // Calculate statistics
-            var amounts = rawData.Cast<ProductSales>()
-                                .Select(x => x.Amount)
-                                .ToList();
-            
-            double sum = amounts.Sum();
-            double avg = amounts.Average();
-            double min = amounts.Min();
-            double max = amounts.Max();
-            
-            string tooltip = $"Summary Statistics:\n" +
-                           $"Total: {sum:C}\n" +
-                           $"Average: {avg:C}\n" +
-                           $"Min: {min:C}\n" +
-                           $"Max: {max:C}\n" +
-                           $"Count: {rawData.Count}";
-            
-            e.Style.CellTipText = tooltip;
-        }
-    }
-};
-```
-
-## Complete Example
-
-```csharp
-public class DataExplorationForm : Form
-{
-    private PivotGridControl pivotGridControl1;
-    private Stack<PivotState> navigationHistory = new Stack<PivotState>();
-    
-    public DataExplorationForm()
-    {
-        InitializeComponent();
-        SetupDataExploration();
-    }
-    
-    private void SetupDataExploration()
-    {
-        // Enable hyperlinks
-        pivotGridControl1.TableControl.EnableHyperlinkCells = true;
-        
-        // Handle clicks
-        pivotGridControl1.HyperlinkCellClick += OnHyperlinkCellClick;
-        
-        // Add tooltips
-        pivotGridControl1.TableControl.QueryCellStyle += AddTooltips;
-        
-        // Style hyperlinks
-        pivotGridControl1.TableControl.QueryCellStyle += StyleHyperlinks;
-    }
-    
-    private void OnHyperlinkCellClick(object sender, HyperlinkCellClickEventArgs e)
-    {
-        // Get drill-through data
-        var rawData = pivotGridControl1.InternalEngine.GetRawItemsFor(
-            e.RowIndex, e.ColIndex);
-        
-        if (rawData != null && rawData.Count > 0)
-        {
-            // Show detail form
-            ShowDrillThroughDialog(e.Text, rawData);
-        }
-        
-        // Cancel default behavior
-        e.Cancel = true;
-    }
-    
-    private void AddTooltips(object sender, GridQueryCellStyleEventArgs e)
-    {
-        if (e.RowIndex > 0 && e.ColIndex > 0)
-        {
-            var rawData = pivotGridControl1.InternalEngine.GetRawItemsFor(
-                e.RowIndex, e.ColIndex);
-            
-            if (rawData != null)
-            {
-                e.Style.CellTipText = $"Records: {rawData.Count}\nClick for details";
-            }
-        }
-    }
-    
-    private void StyleHyperlinks(object sender, GridQueryCellStyleEventArgs e)
-    {
-        if (e.RowIndex > 0 && e.ColIndex > 0)
-        {
-            e.Style.ForeColor = Color.Blue;
-            e.Style.Font.Underline = true;
-        }
-    }
-    
-    private void ShowDrillThroughDialog(string cellValue, IList rawData)
-    {
-        Form detailForm = new Form
-        {
-            Text = $"Details for {cellValue} ({rawData.Count} records)",
-            Size = new Size(900, 600),
-            StartPosition = FormStartPosition.CenterParent
-        };
-        
-        DataGridView grid = new DataGridView
-        {
-            DataSource = rawData,
-            Dock = DockStyle.Fill,
-            ReadOnly = true,
-            AllowUserToAddRows = false,
-            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-        };
-        
-        detailForm.Controls.Add(grid);
-        detailForm.ShowDialog();
-    }
+    Syncfusion.PivotAnalysis.Base.PivotCellInfo info = pivotGridControl1.PivotEngine[e.RowIndex - 1, e.ColIndex - 1];
+    if (info.CellType == Syncfusion.PivotAnalysis.Base.PivotCellType.ValueCell)
+        e.Style.CellTipText = e.Style.Text;
 }
 ```
-
 ## Best Practices
 
 1. **Provide Visual Feedback** - Make clickable cells obvious with colors/underlines

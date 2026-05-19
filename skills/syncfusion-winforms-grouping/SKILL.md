@@ -273,7 +273,6 @@ engine.TableDescriptor.SortedColumns["Product"].Comparer = new CustomComparer();
 | `RecordFilters` | Collection of filter conditions |
 | `Summaries` | Collection of summary calculations |
 | `ExpressionFields` | Collection of calculated fields |
-| `Columns` | Collection of column descriptors (schema info) |
 
 ### Table Properties
 | Property | Description |

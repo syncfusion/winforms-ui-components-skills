@@ -60,7 +60,7 @@ using Syncfusion.Windows.Forms;
 gridGroupingControl1.RecordNavigationBar.DisplayArrowButtons = DisplayArrowButtons.Single;
 
 // Show all buttons (first/previous/next/last)
-gridGroupingControl1.RecordNavigationBar.DisplayArrowButtons = DisplayArrowButtons.Both;
+gridGroupingControl1.RecordNavigationBar.DisplayArrowButtons = DisplayArrowButtons.All;
 ```
 
 #### Custom Label Text

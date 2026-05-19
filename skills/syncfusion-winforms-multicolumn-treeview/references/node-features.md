@@ -5,27 +5,13 @@ Interactive node features including checkboxes, option buttons, tooltips, plus/m
 ## CheckBoxes
 
 ```csharp
-// Enable for all nodes
-multiColumnTreeView1.ShowCheckBoxes = true;
+//Check box for all nodes in MultiColumnTreeView
+this.multiColumnTreeView1.ShowCheckBoxes = true;
 
-// Enable for specific node
-TreeNodeAdv node = multiColumnTreeView1.Nodes[0];
-node.ShowCheckBox = true;
-node.Checked = true;
+//Check box for particular nodes
+this.multiColumnTreeView1.Nodes[0].ShowCheckBox = true;
 
-// Interactive checkboxes (auto-update parent states)
-multiColumnTreeView1.InteractiveCheckBoxes = true;
-parentNode.InteractiveCheckBox = true;
-
-// Tristate support
-node.CheckState = CheckState.Indeterminate;
-node.CheckColor = Color.Green;
-node.IntermediateCheckColor = Color.Orange;
-
-// Get checked nodes
-TreeNodeAdvCollection checkedNodes = multiColumnTreeView1.CheckedNodes;
-foreach (TreeNodeAdv checkedNode in checkedNodes)
-    Console.WriteLine($"Checked: {checkedNode.Text}");
+this.multiColumnTreeView1.Nodes[0].Checked = true;
 ```
 
 ## Option Buttons (Radio Buttons)
@@ -34,16 +20,13 @@ foreach (TreeNodeAdv checkedNode in checkedNodes)
 // Enable for all nodes
 multiColumnTreeView1.ShowOptionButtons = true;
 
-// Enable for specific node
-node.ShowOptionButton = true;
-node.Optioned = true;
-node.OptionButtonColor = Color.LightBlue;
+//Option button for all nodes in MultiColumnTreeView
+this.multiColumnTreeView1.ShowOptionButtons = true;
 
-// Ensure default selection
-TreeNodeAdv parentNode = new TreeNodeAdv { Text = "Payment Method" };
-parentNode.EnsureDefaultOptionedChild = true;
-parentNode.Nodes.Add(new TreeNodeAdv { Text = "Credit Card", Optioned = true });
-parentNode.Nodes.Add(new TreeNodeAdv { Text = "PayPal" });
+//Option button for particular nodes
+this.multiColumnTreeView1.Nodes[0].ShowOptionButton = true;
+
+this.multiColumnTreeView1.Nodes[0].Optioned = true;
 ```
 
 ## ToolTips and HelpText

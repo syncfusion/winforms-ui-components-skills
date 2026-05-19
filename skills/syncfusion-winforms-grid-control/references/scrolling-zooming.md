@@ -34,12 +34,9 @@ gridControl1.VScrollBehavior = GridScrollbarMode.Shared;  // Vertical
 gridControl1.HScrollBehavior = GridScrollbarMode.Shared;
 gridControl1.VScrollBehavior = GridScrollbarMode.Shared;
 
-// Hide horizontal scroll bar
+// Hide horizontal and vertical scroll bar
 gridControl1.HScrollBehavior = GridScrollbarMode.Disabled;
-
-// Auto-hide scroll bars
-gridControl1.HScrollBehavior = GridScrollbarMode.AutoHidden;
-gridControl1.VScrollBehavior = GridScrollbarMode.AutoHidden;
+gridControl1.VScrollBehavior = GridScrollbarMode.Disabled;
 ```
 
 ## Frozen Rows and Columns
@@ -49,20 +46,14 @@ Keep specific rows and columns visible while scrolling.
 ### Freeze First Row (Header):
 
 ```csharp
-// Freeze first row
-gridControl1.FreezeFirstRow = true;
-
-// Or specify number of rows to freeze
+// Specify number of rows to freeze
 gridControl1.Model.Rows.FrozenCount = 1;
 ```
 
 ### Freeze First Column:
 
 ```csharp
-// Freeze first column
-gridControl1.FreezeFirstColumn = true;
-
-// Or specify number of columns to freeze
+// Specify number of columns to freeze
 gridControl1.Model.Cols.FrozenCount = 1;
 ```
 
@@ -129,13 +120,6 @@ gridControl1.TopRowIndex = gridControl1.RowCount - 1;
 gridControl1.LeftColIndex = gridControl1.ColCount - 1;
 ```
 
-### Smooth Scrolling:
-
-```csharp
-// Enable smooth scrolling
-gridControl1.Properties.ScrollingAnimationMode = GridScrollingAnimationMode.Smooth;
-```
-
 ## Scroll Events
 
 ### VScrollPixelPosChanged Event:
@@ -198,47 +182,11 @@ private void UpdateScrollIndicator()
 
 Control the zoom level of the grid for better visibility.
 
-### Enable Zoom:
-
 ```csharp
-// Set zoom level (default is 100)
-gridControl1.ZoomSize = 150;  // 150% zoom
+ZoomGrid zoom = new ZoomGrid(this.gridControl1);
 
-// Zoom in
-gridControl1.ZoomSize = 125;
-
-// Zoom out
-gridControl1.ZoomSize = 75;
-
-// Reset to normal
-gridControl1.ZoomSize = 100;
-```
-
-### Zoom with Mouse Wheel:
-
-```csharp
-// Enable zoom with Ctrl+MouseWheel
-gridControl1.MouseWheel += GridControl1_MouseWheel;
-
-private void GridControl1_MouseWheel(object sender, MouseEventArgs e)
-{
-    if (ModifierKeys == Keys.Control)
-    {
-        if (e.Delta > 0)
-        {
-            // Zoom in
-            gridControl1.ZoomSize = Math.Min(gridControl1.ZoomSize + 10, 200);
-        }
-        else
-        {
-            // Zoom out
-            gridControl1.ZoomSize = Math.Max(gridControl1.ZoomSize - 10, 50);
-        }
-        
-        ((HandledMouseEventArgs)e).Handled = true;
-    }
-}
-```
+//Zoom the grid with the specific percentage
+zoom.zoomGrid("140");
 
 ### Zoom Toolbar:
 
@@ -249,28 +197,19 @@ private void CreateZoomToolbar()
     
     // Zoom in button
     ToolStripButton zoomInBtn = new ToolStripButton("+");
-    zoomInBtn.Click += (s, e) => gridControl1.ZoomSize += 10;
     toolbar.Items.Add(zoomInBtn);
     
     // Zoom out button
     ToolStripButton zoomOutBtn = new ToolStripButton("-");
-    zoomOutBtn.Click += (s, e) => gridControl1.ZoomSize = Math.Max(50, gridControl1.ZoomSize - 10);
     toolbar.Items.Add(zoomOutBtn);
     
     // Zoom reset button
     ToolStripButton resetBtn = new ToolStripButton("100%");
-    resetBtn.Click += (s, e) => gridControl1.ZoomSize = 100;
     toolbar.Items.Add(resetBtn);
     
     // Zoom label
     ToolStripLabel zoomLabel = new ToolStripLabel("100%");
     toolbar.Items.Add(zoomLabel);
-    
-    // Update label on zoom
-    gridControl1.ZoomChanged += (s, e) =>
-    {
-        zoomLabel.Text = $"{gridControl1.ZoomSize}%";
-    };
     
     this.Controls.Add(toolbar);
 }
@@ -378,8 +317,6 @@ public class ScrollZoomGrid : Form
     {
         SetupGrid();
         SetupFrozenPanes();
-        SetupScrollTracking();
-        SetupZoom();
         SetupStatusBar();
     }
     
@@ -402,43 +339,12 @@ public class ScrollZoomGrid : Form
         gridControl1.Model.Cols.FrozenCount = 1;
     }
     
-    private void SetupScrollTracking()
-    {
-        gridControl1.VScrollPixelPosChanged += (s, e) =>
-        {
-            UpdateStatus();
-        };
-    }
-    
-    private void SetupZoom()
-    {
-        gridControl1.MouseWheel += (s, e) =>
-        {
-            if (ModifierKeys == Keys.Control)
-            {
-                if (e.Delta > 0)
-                    gridControl1.ZoomSize += 10;
-                else
-                    gridControl1.ZoomSize = Math.Max(50, gridControl1.ZoomSize - 10);
-                    
-                ((HandledMouseEventArgs)e).Handled = true;
-                UpdateStatus();
-            }
-        };
-    }
-    
     private void SetupStatusBar()
     {
         statusStrip = new StatusStrip();
         statusLabel = new ToolStripStatusLabel();
         statusStrip.Items.Add(statusLabel);
         this.Controls.Add(statusStrip);
-        UpdateStatus();
-    }
-    
-    private void UpdateStatus()
-    {
-        statusLabel.Text = $"Row: {gridControl1.TopRowIndex} | Zoom: {gridControl1.ZoomSize}%";
     }
 }
 ```
@@ -472,7 +378,6 @@ public class ScrollZoomGrid : Form
 - Implement data caching
 
 ### Zoom not working
-- Verify `ZoomSize` property is set
 - Check if zoom is supported in current view mode
 - Test with different values
 

@@ -175,9 +175,6 @@ private void ValidateRequiredField(object sender, CancelEventArgs e)
     {
         MessageBox.Show("This field is required");
         e.Cancel = true;
-        
-        // Highlight the cell
-        gridControl1.CurrentCell.StyleInfo.BackColor = Color.LightPink;
     }
 }
 ```

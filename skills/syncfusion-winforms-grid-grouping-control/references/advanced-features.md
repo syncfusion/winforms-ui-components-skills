@@ -118,7 +118,7 @@ GridFindReplaceEventArgs frEvents =
     new GridFindReplaceEventArgs("SearchText", "", options, locInfo);
 
 // Find next match
-GridRangeInfo result = frDialog.Find(frEvents);
+GridRangeInfo result = (GridRangeInfo)frDialog.Find(frEvents);
 
 if (result != null)
 {
@@ -354,7 +354,7 @@ zoom.ZoomBorderSize = 10;
 
 ```csharp
 // Set magnification factor (up to 4.0)
-zoom.ZoomFactor = 2.5; // 250% magnification
+zoom.ZoomFactor = 2.5f; // 250% magnification
 ```
 
 Default zoom factor: 1.5 (150%)
@@ -489,7 +489,7 @@ void FindAllWithHighlight()
     
     // Find all matches
     GridRangeInfo result;
-    while ((result = frDialog.Find(frEvents)) != null)
+    while ((result = (GridRangeInfo)frDialog.Find(frEvents)) != null)
     {
         highlightedCells.Add(result);
     }
@@ -572,7 +572,7 @@ public MyForm()
     zoom = new ZoomGroupingGrid(gridGroupingControl1);
     zoom.ZoomImageMode = ZoomGroupingGrid.ImageMode.Ellipse;
     zoom.ZoomSize = new Size(300, 300);
-    zoom.ZoomFactor = 2.0;
+    zoom.ZoomFactor = 2.0f;
     zoom.ZoomBorderColor = Color.DodgerBlue;
     zoom.ZoomBorderSize = 3;
     
@@ -635,7 +635,7 @@ void ReplaceWithConfirmation()
     int replacedCount = 0;
     GridRangeInfo result;
     
-    while ((result = frDialog.Find(frEvents)) != null)
+    while ((result = (GridRangeInfo)frDialog.Find(frEvents)) != null)
     {
         // Highlight found cell
         gridGroupingControl1.TableControl.ScrollCellInView(result.Top, result.Left);
@@ -648,7 +648,7 @@ void ReplaceWithConfirmation()
         
         if (confirm == DialogResult.Yes)
         {
-            frEvents.ReplaceWith = txtReplace.Text;
+            frEvents.ReplaceString = txtReplace.Text;
             frDialog.Replace(frEvents);
             replacedCount++;
         }

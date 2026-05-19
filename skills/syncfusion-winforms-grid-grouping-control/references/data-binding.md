@@ -497,7 +497,7 @@ Add custom columns not backed by data source:
 
 ```csharp
 // Create unbound field descriptor
-FieldDescriptor unboundField = new FieldDescriptor("Notes", typeof(string), false, "");
+FieldDescriptor unboundField = new FieldDescriptor("Notes","", false, "");
 unboundField.ReadOnly = false;
 gridGroupingControl1.TableDescriptor.UnboundFields.Add(unboundField);
 
@@ -550,7 +550,7 @@ private void GridGroupingControl1_SaveValue(object sender, FieldValueEventArgs e
 
 ```csharp
 // Create unbound field
-FieldDescriptor checkBoxField = new FieldDescriptor("Selected", typeof(bool), false, false);
+FieldDescriptor checkBoxField = new FieldDescriptor("Selected"," ", false,"");
 gridGroupingControl1.TableDescriptor.UnboundFields.Add(checkBoxField);
 
 // Configure as CheckBox

@@ -137,7 +137,7 @@ multiColumnTreeView1.LabelEdit = true;
 ```csharp
 // Make node editable and start editing
 TreeNodeAdv node = multiColumnTreeView1.Nodes[0];
-node.BeginEdit();
+multiColumnTreeView1.BeginEdit(node);
 ```
 
 ### Handling Edit Events
@@ -180,9 +180,6 @@ multiColumnTreeView1.NodeEditorValidated += (sender, e) =>
     // e.Label - new label
     
     Console.WriteLine($"Node renamed to: {e.Label}");
-    
-    // Update data source if needed
-    UpdateDataSource(e.Node, e.Label);
 };
 
 // Validate on each text change
@@ -268,7 +265,7 @@ void SetupKeyboardSearch()
         if (e.Node != null)
         {
             // Node found by keyboard search
-            e.Node.ForeColor = Color.Blue;
+            e.Node.TextColor = Color.Blue;
             e.Node.Font = new Font(e.Node.Font, FontStyle.Bold);
         }
     };

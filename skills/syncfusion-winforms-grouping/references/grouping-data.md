@@ -28,18 +28,7 @@ The `Engine.TableDescriptor` property maintains schema information for the datas
 | `GroupedColumns` | Properties to group by |
 | `Summaries` | Aggregate calculations per group |
 | `RecordFilters` | Filter conditions to apply |
-| `Columns` | Column schema definitions |
 | `ExpressionFields` | Calculated properties |
-
-### Accessing Column Schema
-
-```csharp
-// Get column information
-foreach (PropertyDescriptor pd in groupingEngine.TableDescriptor.Columns)
-{
-    Console.WriteLine($"Column: {pd.Name}, Type: {pd.PropertyType}");
-}
-```
 
 The `Columns` collection corresponds to the public properties in your data objects. For a class with properties A, B, C, and D, you'll have four column descriptors.
 

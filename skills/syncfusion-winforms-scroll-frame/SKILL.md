@@ -231,13 +231,15 @@ sfScrollFrame1.Control = listView1;
 sfScrollFrame1.VerticalScrollBar.ContextMenuShowing += (sender, e) =>
 {
     // Add custom menu item to default menu
-    MenuItem customItem = new MenuItem("Show Current Position", (s, ev) =>
+    ToolStripMenuItem customItem = new ToolStripMenuItem("Show Current Position");
+
+    customItem.Click += (s, ev) =>
     {
         int position = sfScrollFrame1.VerticalScrollBar.Value;
         MessageBox.Show($"Current scroll position: {position}");
     });
-    
-    e.ContextMenu.MenuItems.Add(customItem);
+
+    e.ContextMenu.Items.Add(customItem);
 };
 ```
 

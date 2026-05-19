@@ -346,7 +346,7 @@ Next item
 var selectedCells = sfDataGrid.GetSelectedCells();
 foreach (var cellInfo in selectedCells)
 {
-    Console.WriteLine($"Cell: Row {cellInfo.RowIndex}, Column {cellInfo.ColumnIndex}");
+    Console.WriteLine($"Cell: Row {cellInfo.RowIndex}, Column {cellInfo.Column}");
 }
 ```
 
@@ -355,7 +355,7 @@ foreach (var cellInfo in selectedCells)
 ' Get selected cells
 Dim selectedCells = sfDataGrid.GetSelectedCells()
 For Each cellInfo In selectedCells
-    Console.WriteLine($"Cell: Row {cellInfo.RowIndex}, Column {cellInfo.ColumnIndex}")
+    Console.WriteLine($"Cell: Row {cellInfo.RowIndex}, Column {cellInfo.Column}")
 Next cellInfo
 ```
 

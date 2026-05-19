@@ -97,7 +97,7 @@ Implement button interactions:
 Here's a minimal example to get started with SfButton:
 
 ```csharp
-using Syncfusion.WinForms.Buttons;
+using Syncfusion.WinForms.Controls;
 using System.Windows.Forms;
 
 public partial class Form1 : Form

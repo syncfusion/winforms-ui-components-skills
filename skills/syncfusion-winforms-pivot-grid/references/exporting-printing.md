@@ -117,40 +117,6 @@ PivotPdfExport pdfExport = new PivotPdfExport(pivotGridControl1);
 pdfExport.Export(@"C:\Reports\PivotGrid.pdf");
 ```
 
-### PDF Export with Options
-
-```csharp
-using Syncfusion.Pdf;
-
-PivotPdfExport pdfExport = new PivotPdfExport(pivotGridControl1);
-
-// Set page orientation
-pdfExport.PageOrientation = PdfPageOrientation.Landscape;
-
-// Set page size
-pdfExport.PageSize = new SizeF(842, 595);  // A4 Landscape
-
-// Export
-pdfExport.Export(@"C:\Reports\PivotGrid_Landscape.pdf");
-```
-
-### PDF with Custom Margins
-
-```csharp
-PivotPdfExport pdfExport = new PivotPdfExport(pivotGridControl1);
-
-// Set margins (in points, 72 points = 1 inch)
-pdfExport.Margins = new PdfMargins
-{
-    Left = 36,    // 0.5 inch
-    Right = 36,
-    Top = 72,     // 1 inch
-    Bottom = 72
-};
-
-pdfExport.Export(@"C:\Reports\PivotGrid_CustomMargins.pdf");
-```
-
 ## Exporting to Word
 
 Export pivot grid data to Microsoft Word documents.
@@ -166,22 +132,10 @@ Export pivot grid data to Microsoft Word documents.
 using Syncfusion.PivotConverter;
 
 // Create Word exporter
-PivotWordExport wordExport = new PivotWordExport(pivotGridControl1);
+PivotWordExport wordExport = new PivotWordExport(this.pivotGridControl1);
 
 // Export to file
-wordExport.Export(@"C:\Reports\PivotGrid.docx");
-```
-
-### Word Export with Formatting
-
-```csharp
-PivotWordExport wordExport = new PivotWordExport(pivotGridControl1);
-
-// Configure export options
-wordExport.ExportWithFormatting = true;  // Preserve colors and fonts
-
-// Export
-wordExport.Export(@"C:\Reports\PivotGrid_Formatted.docx");
+wordExport.pivotGridToWord(@"D:\PivotGrid.doc");
 ```
 
 ## Printing
@@ -193,8 +147,11 @@ Print pivot grid directly or with custom settings.
 ```csharp
 using Syncfusion.Windows.Forms.PivotAnalysis;
 
-// Simple print
-pivotGridControl1.Print();
+PivotGridPrintDocumentAdv pivotGridPrintDocumentAdv = new PivotGridPrintDocumentAdv(this.pivotGridControl1);
+
+PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog();
+printPreviewDialog.Document = pivotGridPrintDocumentAdv;
+printPreviewDialog.ShowDialog();
 ```
 
 ### Print with Dialog
@@ -202,10 +159,13 @@ pivotGridControl1.Print();
 ```csharp
 // Show print dialog first
 PrintDialog printDialog = new PrintDialog();
-
+PivotGridPrintDocumentAdv pivotGridPrintDocumentAdv = new PivotGridPrintDocumentAdv(this.pivotGridControl1);
 if (printDialog.ShowDialog() == DialogResult.OK)
 {
-    pivotGridControl1.Print(printDialog.PrinterSettings);
+    // Set the printer settings from the dialog
+    pivotGridPrintDocumentAdv.PrinterSettings = printDialog.PrinterSettings;
+    // Print the document
+    pivotGridPrintDocumentAdv.Print();
 }
 ```
 
@@ -213,13 +173,11 @@ if (printDialog.ShowDialog() == DialogResult.OK)
 
 ```csharp
 // Show print preview dialog
-PrintPreviewDialog previewDialog = new PrintPreviewDialog();
-previewDialog.Document = pivotGridControl1.GetPrintDocument();
+PivotGridPrintDocumentAdv pivotGridPrintDocumentAdv = new PivotGridPrintDocumentAdv(this.pivotGridControl1);
 
-if (previewDialog.ShowDialog() == DialogResult.OK)
-{
-    pivotGridControl1.Print();
-}
+PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog();
+printPreviewDialog.Document = pivotGridPrintDocumentAdv;
+printPreviewDialog.ShowDialog();
 ```
 
 ### Custom Print Settings
@@ -228,7 +186,7 @@ if (previewDialog.ShowDialog() == DialogResult.OK)
 using System.Drawing.Printing;
 
 // Configure print settings
-PrintDocument printDoc = pivotGridControl1.GetPrintDocument();
+PrintDocument printDoc = new PrintDocument()
 
 printDoc.DefaultPageSettings.Landscape = true;
 printDoc.DefaultPageSettings.Margins = new Margins(50, 50, 50, 50);
@@ -311,15 +269,13 @@ private void ExportToExcel(string fileName)
 private void ExportToPdf(string fileName)
 {
     PivotPdfExport pdfExport = new PivotPdfExport(pivotGridControl1);
-    pdfExport.PageOrientation = PdfPageOrientation.Landscape;
     pdfExport.Export(fileName);
 }
 
 private void ExportToWord(string fileName)
 {
     PivotWordExport wordExport = new PivotWordExport(pivotGridControl1);
-    wordExport.ExportWithFormatting = true;
-    wordExport.Export(fileName);
+    wordExport.pivotGridToWord(fileName);
 }
 ```
 
@@ -472,9 +428,11 @@ public class ExportPrintForm : Form
     
     private void PrintWithPreview()
     {
-        PrintPreviewDialog preview = new PrintPreviewDialog();
-        preview.Document = pivotGridControl1.GetPrintDocument();
-        preview.ShowDialog();
+        PivotGridPrintDocumentAdv pivotGridPrintDocumentAdv = new PivotGridPrintDocumentAdv(this.pivotGridControl1);
+
+        PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog();
+        printPreviewDialog.Document = pivotGridPrintDocumentAdv;
+        printPreviewDialog.ShowDialog();
     }
 }
 ```

@@ -23,10 +23,10 @@ using Syncfusion.Windows.Forms.Tools;
 ## NuGet Installation
 
 ```powershell
-Install-Package Syncfusion.Windows.Forms
+Install-Package Syncfusion.Shared.Base
 ```
 
-Or via NuGet Package Manager UI: search for `Syncfusion.Windows.Forms`.
+Or via NuGet Package Manager UI: search for `Syncfusion.Shared.Base`.
 
 ## Adding via Designer
 

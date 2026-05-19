@@ -314,11 +314,12 @@ Cast the appointment to `IRecurringScheduleAppointment` and set the `RecurrenceR
 
 ```csharp
 // Get data provider as recurring provider
-IRecurringScheduleDataProvider recurringProvider = 
-    scheduleControl1.DataSource as IRecurringScheduleDataProvider;
+IScheduleDataProvider dataProvider =  scheduleControl1.DataSource as IScheduleDataProvider;
+
+IRecurringScheduleDataProvider recurringProvider =scheduleControl1.DataSource as IRecurringScheduleDataProvider;
 
 // Create new appointment
-IScheduleAppointment app = recurringProvider.NewScheduleAppointment();
+IScheduleAppointment app = dataProvider.NewScheduleAppointment();
 IRecurringScheduleAppointment recurringItem = app as IRecurringScheduleAppointment;
 
 if (recurringItem != null)
@@ -346,14 +347,6 @@ recurringItem.StartTime = new DateTime(2026, 03, 24, 14, 0, 0);
 recurringItem.EndTime = new DateTime(2026, 03, 24, 15, 0, 0);
 recurringItem.Subject = "Weekly Team Meeting";
 recurringItem.RecurrenceRule = "03/24/2026;12/31/2026;Every WEEK on MON";
-```
-
-**Bi-weekly review (every 2 weeks on Friday):**
-```csharp
-recurringItem.StartTime = new DateTime(2026, 03, 27, 16, 0, 0);
-recurringItem.EndTime = new DateTime(2026, 03, 27, 17, 0, 0);
-recurringItem.Subject = "Bi-weekly Sprint Review";
-recurringItem.RecurrenceRule = "03/27/2026;12/31/2026;Every WEEK on FRI"; // Note: interval handled differently
 ```
 
 **Monthly all-hands (first Monday of month):**
@@ -437,7 +430,7 @@ public void CreateDailyMeeting(ScheduleControl scheduleControl)
         meeting.Content = "Team sync meeting";
         meeting.LabelValue = 2; // Business
         meeting.MarkerValue = 2; // Busy
-        meeting.LocationValue = 1; // Room B
+        meeting.LocationValue = "Room B"; // Room B
         
         // Every day for 3 months
         meeting.RecurrenceRule = "03/24/2026;06/24/2026;Every DAY 1";
@@ -524,7 +517,7 @@ public void CreateMonthlyBoardMeeting(ScheduleControl scheduleControl)
         boardMeeting.Content = "Monthly board of directors meeting";
         boardMeeting.LabelValue = 5; // Must Attend
         boardMeeting.MarkerValue = 3; // Out of Office
-        boardMeeting.LocationValue = 3; // Board Room
+        boardMeeting.LocationValue = "Board Room"; 
         boardMeeting.ForeColor = Color.DarkRed;
         
         // First Wednesday of every month

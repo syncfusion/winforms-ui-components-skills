@@ -4,7 +4,6 @@
 - [Overview](#overview)
 - [Cell Selection](#cell-selection)
 - [Conditional Formatting](#conditional-formatting)
-- [Custom Cell Styles](#custom-cell-styles)
 
 ## Overview
 
@@ -18,12 +17,7 @@ Configure selection modes:
 using Syncfusion.Windows.Forms.PivotAnalysis;
 
 // Enable selection
-pivotGridControl1.AllowSelection = true;
-
-// Set selection mode
-pivotGridControl1.TableControl.SelectionMode = GridSelectionMode.Cell;  // Single cell
-// Or
-pivotGridControl1.TableControl.SelectionMode = GridSelectionMode.Range; // Range selection
+pivotGridControl1.TableControl.AllowSelection = true;
 ```
 
 ### Selection Events
@@ -32,7 +26,7 @@ pivotGridControl1.TableControl.SelectionMode = GridSelectionMode.Range; // Range
 // Handle selection changes
 pivotGridControl1.TableControl.SelectionChanged += (s, e) =>
 {
-    var selectedRanges = pivotGridControl1.TableControl.SelectedRanges;
+    var selectedRanges = pivotGridControl1.TableControl.Selections;
     Console.WriteLine($"Selected {selectedRanges.Count} ranges");
 };
 ```
@@ -59,52 +53,44 @@ Apply formatting rules based on cell values:
 ```csharp
 using Syncfusion.Windows.Forms.PivotAnalysis;
 
+NewRuleConditionalFormat newRule1 = new NewRuleConditionalFormat();
+newRule1.RuleType = RuleType.FormatOnlyCellsThatContain;
+newRule1.SummaryElement = "Quantity";
+
 // Create style
-PivotCellStyle redStyle = new PivotCellStyle();
-redStyle.BackColor = Color.LightCoral;
-redStyle.ForeColor = Color.White;
-redStyle.Font = new Font("Arial", 10, FontStyle.Bold);
+PivotGridNewRuleConditionalFormat newRuleFormat1 = new PivotGridNewRuleConditionalFormat();
+newRuleFormat1.NewRuleCollections.Add(newRule1);
+newRuleFormat1.PivotCellStyle.BackColor = Color.Red;
+newRuleFormat1.PivotCellStyle.TextColor = Color.White;
+pivotGridControl1.TableControl.NewRuleConditionalFormat.Add(newRuleFormat1);
 
 // Create condition
-ConditionalFormat condition = new ConditionalFormat();
-condition.Conditions.Add(new PivotCondition
-{
-    ConditionType = PivotConditionType.LessThan,
-    PredicateValue = 10000
-});
-condition.ApplyStyleInfo = redStyle;
-
-// Apply to grid
-pivotGridControl1.TableControl.ConditionalFormats.Add(condition);
+ConditionalFormat condition1 = new ConditionalFormat();
+condition1.PredicateType = PredicateType.And;
+condition1.ConditionType = PivotGridDataConditionType.Between;
+condition1.StartValue = 30;
+condition1.EndValue = 60;
+newRule1.Conditions.Add(condition1);
 ```
 
 ### Multiple Conditions
 
 ```csharp
 // High values - Green
-PivotCellStyle greenStyle = new PivotCellStyle();
-greenStyle.BackColor = Color.LightGreen;
+PivotGridNewRuleConditionalFormat newRuleFormat1 = new PivotGridNewRuleConditionalFormat();
+newRuleFormat1.PivotCellStyle.BackColor = Color.LightGreen;
 
 ConditionalFormat highCondition = new ConditionalFormat();
-highCondition.Conditions.Add(new PivotCondition
-{
-    ConditionType = PivotConditionType.GreaterThan,
-    PredicateValue = 50000
-});
-highCondition.ApplyStyleInfo = greenStyle;
+highCondition.ConditionType = PivotGridDataConditionType.GreaterThan;
+newRuleFormat1.PivotCellStyle.BackColor = Color.Green;
 
 // Low values - Red
 ConditionalFormat lowCondition = new ConditionalFormat();
-lowCondition.Conditions.Add(new PivotCondition
-{
-    ConditionType = PivotConditionType.LessThan,
-    PredicateValue = 10000
-});
-lowCondition.ApplyStyleInfo = redStyle;
+lowCondition.ConditionType = PivotGridDataConditionType.LessThan;
+newRuleFormat1.PivotCellStyle.BackColor = Color.Red;
 
 // Apply both
-pivotGridControl1.TableControl.ConditionalFormats.Add(highCondition);
-pivotGridControl1.TableControl.ConditionalFormats.Add(lowCondition);
+pivotGridControl1.TableControl.NewRuleConditionalFormat.Add(newRuleFormat1);
 ```
 
 ### Condition Types
@@ -117,66 +103,16 @@ Available condition types:
 - `GreaterThanOrEqual`
 - `LessThanOrEqual`
 - `Between`
-- `NotBetween`
 
 ### Between Range Example
 
 ```csharp
-ConditionalFormat rangeCondition = new ConditionalFormat();
-rangeCondition.Conditions.Add(new PivotCondition
-{
-    ConditionType = PivotConditionType.Between,
-    PredicateValue = 10000,
-    PredicateValue2 = 50000
-});
-rangeCondition.ApplyStyleInfo = yellowStyle;
-
-pivotGridControl1.TableControl.ConditionalFormats.Add(rangeCondition);
-```
-
-## Custom Cell Styles
-
-Apply custom styling to specific cells:
-
-```csharp
-// Style specific cell
-pivotGridControl1.TableControl.QueryCellStyle += (s, e) =>
-{
-    if (e.RowIndex > 0 && e.ColIndex > 0)
-    {
-        var cellValue = e.Style.CellValue;
-        if (cellValue != null && double.TryParse(cellValue.ToString(), out double value))
-        {
-            if (value < 0)
-            {
-                e.Style.BackColor = Color.Pink;
-                e.Style.ForeColor = Color.DarkRed;
-            }
-        }
-    }
-};
-```
-
-### Styling Headers
-
-```csharp
-pivotGridControl1.TableControl.QueryCellStyle += (s, e) =>
-{
-    // Style column headers
-    if (e.RowIndex == 0 && e.ColIndex > 0)
-    {
-        e.Style.BackColor = Color.Navy;
-        e.Style.ForeColor = Color.White;
-        e.Style.Font.Bold = true;
-    }
-    
-    // Style row headers
-    if (e.ColIndex == 0 && e.RowIndex > 0)
-    {
-        e.Style.BackColor = Color.DarkBlue;
-        e.Style.ForeColor = Color.White;
-    }
-};
+ConditionalFormat condition1 = new ConditionalFormat();
+condition1.PredicateType = PredicateType.And;
+condition1.ConditionType = PivotGridDataConditionType.Between;
+condition1.StartValue = 30;
+condition1.EndValue = 60;
+newRule1.Conditions.Add(condition1);
 ```
 
 ## Complete Example
@@ -185,46 +121,41 @@ pivotGridControl1.TableControl.QueryCellStyle += (s, e) =>
 public void SetupFormattingAndSelection()
 {
     // Enable selection
-    pivotGridControl1.AllowSelection = true;
-    pivotGridControl1.TableControl.SelectionMode = GridSelectionMode.Range;
+    pivotGridControl1.TableControl.AllowSelection = true;
     
     // Define styles
-    PivotCellStyle highStyle = new PivotCellStyle
-    {
-        BackColor = Color.LightGreen,
-        ForeColor = Color.DarkGreen,
-        Font = new Font("Arial", 9, FontStyle.Bold)
-    };
-    
-    PivotCellStyle lowStyle = new PivotCellStyle
-    {
-        BackColor = Color.LightCoral,
-        ForeColor = Color.DarkRed,
-        Font = new Font("Arial", 9, FontStyle.Bold)
-    };
-    
+    NewRuleConditionalFormat newRule1 = new NewRuleConditionalFormat();
+    newRule1.RuleType = RuleType.FormatOnlyCellsThatContain;
+    newRule1.SummaryElement = "Quantity";
+
+    // Define styles
+    PivotGridNewRuleConditionalFormat highStyle = new PivotGridNewRuleConditionalFormat();
+    highStyle.NewRuleCollections.Add(newRule1);
+    highStyle.PivotCellStyle.BackColor = Color.LightGreen;
+    highStyle.PivotCellStyle.TextColor = Color.DarkGreen;
+    pivotGridControl1.TableControl.NewRuleConditionalFormat.Add(highStyle);
+
+    PivotGridNewRuleConditionalFormat lowStyle = new PivotGridNewRuleConditionalFormat();
+    lowStyle.NewRuleCollections.Add(newRule1);
+    lowStyle.PivotCellStyle.BackColor = Color.LightCoral;
+    lowStyle.PivotCellStyle.TextColor = Color.DarkRed;
+    pivotGridControl1.TableControl.NewRuleConditionalFormat.Add(lowStyle);
+
     // High values condition
     ConditionalFormat highFormat = new ConditionalFormat();
-    highFormat.Conditions.Add(new PivotCondition
-    {
-        ConditionType = PivotConditionType.GreaterThan,
-        PredicateValue = 50000
-    });
-    highFormat.ApplyStyleInfo = highStyle;
-    
+    highFormat.ConditionType = PivotGridDataConditionType.GreaterThan;
+    highStyle.PivotCellStyle.BackColor = Color.Green;
+    pivotGridControl1.TableControl.NewRuleConditionalFormat.Add(highStyle);
+
     // Low values condition
     ConditionalFormat lowFormat = new ConditionalFormat();
-    lowFormat.Conditions.Add(new PivotCondition
-    {
-        ConditionType = PivotConditionType.LessThan,
-        PredicateValue = 10000
-    });
-    lowFormat.ApplyStyleInfo = lowStyle;
-    
+    lowFormat.ConditionType = PivotGridDataConditionType.LessThan;
+    lowStyle.PivotCellStyle.BackColor = Color.Red;
+
     // Apply formatting
-    pivotGridControl1.TableControl.ConditionalFormats.Add(highFormat);
-    pivotGridControl1.TableControl.ConditionalFormats.Add(lowFormat);
-    
+    pivotGridControl1.TableControl.NewRuleConditionalFormat.Add(highStyle);
+    pivotGridControl1.TableControl.NewRuleConditionalFormat.Add(lowStyle);
+        
     // Handle selection events
     pivotGridControl1.TableControl.SelectionChanged += (s, e) =>
     {

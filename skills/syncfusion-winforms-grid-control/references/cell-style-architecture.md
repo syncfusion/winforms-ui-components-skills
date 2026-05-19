@@ -180,7 +180,7 @@ Create gradient or pattern backgrounds with `BrushInfo`:
 // Gradient backgrounds
 gridControl1[2, 2].Interior = new BrushInfo(GradientStyle.Horizontal, Color.Yellow, Color.Blue);
 gridControl1[3, 2].Interior = new BrushInfo(GradientStyle.Vertical, Color.Red, Color.White);
-gridControl1[4, 2].Interior = new BrushInfo(GradientStyle.DiagonalForward, Color.Green, Color.LightGreen);
+gridControl1[4, 2].Interior = new BrushInfo(GradientStyle.ForwardDiagonal, Color.Green, Color.LightGreen);
 
 // Pattern backgrounds
 gridControl1[5, 2].Interior = new BrushInfo(PatternStyle.DashedHorizontal, Color.Black, Color.White);
@@ -190,8 +190,8 @@ gridControl1[6, 2].Interior = new BrushInfo(PatternStyle.DiagonalCross, Color.Na
 **Gradient styles:**
 - `Horizontal` - Left to right
 - `Vertical` - Top to bottom
-- `DiagonalForward` - Top-left to bottom-right
-- `DiagonalBackward` - Top-right to bottom-left
+- `ForwardDiagonal` - Top-left to bottom-right
+- `BackwardDiagonal` - Top-right to bottom-left
 - `PathRectangle` - Rectangle path
 - `PathEllipse` - Ellipse path
 

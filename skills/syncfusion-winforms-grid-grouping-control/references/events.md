@@ -80,15 +80,8 @@ gridGroupingControl1.TableControl.CellDoubleClick += TableControl_CellDoubleClic
 
 void TableControl_CellDoubleClick(object sender, GridCellClickEventArgs e)
 {
-    // Open edit dialog on double-click
-    if (e.TableCellIdentity.Column != null)
-    {
-        string columnName = e.TableCellIdentity.Column.Name;
-        if (columnName == "Description")
-        {
-            ShowLargeTextEditor(e.RowIndex, e.ColIndex);
-        }
-    }
+    // Notify the double click performed in a cell
+    MessageBox.Show("Mouse Button is clicked Twice");
 }
 ```
 
@@ -163,7 +156,7 @@ Grid-level events that fire for all tables (including nested tables):
 
 ```csharp
 // Grid-level cell click (fires for parent and child tables)
-gridGroupingControl1.TableControlCellClick += TableControlCellClick;
+gridGroupingControl1.TableControl.CellClick += TableControlCellClick;
 
 void TableControlCellClick(object sender, GridCellClickEventArgs e)
 {
@@ -293,15 +286,12 @@ void TableControl_CurrentCellStartEditing(object sender, CancelEventArgs e)
     var currentCell = gridGroupingControl1.TableControl.CurrentCell;
     int colIndex = currentCell.ColIndex;
     
-    // Prevent editing specific columns
-    var element = currentCell.Element;
-    if (element is GridTableCellStyleInfo style)
-    {
-        if (style.TableCellIdentity.Column?.Name == "CalculatedTotal")
+     // Get column using TableDescriptor
+    var column = gridGroupingControl1.TableDescriptor.Columns[colIndex - 1];
+    if (column.Name == "CalculatedTotal")
         {
-            e.Cancel = true; // Prevent editing calculated fields
+         e.Cancel = true; // Prevent editing
         }
-    }
 }
 ```
 
@@ -416,9 +406,9 @@ void TableControl_DragDrop(object sender, DragEventArgs e)
         // Determine drop location
         Point clientPoint = gridGroupingControl1.TableControl.PointToClient(
             new Point(e.X, e.Y));
-        int rowIndex = gridGroupingControl1.TableControl.PointToRowCol(
-            clientPoint, out int colIndex);
-        
+        int rowIndex, colIndex;
+        gridGroupingControl1.TableControl.PointToRowCol(
+            clientPoint, out rowIndex, out colIndex);
         // Insert data at drop location
         InsertTextAt(rowIndex, colIndex, text);
     }
@@ -473,7 +463,7 @@ using Syncfusion.Grouping;
 gridGroupingControl1.RecordExpanding += GridGroupingControl1_RecordExpanding;
 
 void GridGroupingControl1_RecordExpanding(object sender, 
-    RecordExpandingEventArgs e)
+    RecordEventArgs e)
 {
     Record record = e.Record;
     
@@ -487,7 +477,7 @@ void GridGroupingControl1_RecordExpanding(object sender,
 gridGroupingControl1.RecordExpanded += GridGroupingControl1_RecordExpanded;
 
 void GridGroupingControl1_RecordExpanded(object sender, 
-    RecordExpandedEventArgs e)
+    RecordEventArgs e)
 {
     // Load nested data on-demand
     LoadNestedData(e.Record);
@@ -504,7 +494,7 @@ Use for:
 Keyboard events for custom key handling:
 
 ```csharp
-gridGroupingControl1.TableControlCurrentCellKeyDown += 
+gridGroupingControl1.TableControl.CurrentCellKeyDown += 
     TableControlCurrentCellKeyDown;
 
 void TableControlCurrentCellKeyDown(object sender, KeyEventArgs e)

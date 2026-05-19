@@ -8,12 +8,12 @@ metadata:
 
 # Implementing Office2007Form
 
-The Syncfusion `Office2007Form` is an advanced Windows Forms control that provides Microsoft Office 2007/2010-inspired UI and appearance. It transforms standard forms into modern, visually appealing interfaces with built-in color schemes, caption customization, and Office-style theming.
+The Syncfusion `Office2007Form` is an advanced Windows Forms control that provides Microsoft Office 2007 inspired UI and appearance. It transforms standard forms into modern, visually appealing interfaces with built-in color schemes, caption customization, and Office-style theming.
 
 ## When to Use This Skill
 
 Use this skill when you need to:
-- Create Windows Forms with Microsoft Office 2007/2010 appearance
+- Create Windows Forms with Microsoft Office 2007 appearance
 - Apply built-in color schemes (Blue, Silver, Black, Managed)
 - Customize form caption bar (alignment, font, color, height)
 - Add Office-style visual polish to desktop applications

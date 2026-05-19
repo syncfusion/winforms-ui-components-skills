@@ -416,7 +416,7 @@ namespace SfScrollFrameLocalizationDemo
 
         private void SetupMenu()
         {
-            menuStrip1 = new MenuStrip();
+            MenuStrip menuStrip1 = new MenuStrip();
             
             ToolStripMenuItem languageMenu = new ToolStripMenuItem("Language");
             languageMenu.DropDownItems.Add("English", null, (s, e) => ChangeCulture("en-US"));

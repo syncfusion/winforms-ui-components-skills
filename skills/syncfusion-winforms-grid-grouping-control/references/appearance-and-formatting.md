@@ -381,8 +381,6 @@ gridGroupingControl1.Appearance.ColumnHeaderCell.Borders.All =
 gridGroupingControl1.Appearance.AnyRecordFieldCell.Borders.All = 
     new GridBorder(GridBorderStyle.Solid, Color.FromArgb(217, 217, 217));
 
-// Gridlines
-gridGroupingControl1.TableControl.Properties.GridLineColor = Color.FromArgb(217, 217, 217);
 ```
 
 ### Scenario 3: Heat Map (Value-Based Colors)

@@ -377,7 +377,6 @@ public int Add(SortColumnDescriptor sdc);
 
 // Usage
 SortColumnDescriptor sortDesc = new SortColumnDescriptor("ProductName");
-sortDesc.Comparer = new CustomComparer();
 sortDesc.SortDirection = ListSortDirection.Ascending;
 engine.TableDescriptor.SortedColumns.Add(sortDesc);
 ```
@@ -393,7 +392,6 @@ SortColumnDescriptor priceSort = engine.TableDescriptor.SortedColumns["Price"];
 
 // Modify properties
 priceSort.SortDirection = ListSortDirection.Descending;
-priceSort.Comparer = new CustomPriceComparer();
 
 // Remove a sort column
 engine.TableDescriptor.SortedColumns.Remove("Price");

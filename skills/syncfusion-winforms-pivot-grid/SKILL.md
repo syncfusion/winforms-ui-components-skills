@@ -39,7 +39,6 @@ Use this skill when you need to:
 - **Cell Selection** - Single, multiple, range selection modes
 - **Editing Support** - Modify cell values and update aggregations
 - **Touch Support** - Touch-friendly interactions for tablet devices
-- **Localization** - Multi-language support
 
 **Namespace:** `Syncfusion.Windows.Forms.PivotAnalysis`
 
@@ -51,6 +50,9 @@ Use this skill when you need to:
 
 **NuGet Guidance:**
 - Install the latest available version of Syncfusion.PivotTable.WinForms
+```powershell
+Install-Package Syncfusion.PivotTable.WinForms -Version *
+```
 - Prefer NuGet package references over manual DLL references when possible
 - Verify package compatibility with the project target framework before upgrading
 
@@ -160,9 +162,6 @@ Use this skill when you need to:
 - Serialization and deserialization of pivot state
 - Freezing row/column headers
 - Touch support for tablet devices
-- Localization and right-to-left (RTL) support
-- Custom cell templates and renderers
-- Performance tuning and optimization
 
 ## Quick Start Example
 
@@ -301,19 +300,16 @@ pivotGridControl1.ShowPivotTableFieldList = true;
 using Syncfusion.Windows.Forms.PivotAnalysis;
 
 // Add conditional formatting rule
-PivotCellStyle style = new PivotCellStyle();
-style.BackColor = Color.LightCoral;
-style.ForeColor = Color.White;
+NewRuleConditionalFormat newRule1 = new NewRuleConditionalFormat();
+newRule1.RuleType = RuleType.FormatOnlyCellsThatContain;
+newRule1.SummaryElement = "Quantity";
 
-ConditionalFormat condition = new ConditionalFormat();
-condition.Conditions.Add(new PivotCondition 
-{ 
-    ConditionType = PivotConditionType.LessThan, 
-    PredicateValue = 10000 
-});
-condition.ApplyStyleInfo = style;
-
-pivotGridControl1.TableControl.ConditionalFormats.Add(condition);
+ConditionalFormat condition1 = new ConditionalFormat();
+condition1.PredicateType = PredicateType.And;
+condition1.ConditionType = PivotGridDataConditionType.LessThan;
+condition1.StartValue = 30;
+condition1.EndValue = 60;
+newRule1.Conditions.Add(condition1);
 ```
 
 ### Pattern 3: Export to Excel
@@ -325,33 +321,13 @@ using Syncfusion.Windows.Forms.PivotAnalysis;
 pivotGridControl1.ExportToExcel("PivotReport.xlsx");
 
 // Export with options
-ExcelExportOptions options = new ExcelExportOptions();
-options.ExportMode = ExportMode.Value; // or ExportMode.Text
-pivotGridControl1.ExportToExcel("PivotReport.xlsx", options);
+ExcelExport excelExport = new ExcelExport(this.pivotGridControl1, Syncfusion.XlsIO.ExcelVersion.Excel2010);
+excelExport.ExportMode = ExportModes.Cell;
+excelExport.Export(@"D:\PivotGrid.xlsx");
 ```
 
-### Pattern 4: Handle Drill-Down Events
 
-```csharp
-using Syncfusion.Windows.Forms.PivotAnalysis;
-
-// Subscribe to drill-down event
-pivotGridControl1.HyperlinkCellClick += PivotGridControl1_HyperlinkCellClick;
-
-private void PivotGridControl1_HyperlinkCellClick(object sender, 
-    HyperlinkCellClickEventArgs e)
-{
-    // Get the clicked cell information
-    string cellValue = e.Text;
-    int rowIndex = e.RowIndex;
-    int colIndex = e.ColIndex;
-    
-    // Show drill-through data or navigate to details
-    // e.Cancel = true; // Cancel default drill behavior if needed
-}
-```
-
-### Pattern 5: Programmatic Filtering
+### Pattern 4: Programmatic Filtering
 
 ```csharp
 using Syncfusion.Windows.Forms.PivotAnalysis;
@@ -372,7 +348,7 @@ pivotGridControl1.Filters.Add(filter);
 pivotGridControl1.TableControl.Refresh();
 ```
 
-### Pattern 6: Custom Aggregation
+### Pattern 5: Custom Aggregation
 
 ```csharp
 using Syncfusion.PivotAnalysis.Base;
@@ -381,7 +357,7 @@ using Syncfusion.PivotAnalysis.Base;
 PivotComputationInfo customCalc = new PivotComputationInfo
 {
     FieldName = "Profit",
-    CalculationType = CalculationType.Custom,
+    CalculationType = CalculationType.Formula,
     Format = "C",
     SummaryType = SummaryType.Custom
 };

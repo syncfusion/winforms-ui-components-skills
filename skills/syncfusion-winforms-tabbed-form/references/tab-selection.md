@@ -97,8 +97,7 @@ End Sub
 
 ### SelectedIndexChangingEventArgs Properties
 
-- **OldValue**: The index of the currently selected tab (before change)
-- **NewValue**: The index of the tab being selected
+- **NewSelectedIndex**: Index of tab being selected
 - **Cancel**: Set to `true` to prevent the tab change
 
 ### Preventing Tab Selection
@@ -138,7 +137,7 @@ private bool isAdminMode = false;
 private void TabbedFormControl_SelectedIndexChanging(object sender, SelectedIndexChangingEventArgs args)
 {
     // Get the tab being selected
-    TabPageAdv targetTab = this.tabbedFormControl.Tabs[args.NewValue] as TabPageAdv;
+    TabPageAdv targetTab = this.tabbedFormControl.Tabs[args.NewSelectedIndex] as TabPageAdv;
     
     // Restrict access to admin tab
     if (targetTab?.Text == "Admin Settings" && !isAdminMode)
@@ -323,7 +322,7 @@ public partial class Form1 : SfTabbedForm
     private void TabbedFormControl_SelectedIndexChanging(object sender, SelectedIndexChangingEventArgs args)
     {
         // Get target tab
-        TabPageAdv targetTab = tabbedFormControl.Tabs[args.NewValue] as TabPageAdv;
+        TabPageAdv targetTab = tabbedFormControl.Tabs[args.NewSelectedIndex] as TabPageAdv;
         
         // Restrict admin tab access
         if (targetTab?.Text == "Admin")
@@ -339,9 +338,9 @@ public partial class Form1 : SfTabbedForm
                 args.Cancel = true;
             }
         }
-        
+        int oldIndex = tabbedFormControl.SelectedIndex;
         // Log the attempted change
-        TabPageAdv currentTab = tabbedFormControl.Tabs[args.OldValue] as TabPageAdv;
+        TabPageAdv currentTab = tabbedFormControl.Tabs[oldIndex] as TabPageAdv;
         Console.WriteLine($"Changing from '{currentTab?.Text}' to '{targetTab?.Text}'");
     }
     
@@ -407,7 +406,7 @@ private HashSet<int> lockedTabs = new HashSet<int> { 2, 3 };
 
 private void TabbedFormControl_SelectedIndexChanging(object sender, SelectedIndexChangingEventArgs args)
 {
-    if (lockedTabs.Contains(args.NewValue))
+    if (lockedTabs.Contains(args.NewSelectedIndex))
     {
         args.Cancel = true;
         MessageBox.Show("This tab is locked.");

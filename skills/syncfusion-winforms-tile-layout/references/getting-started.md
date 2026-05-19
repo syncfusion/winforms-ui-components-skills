@@ -30,7 +30,7 @@ To use TileLayout, add these assembly references to your project:
 - `Syncfusion.Tools.Base.dll`
 - `Syncfusion.Tools.Windows.dll`
 
-**NuGet Package:** `Syncfusion.Tools.WinForms`
+**NuGet Package:** `Syncfusion.Tools.Windows`
 
 ## Creating TileLayout via Designer
 

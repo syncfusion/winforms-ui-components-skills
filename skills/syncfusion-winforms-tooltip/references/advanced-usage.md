@@ -638,8 +638,8 @@ Draw only specific items custom while leaving others with default rendering.
 ```csharp
 private void SfToolTip1_DrawToolTipItem(object sender, DrawToolTipItemEventArgs e)
 {
-    // Only customize items tagged as "Custom"
-    if (e.ToolTipItem.Tag?.ToString() != "Custom")
+    // Only customize items text  as "Custom"
+    if (e.ToolTipItem.Text.ToString() != "Custom")
     {
         return; // Use default rendering
     }

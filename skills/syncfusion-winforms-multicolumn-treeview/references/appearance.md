@@ -67,7 +67,7 @@ multiColumnTreeView1.InactiveSelectedNodeForeColor = Color.Black;
 ```csharp
 TreeNodeAdvSubItem subItem = multiColumnTreeView1.Nodes[0].SubItems[0];
 subItem.Background = new BrushInfo(Color.LightYellow);
-subItem.ForeColor = Color.DarkRed;
+subItem.TextColor = Color.DarkRed;
 subItem.Font = new Font("Arial", 9, FontStyle.Bold);
 subItem.BorderColor = Color.Red;
 subItem.BorderStyle = BorderStyle.FixedSingle;
@@ -98,8 +98,8 @@ multiColumnTreeView1.Nodes[0].LeftImagePadding = 5;
 ImageList rightImageList = new ImageList();
 rightImageList.Images.Add(Image.FromFile("status_ok.png"));
 multiColumnTreeView1.RightImageList = rightImageList;
-node.RightImageIndices = new int[] { 0 };
-node.RightImagePadding = 5;
+multiColumnTreeView1.Nodes[0].RightImageIndices = new int[] { 0 };
+multiColumnTreeView1.Nodes[0].RightImagePadding = 5;
 
 // State image list (expand/collapse)
 ImageList stateImageList = new ImageList();
@@ -107,9 +107,10 @@ stateImageList.Images.Add(Image.FromFile("collapsed.png"));
 stateImageList.Images.Add(Image.FromFile("expanded.png"));
 stateImageList.Images.Add(Image.FromFile("leaf.png"));
 multiColumnTreeView1.StateImageList = stateImageList;
-multiColumnTreeView1.ClosedImageIndex = 0;
-multiColumnTreeView1.OpenImageIndex = 1;
-multiColumnTreeView1.NoChildrenImageIndex = 2;
+TreeNodeAdv treeNodeAdv1 = new TreeNodeAdv();
+treeNodeAdv1.ClosedImgIndex = 0;
+treeNodeAdv1.OpenImgIndex = 1;
+treeNodeAdv1.NoChildrenImgIndex = 2;
 ```
 
 ## Professional Theme Example
@@ -148,10 +149,10 @@ void ApplyDarkTheme()
     }
     
     foreach (TreeNodeAdv node in GetAllNodes(multiColumnTreeView1.Nodes))
-        node.ForeColor = Color.White;
+        node.TextColor = Color.White;
     
     multiColumnTreeView1.SelectedNodeBackground = new BrushInfo(ColorTranslator.FromHtml("#094771"));
-    multiColumnTreeView1.LineColor = ColorTranslator.FromHtml("#3F3F46"));
+    multiColumnTreeView1.LineColor = ColorTranslator.FromHtml("#3F3F46");
 }
 
 IEnumerable<TreeNodeAdv> GetAllNodes(TreeNodeAdvCollection nodes)
@@ -175,18 +176,18 @@ void ApplyStatusColor(TreeNodeAdv node)
     switch (status.ToLower())
     {
         case "completed":
-            node.ForeColor = Color.Green;
+            node.TextColor = Color.Green;
             node.Font = new Font(node.Font, FontStyle.Bold);
             break;
         case "in progress":
-            node.ForeColor = Color.Blue;
+            node.TextColor = Color.Blue;
             break;
         case "error":
-            node.ForeColor = Color.Red;
+            node.TextColor = Color.Red;
             node.Font = new Font(node.Font, FontStyle.Bold);
             break;
         case "warning":
-            node.ForeColor = Color.Orange;
+            node.TextColor = Color.Orange;
             break;
     }
     
@@ -208,7 +209,7 @@ void ApplyAlternatingColor(TreeNodeAdvCollection nodes, ref int index)
 {
     foreach (TreeNodeAdv node in nodes)
     {
-        node.BackColor = (index % 2 == 0) ? Color.White : ColorTranslator.FromHtml("#F5F5F5");
+        node.Background = (index % 2 == 0) ? new BrushInfo(Color.White) : new BrushInfo(ColorTranslator.FromHtml("#F5F5F5"));
         index++;
         if (node.Expanded && node.Nodes.Count > 0)
             ApplyAlternatingColor(node.Nodes, ref index);

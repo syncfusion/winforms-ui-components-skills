@@ -25,7 +25,7 @@ To use the TabSplitterContainer control, you must reference the following assemb
 Install the TabSplitterContainer control via NuGet Package Manager:
 
 ```powershell
-Install-Package Syncfusion.Tools.WinForms
+Install-Package Syncfusion.Tools.Windows
 ```
 
 This package includes all required dependencies automatically.

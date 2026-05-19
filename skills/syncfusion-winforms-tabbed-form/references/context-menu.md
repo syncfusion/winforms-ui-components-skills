@@ -134,6 +134,8 @@ End Sub
 
 - **Tab**: The `TabPageAdv` that was right-clicked
 - **ContextMenu**: The `ContextMenuStrip` that will be displayed (can be modified)
+- **Location**: Get or set where the menu appears
+- **Cancel**: Stop the menu from opening
 
 ### Dynamic Menu Customization
 
@@ -567,7 +569,12 @@ public partial class Form1 : SfTabbedForm
             duplicateTab.Text = clickedTab.Text + " (Copy)";
             
             int insertIndex = clickedTab.TabIndex + 1;
-            tabbedFormControl.Tabs.Insert(insertIndex, duplicateTab);
+            
+            // Add first (ControlCollection only supports Add)
+            tabbedFormControl.Tabs.Add(duplicateTab);
+
+            // Move to correct position
+            tabbedFormControl.Tabs.SetChildIndex(duplicateTab, insertIndex);
             tabbedFormControl.SelectedTab = duplicateTab;
         }
     }

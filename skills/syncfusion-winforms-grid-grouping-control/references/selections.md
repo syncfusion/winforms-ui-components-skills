@@ -298,7 +298,7 @@ gridGroupingControl1.TableControl.Selections.Add(colRange);
 gridGroupingControl1.TableControl.Selections.Clear();
 
 // Get selected ranges
-GridRangeInfoList selections = gridGroupingControl1.TableControl.Selections.GetSelectedRanges();
+GridRangeInfoList selections = gridGroupingControl1.TableModel.SelectedRanges;
 foreach (GridRangeInfo r in selections)
 {
     Console.WriteLine($"Selected: {r}");
@@ -321,12 +321,6 @@ gridGroupingControl1.TableOptions.SelectionTextColor = SystemColors.HighlightTex
 gridGroupingControl1.TableOptions.ListBoxSelectionCurrentCellOptions = 
     GridListBoxSelectionCurrentCellOptions.HideCurrentCell;
 
-// Access selected record
-if (gridGroupingControl1.Table.SelectedRecords.Count > 0)
-{
-    Record selected = gridGroupingControl1.Table.SelectedRecords[0];
-    string customerID = selected.GetValue("CustomerID").ToString();
-}
 ```
 
 ### Scenario 2: Multi-Select with Checkboxes
@@ -467,7 +461,7 @@ gridGroupingControl1.TableControlCurrentCellActivated += (s, e) =>
    {
        r.SetValue("Status", "Processed");
    }
-   gridGroupingControl1.EndUpdate();
+   gridGroupingControl1.TableControl.EndUpdate();
    ```
 
 3. **Clear Before Rebuild**: Clear selections before refreshing data source.

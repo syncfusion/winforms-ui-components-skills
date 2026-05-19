@@ -292,6 +292,7 @@ this.Controls.Add(splitterControl1);
 - `Metro` - Modern Metro style scrollbars
 - `Office2007` - Office 2007 style scrollbars
 - `Office2010` - Office 2010 style scrollbars
+- `Office2016` - Office 2016 style scrollbars
 
 ## Child Control Integration
 

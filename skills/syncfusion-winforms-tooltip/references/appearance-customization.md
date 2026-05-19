@@ -170,6 +170,9 @@ sfToolTip1.SetToolTipInfo(this.button2, toolTipInfo1);
 Available gradient directions:
 
 ```csharp
+using Syncfusion.WinForms.Core;
+using Syncfusion.WinForms.Core.Enums;
+
 // Horizontal gradient (left to right)
 toolTipItem1.Style.GradientBrush = new BrushInfo(
     GradientStyle.Horizontal,
@@ -283,6 +286,10 @@ toolTipItem1.Style.SeparatorStyle = DashStyle.DashDot;
 - `DashStyle.Dot` - Dotted line
 - `DashStyle.DashDot` - Alternating dashes and dots
 - `DashStyle.DashDotDot` - Dash followed by two dots
+- `DashStyle.Custom` - Allows defining a custom dash pattern (requires custom rendering)
+
+> Note:
+> `DashStyle.Custom` requires custom rendering logic. By default, it behaves similar to a solid line as custom dash patterns are not supported directly in SfToolTip.
 
 ### Complete Separator Example
 

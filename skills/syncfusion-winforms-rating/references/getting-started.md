@@ -23,7 +23,7 @@ The Rating control requires the following assemblies to be referenced in your Wi
 Install the Rating control via NuGet Package Manager:
 
 ```powershell
-Install-Package Syncfusion.Tools.WinForms
+Install-Package Syncfusion.Tools.Windows
 ```
 
 This command installs the primary package along with all required dependencies automatically.

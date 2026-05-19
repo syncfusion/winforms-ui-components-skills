@@ -254,8 +254,15 @@ this.sfToolTip1.Hide();
 this.sfToolTip1.Show("Processing...");
 
 // Hide after 3 seconds
-await Task.Delay(3000);
-this.sfToolTip1.Hide();
+this.Load += Form1_Load;
+
+private async void Form1_Load(object sender, EventArgs e)
+{
+    sfToolTip1.Show("Processing...");
+    await Task.Delay(3000);
+    sfToolTip1.Hide();
+}
+
 ```
 
 ## Setting Tooltip Delay

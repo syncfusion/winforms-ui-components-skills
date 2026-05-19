@@ -9,8 +9,12 @@ Complete guide to setting up and initializing the Syncfusion WinForms FontComboB
 The FontComboBox control requires specific Syncfusion assemblies to function properly.
 
 **Required Assemblies:**
-- `Syncfusion.Shared.Base.dll` - Core shared components
-- `Syncfusion.Tools.Windows.dll` - Tools package containing FontComboBox
+- `Syncfusion.Tools.Windows`
+- `Syncfusion.Grid.Base`
+- `Syncfusion.Grid.Windows`
+- `Syncfusion.Shared.Base`
+- `Syncfusion.Shared.Windows`
+- `Syncfusion.Tools.Base`
 
 ### NuGet Package Installation
 
@@ -18,17 +22,17 @@ Install the required package using NuGet Package Manager:
 
 **Package Manager Console:**
 ```powershell
-Install-Package Syncfusion.Tools.WinForms
+Install-Package Syncfusion.Tools.Windows
 ```
 
 **NuGet Package Manager UI:**
 1. Right-click project → Manage NuGet Packages
-2. Search for "Syncfusion.Tools.WinForms"
+2. Search for "Syncfusion.Tools.Windows"
 3. Click Install
 
 **Package Reference (csproj):**
 ```xml
-<PackageReference Include="Syncfusion.Tools.WinForms" Version="25.1.35" />
+<PackageReference Include="Syncfusion.Tools.Windows" Version="*" />
 ```
 
 ### Manual Assembly References

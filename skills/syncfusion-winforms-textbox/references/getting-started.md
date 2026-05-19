@@ -29,22 +29,22 @@ C:\Program Files (x86)\Syncfusion\Essential Studio\25.1.35\precompiledassemblies
 
 The recommended approach is to install via NuGet Package Manager.
 
-**Package Name:** `Syncfusion.Shared.WinForms`
+**Package Name:** `Syncfusion.Shared.Base`
 
 **Install via Package Manager Console:**
 ```powershell
-Install-Package Syncfusion.Shared.WinForms
+Install-Package Syncfusion.Shared.Base
 ```
 
 **Install via .NET CLI:**
 ```bash
-dotnet add package Syncfusion.Shared.WinForms
+dotnet add package Syncfusion.Shared.Base
 ```
 
 **NuGet Package Manager UI:**
 1. Right-click project in Solution Explorer
 2. Select "Manage NuGet Packages"
-3. Search for "Syncfusion.Shared.WinForms"
+3. Search for "Syncfusion.Shared.Base"
 4. Click "Install"
 
 ## Namespace Requirements

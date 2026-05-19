@@ -206,7 +206,7 @@ int lookUpIndex = td.VisibleColumns.IndexOf("Customer");
 // Add foreign table to SourceListSet
 gridGroupingControl1.Engine.SourceListSet.Add(
     "CustomerLookup", 
-    customerTable.DefaultView);
+    ForeignTable.DefaultView);
 
 // Create foreign-key relation
 GridRelationDescriptor rd = new GridRelationDescriptor();
@@ -338,7 +338,7 @@ private void ToggleSortDirection(string columnName)
             ? ListSortDirection.Descending
             : ListSortDirection.Ascending;
             
-        gridGroupingControl1.Table.Refresh();
+        gridGroupingControl1.TableControl.Refresh();
     }
     else
     {
@@ -441,7 +441,7 @@ gridGroupingControl1.TableDescriptor.Columns["ColumnName"].AllowSort = true;
 
 ```csharp
 // Refresh after data modification
-gridGroupingControl1.Table.Refresh();
+gridGroupingControl1.Refresh();
 
 // Or invalidate summaries if using sort by summary
 gridGroupingControl1.Table.InvalidateSummary();

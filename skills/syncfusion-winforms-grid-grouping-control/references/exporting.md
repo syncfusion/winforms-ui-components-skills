@@ -189,10 +189,10 @@ converter.GroupingGridToExcel(gridGroupingControl1, "CustomPreview.xls", Convert
 using Syncfusion.GroupingGridPDFConverter;
 
 // Create PDF converter
-GridGroupingPDFConverter pdfConverter = new GridGroupingPDFConverter();
+GridPDFConverter pdfConverter = new GridPDFConverter();
 
 // Export to PDF
-pdfConverter.ExportToPdf("Output.pdf", gridGroupingControl1);
+pdfConverter.ExportToPdf("Output.pdf", gridGroupingControl1.TableControl);
 ```
 
 ### PDF Export Options
@@ -200,16 +200,13 @@ pdfConverter.ExportToPdf("Output.pdf", gridGroupingControl1);
 ```csharp
 GridGroupingPDFConverter pdfConverter = new GridGroupingPDFConverter();
 
-// Export with styles
-pdfConverter.ExportStyle = true;
 
-// Export borders
-pdfConverter.ExportBorders = true;
+//First 40000 records will be exported
+pdfConverter.ExportRange = 40000;
 
-// Fit columns to page
-pdfConverter.FitColumnWidthToPage = true;
+//Exporting and merging with another PDF document
+pdfConverter.ExportToPdfWithMerge("Sample1.pdf", gridGroupingControl1.TableControl);
 
-pdfConverter.ExportToPdf("Formatted.pdf", gridGroupingControl1);
 ```
 
 ### PDF Page Setup
@@ -217,18 +214,12 @@ pdfConverter.ExportToPdf("Formatted.pdf", gridGroupingControl1);
 ```csharp
 using Syncfusion.Pdf;
 
-GridGroupingPDFConverter pdfConverter = new GridGroupingPDFConverter();
-
-// Page orientation
-pdfConverter.PageOrientation = PdfPageOrientation.Landscape;
-
-// Page size
-pdfConverter.PageSize = PdfPageSize.A4;
+GridPDFConverter  pdfConverter = new GridPDFConverter();
 
 // Margins
 pdfConverter.Margins = new PdfMargins { Left = 40, Right = 40, Top = 40, Bottom = 40 };
 
-pdfConverter.ExportToPdf("CustomPage.pdf", gridGroupingControl1);
+pdfConverter.ExportToPdf("CustomPage.pdf", gridGroupingControl1.TableControl);
 ```
 
 ## Word Export
@@ -239,27 +230,21 @@ pdfConverter.ExportToPdf("CustomPage.pdf", gridGroupingControl1);
 using Syncfusion.GroupingGridWordConverter;
 
 // Create Word converter
-GridGroupingWordConverter wordConverter = new GridGroupingWordConverter();
+GroupingGridWordConverter wordConverter = new GroupingGridWordConverter();
 
 // Export to Word
-wordConverter.ExportToWord("Output.doc", gridGroupingControl1);
+wordConverter.GroupingGridToWord("Output.doc", gridGroupingControl1);
 ```
 
 ### Word Export Options
 
 ```csharp
-GridGroupingWordConverter wordConverter = new GridGroupingWordConverter();
+GroupingGridWordConverter wordConverter = new GroupingGridWordConverter();
 
 // Export styles
 wordConverter.ExportStyle = true;
 
-// Export borders
-wordConverter.ExportBorders = true;
-
-// Table style
-wordConverter.TableStyle = Syncfusion.DocIO.DLS.TableStyle.TableGrid;
-
-wordConverter.ExportToWord("Styled.docx", gridGroupingControl1);
+wordConverter.GroupingGridToWord("Styled.docx", gridGroupingControl1);
 ```
 
 ## CSV Export
@@ -347,7 +332,7 @@ void ExportToCSVWithGroups(string filePath)
 Customize export with events:
 
 ```csharp
-GridGroupingExcelConverterControl converter = new GridGroupingExcelConverterControl();
+GroupingGridExcelConverterControl converter = new GroupingGridExcelConverterControl();
 
 // Customize cell export
 converter.QueryImportExportCellInfo += Converter_QueryImportExportCellInfo;
@@ -375,56 +360,15 @@ converter.GroupingGridToExcel(gridGroupingControl1, "Masked.xls", ConverterOptio
 ```csharp
 GroupingGridExcelConverterControl converter = new GroupingGridExcelConverterControl();
 
-// Export summaries
-converter.ExportSummary = true;
-
-// Summary styles
-converter.SummaryBackColor = Color.LightGray;
-converter.SummaryFontBold = true;
+// styles
+converter.HeaderBackColor = Color.LightGray;
 
 converter.GroupingGridToExcel(gridGroupingControl1, "WithSummaries.xls", ConverterOptions.Default);
 ```
 
 ## Common Scenarios
 
-### Scenario 1: Export with Progress Indicator
-
-```csharp
-void ExportWithProgress()
-{
-    ProgressDialog progress = new ProgressDialog();
-    progress.Show();
-    progress.Status = "Exporting to Excel...";
-    
-    Task.Run(() =>
-    {
-        try
-        {
-            GroupingGridExcelConverterControl converter = new GroupingGridExcelConverterControl();
-            converter.ExportBorders = true;
-            converter.ExportStyle = true;
-            
-            converter.GroupingGridToExcel(gridGroupingControl1, "Export.xls", ConverterOptions.Visible);
-            
-            Invoke((Action)(() =>
-            {
-                progress.Close();
-                MessageBox.Show("Export completed successfully");
-            }));
-        }
-        catch (Exception ex)
-        {
-            Invoke((Action)(() =>
-            {
-                progress.Close();
-                MessageBox.Show($"Export failed: {ex.Message}");
-            }));
-        }
-    });
-}
-```
-
-### Scenario 2: Export Selected Records Only
+### Scenario 1: Export Selected Records Only
 
 ```csharp
 void ExportSelectedRecords()
@@ -461,7 +405,7 @@ void ExportSelectedRecords()
 }
 ```
 
-### Scenario 3: Export to Multiple Formats
+### Scenario 2: Export to Multiple Formats
 
 ```csharp
 void ExportMultipleFormats(string basePath)
@@ -476,9 +420,8 @@ void ExportMultipleFormats(string basePath)
         excelConverter.GroupingGridToExcel(gridGroupingControl1, $"{basePath}.xls", ConverterOptions.Visible);
         
         // PDF
-        GridGroupingPDFConverter pdfConverter = new GridGroupingPDFConverter();
-        pdfConverter.ExportStyle = true;
-        pdfConverter.ExportToPdf($"{basePath}.pdf", gridGroupingControl1);
+        GridPDFConverter pdfConverter = new GridPDFConverter();
+        pdfConverter.ExportToPdf($"{basePath}.pdf", gridGroupingControl1.TableControl);
         
         // CSV
         ExportToCSV($"{basePath}.csv");
@@ -492,7 +435,7 @@ void ExportMultipleFormats(string basePath)
 }
 ```
 
-### Scenario 4: Export with Custom Headers/Footers
+### Scenario 3: Export with Custom Headers/Footers
 
 ```csharp
 void ExportWithHeaderFooter()
@@ -508,9 +451,6 @@ void ExportWithHeaderFooter()
         worksheet.Range["A1"].Text = "Company Name: Acme Corp";
         worksheet.Range["A1"].CellStyle.Font.Bold = true;
         worksheet.Range["A2"].Text = $"Export Date: {DateTime.Now:yyyy-MM-dd}";
-        
-        // Export grid starting at row 4
-        converter.ExportToWorksheet(gridGroupingControl1, worksheet, 4, 1, ConverterOptions.Visible);
         
         // Add footer
         int lastRow = worksheet.UsedRange.LastRow + 2;

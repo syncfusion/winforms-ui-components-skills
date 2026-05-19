@@ -9,6 +9,8 @@ metadata:
 ## Assembly Dependencies
 
 **Required assemblies:**
+- `Syncfusion.Grid.Base`
+- `Syncfusion.Grid.Windows`
 - `Syncfusion.Shared.Base`
 - `Syncfusion.Shared.Windows`
 - `Syncfusion.Tools.Base`

@@ -119,14 +119,6 @@ treeViewAdv1.BackColor = Color.White;
 treeViewAdv1.ForeColor = Color.Black;
 ```
 
-**Node-Level (Individual Node):**
-
-```csharp
-TreeNodeAdv node = new TreeNodeAdv("Custom Node");
-node.BackColor = Color.LightYellow;
-node.ForeColor = Color.DarkBlue;
-```
-
 ### Font Customization
 
 **Control-Level:**
@@ -161,10 +153,6 @@ treeViewAdv1.InactiveSelectedNodeForeColor = Color.Gray;
 // Enable hover highlighting
 treeViewAdv1.HotTracking = true;
 
-// Hover colors
-treeViewAdv1.HoverColor = Color.LightGray;
-```
-
 ## Themes and Visual Styles
 
 ### Office-Style Themes
@@ -184,19 +172,21 @@ TreeViewAdv supports Office and Metro themes for modern appearance.
 treeViewAdv1.ThemeName = "Office2019Colorful";
 
 // Or use Style property
-treeViewAdv1.Style = Syncfusion.Windows.Forms.Appearance.Office2016Colorful;
+this.treeViewAdv1.Style = TreeStyle.Office2016Colorful;
 ```
 
-### Visual Style Property
+### Style Property
 
 ```csharp
 using Syncfusion.Windows.Forms;
 
 // Office 2016 Colorful
-treeViewAdv1.VisualStyle = Syncfusion.Windows.Forms.VisualStyle.Office2016Colorful;
+this.treeViewAdv1.Style = TreeStyle.Office2016Colorful;
 
 // Metro style
-treeViewAdv1.VisualStyle = Syncfusion.Windows.Forms.VisualStyle.Metro;
+this.treeViewAdv1.Style = TreeStyle.Metro;
+this.treeViewAdv1.MetroColor = Color.SteelBlue;
+this.treeViewAdv1.MetroArrowColorTable.ArrowNormal = Color.LightBlue;
 ```
 
 ### Theme Application Example
@@ -208,7 +198,7 @@ private void ApplyOfficeTheme()
     treeViewAdv1.ThemeName = "Office2019Colorful";
     
     // Optional: Customize theme colors
-    treeViewAdv1.Office2007ColorTheme = Syncfusion.Windows.Forms.Office2007Theme.Blue;
+    treeViewAdv1.Office2007ColorScheme = Syncfusion.Windows.Forms.Office2007Theme.Blue;
 }
 ```
 
@@ -226,14 +216,10 @@ treeViewAdv1.ForeColor = Color.Black;
 
 // Line colors
 treeViewAdv1.LineColor = Color.Gray;
-treeViewAdv1.DottedLineColor = Color.LightGray;
 
 // Selection colors
 treeViewAdv1.SelectedNodeBackground = new BrushInfo(Color.DodgerBlue);
 treeViewAdv1.SelectedNodeForeColor = Color.White;
-
-// Focus colors
-treeViewAdv1.FocusBorderColor = Color.Blue;
 ```
 
 ### Gradient Backgrounds

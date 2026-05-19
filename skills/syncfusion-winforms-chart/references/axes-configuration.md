@@ -154,7 +154,7 @@ xAxis.LabelsOffset = 5;  // Distance from axis
 
 ### Hide Labels
 ```csharp
-xAxis.LabelsVisible = false;
+xAxis.IsVisible = false;
 ```
 
 ### Custom Labels

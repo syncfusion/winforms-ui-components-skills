@@ -6,19 +6,19 @@ This guide covers the initial setup and basic configuration of the ComboDropDown
 
 ### Required Assembly
 
-**Assembly:** `Syncfusion.Tools.Windows.dll`
+**Assembly:** `Syncfusion.Shared.Base.dll`
 
-This assembly contains the `ComboDropDown` control and supporting classes. The NuGet package `Syncfusion.Tools.Windows` delivers this assembly for manual referencing scenarios.
+This assembly contains the `ComboDropDown` control and supporting classes. The NuGet package `Syncfusion.Shared.Base` delivers this assembly for manual referencing scenarios.
 
 ### NuGet Package Installation
 
 Install via NuGet Package Manager:
 
 ```powershell
-Install-Package Syncfusion.Tools.Windows
+Install-Package Syncfusion.Shared.Base
 ```
 
-**Package:** `Syncfusion.Tools.Windows`  
+**Package:** `Syncfusion.Shared.Base`  
 **Namespace:** `Syncfusion.Windows.Forms.Tools`
 
 ### Supported Frameworks
@@ -296,7 +296,7 @@ comboDropDown1.FlatBorderColor = Color.Gray;
 **Cause:** Assembly not referenced or Toolbox not configured  
 **Solution:** 
 - Right-click Toolbox → Choose Items
-- Browse to `Syncfusion.Tools.Windows.dll` (or add the `Syncfusion.Tools.Windows` NuGet package)
+- Browse to `Syncfusion.Shared.Base.dll` (or add the `Syncfusion.Shared.Base` NuGet package)
 - Check ComboDropDown and click OK
 
 ## Next Steps

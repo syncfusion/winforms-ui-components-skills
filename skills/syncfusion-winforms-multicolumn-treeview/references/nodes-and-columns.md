@@ -34,7 +34,7 @@ TreeNodeAdv node = new TreeNodeAdv
     Text = "John Doe",           // Node text (first column)
     Tag = employeeObject,        // Store associated data
     Font = new Font("Arial", 9),
-    ForeColor = Color.Black
+    TextColor = Color.Black
 };
 multiColumnTreeView1.Nodes.Add(node);
 ```
@@ -64,7 +64,7 @@ employeeNode.SubItems.Add(new TreeNodeAdvSubItem { Text = "New York" });
 TreeNodeAdvSubItem statusSubItem = new TreeNodeAdvSubItem
 {
     Text = "Urgent",
-    ForeColor = Color.Red,
+    TextColor = Color.Red,
     Background = new BrushInfo(Color.LightYellow),
     Font = new Font("Arial", 9, FontStyle.Bold)
 };

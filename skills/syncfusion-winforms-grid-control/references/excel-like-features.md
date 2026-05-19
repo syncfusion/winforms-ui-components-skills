@@ -59,7 +59,7 @@ Choose between different Excel selection frame styles.
 ```csharp
 gridControl1.ExcelLikeSelectionFrame = true;
 gridControl1.ExcelLikeCurrentCell = true;
-gridControl1.Properties.SelectionFrameOption = SelectionFrameOption.Excel2016;
+gridControl1.Model.Options.SelectionFrameOption = SelectionFrameOption.Excel2016;
 ```
 
 **Appearance:**
@@ -72,7 +72,7 @@ gridControl1.Properties.SelectionFrameOption = SelectionFrameOption.Excel2016;
 ```csharp
 gridControl1.ExcelLikeSelectionFrame = true;
 gridControl1.ExcelLikeCurrentCell = true;
-gridControl1.Properties.SelectionFrameOption = SelectionFrameOption.Excel2003;
+gridControl1.Model.Options.SelectionFrameOption = SelectionFrameOption.Excel2003;
 ```
 
 **Appearance:**
@@ -83,9 +83,6 @@ gridControl1.Properties.SelectionFrameOption = SelectionFrameOption.Excel2003;
 ### Customizing Selection Colors:
 
 ```csharp
-// Set selection frame color
-gridControl1.Properties.Excel2003SelectionColor = Color.Blue;
-
 // Alpha blend for transparency
 gridControl1.AlphaBlendSelectionColor = Color.FromArgb(128, Color.LightBlue);
 ```
@@ -93,14 +90,6 @@ gridControl1.AlphaBlendSelectionColor = Color.FromArgb(128, Color.LightBlue);
 ## Copy and Paste
 
 Built-in clipboard support for Excel-like copy/paste operations.
-
-### Enabling Clipboard:
-
-```csharp
-// Enable clipboard operations (enabled by default)
-gridControl1.Model.Options.ClipboardCopy = true;
-gridControl1.Model.Options.ClipboardPaste = true;
-```
 
 ### Copy Selected Cells:
 
@@ -210,7 +199,7 @@ Ctrl+Shift+End    - Select to end of grid
 ```csharp
 // Configure Enter key behavior
 gridControl1.WantTabKey = true;  // Handle Tab key
-gridControl1.WantReturnKey = true;  // Handle Enter key
+gridControl1.WantEnterKey = true; // Handle Enter key
 
 // Navigate on Enter
 gridControl1.ActivateCurrentCellBehavior = GridCellActivateAction.ClickOnCell;
@@ -218,21 +207,10 @@ gridControl1.ActivateCurrentCellBehavior = GridCellActivateAction.ClickOnCell;
 
 ## Other Excel Behaviors
 
-### Auto-Fill (Drag Handle):
-
-```csharp
-// Enable drag handle for auto-fill
-gridControl1.Properties.FillSelectionHandle = true;
-```
-
 ### Freeze Panes:
 
 ```csharp
-// Freeze first row and first column
-gridControl1.FreezeFirstRow = true;
-gridControl1.FreezeFirstColumn = true;
-
-// Or freeze at specific position
+// Freeze at specific position
 gridControl1.Model.Rows.FrozenCount = 2;  // Freeze first 2 rows
 gridControl1.Model.Cols.FrozenCount = 1;  // Freeze first column
 ```
@@ -242,14 +220,12 @@ gridControl1.Model.Cols.FrozenCount = 1;  // Freeze first column
 ```csharp
 // Excel-like grid lines
 gridControl1.GridLineColor = Color.LightGray;
-gridControl1.Properties.GridLineType = GridLineType.Solid;
 ```
 
 ### Column Resizing:
 
 ```csharp
 // Allow column resizing like Excel
-gridControl1.AllowResizeToFit = true;
 gridControl1.ResizeColsBehavior = GridResizeCellsBehavior.ResizeAll;
 ```
 
@@ -270,23 +246,17 @@ private void ConfigureExcelLikeGrid()
     // Selection
     gridControl1.ExcelLikeSelectionFrame = true;
     gridControl1.ExcelLikeCurrentCell = true;
-    gridControl1.Properties.SelectionFrameOption = SelectionFrameOption.Excel2016;
+    gridControl1.Model.Options.SelectionFrameOption = SelectionFrameOption.Excel2016;Excel2016;
     gridControl1.AllowSelection = GridSelectionFlags.Any;
-    
-    // Clipboard
-    gridControl1.Model.Options.ClipboardCopy = true;
-    gridControl1.Model.Options.ClipboardPaste = true;
     
     // Navigation
     gridControl1.WantTabKey = true;
-    gridControl1.WantReturnKey = true;
+    gridControl1.WantEnterKey = true;
     
     // Appearance
     gridControl1.GridLineColor = Color.LightGray;
-    gridControl1.Properties.GridLineType = GridLineType.Solid;
     
     // Resizing
-    gridControl1.AllowResizeToFit = true;
     gridControl1.ResizeColsBehavior = GridResizeCellsBehavior.ResizeAll;
     gridControl1.ResizeRowsBehavior = GridResizeCellsBehavior.ResizeAll;
     
@@ -316,12 +286,11 @@ private void ConfigureExcelLikeGrid()
 - Verify grid has focus
 
 ### Keyboard navigation not working
-- Check `WantTabKey` and `WantReturnKey` properties
+- Check `WantTabKey` and `WantEnterKey` properties
 - Verify grid has focus
 - Ensure no custom key handling is interfering
 
 ### Copy/paste not working
-- Verify `ClipboardCopy` and `ClipboardPaste` options are true
 - Check if custom handlers are preventing default behavior
 - Ensure grid has focus
 

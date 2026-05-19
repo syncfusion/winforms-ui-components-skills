@@ -16,6 +16,8 @@ Install-Package Syncfusion.Tools.Windows
 - `Syncfusion.Tools.Windows`
 - `Syncfusion.Shared.Base`
 - `Syncfusion.Shared.Windows`
+- `Syncfusion.Grid.Base`
+- `Syncfusion.Grid.Windows`
 
 For the complete dependency list see the [control dependencies](https://help.syncfusion.com/windowsforms/control-dependencies#multiselectioncombobox) page.
 

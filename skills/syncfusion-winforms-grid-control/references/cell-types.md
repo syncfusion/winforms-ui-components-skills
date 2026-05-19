@@ -10,7 +10,7 @@
   - [CheckBox](#checkbox)
   - [ComboBox](#combobox)
   - [PushButton](#pushbutton)
-  - [DateTimePicker](#datetimepicker)
+  - [DateTime](#datetime)
   - [NumericUpDown](#numericupdown)
   - [Image](#image)
   - [ProgressBar](#progressbar)
@@ -139,11 +139,15 @@ Dropdown selection list.
 ```csharp
 gridControl1[2, 2].CellType = GridCellTypeName.ComboBox;
 gridControl1[2, 2].CellValue = "Option 1";
-gridControl1[2, 2].ChoiceList = new string[] { "Option 1", "Option 2", "Option 3" };
+StringCollection stringCollection = new StringCollection();
+stringCollection.AddRange(new String[] { "One", "Two", "Three", "Four", "Five" });
+gridControl1[2, 2].ChoiceList = stringCollection;
 
 // Dropdown-only (no text entry)
 gridControl1[3, 2].CellType = GridCellTypeName.ComboBox;
-gridControl1[3, 2].ChoiceList = new string[] { "Small", "Medium", "Large" };
+StringCollection stringCollection = new StringCollection();
+stringCollection.AddRange(new String[] { "One", "Two", "Three", "Four", "Five" });
+gridControl1[3, 2].ChoiceList = stringCollection;
 gridControl1[3, 2].CellValue = "Medium";
 gridControl1[3, 2].DropDownStyle = GridDropDownStyle.Exclusive;  // No typing allowed
 ```
@@ -152,7 +156,6 @@ gridControl1[3, 2].DropDownStyle = GridDropDownStyle.Exclusive;  // No typing al
 - `ChoiceList` - Items to display
 - `CellValue` - Selected item
 - `DropDownStyle` - Editable or dropdown-only
-- `DropDownLines` - Number of visible items
 
 ### PushButton
 
@@ -179,7 +182,7 @@ gridControl1.CellButtonClicked += (sender, e) =>
 - Custom commands
 - Row operations (delete, edit, etc.)
 
-### DateTimePicker
+### DateTime
 
 Date and time selection.
 
@@ -189,14 +192,13 @@ gridControl1[2, 2].CellType = GridCellTypeName.MonthCalendar;
 gridControl1[2, 2].CellValue = DateTime.Now;
 
 // DateTime picker with time
-gridControl1[3, 2].CellType = GridCellTypeName.DateTimePicker;
 gridControl1[3, 2].CellValue = DateTime.Now;
 gridControl1[3, 2].Format = "MM/dd/yyyy HH:mm";
 ```
 
 **Cell type names:**
 - `MonthCalendar` - Calendar dropdown
-- `DateTimePicker` - Date and time picker
+- `DateTime` - Date and time
 
 ### NumericUpDown
 
@@ -207,9 +209,9 @@ gridControl1[2, 2].CellType = GridCellTypeName.NumericUpDown;
 gridControl1[2, 2].CellValue = 50;
 
 // Configure range
-gridControl1[2, 2].NumericUpDownProps.MinValue = 0;
-gridControl1[2, 2].NumericUpDownProps.MaxValue = 100;
-gridControl1[2, 2].NumericUpDownProps.Increment = 5;
+gridControl1[2,2].NumericUpDown.Minimum = 0;
+gridControl1[2,2].NumericUpDown.Maximum = 100;
+gridControl1[2, 2].NumericUpDown.Step = 5;
 ```
 
 **Use for:**
@@ -241,9 +243,12 @@ gridControl1[2, 2].CellType = GridCellTypeName.ProgressBar;
 gridControl1[2, 2].CellValue = 75;  // 75% complete
 
 // Configure appearance
-gridControl1[2, 2].ProgressBarProps.Minimum = 0;
-gridControl1[2, 2].ProgressBarProps.Maximum = 100;
-gridControl1[2, 2].ProgressBarProps.ProgressColor = Color.Green;
+gridControl1[2, 2].ProgressBar.Minimum = 0;
+gridControl1[2, 2].ProgressBar.Maximum = 100;
+// If ProgressStyle is in Tube.
+gridControl1[2, 2].ProgressBar.TubeEndColor = Color.Honeydew;
+gridControl1[2, 2].ProgressBar.TubeStartColor = Color.Green;
+gridControl1[2, 2].ProgressBar.ProgressValue = 50;
 ```
 
 **Use for:**
@@ -269,7 +274,6 @@ gridControl1[2, 2].Text = "___-__-____";  // SSN format
 
 **Link:**
 ```csharp
-gridControl1[2, 2].CellType = GridCellTypeName.Link;
 gridControl1[2, 2].Text = "Click Here";
 gridControl1[2, 2].Tag = "https://example.com";
 ```
@@ -282,14 +286,13 @@ gridControl1[2, 2].Tag = "https://example.com";
 // Populate from data source
 List<string> items = GetItemList();
 gridControl1[2, 2].CellType = GridCellTypeName.ComboBox;
-gridControl1[2, 2].ChoiceList = items.ToArray();
+StringCollection itemsCollection = new StringCollection();
+itemsCollection.AddRange(items.ToArray());
+gridControl1[2, 2].ChoiceList = itemsCollection;
 
 // Dropdown style
 gridControl1[2, 2].DropDownStyle = GridDropDownStyle.Exclusive;  // No typing
 gridControl1[3, 2].DropDownStyle = GridDropDownStyle.AutoComplete;  // With typing
-
-// Dropdown appearance
-gridControl1[2, 2].DropDownLines = 10;  // Show 10 items
 ```
 
 ### CheckBox Configuration:
@@ -300,22 +303,16 @@ gridControl1[2, 2].CheckBoxOptions.CheckedValue = "Yes";
 gridControl1[2, 2].CheckBoxOptions.UncheckedValue = "No";
 
 // Three-state checkbox
-gridControl1[3, 2].CheckBoxOptions.ThreeState = true;
 gridControl1[3, 2].CellValue = "Indeterminate";
 ```
 
-### DateTimePicker Configuration:
+### DateTime Configuration:
 
 ```csharp
-gridControl1[2, 2].CellType = GridCellTypeName.DateTimePicker;
 gridControl1[2, 2].CellValue = DateTime.Now;
 
 // Format
 gridControl1[2, 2].Format = "MMMM dd, yyyy";  // December 31, 2023
-
-// Min/Max dates
-gridControl1[2, 2].DateTimePickerProps.MinDateTime = new DateTime(2020, 1, 1);
-gridControl1[2, 2].DateTimePickerProps.MaxDateTime = new DateTime(2030, 12, 31);
 ```
 
 ### Button Configuration:
@@ -393,15 +390,17 @@ gridControl1[1, 2].CellType = GridCellTypeName.TextBox;
 // Age (NumericUpDown)
 gridControl1[2, 1].Text = "Age:";
 gridControl1[2, 2].CellType = GridCellTypeName.NumericUpDown;
-gridControl1[2, 2].NumericUpDownProps.MinValue = 0;
-gridControl1[2, 2].NumericUpDownProps.MaxValue = 120;
+gridControl1[2, 2].NumericUpDown.Minimum = 0;
+gridControl1[2, 2].NumericUpDown.Maximum = 120;
 
 // Gender (ComboBox)
 gridControl1[3, 1].Text = "Gender:";
 gridControl1[3, 2].CellType = GridCellTypeName.ComboBox;
-gridControl1[3, 2].ChoiceList = new string[] { "Male", "Female", "Other" };
+StringCollection stringCollection = new StringCollection();
+stringCollection.AddRange(new String[] { "Male", "Female", "Other" });
+gridControl1[3, 2].ChoiceList = stringCollection;
 
-// Birth Date (DateTimePicker)
+// Birth Date
 gridControl1[4, 1].Text = "Birth Date:";
 gridControl1[4, 2].CellType = GridCellTypeName.MonthCalendar;
 
@@ -456,7 +455,6 @@ private void SetCellType(int row, int col, object value)
 ### ComboBox not showing items
 - Ensure `ChoiceList` is set before `CellValue`
 - Verify items are strings
-- Check `DropDownLines` property
 
 ### CheckBox showing text instead of checkbox
 - Verify `CellType` is set to `GridCellTypeName.CheckBox`
@@ -467,8 +465,8 @@ private void SetCellType(int row, int col, object value)
 - Verify `CellType` is `PushButton`
 - Check event handler parameters
 
-### DateTimePicker not appearing
-- Use `MonthCalendar` or `DateTimePicker` cell type
+### DateTime not appearing
+- Use `MonthCalendar` cell type
 - Set `CellValue` to DateTime object
 - Check date is within min/max range
 

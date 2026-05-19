@@ -374,8 +374,8 @@ stateImages.Images.Add("collapsed", Image.FromFile("folder-closed.png"));
 treeViewAdv1.StateImageList = stateImages;
 
 TreeNodeAdv folderNode = new TreeNodeAdv("Project Files");
-folderNode.ExpandedImageIndex = 0;  // Show when expanded
-folderNode.CollapsedImageIndex = 1; // Show when collapsed
+folderNode.ExpandImageIndex = 0;  // Show when expanded
+folderNode.CollapseImageIndex = 1; // Show when collapsed
 ```
 
 ### Complete File Explorer Example

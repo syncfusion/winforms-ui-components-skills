@@ -216,19 +216,16 @@ using Syncfusion.GridHelperClasses;
 
 GridPrintDocumentAdv printDocument = new GridPrintDocumentAdv(gridGroupingControl1.TableControl);
 
-// Enable headers
-printDocument.ShowHeaderRowOnAllPages = true;
 
 // Set header text
-printDocument.HeaderText = "Company Name - Sales Report";
+printDocument.HeaderPrintStyleInfo.HeaderText = "Company Name - Sales Report";
 
 // Header height
 printDocument.HeaderHeight = 40;
 
 // Header style
-printDocument.HeaderBackColor = Color.LightBlue;
-printDocument.HeaderForeColor = Color.DarkBlue;
-printDocument.HeaderFont = new Font("Arial", 14, FontStyle.Bold);
+printDocument.HeaderPrintStyleInfo.BackColor = Color.LightBlue;
+
 
 printDocument.Print();
 ```
@@ -238,20 +235,14 @@ printDocument.Print();
 ```csharp
 GridPrintDocumentAdv printDocument = new GridPrintDocumentAdv(gridGroupingControl1.TableControl);
 
-// Enable footers
-printDocument.ShowFooterOnAllPages = true;
-
 // Set footer text with page number
-printDocument.FooterText = "Page {page} of {pagecount}";
+printDocument.FooterPrintStyleInfo.FooterText = "Page {page} of {pagecount}";
 
 // Footer height
 printDocument.FooterHeight = 30;
 
 // Footer style
-printDocument.FooterBackColor = Color.LightGray;
-printDocument.FooterForeColor = Color.Black;
-printDocument.FooterFont = new Font("Arial", 10);
-
+printDocument.FooterPrintStyleInfo.FooterBackColor = Color.LightGray;
 printDocument.Print();
 ```
 
@@ -261,12 +252,12 @@ printDocument.Print();
 GridPrintDocumentAdv printDocument = new GridPrintDocumentAdv(gridGroupingControl1.TableControl);
 
 // Draw custom header
-printDocument.DrawHeader += PrintDocument_DrawHeader;
+printDocument.DrawGridPrintHeader += PrintDocument_DrawHeader;
 
-void PrintDocument_DrawHeader(object sender, DrawRectangleEventArgs e)
+void PrintDocument_DrawHeader(object sender, GridPrintHeaderFooterTemplateArgs e)
 {
     Graphics g = e.Graphics;
-    Rectangle rect = e.Rectangle;
+    Rectangle rect = e.DrawRectangle;
     
     // Draw company logo
     Image logo = Image.FromFile("logo.png");
@@ -347,16 +338,11 @@ void PrintWithHeader()
     GridPrintDocumentAdv printDoc = new GridPrintDocumentAdv(gridGroupingControl1.TableControl);
     
     // Header configuration
-    printDoc.ShowHeaderRowOnAllPages = true;
-    printDoc.HeaderText = "Acme Corporation\nEmployee Directory";
+    printDoc.HeaderPrintStyleInfo.Text = "Acme Corporation\nEmployee Directory";
     printDoc.HeaderHeight = 60;
-    printDoc.HeaderBackColor = Color.DarkBlue;
-    printDoc.HeaderForeColor = Color.White;
-    printDoc.HeaderFont = new Font("Arial", 14, FontStyle.Bold);
+    printDoc.HeaderPrintStyleInfo.BackColor = Color.DarkBlue;
     
-    // Footer with page numbers
-    printDoc.ShowFooterOnAllPages = true;
-    printDoc.FooterText = $"Printed: {DateTime.Now:yyyy-MM-dd HH:mm} | Page {{page}} of {{pagecount}}";
+    printDoc.FooterPrintStyleInfo.FooterText = $"Printed: {DateTime.Now:yyyy-MM-dd HH:mm} | Page {{page}} of {{pagecount}}";
     printDoc.FooterHeight = 30;
     
     // Landscape for wide grid

@@ -146,7 +146,7 @@ scheduleControl1.ScheduleType = ScheduleViewType.CustomWeek;
 
 ```csharp
 // Maximum number of days to display side-by-side in Day view
-scheduleControl1.Appearance.DayMonthCutOff = 3; // Show up to 3 days
+scheduleControl1.Appearance.DayMonthCutoff = 3; // Show up to 3 days
 
 // Number of time divisions per hour in Day/Week views
 scheduleControl1.Appearance.DivisionsPerHour = 4; // 15-minute intervals
@@ -173,7 +173,7 @@ NavigationCalendar navCalendar = scheduleControl1.Calendar;
 navCalendar.DateValue = new DateTime(2026, 03, 24);
 
 // Get selected dates
-DateTime[] selectedDates = navCalendar.SelectedDates;
+var selectedDates = navCalendar.SelectedDates;
 
 // Set today's date (affects "Today" highlighting)
 navCalendar.Today = DateTime.Now;
@@ -317,7 +317,7 @@ scheduleControl1.Appearance.DivisionsPerHour = 4; // 15-minute intervals
 // 2 = 30 minutes, 3 = 20 minutes, 4 = 15 minutes, 6 = 10 minutes
 
 // Maximum days side-by-side in Day view before switching to Week
-scheduleControl1.Appearance.DayMonthCutOff = 3;
+scheduleControl1.Appearance.DayMonthCutoff = 3;
 ```
 
 ## Complete Navigation Example

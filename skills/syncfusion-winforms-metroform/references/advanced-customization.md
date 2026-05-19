@@ -419,23 +419,12 @@ public MainForm()
     
     // Animated gradient
     this.CaptionBarPaint += AnimatedGradient_Paint;
-    
-    gradientTimer = new Timer { Interval = 50 };
-    gradientTimer.Tick += (s, e) =>
-    {
-        hueShift += 2f;
-        if (hueShift >= 360f) hueShift = 0f;
-        
-        // Redraw caption bar
-        this.Invalidate(new Rectangle(0, 0, this.Width, this.CaptionBarHeight));
-    };
-    gradientTimer.Start();
 }
 
 void AnimatedGradient_Paint(object sender, PaintEventArgs e)
 {
-    Color color1 = ColorFromHSV(hueShift, 0.8, 0.8);
-    Color color2 = ColorFromHSV((hueShift + 60) % 360, 0.8, 0.8);
+    Color color1 = ColorFromHSV(Handle, 0.8, 0.8);
+    Color color2 = ColorFromHSV((Handle + 60) % 360, 0.8, 0.8);
     
     using (var brush = new LinearGradientBrush(
         e.ClipRectangle, color1, color2, LinearGradientMode.Horizontal))

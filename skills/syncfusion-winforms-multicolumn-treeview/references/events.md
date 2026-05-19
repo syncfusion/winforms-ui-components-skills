@@ -5,33 +5,33 @@ Event system for node selection, editing, expand/collapse, checkboxes, and inter
 ## Node Selection Events
 
 ```csharp
+this.multiColumnTreeView1.BeforeSelect += MultiColumnTreeView1_BeforeSelect;
+this.multiColumnTreeView1.AfterSelect += MultiColumnTreeView1_AfterSelect;
+this.multiColumnTreeView1.NodeHotTrackChanged += MultiColumnTreeView1_NodeHotTrackChanged;
+
 // Before selection (cancelable)
-multiColumnTreeView1.BeforeSelect += (sender, e) =>
+private void MultiColumnTreeView1_BeforeSelect(object sender, Syncfusion.Windows.Forms.Tools.MultiColumnTreeView.TreeViewAdvCancelableSelectionEventArgs e)
 {
-    foreach (TreeNodeAdv node in e.SelectedNodes)
+    List<TreeNodeAdv> SelectedNodes = new List<TreeNodeAdv>();
+    for (int i = 0; i < e.SelectedNodes.Count; i++)
     {
-        if (!node.Enabled)
-        {
-            e.Cancel = true;
-            MessageBox.Show("Cannot select disabled nodes");
-            return;
-        }
+        TreeNodeAdv Node = e.SelectedNodes[i];
+        SelectedNodes[i] = e.SelectedNodes[i];
     }
-};
+}
 
 // After selection
-multiColumnTreeView1.AfterSelect += (sender, e) =>
+private void MultiColumnTreeView1_AfterSelect(object sender, EventArgs e)
 {
-    if (multiColumnTreeView1.SelectedNode != null)
-        UpdateDetailsPanel(multiColumnTreeView1.SelectedNode.Text);
-};
+    MessageBox.Show("The Node is selected");
+}
 
 // Hot track (hover)
-multiColumnTreeView1.NodeHotTrackChanged += (sender, e) =>
+private void MultiColumnTreeView1_NodeHotTrackChanged(object sender, Syncfusion.Windows.Forms.Tools.MultiColumnTreeView.TreeViewAdvNodeEventArgs e)
 {
-    if (e.Node != null)
-        statusLabel.Text = $"Hovering: {e.Node.Text}";
-};
+    //Gets the node associated with this event
+    TreeNodeAdv Node = e.Node;
+}
 ```
 
 ## Expand/Collapse Events
@@ -61,100 +61,106 @@ multiColumnTreeView1.BeforeCollapse += (sender, e) =>
 ## Checkbox Events
 
 ```csharp
-// Before check (cancelable)
-multiColumnTreeView1.BeforeCheck += (sender, e) =>
-{
-    Console.WriteLine($"{e.Node.Text} changing to {e.NewCheckState}");
-};
+this.multiColumnTreeView1.AfterInteractiveChecks += MultiColumnTreeView1_AfterInteractiveChecks;
+this.multiColumnTreeView1.BeforeCheck += MultiColumnTreeView1_BeforeCheck;
 
-// After check
-multiColumnTreeView1.AfterCheck += (sender, e) =>
+// Before check (cancelable)
+private void MultiColumnTreeView1_BeforeCheck(object sender, Syncfusion.Windows.Forms.Tools.MultiColumnTreeView.TreeNodeAdvBeforeCheckEventArgs e)
 {
-    UpdateSelectionCount();
-};
+    //Gets the Node with this event
+    TreeNodeAdv Node = e.Node;
+    string CheckState = e.NewCheckState.ToString();
+}
 
 // After interactive checks (parent-child sync)
-multiColumnTreeView1.AfterInteractiveChecks += (sender, e) =>
+private void MultiColumnTreeView1_AfterInteractiveChecks(object sender, Syncfusion.Windows.Forms.Tools.MultiColumnTreeView.TreeNodeAdvEventArgs e)
 {
-    Console.WriteLine($"Interactive check completed for: {e.Node.Text}");
-};
+    //Gets the Node with this event
+    TreeNodeAdv Node = e.Node;
+}
 ```
 
 ## Node Editing Events
 
 ```csharp
+this.multiColumnTreeView1.BeforeEdit += MultiColumnTreeView1_BeforeEdit;
+
+this.multiColumnTreeView1.NodeEditorValidated += MultiColumnTreeView1_NodeEditorValidated;
+
+this.multiColumnTreeView1.NodeEditorValidating += MultiColumnTreeView1_NodeEditorValidating;
+
+this.multiColumnTreeView1.NodeEditorValidateString += MultiColumnTreeView1_NodeEditorValidateString;
+
 // Before edit (cancelable)
-multiColumnTreeView1.BeforeEdit += (sender, e) =>
+private void MultiColumnTreeView1_BeforeEdit(object sender, Syncfusion.Windows.Forms.Tools.MultiColumnTreeView.TreeNodeAdvBeforeEditEventArgs e)
 {
-    if (e.Node.Level == 0)
-    {
-        e.Cancel = true;
-        MessageBox.Show("Root nodes cannot be edited");
-    }
-};
+    //The Node which is going to be edited
+    TreeNodeAdv Node = e.Node;
+}
 
 // Validate during editing
-multiColumnTreeView1.NodeEditorValidating += (sender, e) =>
+private void MultiColumnTreeView1_NodeEditorValidating(object sender, Syncfusion.Windows.Forms.Tools.MultiColumnTreeView.TreeNodeAdvCancelableEditEventArgs e)
 {
-    if (string.IsNullOrWhiteSpace(e.Label))
-    {
-        MessageBox.Show("Name cannot be empty");
-        e.ContinueEditing = true;
-    }
+    e.ContinueEditing = true;
+    string label = e.Label;
+    TreeNodeAdv Node = e.Node;
 };
 
 // After successful edit
-multiColumnTreeView1.NodeEditorValidated += (sender, e) =>
+private void MultiColumnTreeView1_NodeEditorValidated(object sender, Syncfusion.Windows.Forms.Tools.MultiColumnTreeView.TreeNodeAdvEditEventArgs e)
 {
-    Console.WriteLine($"Node renamed to: {e.Label}");
-    if (e.Node.Tag != null)
-        UpdateDatabase(e.Node.Tag, e.Label);
-};
+    string label = e.Label;
+    TreeNodeAdv Node = e.Node;
+}
 
 // Real-time validation
-multiColumnTreeView1.NodeEditorValidateString += (sender, e) =>
+private void MultiColumnTreeView1_NodeEditorValidateString(object sender, Syncfusion.Windows.Forms.Tools.MultiColumnTreeView.TreeNodeAdvCancelableEditEventArgs e)
 {
-    if (e.Label.Length > 50)
-    {
-        MessageBox.Show("Maximum 50 characters");
-        e.ContinueEditing = true;
-    }
-};
+    e.ContinueEditing = true;
+    string label = e.Label;
+    TreeNodeAdv Node = e.Node;
+}
 ```
 
 ## Custom Painting
 
 ```csharp
 multiColumnTreeView1.OwnerDrawNodes = true;
+this.multiColumnTreeView1.BeforeNodePaint += MultiColumnTreeView1_BeforeNodePaint;
+this.multiColumnTreeView1.AfterNodePaint += MultiColumnTreeView1_AfterNodePaint;
 
 // Before node paint
-multiColumnTreeView1.BeforeNodePaint += (sender, e) =>
+private void MultiColumnTreeView1_BeforeNodePaint(object sender, Syncfusion.Windows.Forms.Tools.MultiColumnTreeView.TreeNodeAdvPaintEventArgs e)
 {
-    // Custom drawing before node
-};
+    //Node going to get painted
+    TreeNodeAdv Node = e.Node;
+}
 
 // After node paint
-multiColumnTreeView1.AfterNodePaint += (sender, e) =>
+private void MultiColumnTreeView1_AfterNodePaint(object sender, Syncfusion.Windows.Forms.Tools.MultiColumnTreeView.TreeNodeAdvPaintEventArgs e)
 {
-    if (e.Node.Tag as string == "highlight")
-        e.Graphics.DrawRectangle(Pens.Red, e.Bounds);
-};
+    //Node which got painted
+    TreeNodeAdv Node = e.Node;
+}
 ```
 
 ## Column Events
 
 ```csharp
+this.multiColumnTreeView1.ColumnClick += MultiColumnTreeView1_ColumnClick;
+this.multiColumnTreeView1.ColumnDoubleClick += MultiColumnTreeView1_ColumnDoubleClick;
+
 // Column click
-multiColumnTreeView1.ColumnClick += (sender, e) =>
+private void MultiColumnTreeView1_ColumnClick(object sender, TreeViewColumnSelectedChangedEventArgs e)
 {
-    SortByColumn(e.Column);
-};
+   MessageBox.show("The column selected is "+ e.Column.ToString());
+}
 
 // Column double-click
-multiColumnTreeView1.ColumnDoubleClick += (sender, e) =>
+private void MultiColumnTreeView1_ColumnDoubleClick(object sender, TreeViewColumnSelectedChangedEventArgs e)
 {
-    e.Column.Width = CalculateOptimalWidth(e.Column);
-};
+  MessageBox.show("The column selected is "+ e.Column.ToString());
+}
 
 // Column mouse events
 multiColumnTreeView1.ColumnMouseDown += (sender, e) =>
@@ -167,57 +173,17 @@ multiColumnTreeView1.ColumnMouseDown += (sender, e) =>
 ## Mouse Events
 
 ```csharp
-multiColumnTreeView1.MouseDown += (sender, e) =>
+this.multiColumnTreeView1.ColumnMouseDown += MultiColumnTreeView1_ColumnMouseDown;
+this.multiColumnTreeView1.ColumnMouseUp += MultiColumnTreeView1_ColumnMouseUp;
+
+private void MultiColumnTreeView1_ColumnMouseDown(object sender, TreeColumnAdvMouseEventArgs e)
 {
-    if (e.Button == MouseButtons.Right)
-    {
-        TreeNodeAdv node = multiColumnTreeView1.GetNodeAtPoint(e.Location);
-        if (node != null)
-            ShowNodeContextMenu(node, e.Location);
-    }
-};
-```
-
-## Confirmation on Delete
-
-```csharp
-private void SetupDeleteConfirmation()
-{
-    multiColumnTreeView1.KeyDown += (sender, e) =>
-    {
-        if (e.KeyCode == Keys.Delete && multiColumnTreeView1.SelectedNode != null)
-        {
-            var result = MessageBox.Show(
-                $"Delete '{multiColumnTreeView1.SelectedNode.Text}'?",
-                "Confirm Delete",
-                MessageBoxButtons.YesNo);
-            
-            if (result == DialogResult.Yes)
-                DeleteSelectedNode();
-        }
-    };
-}
-```
-
-## Audit Trail
-
-```csharp
-private void SetupAuditTrail()
-{
-    multiColumnTreeView1.AfterCheck += (sender, e) =>
-        LogAudit($"Checkbox changed: {e.Node.Text} = {e.Node.Checked}");
-    
-    multiColumnTreeView1.NodeEditorValidated += (sender, e) =>
-        LogAudit($"Node renamed: {e.Node.Text} → {e.Label}");
-    
-    multiColumnTreeView1.BeforeExpand += (sender, e) =>
-        LogAudit($"Node expanded: {e.Node.Text}");
+  MessageBox.show("The column selected is "+ e.Column.ToString()); 
 }
 
-private void LogAudit(string message)
+private void MultiColumnTreeView1_ColumnMouseUp(object sender, TreeColumnAdvMouseEventArgs e)
 {
-    string entry = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}";
-    auditLog.AppendText(entry + Environment.NewLine);
+  MessageBox.show("The column selected is "+ e.Column.ToString()); 
 }
 ```
 
@@ -233,8 +199,7 @@ private void SetupContextMenu()
         menu.Items.Clear();
         if (multiColumnTreeView1.SelectedNode != null)
         {
-            menu.Items.Add("Rename", null, (_, __) => multiColumnTreeView1.SelectedNode.BeginEdit());
-            menu.Items.Add("Delete", null, (_, __) => DeleteSelectedNode());
+            menu.Items.Add("Rename", null, (_, __) => multiColumnTreeView1.BeginEdit());
             menu.Items.Add("-");
             menu.Items.Add("Expand All", null, (_, __) => multiColumnTreeView1.SelectedNode.ExpandAll());
             menu.Items.Add("Collapse All", null, (_, __) => multiColumnTreeView1.SelectedNode.CollapseAll());

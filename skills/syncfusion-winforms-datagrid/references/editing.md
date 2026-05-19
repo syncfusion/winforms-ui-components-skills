@@ -113,12 +113,12 @@ Moves cursor to end when entering edit mode.
 
 **C# Example:**
 ```csharp
-sfDataGrid1.EditorSelectionBehavior = EditorSelectionBehavior.MovesToEnd;
+sfDataGrid1.EditorSelectionBehavior = EditorSelectionBehavior.MoveLast;
 ```
 
 **VB.NET Example:**
 ```vb
-sfDataGrid1.EditorSelectionBehavior = EditorSelectionBehavior.MovesToEnd
+sfDataGrid1.EditorSelectionBehavior = EditorSelectionBehavior.MoveLast
 ```
 
 ## Editing Events
@@ -198,43 +198,6 @@ Private Sub SfDataGrid1_CurrentCellEndEdit(ByVal sender As Object, ByVal e As Cu
 End Sub
 ```
 
-### CurrentCellValueChanged Event
-
-Occurs when cell value is changed.
-
-**C# Example:**
-```csharp
-sfDataGrid1.CurrentCellValueChanged += SfDataGrid1_CurrentCellValueChanged;
-
-private void SfDataGrid1_CurrentCellValueChanged(object sender, CurrentCellValueChangedEventArgs e)
-{
-    if (e.Column.MappingName == "Quantity" || e.Column.MappingName == "UnitPrice")
-    {
-        // Update calculated fields
-        var record = e.Record as OrderInfo;
-        if (record != null)
-        {
-            record.TotalPrice = record.Quantity * record.UnitPrice;
-        }
-    }
-}
-```
-
-**VB.NET Example:**
-```vb
-AddHandler sfDataGrid1.CurrentCellValueChanged, AddressOf SfDataGrid1_CurrentCellValueChanged
-
-Private Sub SfDataGrid1_CurrentCellValueChanged(ByVal sender As Object, ByVal e As CurrentCellValueChangedEventArgs)
-    If e.Column.MappingName = "Quantity" OrElse e.Column.MappingName = "UnitPrice" Then
-        ' Update calculated fields
-        Dim record = TryCast(e.Record, OrderInfo)
-        If record IsNot Nothing Then
-            record.TotalPrice = record.Quantity * record.UnitPrice
-        End If
-    End If
-End Sub
-```
-
 ### EditingControlShowing Event
 
 Occurs when the editing control is displayed.
@@ -243,7 +206,7 @@ Occurs when the editing control is displayed.
 ```csharp
 sfDataGrid1.EditingControlShowing += SfDataGrid1_EditingControlShowing;
 
-private void SfDataGrid1_EditingControlShowing(object sender, EditingControlShowingEventArgs e)
+private void SfDataGrid1_EditingControlShowing(object sender, DataGridEditingControlShowingEventArgs e)
 {
     if (e.DataColumn.GridColumn.MappingName == "ProductName")
     {
@@ -261,7 +224,7 @@ private void SfDataGrid1_EditingControlShowing(object sender, EditingControlShow
 ```vb
 AddHandler sfDataGrid1.EditingControlShowing, AddressOf SfDataGrid1_EditingControlShowing
 
-Private Sub SfDataGrid1_EditingControlShowing(ByVal sender As Object, ByVal e As EditingControlShowingEventArgs)
+Private Sub SfDataGrid1_EditingControlShowing(ByVal sender As Object, ByVal e As DataGridEditingControlShowingEventArgs)
     If e.DataColumn.GridColumn.MappingName = "ProductName" Then
         Dim textBox = TryCast(e.Control, TextBox)
         If textBox IsNot Nothing Then
@@ -332,39 +295,6 @@ sfDataGrid1.CurrentCell.CancelEdit();
 **VB.NET Example:**
 ```vb
 sfDataGrid1.CurrentCell.CancelEdit()
-```
-
-## Cell Value Changes
-
-### Programmatically Changing Cell Values
-
-**C# Example:**
-```csharp
-// Method 1: Through data source
-var record = sfDataGrid1.View.Records[2].Data as OrderInfo;
-if (record != null)
-{
-    record.UnitPrice = 150.50m;
-}
-
-// Method 2: Through CurrentCellManager
-sfDataGrid1.CurrentCell.SetCurrentValue("NewValue");
-
-// Method 3: Through View
-var rowData = sfDataGrid1.View.Records[5].Data;
-sfDataGrid1.View.SetPropertyAccessProvider(new CustomPropertyAccessProvider());
-```
-
-**VB.NET Example:**
-```vb
-' Method 1: Through data source
-Dim record = TryCast(sfDataGrid1.View.Records(2).Data, OrderInfo)
-If record IsNot Nothing Then
-    record.UnitPrice = 150.5D
-End If
-
-' Method 2: Through CurrentCellManager
-sfDataGrid1.CurrentCell.SetCurrentValue("NewValue")
 ```
 
 ### Batch Updates
@@ -483,13 +413,13 @@ private void SfDataGrid1_RowValidating(object sender, RowValidatingEventArgs e)
         if (record.Quantity > 0 && record.UnitPrice <= 0)
         {
             e.IsValid = false;
-            e.ErrorMessages.Add("UnitPrice", "Price must be greater than zero when quantity is specified");
+            e.ErrorMessage = "Price must be greater than zero when quantity is specified";
         }
         
         if (record.OrderDate > DateTime.Now)
         {
             e.IsValid = false;
-            e.ErrorMessages.Add("OrderDate", "Order date cannot be in the future");
+            e.ErrorMessage = "Order date cannot be in the future";
         }
     }
 }

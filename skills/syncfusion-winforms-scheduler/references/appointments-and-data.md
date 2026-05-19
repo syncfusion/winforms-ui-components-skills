@@ -56,7 +56,7 @@ appointment.MarkerValue = 2; // Busy status
 // 0=Free, 1=Tentative, 2=Busy, 3=Out of Office
 
 // Location identifier (references location list)
-appointment.LocationValue = 1; // "RoomB"
+appointment.LocationValue = "RoomB"; // "RoomB"
 ```
 
 **Reminders:**
@@ -108,7 +108,8 @@ appointment.Tag = new { CustomerId = 42, Priority = "High" };
 | **MarkerValue** | int | Status marker (0-3) |
 | **Reminder** | bool | Enable reminder notification |
 | **ReminderValue** | int | Reminder interval identifier (0-8) |
-| **LocationValue** | int | Location identifier |
+|**ReminderText** | string |  Custom reminder display text shown in the UI |
+| **LocationValue** | string  | Location identifier |
 | **ForeColor** | Color | Appointment text color |
 | **Version** | int | Data format version number |
 | **Dirty** | bool | Modification flag |
@@ -544,119 +545,43 @@ public class CustomDataProvider : ScheduleDataProvider
 }
 ```
 
-## Complete Implementation Example
+## Using ArrayListDataProvider
 
-Full custom data provider with in-memory storage:
+The built-in `ArrayListDataProvider` provides all data provider functionality without requiring custom implementation.
+
+**Quick Start:**
 
 ```csharp
-public class SimpleScheduleDataProvider : ScheduleDataProvider
-{
-    private ScheduleAppointmentList masterList;
-    private string fileName;
-    private bool isDirty;
-    
-    public SimpleScheduleAppointmentList MasterList
-    {
-        get { return masterList as SimpleScheduleAppointmentList; }
-        set { masterList = value; }
-    }
-    
-    public string FileName
-    {
-        get { return fileName; }
-        set { fileName = value; }
-    }
-    
-    public override bool IsDirty
-    {
-        get { return isDirty; }
-        set { isDirty = value; }
-    }
-    
-    public SimpleScheduleDataProvider()
-    {
-        InitLists();
-    }
-    
-    public override IScheduleAppointmentList GetSchedule(DateTime startDate, DateTime endDate)
-    {
-        ScheduleAppointmentList result = new ScheduleAppointmentList();
-        
-        if (masterList != null)
-        {
-            foreach (IScheduleAppointment appt in masterList)
-            {
-                if (appt.StartTime < endDate && appt.EndTime > startDate)
-                {
-                    result.Add(appt);
-                }
-            }
-        }
-        
-        result.SortStartTime();
-        return result;
-    }
-    
-    public override IScheduleAppointmentList GetScheduleForDay(DateTime day)
-    {
-        return GetSchedule(day.Date, day.Date.AddDays(1));
-    }
-    
-    public override IScheduleAppointment NewScheduleAppointment()
-    {
-        ScheduleAppointment appt = new ScheduleAppointment();
-        appt.UniqueID = masterList != null && masterList.Count > 0 
-            ? masterList[masterList.Count - 1].UniqueID + 1 
-            : 1;
-        return appt;
-    }
-    
-    public override void AddItem(IScheduleAppointment item)
-    {
-        if (masterList != null)
-        {
-            masterList.Add(item);
-            IsDirty = true;
-        }
-    }
-    
-    public override void RemoveItem(IScheduleAppointment item)
-    {
-        if (masterList != null)
-        {
-            masterList.Remove(item);
-            IsDirty = true;
-        }
-    }
-    
-    public override void CommitChanges()
-    {
-        if (IsDirty && !string.IsNullOrEmpty(fileName))
-        {
-            SaveBinary(fileName, this);
-            IsDirty = false;
-        }
-    }
-    
-    // Serialization methods
-    public static void SaveBinary(string fileName, SimpleScheduleDataProvider data)
-    {
-        using (FileStream fs = new FileStream(fileName, FileMode.Create))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(fs, data.MasterList);
-        }
-    }
-    
-    public static SimpleScheduleDataProvider LoadBinary(string fileName)
-    {
-        using (FileStream fs = new FileStream(fileName, FileMode.Open))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            SimpleScheduleDataProvider data = new SimpleScheduleDataProvider();
-            data.MasterList = formatter.Deserialize(fs) as SimpleScheduleAppointmentList;
-            return data;
-        }
-    }
-}
+using Syncfusion.Schedule;
+using Syncfusion.Windows.Forms.Schedule;
+
+// Create data provider
+ArrayListDataProvider dataProvider = new ArrayListDataProvider();
+dataProvider.MasterList = new ArrayListAppointmentList();
+dataProvider.FileName = "schedule.xml";
+
+// Create and add appointment
+IScheduleAppointment appointment = dataProvider.NewScheduleAppointment();
+appointment.StartTime = DateTime.Today.AddHours(9);
+appointment.EndTime = DateTime.Today.AddHours(10);
+appointment.Subject = "Team Meeting";
+appointment.LabelValue = 2;
+
+// Add to provider
+dataProvider.AddItem(appointment);
+
+// Bind to control
+scheduleControl1.DataSource = dataProvider;
+
+// Save to XML
+dataProvider.SaveXML(dataProvider.FileName);
+dataProvider.IsDirty = false;
 ```
+
+**Key Benefits:**
+- ✅ Built-in implementation - no custom code needed
+- ✅ Integrated XML serialization with SaveXML/LoadXML methods
+- ✅ File state tracking with FileName and IsDirty properties
+- ✅ Production ready and maintained by Syncfusion
+
+📄 **Read:** [data-provider-xml-implementation.md](data-provider-xml-implementation.md) for complete examples and patterns.

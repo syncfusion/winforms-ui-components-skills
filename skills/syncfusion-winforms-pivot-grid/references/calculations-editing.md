@@ -6,7 +6,6 @@
 - [Expression Fields](#expression-fields)
 - [Editing Values](#editing-values)
 - [Updating Values](#updating-values)
-- [Validation](#validation)
 
 ## Overview
 
@@ -23,7 +22,7 @@ using Syncfusion.PivotAnalysis.Base;
 pivotGridControl1.PivotCalculations.Add(new PivotComputationInfo
 {
     FieldName = "Amount",
-    CalculationType = CalculationType.RunningTotal,
+    CalculationType = CalculationType.RunningTotalIn,
     Format = "C"
 });
 
@@ -53,7 +52,7 @@ Create calculated fields using expressions:
 PivotComputationInfo profit = new PivotComputationInfo
 {
     FieldName = "Profit",
-    Expression = "[Amount] - [Cost]",
+    Formula = "[Amount] - [Cost]",
     Format = "C",
     SummaryType = SummaryType.DoubleTotalSum
 };
@@ -67,15 +66,7 @@ Enable cell editing:
 
 ```csharp
 // Allow editing
-pivotGridControl1.AllowEditing = true;
-
-// Handle value changes
-pivotGridControl1.TableControl.CellValueChanged += (s, e) =>
-{
-    var newValue = e.NewValue;
-    var oldValue = e.OldValue;
-    Console.WriteLine($"Changed: {oldValue} → {newValue}");
-};
+pivotGridControl1.EnableValueEditing = true;
 ```
 
 ## Updating Values
@@ -83,27 +74,12 @@ pivotGridControl1.TableControl.CellValueChanged += (s, e) =>
 Programmatically update cell values:
 
 ```csharp
-// Update specific cell
-pivotGridControl1.TableControl.SetCellValue(rowIndex, colIndex, newValue);
+// Enabling updating
+pivotGridControl1.EnableUpdating = true;
+
+//Throttling update speed
+pivotGridControl1.UpdateManager.ThrottleUpdateRate = 300;
 
 // Refresh calculations
 pivotGridControl1.TableControl.Refresh(true);
-```
-
-## Validation
-
-Add validation rules:
-
-```csharp
-pivotGridControl1.TableControl.CellValidating += (s, e) =>
-{
-    if (double.TryParse(e.NewValue.ToString(), out double value))
-    {
-        if (value < 0)
-        {
-            e.Cancel = true;  // Reject negative values
-            MessageBox.Show("Value must be positive");
-        }
-    }
-};
 ```

@@ -48,12 +48,12 @@ The TabSplitterContainer is composed of several interactive components that work
 
 The `PrimaryPages` property holds a collection of `TabSplitterPage` objects that appear in the primary (left or top) pane.
 
-**Property Type:** `TabSplitterPageCollection`
+**Property Type:** `TabSplitterPagesCollection`
 
 **Access Pattern:**
 ```csharp
 // Access the collection
-TabSplitterPageCollection primaryPages = tabSplitterContainer1.PrimaryPages;
+TabSplitterPagesCollection primaryPages = tabSplitterContainer1.PrimaryPages;
 
 // Get page count
 int pageCount = tabSplitterContainer1.PrimaryPages.Count;
@@ -103,7 +103,7 @@ private void AddPrimaryPages()
 
 The `SecondaryPages` property manages the collection of pages in the secondary (right or bottom) pane.
 
-**Property Type:** `TabSplitterPageCollection`
+**Property Type:** `TabSplitterPagesCollection`
 
 **Usage Pattern:**
 ```csharp

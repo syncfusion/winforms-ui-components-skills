@@ -381,12 +381,9 @@ private void CopySelectionToClipboard()
 ### Customize Selection Colors:
 
 ```csharp
-// Selection frame color
-gridControl1.Properties.Excel2003SelectionColor = Color.Blue;
-
 // Alpha blend (transparency)
 gridControl1.AlphaBlendSelectionColor = Color.FromArgb(128, Color.LightBlue);
-gridControl1.Properties.ExcelLikeSelectionFrame = true;
+gridControl1.ExcelLikeSelectionFrame = true;
 ```
 
 ### Excel-Like Selection Frame:
@@ -397,9 +394,10 @@ gridControl1.ExcelLikeSelectionFrame = true;
 gridControl1.ExcelLikeCurrentCell = true;
 
 // Selection frame style
-gridControl1.Properties.SelectionFrameOption = SelectionFrameOption.Excel2016;
+// Selection frame style
+gridControl1.Model.Options.SelectionFrameOption = SelectionFrameOption.Excel2016;
 // or
-gridControl1.Properties.SelectionFrameOption = SelectionFrameOption.Excel2003;
+gridControl1.Model.Options.SelectionFrameOption = SelectionFrameOption.Excel2003;
 ```
 
 ## Best Practices

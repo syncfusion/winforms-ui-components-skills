@@ -15,7 +15,7 @@ Before using the GroupBar control, ensure you have the required assemblies refer
 The recommended way to add the GroupBar control is through NuGet Package Manager:
 
 ```powershell
-Install-Package Syncfusion.Tools.WinForms
+Install-Package Syncfusion.Shared.Base
 ```
 
 **When to use NuGet:**

@@ -26,7 +26,7 @@ sfDataGrid1.AllowFiltering = True
 
 **CheckBox Filter:**
 ```csharp
-sfDataGrid1.FilterPopupMode = FilterPopupMode.CheckboxFilter;
+sfDataGrid1.FilterPopupMode = FilterPopupMode.CheckBoxFilter;
 ```
 
 **Advanced Filter:**
@@ -41,21 +41,21 @@ sfDataGrid1.FilterPopupMode = FilterPopupMode.Both;
 
 **VB.NET Example:**
 ```vb
-sfDataGrid1.FilterPopupMode = FilterPopupMode.CheckboxFilter
+sfDataGrid1.FilterPopupMode = FilterPopupMode.CheckBoxFilter
 ```
 
 ### Instant Filtering
 
 **C# Example:**
 ```csharp
-sfDataGrid1.AllowBlankFilters = false;
-sfDataGrid1.ImmediateUpdateColumnFilter = true;
+sfDataGrid1.Columns[0].AllowBlankFilters = false;
+sfDataGrid1.Columns[0].ImmediateUpdateColumnFilter = true;
 ```
 
 **VB.NET Example:**
 ```vb
-sfDataGrid1.AllowBlankFilters = False
-sfDataGrid1.ImmediateUpdateColumnFilter = True
+sfDataGrid1.Columns(0).AllowBlankFilters = False
+sfDataGrid1.Columns(0).ImmediateUpdateColumnFilter = True
 ```
 
 ## Programmatic Filtering

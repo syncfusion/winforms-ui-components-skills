@@ -8,10 +8,10 @@ The `SfToolTip` component supports two tooltip styles:
 
 | Style | Description | Visual Appearance |
 |-------|-------------|-------------------|
-| **Rectangle** (default) | Standard rectangular tooltip with sharp corners | Clean, minimal design |
+| **Regular** (default) | Standard regular rectangle tooltip with sharp corners | Clean, minimal design |
 | **Balloon** | Tooltip with a triangular beak pointing to the control | Callout or speech bubble appearance |
 
-**Use Rectangle Style When:**
+**Use Regular Style When:**
 - Maintaining a minimal, professional appearance
 - Displaying dense information
 - Following standard Windows UI conventions

@@ -30,7 +30,7 @@ To use the RadioButtonAdv control, you need to add references to the following a
 You can also install the required packages via NuGet Package Manager:
 
 ```powershell
-Install-Package Syncfusion.Windows.Forms
+Install-Package Syncfusion.Tools.Windows
 ```
 
 ## Creating RadioButtonAdv via Designer

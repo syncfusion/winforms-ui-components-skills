@@ -228,8 +228,6 @@ gridControl1[12, 6].CellValue = "=A1<>B1";
 ### Simple Formulas:
 
 ```csharp
-// Enable formulas
-gridControl1.Model.EnableFormulas = true;
 
 // Add numeric data
 gridControl1[1, 1].CellValue = 100;

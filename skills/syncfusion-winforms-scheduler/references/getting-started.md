@@ -20,7 +20,7 @@ To use the ScheduleControl, add the following assembly references to your projec
 Alternatively, install via NuGet Package Manager:
 
 ```bash
-Install-Package Syncfusion.Schedule.Windows
+Install-Package Syncfusion.Schedule.Windows -Version *
 ```
 
 This automatically includes all required dependencies.
@@ -78,22 +78,35 @@ namespace SchedulerApp
 }
 ```
 
-## Data Binding with SimpleScheduleDataProvider
+## Data Binding with ArrayListDataProvider
 
-The ScheduleControl is a data-bound control requiring a data provider to manage appointments.
+The ScheduleControl is a data-bound control requiring a data provider to manage appointments. Syncfusion provides the built-in `ArrayListDataProvider` class for this purpose.
 
-### Using SimpleScheduleDataProvider
+### ArrayListDataProvider - Built-in Solution
 
-The `SimpleScheduleDataProvider` class provides a basic implementation of the data provider interfaces. This implementation ships with the Syncfusion samples.
+`ArrayListDataProvider` is included with Syncfusion.Schedule namespace and requires no custom implementation.
 
-**Location:** `Syncfusion_install_folder\Syncfusion\Essential Studio\{version}\Windows\Schedule.Windows\Samples\{framework}\ScheduleSample\CS\SimpleScheduleDataProvider.cs`
+**Key Features:**
+- ✅ **Built-in XML serialization** using integrated SaveXML/LoadXML methods
+- ✅ **In-memory collection** (MasterList) holding all appointments
+- ✅ **Complete CRUD operations** (Create, Read, Update, Delete)
+- ✅ **No custom code needed** - ready to use out of the box
+- ✅ **File state tracking** with FileName and IsDirty properties
+- ✅ **Production ready** - tested and maintained by Syncfusion
 
-### Adding SimpleScheduleDataProvider to Your Project
+📄 **Read:** [data-provider-xml-implementation.md](data-provider-xml-implementation.md) for complete examples and implementation patterns.
 
-1. Locate the `SimpleScheduleDataProvider.cs` file in the sample folder
-2. Right-click your project in Solution Explorer → Add → Existing Item
-3. Browse to and select `SimpleScheduleDataProvider.cs`
-4. The file is now part of your project
+### Using ArrayListDataProvider
+
+No additional files or custom classes needed - simply instantiate and use:
+
+```csharp
+using Syncfusion.Schedule;
+
+// Create instance
+ArrayListDataProvider dataProvider = new ArrayListDataProvider();
+scheduleControl1.DataSource = dataProvider;
+```
 
 ### Binding Data in Form_Load
 
@@ -101,36 +114,61 @@ The `SimpleScheduleDataProvider` class provides a basic implementation of the da
 using System;
 using System.IO;
 using System.Windows.Forms;
+using Syncfusion.Schedule;
 using Syncfusion.Windows.Forms.Schedule;
-using GridScheduleSample; // Namespace for SimpleScheduleDataProvider
 
 namespace SchedulerApp
 {
     public partial class Form1 : Form
     {
+        private ArrayListDataProvider dataProvider;
+        private string dataFileName = "schedule.xml";
+        
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Create data provider
-            SimpleScheduleDataProvider data;
-            
-            // Check if saved data exists
-            if (File.Exists("default.schedule"))
+            // Load existing data or create new provider
+            if (File.Exists(dataFileName))
             {
-                // Load existing data
-                data = SimpleScheduleDataProvider.LoadBinary("default.schedule");
-                data.FileName = "default.schedule";
+                try
+                {
+                    // Load from XML file
+                    dataProvider = ArrayListDataProvider.LoadXML(dataFileName);
+                    dataProvider.FileName = dataFileName;
+                    dataProvider.IsDirty = false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to load schedule: {ex.Message}");
+                    dataProvider = new ArrayListDataProvider();
+                    dataProvider.MasterList = new ArrayListAppointmentList();
+                    dataProvider.FileName = dataFileName;
+                }
             }
             else
             {
                 // Create new data provider
-                data = new SimpleScheduleDataProvider();
-                data.MasterList = new SimpleScheduleAppointmentList();
-                data.FileName = "default.schedule";
+                dataProvider = new ArrayListDataProvider();
+                dataProvider.MasterList = new ArrayListAppointmentList();
+                dataProvider.FileName = dataFileName;
             }
             
             // Set schedule type and bind data
             this.scheduleControl1.ScheduleType = ScheduleViewType.Month;
-            this.scheduleControl1.DataSource = data;
+            this.scheduleControl1.DataSource = dataProvider;
+        }
+        
+        // Save schedule on form closing
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                dataProvider.SaveXML(dataProvider.FileName);
+                dataProvider.IsDirty = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to save schedule: {ex.Message}");
+            }
         }
     }
 }
@@ -159,8 +197,8 @@ The appointment appears in the schedule grid.
 
 ```csharp
 // Get data provider
-SimpleScheduleDataProvider dataProvider = 
-    scheduleControl1.DataSource as SimpleScheduleDataProvider;
+ArrayListDataProvider dataProvider = 
+    scheduleControl1.DataSource as ArrayListDataProvider;
 
 // Create new appointment
 IScheduleAppointment appointment = dataProvider.NewScheduleAppointment();
@@ -173,6 +211,9 @@ appointment.MarkerValue = 2; // Busy status
 
 // Add to data provider
 dataProvider.AddItem(appointment);
+
+// Refresh to display
+scheduleControl1.Refresh();
 ```
 
 ### Edit Appointment
@@ -208,35 +249,57 @@ To remove an appointment:
 
 ```csharp
 // Get data provider
-SimpleScheduleDataProvider dataProvider = 
-    scheduleControl1.DataSource as SimpleScheduleDataProvider;
+ArrayListDataProvider dataProvider = 
+    scheduleControl1.DataSource as ArrayListDataProvider;
 
 // Remove appointment
 IScheduleAppointment appointmentToDelete = /* get appointment */;
 dataProvider.RemoveItem(appointmentToDelete);
+
+// Refresh to update display
+scheduleControl1.Refresh();
 ```
 
 ### Save All Appointments
 
-When closing the form, a dialog prompts to save changes:
+Save appointments to XML file programmatically:
 
 ```csharp
-// Automatic save prompt on form close
-// User clicks "Yes" to save changes to disk file
+// Get data provider
+ArrayListDataProvider dataProvider = 
+    scheduleControl1.DataSource as ArrayListDataProvider;
 
-// Programmatic save
-SimpleScheduleDataProvider dataProvider = 
-    scheduleControl1.DataSource as SimpleScheduleDataProvider;
-    
-dataProvider.CommitChanges();
+// Save to XML file
+dataProvider.SaveXML(dataProvider.FileName);
+dataProvider.IsDirty = false;
 ```
 
-**Auto-save Configuration:**
+**Save on Form Close:**
 
 ```csharp
-// Configure save behavior on control disposal
-dataProvider.SaveOnCloseBehaviorAction = SaveOnCloseBehavior.PromptToSave;
-// Options: PromptToSave, Save, DontSave
+private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+{
+    ArrayListDataProvider dataProvider = 
+        scheduleControl1.DataSource as ArrayListDataProvider;
+    
+    if (dataProvider != null && dataProvider.IsDirty)
+    {
+        DialogResult result = MessageBox.Show(
+            "Save changes before closing?",
+            "Save Schedule",
+            MessageBoxButtons.YesNoCancel,
+            MessageBoxIcon.Question);
+        
+        if (result == DialogResult.Yes)
+        {
+            dataProvider.SaveXML(dataProvider.FileName);
+        }
+        else if (result == DialogResult.Cancel)
+        {
+            e.Cancel = true; // Cancel close
+        }
+    }
+}
 ```
 
 ## Setting Appointment Text Color
@@ -244,14 +307,20 @@ dataProvider.SaveOnCloseBehaviorAction = SaveOnCloseBehavior.PromptToSave;
 Customize appointment appearance with the `ForeColor` property:
 
 ```csharp
-SimpleScheduleAppointmentList masterList = new SimpleScheduleAppointmentList();
+// Get data provider
+ArrayListDataProvider dataProvider = 
+    scheduleControl1.DataSource as ArrayListDataProvider;
 
-ScheduleAppointment item = masterList.NewScheduleAppointment() as ScheduleAppointment;
+// Create appointment with custom color
+IScheduleAppointment item = dataProvider.NewScheduleAppointment();
 item.StartTime = DateTime.Now;
 item.EndTime = item.StartTime.AddDays(2);
 item.Subject = "Important Meeting";
 item.ForeColor = Color.Red; // Set text color to red
-masterList.Add(item);
+
+// Add to provider
+dataProvider.AddItem(item);
+scheduleControl1.Refresh();
 ```
 
 **Common Color Patterns:**
@@ -277,19 +346,21 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Syncfusion.Schedule;
 using Syncfusion.Windows.Forms.Schedule;
-using GridScheduleSample;
 
 namespace SchedulerApp
 {
     public partial class Form1 : Form
     {
         private ScheduleControl scheduleControl1;
+        private ArrayListDataProvider dataProvider;
         
         public Form1()
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.FormClosing += Form1_FormClosing;
         }
         
         private void Form1_Load(object sender, EventArgs e)
@@ -301,52 +372,70 @@ namespace SchedulerApp
             scheduleControl1.Dock = DockStyle.Fill;
             
             // Set up data provider
-            SimpleScheduleDataProvider data;
+            string fileName = "schedule.xml";
             
-            if (File.Exists("appointments.schedule"))
+            if (File.Exists(fileName))
             {
-                data = SimpleScheduleDataProvider.LoadBinary("appointments.schedule");
-                data.FileName = "appointments.schedule";
+                // Load existing data
+                dataProvider = ArrayListDataProvider.LoadXML(fileName);
+                dataProvider.FileName = fileName;
+                dataProvider.IsDirty = false;
             }
             else
             {
-                data = new SimpleScheduleDataProvider();
-                data.MasterList = new SimpleScheduleAppointmentList();
-                data.FileName = "appointments.schedule";
+                // Create new provider
+                dataProvider = new ArrayListDataProvider();
+                dataProvider.MasterList = new ArrayListAppointmentList();
+                dataProvider.FileName = fileName;
                 
                 // Add sample appointments
-                AddSampleAppointments(data);
+                AddSampleAppointments();
             }
             
             // Configure and bind
             scheduleControl1.ScheduleType = ScheduleViewType.Month;
-            scheduleControl1.DataSource = data;
+            scheduleControl1.DataSource = dataProvider;
             
             this.Controls.Add(scheduleControl1);
         }
         
-        private void AddSampleAppointments(SimpleScheduleDataProvider data)
+        private void AddSampleAppointments()
         {
             // Morning meeting
-            IScheduleAppointment meeting1 = data.NewScheduleAppointment();
+            IScheduleAppointment meeting1 = dataProvider.NewScheduleAppointment();
             meeting1.StartTime = DateTime.Today.AddHours(9);
             meeting1.EndTime = DateTime.Today.AddHours(10);
             meeting1.Subject = "Team Standup";
             meeting1.Content = "Daily sync meeting";
             meeting1.LabelValue = 2; // Business
             meeting1.ForeColor = Color.Blue;
-            data.AddItem(meeting1);
+            dataProvider.AddItem(meeting1);
             
             // Afternoon meeting
-            IScheduleAppointment meeting2 = data.NewScheduleAppointment();
+            IScheduleAppointment meeting2 = dataProvider.NewScheduleAppointment();
             meeting2.StartTime = DateTime.Today.AddHours(14);
-            meeting2.EndTime = DateTime.Today.AddHours(15, 30);
+            meeting2.EndTime = DateTime.Today.AddHours(15).AddMinutes(30);
             meeting2.Subject = "Client Presentation";
             meeting2.Content = "Q2 Results Review";
             meeting2.LabelValue = 5; // Must Attend
             meeting2.MarkerValue = 2; // Busy
             meeting2.ForeColor = Color.DarkRed;
-            data.AddItem(meeting2);
+            dataProvider.AddItem(meeting2);
+        }
+        
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (dataProvider != null)
+            {
+                try
+                {
+                    dataProvider.SaveXML(dataProvider.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to save: {ex.Message}");
+                }
+            }
         }
     }
 }
@@ -377,13 +466,33 @@ scheduleControl1.DataSource = data; // Must be set
 
 **Issue:** Appointments disappear after closing application.
 
-**Solution:** Ensure `CommitChanges()` is called or `SaveOnCloseBehaviorAction` is configured:
+**Solution:** Ensure `SaveXML()` is called in the FormClosing event:
 ```csharp
-data.SaveOnCloseBehaviorAction = SaveOnCloseBehavior.PromptToSave;
+private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+{
+    ArrayListDataProvider dataProvider = 
+        scheduleControl1.DataSource as ArrayListDataProvider;
+    
+    if (dataProvider != null)
+    {
+        dataProvider.SaveXML(dataProvider.FileName);
+        dataProvider.IsDirty = false;
+    }
+}
 ```
 
-### SimpleScheduleDataProvider Not Found
+### ArrayListDataProvider Type Not Found
 
-**Issue:** Cannot resolve `SimpleScheduleDataProvider` type.
+**Issue:** Cannot resolve `ArrayListDataProvider` type.
 
-**Solution:** Add the `SimpleScheduleDataProvider.cs` file from the Syncfusion samples to your project. This is a sample implementation, not a built-in type.
+**Solution:** Add the required using directive:
+```csharp
+using Syncfusion.Schedule; // Required for ArrayListDataProvider
+```
+
+## Additional Resources
+
+**XML Implementation Guide:**
+For complete source code with XML serialization and implementation examples:
+
+📄 [XML Data Provider Implementation](data-provider-xml-implementation.md)

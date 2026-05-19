@@ -205,15 +205,6 @@ toolTipItem1.Style.ImageSize = new Size(80, 80);
 
 **Result:** Image on left, text on right.
 
-### Top Alignment
-
-```csharp
-toolTipItem1.Style.ImageAlignment = ToolTipImageAlignment.Top;
-```
-
-**Result:** Image on top, text below.
-
-**Use Case:** Wide images or when vertical space is available.
 
 ### Right Alignment
 

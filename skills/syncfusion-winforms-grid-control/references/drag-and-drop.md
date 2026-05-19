@@ -19,9 +19,6 @@ Enable users to reorder columns by dragging column headers.
 ```csharp
 // Enable column dragging
 gridControl1.AllowDragSelectedCols = true;
-
-// Optional: Show drag marker
-gridControl1.DragDropCols = true;
 ```
 
 ### How It Works:
@@ -36,7 +33,6 @@ gridControl1.DragDropCols = true;
 private void InitializeGrid()
 {
     gridControl1.AllowDragSelectedCols = true;
-    gridControl1.DragDropCols = true;
     
     // Populate grid
     for (int col = 1; col <= 5; col++)
@@ -55,9 +51,6 @@ Enable users to reorder rows by dragging row headers.
 ```csharp
 // Enable row dragging
 gridControl1.AllowDragSelectedRows = true;
-
-// Optional: Show drag marker
-gridControl1.DragDropRows = true;
 ```
 
 ### Example:
@@ -66,7 +59,6 @@ gridControl1.DragDropRows = true;
 private void InitializeGrid()
 {
     gridControl1.AllowDragSelectedRows = true;
-    gridControl1.DragDropRows = true;
     
     // Populate grid
     for (int row = 1; row <= 10; row++)
@@ -77,86 +69,71 @@ private void InitializeGrid()
 }
 ```
 
-## Drag Events
-
-### ColsMoving Event:
-
-Fired when columns are being moved. Can be canceled.
+## Drag and Drop Events
+To change the effects of the contents while dropping, Effect property can be used.
 
 ```csharp
-gridControl1.ColsMoving += GridControl1_ColsMoving;
+this.gridControl2.DragOver += new DragEventHandler(gridControl2_DragOver);
 
-private void GridControl1_ColsMoving(object sender, GridMoveColsEventArgs e)
+void gridControl2_DragOver(object sender, DragEventArgs e)
 {
-    // e.From - Starting column index
-    // e.To - Destination column index
-    // e.Count - Number of columns being moved
-    
-    // Prevent moving first column
-    if (e.From == 1)
-    {
-        MessageBox.Show("Cannot move first column");
-        e.Cancel = true;
-        return;
-    }
-    
-    Console.WriteLine($"Moving column {e.From} to {e.To}");
+    // Contents that are been dragged over gridControl2 will be copied.
+    e.Effect = DragDropEffects.Copy;
 }
 ```
 
-### ColsMoved Event:
+### Preventing drag and drop
 
-Fired after columns have been moved.
+The contents alone can be prevented while dropping by setting the Effect property as None.
 
 ```csharp
-gridControl1.ColsMoved += GridControl1_ColsMoved;
+this.gridControl2.DragOver += new DragEventHandler(gridControl2_DragOver);
 
-private void GridControl1_ColsMoved(object sender, GridMoveColsEventArgs e)
+void gridControl2_DragOver(object sender, DragEventArgs e)
 {
-    Console.WriteLine($"Column {e.From} moved to {e.To}");
-    
-    // Update data source or perform post-move operations
-    UpdateColumnOrder(e.From, e.To);
+    // Contents that are been dragged over gridControl2 will not be moved or copied.
+    e.Effect = DragDropEffects.None;
 }
 ```
 
-### RowsMoving Event:
+### Blocking the Data before Dragging
 
 Fired when rows are being moved. Can be canceled.
 
 ```csharp
-gridControl1.RowsMoving += GridControl1_RowsMoving;
+this.gridControl1.QueryCanOleDragRange += new GridQueryCanOleDragRangeEventHandler(gridControl1_QueryCanOleDragRange);
 
-private void GridControl1_RowsMoving(object sender, GridMoveRowsEventArgs e)
+void gridControl1_QueryCanOleDragRange(object sender, GridQueryCanOleDragRangeEventArgs e)
 {
-    // Prevent moving header row
-    if (e.From == 1)
-    {
-        MessageBox.Show("Cannot move header row");
-        e.Cancel = true;
-        return;
-    }
-    
-    Console.WriteLine($"Moving row {e.From} to {e.To}");
+    // Drag Drop process will be canceled.
+    e.Cancel = true;
 }
 ```
 
-### RowsMoved Event:
+### Dragging and dropping for merged cells
 
-Fired after rows have been moved.
+Preserve merged cells during drag
 
 ```csharp
-gridControl1.RowsMoved += GridControl1_RowsMoved;
-
-private void GridControl1_RowsMoved(object sender, GridMoveRowsEventArgs e)
+void gridControl1_QueryCanOleDragRange(object sender, GridQueryCanOleDragRangeEventArgs e)
 {
-    Console.WriteLine($"Row {e.From} moved to {e.To}");
-    
-    // Update underlying data
-    UpdateDataSourceOrder(e.From, e.To);
+    if (e.Range.Left != e.Range.Right || e.Range.Top!=e.Range.Bottom)
+    this.gridControl1.Selections.Add(e.Range);
 }
 ```
+### Retaining the Dragged Contents
 
+Use QueryDragDropMoveClearCells event, cancel clearing source grid data during dragdrop
+
+```csharp
+this.gridControl1.Model.QueryDragDropMoveClearCells += new CancelEventHandler(Model_QueryDragDropMoveClearCells);
+
+void Model_QueryDragDropMoveClearCells(object sender, CancelEventArgs e)
+{
+    // Cancels the Clearing of Cells in the Grid.
+    e.Cancel = true;
+}
+```
 ## Touch Support
 
 GridControl fully supports touch gestures for drag and drop operations on touch-enabled devices.
@@ -298,40 +275,6 @@ public class DragDropGrid : Form
         // Enable drag and drop
         gridControl1.AllowDragSelectedCols = true;
         gridControl1.AllowDragSelectedRows = true;
-        gridControl1.DragDropCols = true;
-        gridControl1.DragDropRows = true;
-        
-        // Handle events
-        gridControl1.ColsMoving += OnColsMoving;
-        gridControl1.ColsMoved += OnColsMoved;
-        gridControl1.RowsMoving += OnRowsMoving;
-        gridControl1.RowsMoved += OnRowsMoved;
-    }
-    
-    private void OnColsMoving(object sender, GridMoveColsEventArgs e)
-    {
-        // Prevent moving first column
-        if (e.From == 1)
-        {
-            e.Cancel = true;
-            MessageBox.Show("First column cannot be moved");
-        }
-    }
-    
-    private void OnColsMoved(object sender, GridMoveColsEventArgs e)
-    {
-        MessageBox.Show($"Column moved from {e.From} to {e.To}");
-    }
-    
-    private void OnRowsMoving(object sender, GridMoveRowsEventArgs e)
-    {
-        // Validation logic
-    }
-    
-    private void OnRowsMoved(object sender, GridMoveRowsEventArgs e)
-    {
-        // Update data source
-        Console.WriteLine($"Row {e.From} moved to {e.To}");
     }
 }
 ```
@@ -365,20 +308,6 @@ gridControl1.ColsMoved += (sender, e) =>
 };
 ```
 
-### Restoring Column Order:
-
-```csharp
-private void RestoreColumnOrder()
-{
-    string savedOrder = Properties.Settings.Default.ColumnOrder;
-    if (!string.IsNullOrEmpty(savedOrder))
-    {
-        var order = savedOrder.Split(',').Select(int.Parse).ToList();
-        // Apply saved order...
-    }
-}
-```
-
 ## Best Practices
 
 1. **Enable visual markers** for better user feedback
@@ -396,7 +325,6 @@ private void RestoreColumnOrder()
 ```csharp
 // Allow users to customize column order
 gridControl1.AllowDragSelectedCols = true;
-gridControl1.DragDropCols = true;
 
 // Save preference on move
 gridControl1.ColsMoved += (s, e) => SaveUserPreferences();
@@ -418,7 +346,6 @@ gridControl1.RowsMoved += (s, e) => UpdatePriorities();
 - Ensure grid has focus
 
 ### Visual feedback missing
-- Set `DragDropCols` or `DragDropRows` to true
 - Check grid theme settings
 - Verify grid is visible and not covered
 

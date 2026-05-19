@@ -340,13 +340,13 @@ gridGroupingControl1.TableDescriptor.GroupedColumns.Add(descriptor);
 
 ```csharp
 // Expand all groups
-gridGroupingControl1.ExpandAllGroups();
+gridGroupingControl1.Table.ExpandAllGroups();
 
 // Collapse all groups
-gridGroupingControl1.CollapseAllGroups();
+gridGroupingControl1.Table.CollapseAllGroups();
 
 // Expand to specific level (0-based)
-gridGroupingControl1.ExpandAllGroups();
+gridGroupingControl1.Table.ExpandAllGroups();
 gridGroupingControl1.Table.CollapseAllGroups();
 foreach (Group g in gridGroupingControl1.Table.TopLevelGroup.Groups)
 {
@@ -456,7 +456,7 @@ private void ApplySelectedGrouping()
         gridGroupingControl1.TableDescriptor.GroupedColumns.Add(columnName);
     }
     
-    gridGroupingControl1.Table.Refresh();
+    gridGroupingControl1.TableControl.Refresh();
 }
 ```
 

@@ -122,8 +122,6 @@ public class TreeDataManager
 {
     private MultiColumnTreeView treeView;
     
-    public TreeDataManager(MultiColumnTreeView tree) => this.treeView = tree;
-    
     public void Import(string filename)
     {
         XmlDocument doc = new XmlDocument();

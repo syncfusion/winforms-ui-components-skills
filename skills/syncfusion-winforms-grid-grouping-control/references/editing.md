@@ -238,7 +238,7 @@ void GridGroupingControl1_TableControlCurrentCellStartEditing(object sender, Gri
     }
     
     // Prevent editing specific columns
-    string columnName = e.TableControl.Model[currentCell.RowIndex, currentCell.ColIndex].CellIdentity.Column?.Name;
+    string columnName = e.TableControl.Model[currentCell.RowIndex, currentCell.ColIndex].TableCellIdentity.Column?.Name;
     if (columnName == "EmployeeID" || columnName == "CreatedDate")
     {
         e.Inner.Cancel = true;
@@ -301,7 +301,7 @@ void CurrentCellStartEditing(object sender, GridTableControlCancelEventArgs e)
     GridCurrentCell cc = e.TableControl.CurrentCell;
     
     // Validate conditions before allowing edit
-    string columnName = e.TableControl.Model[cc.RowIndex, cc.ColIndex].CellIdentity.Column?.Name;
+    string columnName = e.TableControl.Model[cc.RowIndex, cc.ColIndex].TableCellIdentity.Column?.Name;
     
     if (columnName == "Salary")
     {
@@ -339,7 +339,7 @@ void CurrentCellChanging(object sender, GridTableControlCancelEventArgs e)
     string newValue = cc.Renderer.ControlText;
     
     // Validate new value
-    string columnName = e.TableControl.Model[cc.RowIndex, cc.ColIndex].CellIdentity.Column?.Name;
+    string columnName = e.TableControl.Model[cc.RowIndex, cc.ColIndex].TableCellIdentity.Column?.Name;
     
     if (columnName == "Age")
     {
@@ -360,7 +360,7 @@ void CurrentCellChanged(object sender, GridTableControlEventArgs e)
     GridCurrentCell cc = e.TableControl.CurrentCell;
     
     // Log change
-    string columnName = e.TableControl.Model[cc.RowIndex, cc.ColIndex].CellIdentity.Column?.Name;
+    string columnName = e.TableControl.Model[cc.RowIndex, cc.ColIndex].TableCellIdentity.Column?.Name;
     Console.WriteLine($"Cell changed: {columnName}");
     
     // Update dependent calculations
@@ -475,7 +475,7 @@ gridGroupingControl1.TableControlCurrentCellStartEditing += (s, e) =>
 gridGroupingControl1.TableControlCurrentCellEditingComplete += (s, e) =>
 {
     GridCurrentCell cc = e.TableControl.CurrentCell;
-    string columnName = e.TableControl.Model[cc.RowIndex, cc.ColIndex].CellIdentity.Column?.Name;
+    string columnName = e.TableControl.Model[cc.RowIndex, cc.ColIndex].TableCellIdentity.Column?.Name;
     
     if (columnName == "Email")
     {

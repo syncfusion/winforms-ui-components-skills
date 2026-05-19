@@ -53,7 +53,7 @@ public event EventHandler<ContextMenuShowingEventArgs> ContextMenuShowing;
 | Property | Type | Description |
 |----------|------|-------------|
 | `ContextMenu` | ContextMenu | The context menu to display (can be modified or replaced) |
-| `Location` | Point | Screen coordinates where menu will appear |
+| `Point` | Point | Screen coordinates where menu will appear |
 | `Cancel` | bool | Set to `true` to prevent menu from showing |
 
 ### Subscribe to Event
@@ -144,9 +144,9 @@ private void VerticalScrollBar_ContextMenuShowing(object sender,
     Syncfusion.WinForms.Controls.Events.ContextMenuShowingEventArgs e)
 {
     // Create custom context menu
-    ContextMenu contextMenu = new System.Windows.Forms.ContextMenu();
-    contextMenu.MenuItems.Add("Custom Item");
-    
+    ContextMenuStrip contextMenu = new ContextMenuStrip();
+    contextMenu.Items.Add("Custom Item");
+
     // Replace default menu
     e.ContextMenu = contextMenu;
 }
@@ -155,34 +155,34 @@ private void VerticalScrollBar_ContextMenuShowing(object sender,
 ### Custom Menu with Actions
 
 ```csharp
-private void VerticalScrollBar_ContextMenuShowing(object sender, 
-    Syncfusion.WinForms.Controls.Events.ContextMenuShowingEventArgs e)
+private void VerticalScrollBar_ContextMenuShowing(object sender, Syncfusion.WinForms.Controls.Events.ContextMenuShowingEventArgs e)
 {
     // Create custom context menu
-    ContextMenu contextMenu = new ContextMenu();
-    
+    ContextMenuStrip contextMenu = new ContextMenuStrip();
+
     // Add menu items with click handlers
-    MenuItem item1 = new MenuItem("Scroll to Top", (s, ev) =>
+    ToolStripMenuItem item1 = new ToolStripMenuItem("Scroll to Top", null, (s, ev) =>
     {
         sfScrollFrame1.VerticalScrollBar.Value = sfScrollFrame1.VerticalScrollBar.Minimum;
     });
-    
-    MenuItem item2 = new MenuItem("Scroll to Middle", (s, ev) =>
+
+    ToolStripMenuItem item2 = new ToolStripMenuItem("Scroll to Middle", null, (s, ev) =>
     {
-        int middle = (sfScrollFrame1.VerticalScrollBar.Maximum + 
-                     sfScrollFrame1.VerticalScrollBar.Minimum) / 2;
+        int middle = (sfScrollFrame1.VerticalScrollBar.Maximum +
+                             sfScrollFrame1.VerticalScrollBar.Minimum) / 2;
         sfScrollFrame1.VerticalScrollBar.Value = middle;
     });
-    
-    MenuItem item3 = new MenuItem("Scroll to Bottom", (s, ev) =>
+
+
+    ToolStripMenuItem item3 = new ToolStripMenuItem("Scroll to Bottom",null, (s, ev) =>
     {
         sfScrollFrame1.VerticalScrollBar.Value = sfScrollFrame1.VerticalScrollBar.Maximum;
     });
-    
-    contextMenu.MenuItems.Add(item1);
-    contextMenu.MenuItems.Add(item2);
-    contextMenu.MenuItems.Add(item3);
-    
+
+    contextMenu.Items.Add(item1);
+    contextMenu.Items.Add(item2);
+    contextMenu.Items.Add(item3);
+
     // Set custom menu
     e.ContextMenu = contextMenu;
 }
@@ -194,26 +194,44 @@ private void VerticalScrollBar_ContextMenuShowing(object sender,
 private void SetupCustomMenus()
 {
     sfScrollFrame1.Control = listView1;
-    
-    // Vertical scrollbar custom menu
+
+    // Vertical scrollbar menu
     sfScrollFrame1.VerticalScrollBar.ContextMenuShowing += (sender, e) =>
     {
-        ContextMenu menu = new ContextMenu();
-        menu.MenuItems.Add("Jump to Top", (s, ev) => 
-            sfScrollFrame1.VerticalScrollBar.Value = 0);
-        menu.MenuItems.Add("Jump to Bottom", (s, ev) => 
-            sfScrollFrame1.VerticalScrollBar.Value = sfScrollFrame1.VerticalScrollBar.Maximum);
+        var menu = new ContextMenuStrip();
+
+        menu.Items.Add("Jump to Top", null, (s, ev) =>
+        {
+            sfScrollFrame1.VerticalScrollBar.Value =
+                sfScrollFrame1.VerticalScrollBar.Minimum;
+        });
+
+        menu.Items.Add("Jump to Bottom", null, (s, ev) =>
+        {
+            sfScrollFrame1.VerticalScrollBar.Value =
+                sfScrollFrame1.VerticalScrollBar.Maximum;
+        });
+
         e.ContextMenu = menu;
     };
-    
-    // Horizontal scrollbar custom menu
+
+    // Horizontal scrollbar menu
     sfScrollFrame1.HorizontalScrollBar.ContextMenuShowing += (sender, e) =>
     {
-        ContextMenu menu = new ContextMenu();
-        menu.MenuItems.Add("Jump to Left", (s, ev) => 
-            sfScrollFrame1.HorizontalScrollBar.Value = 0);
-        menu.MenuItems.Add("Jump to Right", (s, ev) => 
-            sfScrollFrame1.HorizontalScrollBar.Value = sfScrollFrame1.HorizontalScrollBar.Maximum);
+        var menu = new ContextMenuStrip();
+
+        menu.Items.Add("Jump to Left", null, (s, ev) =>
+        {
+            sfScrollFrame1.HorizontalScrollBar.Value =
+                sfScrollFrame1.HorizontalScrollBar.Minimum;
+        });
+
+        menu.Items.Add("Jump to Right", null, (s, ev) =>
+        {
+            sfScrollFrame1.HorizontalScrollBar.Value =
+                sfScrollFrame1.HorizontalScrollBar.Maximum;
+        });
+
         e.ContextMenu = menu;
     };
 }
@@ -228,52 +246,61 @@ Extend the default menu by adding custom items to the existing `ContextMenu`.
 ```csharp
 this.sfScrollFrame1.VerticalScrollBar.ContextMenuShowing += VerticalScrollBar_ContextMenuShowing;
 
-private void VerticalScrollBar_ContextMenuShowing(object sender, 
-    Syncfusion.WinForms.Controls.Events.ContextMenuShowingEventArgs e)
+private void VerticalScrollBar_ContextMenuShowing(object sender,
+Syncfusion.WinForms.Controls.Events.ContextMenuShowingEventArgs e)
 {
     // Add separator
-    e.ContextMenu.MenuItems.Add("-");
-    
+    e.ContextMenu.Items.Add("-");
+
     // Add custom item to default menu
-    MenuItem item = new MenuItem("Show Scroll Position", DisplayScrollValue);
-    e.ContextMenu.MenuItems.Add(item);
+    ToolStripMenuItem item = new ToolStripMenuItem("Show Scroll Position");
+    item.Click += DisplayScrollValue;
+    e.ContextMenu.Items.Add(item);
 }
 
 private void DisplayScrollValue(object sender, EventArgs e)
 {
     int position = sfScrollFrame1.VerticalScrollBar.Value;
     int maximum = sfScrollFrame1.VerticalScrollBar.Maximum;
-    MessageBox.Show($"Current Position: {position}\nMaximum: {maximum}", 
-        "Scroll Position");
+    MessageBox.Show($"Current Position: {position}\nMaximum: {maximum}","Scroll Position");
 }
 ```
 
 ### Add Multiple Items
 
 ```csharp
-private void VerticalScrollBar_ContextMenuShowing(object sender, 
+private void VerticalScrollBar_ContextMenuShowing(object sender,
     Syncfusion.WinForms.Controls.Events.ContextMenuShowingEventArgs e)
 {
-    // Add separator before custom items
-    e.ContextMenu.MenuItems.Add("-");
-    
-    // Add custom menu items
-    e.ContextMenu.MenuItems.Add(new MenuItem("Reset View", (s, ev) =>
+    // Ensure menu exists
+    if (e.ContextMenu == null)
+        e.ContextMenu = new ContextMenuStrip();
+
+    // Add separator
+    e.ContextMenu.Items.Add(new ToolStripSeparator());
+
+    // Reset View
+    e.ContextMenu.Items.Add(new ToolStripMenuItem("Reset View", null, (s, ev) =>
     {
-        sfScrollFrame1.VerticalScrollBar.Value = 0;
+        sfScrollFrame1.VerticalScrollBar.Value =
+            sfScrollFrame1.VerticalScrollBar.Minimum;
+
         MessageBox.Show("View reset to top");
     }));
-    
-    e.ContextMenu.MenuItems.Add(new MenuItem("Show Statistics", (s, ev) =>
+
+    // Show Statistics
+    e.ContextMenu.Items.Add(new ToolStripMenuItem("Show Statistics", null, (s, ev) =>
     {
         ShowScrollStatistics();
     }));
-    
-    e.ContextMenu.MenuItems.Add(new MenuItem("Configure Scrolling...", (s, ev) =>
+
+    // Configure Scrolling
+    e.ContextMenu.Items.Add(new ToolStripMenuItem("Configure Scrolling...", null, (s, ev) =>
     {
         OpenScrollSettings();
     }));
 }
+``
 
 private void ShowScrollStatistics()
 {
@@ -295,28 +322,41 @@ private void OpenScrollSettings()
 ### Conditional Menu Items
 
 ```csharp
-private void VerticalScrollBar_ContextMenuShowing(object sender, 
+private void VerticalScrollBar_ContextMenuShowing(object sender,
     Syncfusion.WinForms.Controls.Events.ContextMenuShowingEventArgs e)
 {
-    // Add separator
-    e.ContextMenu.MenuItems.Add("-");
-    
-    // Add "Scroll to Top" only if not already at top
-    if (sfScrollFrame1.VerticalScrollBar.Value > sfScrollFrame1.VerticalScrollBar.Minimum)
+    if (e.ContextMenu == null)
+        e.ContextMenu = new ContextMenuStrip();
+
+    var scrollBar = sfScrollFrame1.VerticalScrollBar;
+
+    // Only add separator if we are actually adding items
+    bool needTop = scrollBar.Value > scrollBar.Minimum;
+    bool needBottom = scrollBar.Value < scrollBar.Maximum;
+
+    if (needTop || needBottom)
     {
-        e.ContextMenu.MenuItems.Add(new MenuItem("Quick Scroll to Top", (s, ev) =>
-        {
-            sfScrollFrame1.VerticalScrollBar.Value = sfScrollFrame1.VerticalScrollBar.Minimum;
-        }));
+        e.ContextMenu.Items.Add(new ToolStripSeparator());
     }
-    
-    // Add "Scroll to Bottom" only if not already at bottom
-    if (sfScrollFrame1.VerticalScrollBar.Value < sfScrollFrame1.VerticalScrollBar.Maximum)
+
+    // Scroll to Top
+    if (needTop)
     {
-        e.ContextMenu.MenuItems.Add(new MenuItem("Quick Scroll to Bottom", (s, ev) =>
-        {
-            sfScrollFrame1.VerticalScrollBar.Value = sfScrollFrame1.VerticalScrollBar.Maximum;
-        }));
+        e.ContextMenu.Items.Add(
+            new ToolStripMenuItem("Quick Scroll to Top", null, (s, ev) =>
+            {
+                scrollBar.Value = scrollBar.Minimum;
+            }));
+    }
+
+    // Scroll to Bottom
+    if (needBottom)
+    {
+        e.ContextMenu.Items.Add(
+            new ToolStripMenuItem("Quick Scroll to Bottom", null, (s, ev) =>
+            {
+                scrollBar.Value = scrollBar.Maximum;
+            }));
     }
 }
 ```
@@ -326,22 +366,26 @@ private void VerticalScrollBar_ContextMenuShowing(object sender,
 ### Submenu Example
 
 ```csharp
-private void VerticalScrollBar_ContextMenuShowing(object sender, 
+private void VerticalScrollBar_ContextMenuShowing(object sender,
     Syncfusion.WinForms.Controls.Events.ContextMenuShowingEventArgs e)
 {
+    if (e.ContextMenu == null)
+        e.ContextMenu = new ContextMenuStrip();
+
     // Add separator
-    e.ContextMenu.MenuItems.Add("-");
-    
+    e.ContextMenu.Items.Add(new ToolStripSeparator());
+
     // Create submenu
-    MenuItem jumpMenu = new MenuItem("Jump to Position");
-    jumpMenu.MenuItems.Add(new MenuItem("0%", (s, ev) => JumpToPercent(0)));
-    jumpMenu.MenuItems.Add(new MenuItem("25%", (s, ev) => JumpToPercent(25)));
-    jumpMenu.MenuItems.Add(new MenuItem("50%", (s, ev) => JumpToPercent(50)));
-    jumpMenu.MenuItems.Add(new MenuItem("75%", (s, ev) => JumpToPercent(75)));
-    jumpMenu.MenuItems.Add(new MenuItem("100%", (s, ev) => JumpToPercent(100)));
-    
-    // Add submenu to context menu
-    e.ContextMenu.MenuItems.Add(jumpMenu);
+    var jumpMenu = new ToolStripMenuItem("Jump to Position");
+
+    jumpMenu.DropDownItems.Add("0%", null, (s, ev) => JumpToPercent(0));
+    jumpMenu.DropDownItems.Add("25%", null, (s, ev) => JumpToPercent(25));
+    jumpMenu.DropDownItems.Add("50%", null, (s, ev) => JumpToPercent(50));
+    jumpMenu.DropDownItems.Add("75%", null, (s, ev) => JumpToPercent(75));
+    jumpMenu.DropDownItems.Add("100%", null, (s, ev) => JumpToPercent(100));
+
+    // Add submenu
+    e.ContextMenu.Items.Add(jumpMenu);
 }
 
 private void JumpToPercent(int percent)
@@ -360,18 +404,26 @@ private void JumpToPercent(int percent)
 ```csharp
 private bool fastScrollingEnabled = false;
 
-private void VerticalScrollBar_ContextMenuShowing(object sender, 
+private void VerticalScrollBar_ContextMenuShowing(object sender,
     Syncfusion.WinForms.Controls.Events.ContextMenuShowingEventArgs e)
 {
+    if (e.ContextMenu == null)
+        e.ContextMenu = new ContextMenuStrip();
+
     // Add separator
-    e.ContextMenu.MenuItems.Add("-");
-    
-    // Add checkable menu item
-    MenuItem fastScrollItem = new MenuItem("Enable Fast Scrolling");
-    fastScrollItem.Checked = fastScrollingEnabled;
-    fastScrollItem.Click += (s, ev) =>
+    e.ContextMenu.Items.Add(new ToolStripSeparator());
+
+    // Create checkable menu item
+    var fastScrollItem = new ToolStripMenuItem("Enable Fast Scrolling")
     {
-        fastScrollingEnabled = !fastScrollingEnabled;
+        Checked = fastScrollingEnabled,
+        CheckOnClick = true   
+    };
+
+    fastScrollItem.CheckedChanged += (s, ev) =>
+    {
+        fastScrollingEnabled = fastScrollItem.Checked;
+
         if (fastScrollingEnabled)
         {
             sfScrollFrame1.VerticalScrollBar.SmallChange = 30;
@@ -383,42 +435,57 @@ private void VerticalScrollBar_ContextMenuShowing(object sender,
             sfScrollFrame1.HorizontalScrollBar.SmallChange = 10;
         }
     };
-    
-    e.ContextMenu.MenuItems.Add(fastScrollItem);
+
+    e.ContextMenu.Items.Add(fastScrollItem);
 }
 ```
 
 ### Context-Aware Menu
 
 ```csharp
-private void VerticalScrollBar_ContextMenuShowing(object sender, 
+private void VerticalScrollBar_ContextMenuShowing(object sender,
     Syncfusion.WinForms.Controls.Events.ContextMenuShowingEventArgs e)
 {
-    // Add separator
-    e.ContextMenu.MenuItems.Add("-");
-    
-    // Get current position
-    int current = sfScrollFrame1.VerticalScrollBar.Value;
-    int max = sfScrollFrame1.VerticalScrollBar.Maximum;
-    int min = sfScrollFrame1.VerticalScrollBar.Minimum;
-    
-    // Show different options based on position
-    if (current == min)
+    if (e.ContextMenu == null)
+        e.ContextMenu = new ContextMenuStrip();
+
+    var scrollBar = sfScrollFrame1.VerticalScrollBar;
+
+    int current = scrollBar.Value;
+    int max = scrollBar.Maximum - scrollBar.LargeChange; // corrected max
+    int min = scrollBar.Minimum;
+
+    // Add separator only when needed
+    e.ContextMenu.Items.Add(new ToolStripSeparator());
+
+    ToolStripMenuItem infoItem;
+
+    if (current <= min)
     {
-        e.ContextMenu.MenuItems.Add(new MenuItem("Already at Top", (s, ev) => { }) 
-            { Enabled = false });
+        infoItem = new ToolStripMenuItem("Already at Top")
+        {
+            Enabled = false
+        };
     }
-    else if (current == max)
+    else if (current >= max)
     {
-        e.ContextMenu.MenuItems.Add(new MenuItem("Already at Bottom", (s, ev) => { }) 
-            { Enabled = false });
+        infoItem = new ToolStripMenuItem("Already at Bottom")
+        {
+            Enabled = false
+        };
     }
     else
     {
-        int percentScrolled = (int)((current - min) / (double)(max - min) * 100);
-        e.ContextMenu.MenuItems.Add(new MenuItem($"Scrolled: {percentScrolled}%", (s, ev) => { }) 
-            { Enabled = false });
+        int percentScrolled =
+            (int)((current - min) * 100.0 / (max - min));
+
+        infoItem = new ToolStripMenuItem($"Scrolled: {percentScrolled}%")
+        {
+            Enabled = false
+        };
     }
+
+    e.ContextMenu.Items.Add(infoItem);
 }
 ```
 
@@ -482,16 +549,16 @@ namespace SfScrollFrameMenuDemo
             Syncfusion.WinForms.Controls.Events.ContextMenuShowingEventArgs e)
         {
             // Add separator
-            e.ContextMenu.MenuItems.Add("-");
+            e.ContextMenu.Items.Add("-");
             
             // Quick jump options
-            MenuItem jumpMenu = new MenuItem("Quick Jump");
-            jumpMenu.MenuItems.Add(new MenuItem("Top (0%)", (s, ev) => JumpToPercentVertical(0)));
-            jumpMenu.MenuItems.Add(new MenuItem("Quarter (25%)", (s, ev) => JumpToPercentVertical(25)));
-            jumpMenu.MenuItems.Add(new MenuItem("Middle (50%)", (s, ev) => JumpToPercentVertical(50)));
-            jumpMenu.MenuItems.Add(new MenuItem("Three Quarters (75%)", (s, ev) => JumpToPercentVertical(75)));
-            jumpMenu.MenuItems.Add(new MenuItem("Bottom (100%)", (s, ev) => JumpToPercentVertical(100)));
-            e.ContextMenu.MenuItems.Add(jumpMenu);
+            ToolStripMenuItem jumpMenu = new ToolStripMenuItem("Quick Jump");
+            jumpMenu.DropDownItems.Add(new ToolStripMenuItem("Top (0%)", null, (s, ev) => JumpToPercentVertical(0)));
+            jumpMenu.DropDownItems.Add(new ToolStripMenuItem("Quarter (25%)", null, (s, ev) => JumpToPercentVertical(25)));
+            jumpMenu.DropDownItems.Add(new ToolStripMenuItem("Middle (50%)", null, (s, ev) => JumpToPercentVertical(50)));
+            jumpMenu.DropDownItems.Add(new ToolStripMenuItem("Three Quarters (75%)", null, (s, ev) => JumpToPercentVertical(75)));
+            jumpMenu.DropDownItems.Add(new ToolStripMenuItem("Bottom (100%)", null, (s, ev) => JumpToPercentVertical(100)));
+            e.ContextMenu.Items.Add(jumpMenu);
             
             // Show current position
             int current = sfScrollFrame1.VerticalScrollBar.Value;
@@ -499,26 +566,26 @@ namespace SfScrollFrameMenuDemo
             int min = sfScrollFrame1.VerticalScrollBar.Minimum;
             int percent = max > min ? (int)((current - min) / (double)(max - min) * 100) : 0;
             
-            MenuItem positionItem = new MenuItem($"Current Position: {percent}%", (s, ev) => { });
+            ToolStripMenuItem positionItem = new ToolStripMenuItem($"Current Position: {percent}%", null, (s, ev) => { });
             positionItem.Enabled = false;
-            e.ContextMenu.MenuItems.Add(positionItem);
+            e.ContextMenu.Items.Add(positionItem);
             
             // Advanced options toggle
-            e.ContextMenu.MenuItems.Add("-");
-            MenuItem advancedToggle = new MenuItem("Show Advanced Options");
+            e.ContextMenu.Items.Add("-");
+            ToolStripMenuItem advancedToggle = new ToolStripMenuItem("Show Advanced Options");
             advancedToggle.Checked = showAdvancedOptions;
             advancedToggle.Click += (s, ev) => { showAdvancedOptions = !showAdvancedOptions; };
-            e.ContextMenu.MenuItems.Add(advancedToggle);
+            e.ContextMenu.Items.Add(advancedToggle);
             
             // Advanced options (if enabled)
             if (showAdvancedOptions)
             {
-                e.ContextMenu.MenuItems.Add(new MenuItem("Scroll Speed Settings...", (s, ev) =>
+                e.ContextMenu.Items.Add(new ToolStripMenuItem("Scroll Speed Settings...", null, (s, ev) =>
                 {
                     ShowScrollSpeedDialog();
                 }));
                 
-                e.ContextMenu.MenuItems.Add(new MenuItem("Reset Scrollbar", (s, ev) =>
+                e.ContextMenu.Items.Add(new ToolStripMenuItem("Reset Scrollbar", null, (s, ev) =>
                 {
                     sfScrollFrame1.VerticalScrollBar.Value = min;
                     MessageBox.Show("Scrollbar reset to top", "Reset Complete");
@@ -530,12 +597,12 @@ namespace SfScrollFrameMenuDemo
             Syncfusion.WinForms.Controls.Events.ContextMenuShowingEventArgs e)
         {
             // Simple custom menu for horizontal scrollbar
-            e.ContextMenu.MenuItems.Add("-");
-            e.ContextMenu.MenuItems.Add(new MenuItem("Jump to Left", (s, ev) =>
+            e.ContextMenu.Items.Add("-");
+            e.ContextMenu.Items.Add(new ToolStripMenuItem("Jump to Left", null, (s, ev) =>
             {
                 sfScrollFrame1.HorizontalScrollBar.Value = sfScrollFrame1.HorizontalScrollBar.Minimum;
             }));
-            e.ContextMenu.MenuItems.Add(new MenuItem("Jump to Right", (s, ev) =>
+            e.ContextMenu.Items.Add(new ToolStripMenuItem("Jump to Right",null, (s, ev) =>
             {
                 sfScrollFrame1.HorizontalScrollBar.Value = sfScrollFrame1.HorizontalScrollBar.Maximum;
             }));

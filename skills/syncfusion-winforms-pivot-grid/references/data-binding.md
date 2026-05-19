@@ -567,35 +567,6 @@ private void PivotGridControl1_DataRefreshed(object sender,
 }
 ```
 
-### Complete Event Handling Example
-
-```csharp
-public partial class MainForm : Form
-{
-    private void SetupDataBindingEvents()
-    {
-        pivotGridControl1.ItemSourceChanged += (s, e) =>
-        {
-            LogMessage($"ItemSource changed: {e.OldValue?.GetType().Name} → " +
-                      $"{e.NewValue?.GetType().Name}");
-        };
-        
-        pivotGridControl1.DataRefreshing += (s, e) =>
-        {
-            statusLabel.Text = "Loading data...";
-            progressBar.Visible = true;
-        };
-        
-        pivotGridControl1.DataRefreshed += (s, e) =>
-        {
-            statusLabel.Text = "Data loaded successfully";
-            progressBar.Visible = false;
-            UpdateStatusBar();
-        };
-    }
-}
-```
-
 ## Performance Considerations
 
 ### Best Practices for Large Datasets
@@ -622,7 +593,7 @@ Task.Run(() => LoadRemainingDataAsync());
 3. **Optimize Refresh Calls**
 ```csharp
 // Batch multiple changes before refreshing
-pivotGridControl1.BeginUpdate();
+pivotGridControl1.TableControl.BeginUpdate();
 try
 {
     pivotGridControl1.PivotRows.Add(new PivotItem { FieldMappingName = "Product" });
@@ -631,7 +602,7 @@ try
 }
 finally
 {
-    pivotGridControl1.EndUpdate();  // Single refresh
+    pivotGridControl1.TableControl.EndUpdate();  // Single refresh
 }
 ```
 
@@ -639,12 +610,9 @@ finally
 ```csharp
 private async void LoadDataAsync()
 {
-    statusLabel.Text = "Loading...";
-    
     var data = await Task.Run(() => ProductSalesData.GetSalesData());
     
     pivotGridControl1.ItemSource = data;
-    statusLabel.Text = "Ready";
 }
 ```
 

@@ -30,7 +30,7 @@ These assemblies can be found at the default installation location:
 
 Alternatively, you can install the control via NuGet package:
 
-**Package Name:** `Syncfusion.Tools.WinForms`
+**Package Name:** `Syncfusion.Tools.Windows`
 
 This NuGet package includes all required assemblies and dependencies automatically.
 

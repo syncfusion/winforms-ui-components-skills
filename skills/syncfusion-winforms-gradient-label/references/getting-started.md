@@ -13,6 +13,8 @@ The GradientLabel control requires specific Syncfusion assemblies to function pr
 - `Syncfusion.Shared.Windows.dll` - Windows-specific shared functionality
 - `Syncfusion.Tools.Base.dll` - Tools package base
 - `Syncfusion.Tools.Windows.dll` - Tools package containing GradientLabel
+- `Syncfusion.Grid.Base`
+- `Syncfusion.Grid.Windows`
 
 ### NuGet Package Installation
 
@@ -20,17 +22,17 @@ Install the required package using NuGet Package Manager:
 
 **Package Manager Console:**
 ```powershell
-Install-Package Syncfusion.Tools.WinForms
+Install-Package Syncfusion.Tools.Windows
 ```
 
 **NuGet Package Manager UI:**
 1. Right-click project → Manage NuGet Packages
-2. Search for "Syncfusion.Tools.WinForms"
+2. Search for "Syncfusion.Tools.Windows"
 3. Click Install
 
 **Package Reference (csproj):**
 ```xml
-<PackageReference Include="Syncfusion.Tools.WinForms" Version="25.1.35" />
+<PackageReference Include="Syncfusion.Tools.Windows" Version="*" />
 ```
 
 ### Manual Assembly References
@@ -445,7 +447,7 @@ gradientLabel.TextAlign = ContentAlignment.MiddleCenter;
 ### Assembly Reference Errors
 
 **Solution:**
-1. Verify NuGet package installed: `Syncfusion.Tools.WinForms`
+1. Verify NuGet package installed: `Syncfusion.Tools.Windows`
 2. Check all 6 required assemblies are referenced
 3. Clean and rebuild solution
 4. Ensure correct .NET Framework/version target

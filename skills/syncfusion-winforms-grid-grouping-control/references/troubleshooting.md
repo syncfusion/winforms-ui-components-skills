@@ -69,7 +69,7 @@ try
 }
 finally
 {
-    gridGroupingControl1.EndUpdate();
+    gridGroupingControl1.TableControl.EndUpdate();
 }
 ```
 
@@ -214,13 +214,7 @@ gridGroupingControl1.MinimumSize = new Size(400, 200);
 
 **Solutions:**
 
-1. **Check AllowExpandGroups**
-
-```csharp
-gridGroupingControl1.TableOptions.AllowExpandGroups = true;
-```
-
-2. **Expand Programmatically**
+1. **Expand Programmatically**
 
 ```csharp
 // Expand all groups
@@ -348,8 +342,6 @@ gridGroupingControl1.TableModel.ColWidths.ResizeToFit(
 // Set specific column width
 gridGroupingControl1.TableDescriptor.Columns["Description"].Width = 200;
 
-// Allow user resizing
-gridGroupingControl1.TableOptions.AllowResizeColumns = true;
 ```
 
 ### Appearance Not Updating
@@ -375,7 +367,7 @@ gridGroupingControl1.Appearance.ResetAnyRecordFieldCell();
 
 ```csharp
 // Enable word wrap
-gridGroupingControl1.TableOptions.WrapText = true;
+gridGroupingControl1.TableDescriptor.Appearance.AnyRecordFieldCell.WrapText = true;
 
 // Auto-fit row heights
 gridGroupingControl1.TableModel.RowHeights.ResizeToFit(
@@ -503,14 +495,14 @@ if (gridGroupingControl1.TableDescriptor.Columns.Contains("ProductName"))
 // ❌ BAD
 foreach (Record record in gridGroupingControl1.Table.Records)
 {
-    gridGroupingControl1.Table.Records.Remove(record); // Exception
+    gridGroupingControl1.Table.SelectedRecords.Remove(record); // Exception
 }
 
 // ✅ GOOD
-var recordsToRemove = gridGroupingControl1.Table.Records.ToList();
+var recordsToRemove = gridGroupingControl1.Table.Records;
 foreach (Record record in recordsToRemove)
 {
-    gridGroupingControl1.Table.Records.Remove(record);
+    gridGroupingControl1.Table.SelectedRecords.Remove(record);
 }
 ```
 
@@ -541,7 +533,7 @@ try
 }
 finally
 {
-    gridGroupingControl1.EndUpdate();
+    gridGroupingControl1.TableControl.EndUpdate();
 }
 ```
 

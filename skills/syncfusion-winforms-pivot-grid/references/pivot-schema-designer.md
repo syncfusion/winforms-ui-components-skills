@@ -78,18 +78,6 @@ The Layout Section is divided into four drop zones:
 
 **Purpose:** Apply report-level filters to the entire pivot grid
 
-**Accessing Programmatically:**
-```csharp
-// Access filter list
-var filterList = pivotGridControl1.TableControl.GridFilterList;
-
-// Add field to filters
-pivotGridControl1.Filters.Add(new PivotItem 
-{ 
-    FieldMappingName = "Country" 
-});
-```
-
 **User Interaction:**
 - Click the filter icon on a filter field
 - Select specific values to include
@@ -398,12 +386,6 @@ foreach (PivotComputationInfo calc in pivotGridControl1.PivotCalculations)
 {
     Console.WriteLine($"Calculation: {calc.FieldName}, " +
                      $"Type: {calc.SummaryType}, Format: {calc.Format}");
-}
-
-// Get all filters
-foreach (PivotItem filter in pivotGridControl1.Filters)
-{
-    Console.WriteLine($"Filter: {filter.FieldMappingName}");
 }
 ```
 

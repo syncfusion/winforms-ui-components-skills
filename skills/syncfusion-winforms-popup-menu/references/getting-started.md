@@ -286,7 +286,7 @@ End Sub
 NuGet provides an alternative to manual assembly references.
 
 ### NuGet Package Name
-- **Syncfusion.Tools.WinForms** (contains PopupMenu and related controls)
+- **Syncfusion.Tools.Windows** (contains PopupMenu and related controls)
 
 ### Installation Steps
 
@@ -297,7 +297,7 @@ Install-Package Syncfusion.Tools.Windows
 
 **Using NuGet Package Manager UI:**
 1. Right-click project → **Manage NuGet Packages**
-2. Search for **"Syncfusion.Tools.WinForms"**
+2. Search for **"Syncfusion.Tools.Windows"**
 3. Click **Install**
 
 Refer to [NuGet installation guide](https://help.syncfusion.com/windowsforms/installation/install-nuget-packages) for detailed steps.

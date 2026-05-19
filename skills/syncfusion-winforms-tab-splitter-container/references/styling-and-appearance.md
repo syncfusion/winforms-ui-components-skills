@@ -340,21 +340,6 @@ private void CustomizeSplitterColor()
 }
 ```
 
-### Splitter Width Customization
-
-Control the width of the splitter bar:
-
-```csharp
-private void ConfigureSplitterWidth()
-{
-    // Set splitter width (default is typically 4-5 pixels)
-    this.tabSplitterContainer1.SplitterWidth = 6;
-    
-    // Set custom color for better visibility
-    this.tabSplitterContainer1.SplitterBackColor = System.Drawing.Color.DodgerBlue;
-}
-```
-
 ### Themed Splitter Colors
 
 Apply theme-consistent splitter colors:
@@ -515,18 +500,18 @@ private void ApplyThemeConsistentBackgrounds()
 
 ## Border Styles
 
-Control the border appearance of the TabSplitterContainer and its pages.
+Control the border appearance of the TabSplitterPage.
 
 ### Container Border
 
 ```csharp
 private void SetContainerBorder()
 {
-    // Set border style for the entire container
-    this.tabSplitterContainer1.BorderStyle = BorderStyle.FixedSingle;
-    
+    // Set border style for the entire page
+    this.tabSpliterPage1.BorderStyle = BorderStyle.FixedSingle;
+
     // Alternative: Remove border for seamless integration
-    // this.tabSplitterContainer1.BorderStyle = BorderStyle.None;
+    //this.tabSpliterPage1.BorderStyle = BorderStyle.None;
 }
 ```
 
@@ -584,7 +569,6 @@ private void EnableCustomSplitterRendering()
     // For more advanced customization, you can overlay controls
     
     Panel splitterOverlay = new Panel();
-    splitterOverlay.Width = this.tabSplitterContainer1.SplitterWidth;
     splitterOverlay.Height = this.tabSplitterContainer1.Height;
     splitterOverlay.Left = this.tabSplitterContainer1.SplitterPosition;
     splitterOverlay.BackColor = Color.Transparent;
@@ -663,7 +647,6 @@ namespace DarkThemeExample
             this.tabSplitterContainer1.Dock = DockStyle.Fill;
             this.tabSplitterContainer1.Style = TabSplitterContainerStyle.Office2016Black;
             this.tabSplitterContainer1.SplitterBackColor = Color.FromArgb(45, 45, 48);
-            this.tabSplitterContainer1.SplitterWidth = 5;
             this.tabSplitterContainer1.BackColor = Color.FromArgb(37, 37, 38);
             
             // Add styled pages
@@ -765,7 +748,6 @@ namespace LightThemeExample
             this.tabSplitterContainer1.Dock = DockStyle.Fill;
             this.tabSplitterContainer1.Style = TabSplitterContainerStyle.Office2016White;
             this.tabSplitterContainer1.SplitterBackColor = Color.FromArgb(171, 171, 171);
-            this.tabSplitterContainer1.SplitterWidth = 4;
             this.tabSplitterContainer1.BackColor = Color.White;
             
             // Add styled pages
@@ -899,13 +881,7 @@ Ensure splitter visibility across different themes:
 
 ```csharp
 private void EnsureSplitterVisibility()
-{
-    // Make splitter width adequate for visibility
-    if (this.tabSplitterContainer1.SplitterWidth < 4)
-    {
-        this.tabSplitterContainer1.SplitterWidth = 4;
-    }
-    
+{    
     // Ensure color contrast with background
     Color containerBack = this.tabSplitterContainer1.BackColor;
     Color splitterBack = this.tabSplitterContainer1.SplitterBackColor;
@@ -1063,9 +1039,10 @@ private void AdjustForDPI()
         
         if (scaleFactor > 1.0f)
         {
-            // Adjust splitter width for high DPI
-            this.tabSplitterContainer1.SplitterWidth = 
-                (int)(this.tabSplitterContainer1.SplitterWidth * scaleFactor);
+            // Adjust splitter position based on DPI
+            this.tabSplitterContainer1.SplitterPosition = 
+                (int)(this.tabSplitterContainer1.SplitterPosition * scaleFactor);
+
         }
     }
 }

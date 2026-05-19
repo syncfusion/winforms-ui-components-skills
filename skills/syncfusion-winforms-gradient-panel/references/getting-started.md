@@ -37,7 +37,7 @@ GradientPanel supports:
 ### Method 1: Package Manager Console
 
 ```powershell
-Install-Package Syncfusion.Tools.Windows
+Install-Package Syncfusion.Shared.Base
 ```
 
 This package includes GradientPanel and other Tools controls.
@@ -46,14 +46,14 @@ This package includes GradientPanel and other Tools controls.
 
 1. Right-click on your project in Solution Explorer
 2. Select **Manage NuGet Packages**
-3. Search for **"Syncfusion.Tools.Windows"**
+3. Search for **"Syncfusion.Shared.Base"**
 4. Select the package
 5. Click **Install**
 
 ### Method 3: .NET CLI
 
 ```bash
-dotnet add package Syncfusion.Tools.Windows
+dotnet add package Syncfusion.Shared.Base
 ```
 
 **Note:** NuGet automatically adds required assembly references.

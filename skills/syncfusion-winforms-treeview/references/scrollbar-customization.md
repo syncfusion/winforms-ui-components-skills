@@ -28,18 +28,6 @@ if (content height > control height)
 // Show/hide scrollbars
 treeViewAdv1.HScroll = true;  // Horizontal scrollbar
 treeViewAdv1.VScroll = true;  // Vertical scrollbar
-
-// Scrollbar visibility
-treeViewAdv1.ShowHorizontalScrollBar = true;
-treeViewAdv1.ShowVerticalScrollBar = true;
-```
-
-### ScrollBar Colors
-
-```csharp
-// Customize scrollbar appearance
-treeViewAdv1.ScrollBarBackColor = Color.LightGray;
-treeViewAdv1.ScrollBarForeColor = Color.DarkGray;
 ```
 
 ## Scroll Behavior
@@ -67,13 +55,6 @@ treeViewAdv1.TopNode = treeViewAdv1.Nodes[0];
 treeViewAdv1.TopNode = specificNode;
 ```
 
-### Auto-Scroll During Drag
-
-Enable auto-scroll when dragging near edges:
-
-```csharp
-treeViewAdv1.ScrollOnDragDrop = true;
-```
 
 ## ScrollBar Theming
 
@@ -85,7 +66,7 @@ treeViewAdv1.ThemeName = "Office2019Colorful";
 
 // Custom Office colors
 treeViewAdv1.Office2007ScrollBars = true;
-treeViewAdv1.Office2007ColorTheme = Office2007Theme.Blue;
+treeViewAdv1.Office2007ColorScheme = Office2007Theme.Blue;
 ```
 
 ## Complete Example
@@ -116,16 +97,10 @@ public class ScrollBarCustomizationExample : Form
         treeViewAdv1.HScroll = true;
         treeViewAdv1.VScroll = true;
         
-        // Custom colors
-        treeViewAdv1.ScrollBarBackColor = Color.WhiteSmoke;
-        treeViewAdv1.ScrollBarForeColor = Color.SteelBlue;
-        
         // Office theme scrollbars
         treeViewAdv1.Office2007ScrollBars = true;
-        treeViewAdv1.Office2007ColorTheme = Office2007Theme.Blue;
+        treeViewAdv1.Office2007ColorScheme = Office2007Theme.Blue;
         
-        // Enable drag-scroll
-        treeViewAdv1.ScrollOnDragDrop = true;
     }
     
     private void LoadLargeDataset()
@@ -156,6 +131,3 @@ public class ScrollBarCustomizationExample : Form
 
 **Issue:** Custom scrollbar colors not applying
 - **Solution:** Verify theme settings, some themes override custom colors
-
-**Issue:** Horizontal scrollbar not needed
-- **Solution:** Adjust node text length or control width, or set `ShowHorizontalScrollBar = false`

@@ -338,7 +338,7 @@ Handle the `AutoGeneratingColumn` event to customize columns before they're adde
 ```csharp
 sfDataGrid1.AutoGeneratingColumn += SfDataGrid1_AutoGeneratingColumn;
 
-private void SfDataGrid1_AutoGeneratingColumn(object sender, AutoGeneratingColumnEventArgs e)
+private void SfDataGrid1_AutoGeneratingColumn(object sender, AutoGeneratingColumnArgs e)
 {
     // Customize header text
     if (e.Column.MappingName == "OrderID")
@@ -454,7 +454,7 @@ sfDataGrid1.Columns.Add(new GridNumericColumn()
 sfDataGrid1.Columns.Add(new GridDateTimeColumn() 
 { 
     MappingName = "OrderDate",
-    Format = DateTimeFormat.ShortDate
+    Pattern = DateTimePattern.ShortDate,
 });
 
 // CheckBox column
@@ -586,22 +586,16 @@ sfDataGrid1.SelectionChanged += (sender, e) =>
     }
 };
 
-// Cell value changed
-sfDataGrid1.CurrentCellValueChanged += (sender, e) =>
-{
-    Console.WriteLine($"Cell value changed at Row: {e.RowColumnIndex.RowIndex}");
-};
-
 // Current cell begin edit
 sfDataGrid1.CurrentCellBeginEdit += (sender, e) =>
 {
-    Console.WriteLine($"Begin edit: {e.Column.MappingName}");
+    Console.WriteLine($"Begin edit: {e.DataColumn.GridColumn.MappingName}");
 };
 
 // Current cell end edit
 sfDataGrid1.CurrentCellEndEdit += (sender, e) =>
 {
-    Console.WriteLine($"End edit: {e.Column.MappingName}");
+    Console.WriteLine($"End edit: {e.DataColumn.GridColumn.MappingName}");
 };
 ```
 
@@ -659,7 +653,7 @@ sfDataGrid1.AllowEditing = true;
 sfDataGrid1.AllowDeleting = true;
 
 // Add new row at bottom
-sfDataGrid1.AddNewRowPosition = AddNewRowPosition.Bottom;
+sfDataGrid1.AddNewRowPosition = RowPosition.Bottom;
 ```
 
 ### Configure Selection
@@ -667,7 +661,7 @@ sfDataGrid1.AddNewRowPosition = AddNewRowPosition.Bottom;
 ```csharp
 // Multiple row selection
 sfDataGrid1.SelectionMode = GridSelectionMode.Extended;
-sfDataGrid1.SelectionUnit = GridSelectionUnit.Row;
+sfDataGrid1.SelectionUnit = SelectionUnit.Row;
 
 // Get selected items
 var selectedItems = sfDataGrid1.SelectedItems;

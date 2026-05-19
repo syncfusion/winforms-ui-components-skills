@@ -168,7 +168,6 @@ public class ScheduleAppointmentCancelEventArgs : CancelEventArgs
     public IScheduleAppointment Appointment { get; }
     public ItemAction Action { get; }
     public ItemDragHitContext ItemDragHitContext { get; }
-    public bool Cancel { get; set; }
 }
 ```
 
@@ -188,7 +187,10 @@ public enum ItemAction
     ItemDrag,    // Appointment being dragged
     Edit,        // Appointment being edited
     Delete,      // Appointment being deleted
-    Add          // New appointment being added
+    Add,          // New appointment being added
+    TimeDrag,    // Appointment duration is being resized (start/end time changed)
+    Default   // Default/internal action
+
 }
 ```
 

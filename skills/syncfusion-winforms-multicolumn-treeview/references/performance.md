@@ -96,34 +96,6 @@ multiColumnTreeView1.AddSeparatorAtEnd = true; // For path-based loading
 multiColumnTreeView1.BeforeExpand += MultiColumnTreeView1_BeforeExpand;
 ```
 
-### Implementation Example
-
-```csharp
-private void MultiColumnTreeView1_BeforeExpand(object sender, 
-    TreeViewAdvCancelableNodeEventArgs e)
-{
-    // Only load once
-    if (e.Node.ExpandedOnce)
-        return;
-    
-    // Load child nodes dynamically
-    LoadChildNodes(e.Node);
-}
-
-private void LoadChildNodes(TreeNodeAdv parentNode)
-{
-    // Example: Load from database
-    var children = GetChildrenFromDatabase(parentNode.Tag);
-    
-    foreach (var child in children)
-    {
-        TreeNodeAdv childNode = new TreeNodeAdv { Text = child.Name, Tag = child.Id };
-        childNode.SubItems.Add(new TreeNodeAdvSubItem { Text = child.Value });
-        parentNode.Nodes.Add(childNode);
-    }
-}
-```
-
 ### File System Example
 
 ```csharp

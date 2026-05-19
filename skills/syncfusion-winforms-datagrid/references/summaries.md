@@ -621,7 +621,7 @@ GridTableSummaryRow tableSummaryRow = new GridTableSummaryRow();
 tableSummaryRow.Name = "TableSummary";
 tableSummaryRow.ShowSummaryInRow = true;
 tableSummaryRow.Title = "Standard Deviation for Total Sales: {TotalSales}";
-tableSummaryRow.Position = TableSummaryRowPosition.Top;
+tableSummaryRow.Position = VerticalPosition.Top;
 
 GridSummaryColumn summaryColumn = new GridSummaryColumn();
 summaryColumn.Name = "TotalSales";
@@ -679,7 +679,7 @@ Dim tableSummaryRow As New GridTableSummaryRow()
 tableSummaryRow.Name = "TableSummary"
 tableSummaryRow.ShowSummaryInRow = True
 tableSummaryRow.Title = "Standard Deviation for Total Sales: {TotalSales}"
-tableSummaryRow.Position = TableSummaryRowPosition.Top
+tableSummaryRow.Position = VerticalPosition.Top
 
 Dim summaryColumn As New GridSummaryColumn()
 summaryColumn.Name = "TotalSales"

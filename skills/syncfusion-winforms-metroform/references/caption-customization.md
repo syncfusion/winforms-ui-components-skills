@@ -221,12 +221,9 @@ int imageCount = this.CaptionImages.Count;
 **C#:**
 ```csharp
 // Add multiple labels
-this.CaptionLabels.AddRange(new CaptionLabel[]
-{
-    new CaptionLabel { Text = "Label 1", ForeColor = Color.White },
-    new CaptionLabel { Text = "Label 2", ForeColor = Color.White },
-    new CaptionLabel { Text = "Label 3", ForeColor = Color.White }
-});
+this.CaptionLabels.Add(new CaptionLabel { Text = "Label 1", ForeColor = Color.White });
+this.CaptionLabels.Add(new CaptionLabel { Text = "Label 2", ForeColor = Color.White });
+this.CaptionLabels.Add(new CaptionLabel { Text = "Label 3", ForeColor = Color.White });
 ```
 
 ### Removing Items

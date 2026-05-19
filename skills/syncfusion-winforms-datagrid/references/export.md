@@ -835,7 +835,7 @@ workBook.Worksheets[0].AutoFilters.FilterRange = workBook.Worksheets[0].Range[ra
 
 ### Issue: Export doesn't include hidden columns
 
-**Behavior:** By default, hidden columns ARE exported.
+**Behavior:** By default, all columns—including hidden columns—are exported to Excel and PDF.
 
 **Solution:** Explicitly exclude columns if needed:
 

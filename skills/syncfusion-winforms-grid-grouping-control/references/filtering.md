@@ -479,7 +479,7 @@ private void ClearAllFilters()
     }
     
     // Refresh grid
-    gridGroupingControl1.Table.Refresh();
+    gridGroupingControl1.TableControl.Refresh();
 }
 ```
 

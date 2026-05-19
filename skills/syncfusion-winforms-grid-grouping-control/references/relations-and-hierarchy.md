@@ -228,9 +228,9 @@ foreignKeyKeyWords.ChildTableName = "Products";
 foreignKeyKeyWords.RelationKeys.Add("ProductID", "ProductID");
 
 // Specify fields to display from child table
-foreignKeyKeyWords.ChildTableDescriptor.KeyFields.Add("ProductName");
-foreignKeyKeyWords.ChildTableDescriptor.KeyFields.Add("UnitPrice");
-foreignKeyKeyWords.ChildTableDescriptor.KeyFields.Add("Category");
+foreignKeyKeyWords.ChildTableDescriptor.Fields.Add("ProductName");
+foreignKeyKeyWords.ChildTableDescriptor.Fields.Add("UnitPrice");
+foreignKeyKeyWords.ChildTableDescriptor.Fields.Add("Category");
 
 gridGroupingControl1.TableDescriptor.Relations.Add(foreignKeyKeyWords);
 ```
@@ -468,8 +468,8 @@ childTable.SummaryRows.Add(new GridSummaryRowDescriptor("TotalRow", "Total", sum
 
 1. **Default Expand State**: Collapse by default for performance:
    ```csharp
-   gridGroupingControl1.TopLevelGroupOptions.ShowRecordPlusMinus = true;
-   gridGroupingControl1.ChildGroupOptions.ShowRecordPlusMinus = true;
+   gridGroupingControl1.TableDescriptor.TopLevelGroupOptions.ShowCaptionPlusMinus = true;
+   gridGroupingControl1.TableDescriptor.ChildGroupOptions.ShowCaptionPlusMinus = true;
    // Records start collapsed
    ```
 

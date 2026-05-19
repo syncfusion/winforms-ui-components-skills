@@ -183,13 +183,13 @@ By default, GridGroupingControl allows editing. To control edit behavior:
 
 ```csharp
 // Enable editing (default)
-this.gridGroupingControl1.TableOptions.AllowEdit = true;
+this.gridGroupingControl1.TableDescriptor.AllowEdit = true;
 
 // Disable editing
-this.gridGroupingControl1.TableOptions.AllowEdit = false;
+this.gridGroupingControl1.TableDescriptor.AllowEdit = false;
 
 // Control cell activation
-this.gridGroupingControl1.ActivateCurrentCellBehavior = GridCellActivateAction.DoubleClickOnCell;
+this.gridGroupingControl1.ActivateCurrentCellBehavior = GridCellActivateAction.DblClickOnCell;
 ```
 
 ### Enabling Sorting
@@ -282,7 +282,7 @@ namespace GridGroupingDemo
             // Customize appearance
             this.gridGroupingControl1.Appearance.GroupCaptionCell.BackColor = Color.LightBlue;
             this.gridGroupingControl1.Appearance.GroupCaptionCell.TextColor = Color.DarkBlue;
-            this.gridGroupingControl1.TableOptions.GridLineColor = Color.LightGray;
+            this.gridGroupingControl1.TableOptions.GridLineBorder = new GridBorder(GridBorderStyle.Solid, Color.LightGray);
 
             // Format specific columns
             this.gridGroupingControl1.TableDescriptor.Columns["Salary"].Appearance.AnyRecordFieldCell.Format = "C";

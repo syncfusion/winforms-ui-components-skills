@@ -46,34 +46,19 @@ gridGroupingControl1.TableDescriptor.VisibleColumns.Add("EmployeeID");
 gridGroupingControl1.TableDescriptor.VisibleColumns.Insert(2, "EmployeeID");
 ```
 
-### Hiding Records
-
-```csharp
-// Hide specific records by ID
-gridGroupingControl1.Table.Records.HideRecord(recordId);
-
-// Hide multiple records
-foreach (var record in recordsToHide)
-{
-    gridGroupingControl1.Table.Records.HideRecord(record.Id);
-}
-
-// Show hidden records
-gridGroupingControl1.Table.Records.ShowHiddenRecords();
-```
 
 ### Hide Row/Column Headers
 
 ```csharp
 // Hide row headers
-gridGroupingControl1.TableModel.Options.ShowRowHeaders = false;
+gridGroupingControl1.ShowRowHeaders = false;
 
 // Hide column headers
-gridGroupingControl1.TableModel.Options.ShowColumnHeaders = false;
+gridGroupingControl1.ShowColumnHeaders = false;
 
 // Show both
-gridGroupingControl1.TableModel.Options.ShowRowHeaders = true;
-gridGroupingControl1.TableModel.Options.ShowColumnHeaders = true;
+gridGroupingControl1.ShowRowHeaders = true;
+gridGroupingControl1.ShowColumnHeaders = true;
 ```
 
 ## Moving Columns
@@ -126,20 +111,9 @@ foreach (string colName in newOrder)
 gridGroupingControl1.TableDescriptor.Columns["FirstName"].Width = 150;
 
 // Set default width for all columns
-gridGroupingControl1.TableModel.Options.DefaultColumnWidth = 100;
+gridGroupingControl1.TableOptions.DefaultColumnWidth = 100;
 ```
 
-### Proportional Column Sizing
-
-```csharp
-// Enable proportional column widths
-gridGroupingControl1.TableModel.Options.ColumnWidthMode = GridColumnWidthMode.Proportional;
-
-// Set column proportions (FillWidth property)
-gridGroupingControl1.TableDescriptor.Columns["FirstName"].FillWeight = 2;  // 2x width
-gridGroupingControl1.TableDescriptor.Columns["EmployeeID"].FillWeight = 1; // 1x width
-gridGroupingControl1.TableDescriptor.Columns["Title"].FillWeight = 3;      // 3x width
-```
 
 ### Auto-Fit Columns
 
@@ -154,18 +128,7 @@ foreach (GridColumnDescriptor column in gridGroupingControl1.TableDescriptor.Col
 gridGroupingControl1.TableDescriptor.Columns["FirstName"].Width = -1;
 ```
 
-### User Resizing Control
 
-```csharp
-// Allow users to resize columns
-gridGroupingControl1.TableOptions.AllowResizeColumns = true;
-
-// Prevent resizing
-gridGroupingControl1.TableOptions.AllowResizeColumns = false;
-
-// Prevent resizing specific column
-gridGroupingControl1.TableDescriptor.Columns["EmployeeID"].AllowResize = false;
-```
 
 ## Frozen Columns
 
@@ -175,24 +138,18 @@ Frozen columns remain visible while scrolling horizontally.
 
 ```csharp
 // Freeze first 2 columns (index 0 and 1)
-gridGroupingControl1.TableModel.Options.FrozenCount = 2;
+gridGroupingControl1.TableModel.Cols.FrozenCount = 2;
 
 // Unfreeze all columns
-gridGroupingControl1.TableModel.Options.FrozenCount = 0;
-```
+gridGroupingControl1.TableModel.Cols.FrozenCount = 0;
 
-### Freeze Trailing Columns
-
-```csharp
-// Freeze last 2 columns
-gridGroupingControl1.TableModel.Options.TrailingFrozenCount = 2;
 ```
 
 ### Example: Freeze ID Column
 
 ```csharp
 // Keep EmployeeID visible while scrolling
-gridGroupingControl1.TableModel.Options.FrozenCount = 1;
+gridGroupingControl1.TableModel.Cols.FrozenCount = 1;
 
 // Ensure EmployeeID is first column
 if (gridGroupingControl1.TableDescriptor.VisibleColumns.IndexOf("EmployeeID") != 0)
@@ -296,23 +253,21 @@ gridGroupingControl1.TableDescriptor.QueryValue += (s, e) =>
 
 ```csharp
 // Default record row height
-gridGroupingControl1.TableModel.Options.DefaultRecordRowHeight = 25;
+gridGroupingControl1.Table.DefaultRecordRowHeight = 25;
 
 // Column header row height
-gridGroupingControl1.TableModel.Options.DefaultColumnHeaderRowHeight = 30;
+gridGroupingControl1.Table.DefaultColumnHeaderRowHeight = 30;
 
 // Filter bar row height
-gridGroupingControl1.TableModel.Options.FilterBarRowHeight = 28;
+gridGroupingControl1.Table.DefaultFilterBarRowHeight = 28;
 
 // Caption row height (group headers)
-gridGroupingControl1.TableModel.Options.CaptionRowHeight = 35;
+gridGroupingControl1.Table.DefaultCaptionRowHeight = 35;
 ```
 
 ### Dynamic Row Heights
 
 ```csharp
-// Enable variable row heights based on content
-gridGroupingControl1.TableModel.Options.RowHeightsMode = GridRowHeightsMode.Variable;
 
 // Set specific row height
 gridGroupingControl1.TableControl.Model.RowHeights[5] = 40;
@@ -331,7 +286,7 @@ gridGroupingControl1.TableDescriptor.VisibleColumns.Remove("SSN");
 gridGroupingControl1.TableDescriptor.VisibleColumns.Remove("Salary");
 
 // Freeze EmployeeID column
-gridGroupingControl1.TableModel.Options.FrozenCount = 1;
+gridGroupingControl1.TableModel.Cols.FrozenCount = 1;
 
 // Set column widths
 gridGroupingControl1.TableDescriptor.Columns["EmployeeID"].Width = 80;
@@ -339,8 +294,6 @@ gridGroupingControl1.TableDescriptor.Columns["FirstName"].Width = 120;
 gridGroupingControl1.TableDescriptor.Columns["LastName"].Width = 120;
 gridGroupingControl1.TableDescriptor.Columns["Email"].Width = 200;
 
-// Allow user resizing
-gridGroupingControl1.TableOptions.AllowResizeColumns = true;
 ```
 
 ### Scenario 2: Add Full Name Unbound Column
@@ -468,15 +421,6 @@ void ConfigureColumnsByRole(UserRole role)
 2. **Proportional for Variable Content**: Use proportional sizing when content length varies:
    ```csharp
    gridGroupingControl1.TableModel.Options.ColumnWidthMode = GridColumnWidthMode.Proportional;
-   ```
-
-3. **Save Column Widths**: Persist user-adjusted widths:
-   ```csharp
-   // Save on ColumnWidthChanged
-   gridGroupingControl1.TableControl.Model.ColumnWidthsChanged += (s, e) =>
-   {
-       // Serialize widths to settings
-   };
    ```
 
 ### Unbound Columns

@@ -9,6 +9,7 @@ The SplitterControl allows you to customize scrollbar appearance through the `Gr
 **Available Styles:**
 - **Office2007** - Classic Office 2007 blue theme
 - **Office2010** - Modern Office 2010 style
+- **Office2016** - Modern Office 2016 style
 - **Metro** - Flat, minimalist Metro/Modern UI design
 - **None** - System default scrollbars
 

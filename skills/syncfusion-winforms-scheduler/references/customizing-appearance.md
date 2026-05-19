@@ -262,10 +262,10 @@ Prime time highlights specific hours with a different background color (typicall
 
 ```csharp
 // Prime time start (e.g., 9:00 AM)
-appearance.PrimeTimeStart = new TimeSpan(9, 0, 0);
+appearance.PrimeTimeStart = 9;
 
 // Prime time end (e.g., 5:00 PM)
-appearance.PrimeTimeEnd = new TimeSpan(17, 0, 0);
+appearance.PrimeTimeEnd = 17;
 
 // Prime time cell background color
 appearance.PrimeTimeCellColor = Color.White;
@@ -277,8 +277,8 @@ appearance.NonPrimeTimeCellColor = Color.FromArgb(240, 240, 240);
 **Example - Standard Business Hours:**
 ```csharp
 // 9 AM to 5 PM as prime time
-appearance.PrimeTimeStart = new TimeSpan(9, 0, 0);
-appearance.PrimeTimeEnd = new TimeSpan(17, 0, 0);
+appearance.PrimeTimeStart = 9;
+appearance.PrimeTimeEnd = 17;
 appearance.PrimeTimeCellColor = Color.White;
 appearance.NonPrimeTimeCellColor = Color.FromArgb(245, 245, 245);
 ```
@@ -286,8 +286,8 @@ appearance.NonPrimeTimeCellColor = Color.FromArgb(245, 245, 245);
 **Example - Extended Business Hours:**
 ```csharp
 // 8 AM to 6 PM as prime time
-appearance.PrimeTimeStart = new TimeSpan(8, 0, 0);
-appearance.PrimeTimeEnd = new TimeSpan(18, 0, 0);
+appearance.PrimeTimeStart = 8;
+appearance.PrimeTimeEnd = 18;
 appearance.PrimeTimeCellColor = Color.LightYellow;
 appearance.NonPrimeTimeCellColor = Color.White;
 ```
@@ -412,7 +412,7 @@ private void ScheduleHost_ThemeChanged(object sender, EventArgs e)
 
 ```csharp
 // Maximum days side-by-side in day view
-appearance.DayMonthCutOff = 3; // Show up to 3 days
+appearance.DayMonthCutoff = 3; // Show up to 3 days
 
 // Time divisions per hour (2, 3, 4, or 6)
 appearance.DivisionsPerHour = 4; // 15-minute intervals
@@ -470,8 +470,8 @@ public void ApplyProfessionalBlueTheme(ScheduleControl scheduleControl)
     appearance.NavigationCalendarTodayColor = Color.Red;
     
     // Prime Time (9 AM - 5 PM)
-    appearance.PrimeTimeStart = new TimeSpan(9, 0, 0);
-    appearance.PrimeTimeEnd = new TimeSpan(17, 0, 0);
+    appearance.PrimeTimeStart = 9;
+    appearance.PrimeTimeEnd = 17;
     appearance.PrimeTimeCellColor = Color.White;
     appearance.NonPrimeTimeCellColor = Color.FromArgb(245, 245, 245);
     
@@ -551,8 +551,8 @@ public void ApplyHealthcareTheme(ScheduleControl scheduleControl)
     appearance.TimeLittleFontSize = 9;
     
     // Clinic hours (8 AM - 6 PM)
-    appearance.PrimeTimeStart = new TimeSpan(8, 0, 0);
-    appearance.PrimeTimeEnd = new TimeSpan(18, 0, 0);
+    appearance.PrimeTimeStart = 8;
+    appearance.PrimeTimeEnd = 18;
     appearance.PrimeTimeCellColor = Color.FromArgb(250, 255, 250);
     appearance.NonPrimeTimeCellColor = Color.FromArgb(240, 240, 240);
     

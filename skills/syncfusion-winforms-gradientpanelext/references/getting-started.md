@@ -42,22 +42,22 @@ Install via NuGet Package Manager:
 
 **Package Manager Console:**
 ```bash
-Install-Package Syncfusion.Windows.Forms
+Install-Package Syncfusion.Shared.Base
 ```
 
 **Or for specific tools package:**
 ```bash
-Install-Package Syncfusion.Tools.Windows
+Install-Package Syncfusion.Shared.Base
 ```
 
 **.NET CLI:**
 ```bash
-dotnet add package Syncfusion.Windows.Forms
+dotnet add package Syncfusion.Shared.Base
 ```
 
 **Package Manager UI:**
 1. Right-click project → Manage NuGet Packages
-2. Search "Syncfusion.Windows.Forms" or "Syncfusion.Tools.Windows"
+2. Search "Syncfusion.Shared.Base" or "Syncfusion.Tools.Windows"
 3. Install the package
 
 ---

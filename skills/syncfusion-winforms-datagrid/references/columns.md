@@ -47,7 +47,7 @@ GridNumericColumn numericColumn = new GridNumericColumn();
 numericColumn.MappingName = "UnitPrice";
 numericColumn.HeaderText = "Unit Price";
 numericColumn.FormatMode = FormatMode.Currency;
-numericColumn.CurrencyDecimalDigits = 2;
+numericColumn.NumberFormatInfo = new NumberFormatInfo { NumberDecimalDigits = 2 };
 sfDataGrid1.Columns.Add(numericColumn);
 ```
 
@@ -57,7 +57,7 @@ Dim numericColumn As New GridNumericColumn()
 numericColumn.MappingName = "UnitPrice"
 numericColumn.HeaderText = "Unit Price"
 numericColumn.FormatMode = FormatMode.Currency
-numericColumn.CurrencyDecimalDigits = 2
+numericColumn.NumberFormatInfo = new NumberFormatInfo { NumberDecimalDigits = 2 };
 sfDataGrid1.Columns.Add(numericColumn)
 ```
 
@@ -69,7 +69,7 @@ Displays date and time values.
 GridDateTimeColumn dateColumn = new GridDateTimeColumn();
 dateColumn.MappingName = "OrderDate";
 dateColumn.HeaderText = "Order Date";
-dateColumn.Format = DateTimeFormat.Short;
+dateColumn.Pattern = DateTimePattern.ShortDate;
 sfDataGrid1.Columns.Add(dateColumn);
 ```
 
@@ -78,7 +78,7 @@ sfDataGrid1.Columns.Add(dateColumn);
 Dim dateColumn As New GridDateTimeColumn()
 dateColumn.MappingName = "OrderDate"
 dateColumn.HeaderText = "Order Date"
-dateColumn.Format = DateTimeFormat.Short
+dateColumn.Pattern = DateTimePattern.ShortDate;
 sfDataGrid1.Columns.Add(dateColumn)
 ```
 
@@ -143,7 +143,7 @@ Displays buttons in cells.
 GridButtonColumn buttonColumn = new GridButtonColumn();
 buttonColumn.MappingName = "Action";
 buttonColumn.HeaderText = "Actions";
-buttonColumn.Text = "Details";
+buttonColumn.DefaultButtonText = "Details";
 sfDataGrid1.Columns.Add(buttonColumn);
 ```
 
@@ -329,7 +329,7 @@ GridNumericColumn priceColumn = new GridNumericColumn();
 priceColumn.MappingName = "UnitPrice";
 priceColumn.HeaderText = "Unit Price";
 priceColumn.FormatMode = FormatMode.Currency;
-priceColumn.CurrencyDecimalDigits = 2;
+priceColumn.NumberFormatInfo = new NumberFormatInfo { NumberDecimalDigits = 2 };
 priceColumn.Width = 120;
 sfDataGrid1.Columns.Add(priceColumn);
 
@@ -337,7 +337,7 @@ sfDataGrid1.Columns.Add(priceColumn);
 GridDateTimeColumn dateColumn = new GridDateTimeColumn();
 dateColumn.MappingName = "OrderDate";
 dateColumn.HeaderText = "Order Date";
-dateColumn.Format = DateTimeFormat.Short;
+dateColumn.Pattern = DateTimePattern.ShortDate;
 dateColumn.Width = 150;
 sfDataGrid1.Columns.Add(dateColumn);
 
@@ -365,7 +365,7 @@ Dim priceColumn As New GridNumericColumn()
 priceColumn.MappingName = "UnitPrice"
 priceColumn.HeaderText = "Unit Price"
 priceColumn.FormatMode = FormatMode.Currency
-priceColumn.CurrencyDecimalDigits = 2
+priceColumn.NumberFormatInfo = new NumberFormatInfo { NumberDecimalDigits = 2 };
 priceColumn.Width = 120
 sfDataGrid1.Columns.Add(priceColumn)
 
@@ -373,7 +373,7 @@ sfDataGrid1.Columns.Add(priceColumn)
 Dim dateColumn As New GridDateTimeColumn()
 dateColumn.MappingName = "OrderDate"
 dateColumn.HeaderText = "Order Date"
-dateColumn.Format = DateTimeFormat.Short
+dateColumn.Pattern = DateTimePattern.ShortDate;
 dateColumn.Width = 150
 sfDataGrid1.Columns.Add(dateColumn)
 
@@ -465,78 +465,50 @@ sfDataGrid1.Columns.Insert(0, column)
 **C# Example:**
 ```csharp
 // Create stacked header rows
-GridStackedHeaderRow stackedRow1 = new GridStackedHeaderRow();
+//Creating object for a stacked header row.
+var stackedHeaderRow1 = new StackedHeaderRow();
 
-// Create stacked column spans
-GridStackedHeaderColumn stacked1 = new GridStackedHeaderColumn();
-stacked1.ChildColumns = "OrderID,CustomerID,ProductName";
-stacked1.HeaderText = "Order Details";
-stacked1.MappingName = "OrderDetails";
+//Adding stacked column to stacked columns collection available in stacked header row object.
+stackedHeaderRow1.StackedColumns.Add(new StackedColumn() { ChildColumns = "OrderID,OrderDate", HeaderText = "Order Details" });
+stackedHeaderRow1.StackedColumns.Add(new StackedColumn() { ChildColumns = "CustomerID,ContactNumber,", HeaderText = "Customer Details" });
+stackedHeaderRow1.StackedColumns.Add(new StackedColumn() { ChildColumns = "ProductName,Quantity,UnitPrice,ShipCountry", HeaderText = "Product Details" });
 
-GridStackedHeaderColumn stacked2 = new GridStackedHeaderColumn();
-stacked2.ChildColumns = "ShipCity,ShipCountry";
-stacked2.HeaderText = "Shipping Information";
-stacked2.MappingName = "ShippingInfo";
-
-// Add stacked columns to row
-stackedRow1.StackedHeaderColumns.Add(stacked1);
-stackedRow1.StackedHeaderColumns.Add(stacked2);
-
-// Add row to grid
-sfDataGrid1.StackedHeaderRows.Add(stackedRow1);
+//Adding stacked header row object to stacked header row collection available in SfDataGrid.
+sfDataGrid.StackedHeaderRows.Add(stackedHeaderRow1);
 ```
 
 **VB.NET Example:**
 ```vb
-' Create stacked header rows
-Dim stackedRow1 As New GridStackedHeaderRow()
+'Creating object for a stacked header row.
+Dim stackedHeaderRow1 = New StackedHeaderRow()
 
-' Create stacked column spans
-Dim stacked1 As New GridStackedHeaderColumn()
-stacked1.ChildColumns = "OrderID,CustomerID,ProductName"
-stacked1.HeaderText = "Order Details"
-stacked1.MappingName = "OrderDetails"
+'Adding stacked column to stacked columns collection available in stacked header row object.
+stackedHeaderRow1.StackedColumns.Add(New StackedColumn() With {.ChildColumns = "OrderID,OrderDate", .HeaderText = "Order Details"})
+stackedHeaderRow1.StackedColumns.Add(New StackedColumn() With {.ChildColumns = "CustomerID,ContactNumber,", .HeaderText = "Customer Details"})
+stackedHeaderRow1.StackedColumns.Add(New StackedColumn() With {.ChildColumns = "ProductName,Quantity,UnitPrice,ShipCountry", .HeaderText = "Product Details"})
 
-Dim stacked2 As New GridStackedHeaderColumn()
-stacked2.ChildColumns = "ShipCity,ShipCountry"
-stacked2.HeaderText = "Shipping Information"
-stacked2.MappingName = "ShippingInfo"
-
-' Add stacked columns to row
-stackedRow1.StackedHeaderColumns.Add(stacked1)
-stackedRow1.StackedHeaderColumns.Add(stacked2)
-
-' Add row to grid
-sfDataGrid1.StackedHeaderRows.Add(stackedRow1)
+'Adding stacked header row object to stacked header row collection available in SfDataGrid.
+sfDataGrid1.StackedHeaderRows.Add(stackedHeaderRow1)
 ```
 
 ### Multi-Level Stacked Headers
 
 **C# Example:**
 ```csharp
-// First level
-GridStackedHeaderRow stackedRow1 = new GridStackedHeaderRow();
-GridStackedHeaderColumn level1Column = new GridStackedHeaderColumn();
-level1Column.ChildColumns = "OrderID,CustomerID,ProductName,UnitPrice";
-level1Column.HeaderText = "Order Information";
-stackedRow1.StackedHeaderColumns.Add(level1Column);
+//Creating instance for StackedHeaderRow
+StackedHeaderRow stackedHeaderRow1 = new StackedHeaderRow();
+StackedHeaderRow stackedHeaderRow2 = new StackedHeaderRow();
 
-// Second level
-GridStackedHeaderRow stackedRow2 = new GridStackedHeaderRow();
+//Adding columns to StackedColumns collection to StackedHeaderRow object.
+stackedHeaderRow1.StackedColumns.Add(new StackedColumn() { ChildColumns = "OrderID,CustomerID,ContactNumber,OrderDate,ProductName,Quantity", HeaderText = "Sales Details" });
 
-GridStackedHeaderColumn level2Column1 = new GridStackedHeaderColumn();
-level2Column1.ChildColumns = "OrderID,CustomerID";
-level2Column1.HeaderText = "Order Details";
+stackedHeaderRow2.StackedColumns.Add(new StackedColumn() { ChildColumns = "OrderID", HeaderText = "Order Details" });
+stackedHeaderRow2.StackedColumns.Add(new StackedColumn() { ChildColumns = "CustomerID,ContactNumber", HeaderText = "Customer Details" });
+stackedHeaderRow2.StackedColumns.Add(new StackedColumn() { ChildColumns = "OrderDate,ProductName,Quantity", HeaderText = "Product Details" });
 
-GridStackedHeaderColumn level2Column2 = new GridStackedHeaderColumn();
-level2Column2.ChildColumns = "ProductName,UnitPrice";
-level2Column2.HeaderText = "Product Details";
-
-stackedRow2.StackedHeaderColumns.Add(level2Column1);
-stackedRow2.StackedHeaderColumns.Add(level2Column2);
-
-sfDataGrid1.StackedHeaderRows.Add(stackedRow1);
-sfDataGrid1.StackedHeaderRows.Add(stackedRow2);
+//Adding StackedHeaderRow object to StackedHeaderRows collection of SfDatagrid.
+this.sfDataGrid1.StackedHeaderRows.Add(stackedHeaderRow1);
+this.sfDataGrid1.StackedHeaderRows.Add(stackedHeaderRow2);
 ```
 
 ## Column Drag and Drop

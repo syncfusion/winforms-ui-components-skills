@@ -1,17 +1,17 @@
 # Navigation Methods
 
-This guide covers the built-in navigation methods provided by GridRecordNavigationControl for programmatic record navigation.
+This guide covers the built-in navigation methods provided by RecordNavigationControl for programmatic record navigation.
 
 ## Overview
 
-GridRecordNavigationControl provides four core navigation methods that allow you to programmatically navigate between records in your grid:
+RecordNavigationControl provides four core navigation methods that allow you to programmatically navigate between records in your grid:
 
 - **MoveFirst()** - Navigate to the first record
 - **MoveLast()** - Navigate to the last record
 - **MoveNext()** - Navigate to the next record
 - **MovePrevious()** - Navigate to the previous record
 
-These methods are accessible through the control's RecordNavigationBar property.
+These methods are accessible through the control's NavigationBar property.
 
 ## Navigation Method Reference
 
@@ -30,12 +30,12 @@ void MoveFirst()
 
 **Usage:**
 ```csharp
-this.recordNavigationControl1.RecordNavigationBar.MoveFirst();
+this.recordNavigationControl1.NavigationBar.MoveFirst();
 ```
 
 **VB.NET:**
 ```vb
-Me.recordNavigationControl1.RecordNavigationBar.MoveFirst()
+Me.recordNavigationControl1.NavigationBar.MoveFirst()
 ```
 
 **When to Use:**
@@ -59,12 +59,12 @@ void MoveLast()
 
 **Usage:**
 ```csharp
-this.recordNavigationControl1.RecordNavigationBar.MoveLast();
+this.recordNavigationControl1.NavigationBar.MoveLast();
 ```
 
 **VB.NET:**
 ```vb
-Me.recordNavigationControl1.RecordNavigationBar.MoveLast()
+Me.recordNavigationControl1.NavigationBar.MoveLast()
 ```
 
 **When to Use:**
@@ -88,12 +88,12 @@ void MoveNext()
 
 **Usage:**
 ```csharp
-this.recordNavigationControl1.RecordNavigationBar.MoveNext();
+this.recordNavigationControl1.NavigationBar.MoveNext();
 ```
 
 **VB.NET:**
 ```vb
-Me.recordNavigationControl1.RecordNavigationBar.MoveNext()
+Me.recordNavigationControl1.NavigationBar.MoveNext()
 ```
 
 **When to Use:**
@@ -117,12 +117,12 @@ void MovePrevious()
 
 **Usage:**
 ```csharp
-this.recordNavigationControl1.RecordNavigationBar.MovePrevious();
+this.recordNavigationControl1.NavigationBar.MovePrevious();
 ```
 
 **VB.NET:**
 ```vb
-Me.recordNavigationControl1.RecordNavigationBar.MovePrevious()
+Me.recordNavigationControl1.NavigationBar.MovePrevious()
 ```
 
 **When to Use:**
@@ -144,7 +144,7 @@ using Syncfusion.Windows.Forms.Grid;
 
 public partial class NavigationForm : Form
 {
-    private GridRecordNavigationControl recordNavigationControl1;
+    private RecordNavigationControl recordNavigationControl1;
     private Button btnFirst, btnPrevious, btnNext, btnLast;
     
     private void InitializeNavigationButtons()
@@ -167,22 +167,22 @@ public partial class NavigationForm : Form
     
     private void BtnFirst_Click(object sender, EventArgs e)
     {
-        recordNavigationControl1.RecordNavigationBar.MoveFirst();
+        recordNavigationControl1.NavigationBar.MoveFirst();
     }
     
     private void BtnPrevious_Click(object sender, EventArgs e)
     {
-        recordNavigationControl1.RecordNavigationBar.MovePrevious();
+        recordNavigationControl1.NavigationBar.MovePrevious();
     }
     
     private void BtnNext_Click(object sender, EventArgs e)
     {
-        recordNavigationControl1.RecordNavigationBar.MoveNext();
+        recordNavigationControl1.NavigationBar.MoveNext();
     }
     
     private void BtnLast_Click(object sender, EventArgs e)
     {
-        recordNavigationControl1.RecordNavigationBar.MoveLast();
+        recordNavigationControl1.NavigationBar.MoveLast();
     }
 }
 ```
@@ -199,19 +199,19 @@ protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     switch (keyData)
     {
         case Keys.Home:
-            recordNavigationControl1.RecordNavigationBar.MoveFirst();
+            recordNavigationControl1.NavigationBar.MoveFirst();
             return true;
             
         case Keys.End:
-            recordNavigationControl1.RecordNavigationBar.MoveLast();
+            recordNavigationControl1.NavigationBar.MoveLast();
             return true;
             
         case Keys.PageUp:
-            recordNavigationControl1.RecordNavigationBar.MovePrevious();
+            recordNavigationControl1.NavigationBar.MovePrevious();
             return true;
             
         case Keys.PageDown:
-            recordNavigationControl1.RecordNavigationBar.MoveNext();
+            recordNavigationControl1.NavigationBar.MoveNext();
             return true;
     }
     
@@ -227,7 +227,7 @@ Process all records sequentially:
 private void ProcessAllRecords()
 {
     // Start at the first record
-    recordNavigationControl1.RecordNavigationBar.MoveFirst();
+    recordNavigationControl1.NavigationBar.MoveFirst();
     
     int currentRecord = 1;
     int totalRecords = recordNavigationControl1.MaxRecord;
@@ -240,7 +240,7 @@ private void ProcessAllRecords()
         // Move to next record
         if (currentRecord < totalRecords)
         {
-            recordNavigationControl1.RecordNavigationBar.MoveNext();
+            recordNavigationControl1.NavigationBar.MoveNext();
             currentRecord++;
         }
         else
@@ -271,7 +271,7 @@ private void SaveAndNext()
     if (ValidateCurrentRecord())
     {
         SaveCurrentRecord();
-        recordNavigationControl1.RecordNavigationBar.MoveNext();
+        recordNavigationControl1.NavigationBar.MoveNext();
         LoadCurrentRecordData();
     }
 }
@@ -282,7 +282,7 @@ private void SaveAndPrevious()
     if (ValidateCurrentRecord())
     {
         SaveCurrentRecord();
-        recordNavigationControl1.RecordNavigationBar.MovePrevious();
+        recordNavigationControl1.NavigationBar.MovePrevious();
         LoadCurrentRecordData();
     }
 }
@@ -302,7 +302,7 @@ private void ApproveAndMoveNext()
     
     if (reviewedCount < recordNavigationControl1.MaxRecord)
     {
-        recordNavigationControl1.RecordNavigationBar.MoveNext();
+        recordNavigationControl1.NavigationBar.MoveNext();
     }
     else
     {
@@ -314,7 +314,7 @@ private void SkipAndMoveNext()
 {
     MarkRecordAsSkipped();
     reviewedCount++;
-    recordNavigationControl1.RecordNavigationBar.MoveNext();
+    recordNavigationControl1.NavigationBar.MoveNext();
 }
 ```
 
@@ -326,7 +326,7 @@ Find a record and navigate to it:
 private void SearchAndNavigate(string searchTerm)
 {
     // Start from first record
-    recordNavigationControl1.RecordNavigationBar.MoveFirst();
+    recordNavigationControl1.NavigationBar.MoveFirst();
     
     for (int i = 0; i < recordNavigationControl1.MaxRecord; i++)
     {
@@ -339,7 +339,7 @@ private void SearchAndNavigate(string searchTerm)
         
         if (i < recordNavigationControl1.MaxRecord - 1)
         {
-            recordNavigationControl1.RecordNavigationBar.MoveNext();
+            recordNavigationControl1.NavigationBar.MoveNext();
         }
     }
     
@@ -363,7 +363,7 @@ private void MoveNextBatch(int batchSize = 10)
 {
     for (int i = 0; i < batchSize; i++)
     {
-        recordNavigationControl1.RecordNavigationBar.MoveNext();
+        recordNavigationControl1.NavigationBar.MoveNext();
     }
 }
 
@@ -371,7 +371,7 @@ private void MovePreviousBatch(int batchSize = 10)
 {
     for (int i = 0; i < batchSize; i++)
     {
-        recordNavigationControl1.RecordNavigationBar.MovePrevious();
+        recordNavigationControl1.NavigationBar.MovePrevious();
     }
 }
 ```
@@ -404,7 +404,7 @@ private void NavigateWithStatusUpdate(Action navigationAction)
 private void BtnNext_Click(object sender, EventArgs e)
 {
     NavigateWithStatusUpdate(() => 
-        recordNavigationControl1.RecordNavigationBar.MoveNext()
+        recordNavigationControl1.NavigationBar.MoveNext()
     );
 }
 ```
@@ -437,22 +437,22 @@ Public Class NavigationForm
     
     ' Navigate to first record
     Private Sub BtnFirst_Click(sender As Object, e As EventArgs)
-        Me.recordNavigationControl1.RecordNavigationBar.MoveFirst()
+        Me.recordNavigationControl1.NavigationBar.MoveFirst()
     End Sub
     
     ' Navigate to last record
     Private Sub BtnLast_Click(sender As Object, e As EventArgs)
-        Me.recordNavigationControl1.RecordNavigationBar.MoveLast()
+        Me.recordNavigationControl1.NavigationBar.MoveLast()
     End Sub
     
     ' Navigate to next record
     Private Sub BtnNext_Click(sender As Object, e As EventArgs)
-        Me.recordNavigationControl1.RecordNavigationBar.MoveNext()
+        Me.recordNavigationControl1.NavigationBar.MoveNext()
     End Sub
     
     ' Navigate to previous record
     Private Sub BtnPrevious_Click(sender As Object, e As EventArgs)
-        Me.recordNavigationControl1.RecordNavigationBar.MovePrevious()
+        Me.recordNavigationControl1.NavigationBar.MovePrevious()
     End Sub
     
     ' Process all records sequentially
@@ -461,13 +461,13 @@ Public Class NavigationForm
         Dim totalRecords As Integer = Me.recordNavigationControl1.MaxRecord
         
         ' Start at first record
-        Me.recordNavigationControl1.RecordNavigationBar.MoveFirst()
+        Me.recordNavigationControl1.NavigationBar.MoveFirst()
         
         Do While currentRecord <= totalRecords
             ProcessCurrentRecord()
             
             If currentRecord < totalRecords Then
-                Me.recordNavigationControl1.RecordNavigationBar.MoveNext()
+                Me.recordNavigationControl1.NavigationBar.MoveNext()
                 currentRecord += 1
             Else
                 Exit Do
@@ -484,7 +484,7 @@ End Class
 ## Best Practices
 
 ✅ **Do:**
-- Call navigation methods through RecordNavigationBar property
+- Call navigation methods through NavigationBar property
 - Update UI/status after navigation operations
 - Consider boundary conditions (first/last record)
 - Implement keyboard shortcuts for better UX

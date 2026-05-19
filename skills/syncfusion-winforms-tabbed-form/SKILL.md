@@ -28,6 +28,7 @@ Use this skill when you need to:
 - **Drag and Drop**: Reorder tabs by dragging
 - **Title Bar Integration**: Display tabs in title bar or below it
 - **Context Menus**: Customizable right-click menus on tabs
+- **Smooth Scrolling**: Provides smooth scrolling when tabs overflow
 
 ## Documentation and Navigation Guide
 

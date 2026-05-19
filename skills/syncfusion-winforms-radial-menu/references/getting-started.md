@@ -15,6 +15,13 @@ Before using the RadialMenu control, you need to add references to the following
 - **Syncfusion.Tools.Windows.dll** - Windows Forms tools (contains RadialMenu)
 
 These assemblies can be referenced either by adding the DLLs directly or by installing the NuGet package.
+
+## NuGet Package
+
+```text
+Syncfusion.Tools.Windows
+```
+
 ```markdown
 # Getting Started — RadialMenu (condensed)
 

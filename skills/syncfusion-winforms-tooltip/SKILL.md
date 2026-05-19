@@ -208,7 +208,7 @@ info.Items.Add(item);
 sfToolTip1.Show(info);
 
 // Hide after delay
-await Task.Delay(3000);
+Thread.Sleep(3000);
 sfToolTip1.Hide();
 ```
 

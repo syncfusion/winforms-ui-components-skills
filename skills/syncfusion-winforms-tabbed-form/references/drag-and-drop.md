@@ -205,7 +205,7 @@ private void TabbedFormControl_TabDragging(object sender, TabDraggingEventArgs e
 
 ## Cancel Tab Reordering
 
-You can prevent a tab from being dropped at a specific position by handling the `TabDragging` event and setting `e.Cancel = true` when `e.Action` is `TabDraggingAction.DragDropping`.
+You can prevent a tab from being dropped at a specific position by handling the `TabDragging` event and setting `e.Cancel = true` when `e.Action` is `TabDraggingAction.Dropping`.
 
 ### Preventing Drop at Specific Position
 
@@ -214,7 +214,7 @@ You can prevent a tab from being dropped at a specific position by handling the 
 private void TabbedFormControl_TabDragging(object sender, TabDraggingEventArgs e)
 {
     // Prevent dropping at the second position (index 1)
-    if (e.To == 1 && e.Action == TabDraggingAction.DragDropping)
+    if (e.To == 1 && e.Action == TabDraggingAction.Dropping)
     {
         e.Cancel = true;
         MessageBox.Show("Tabs cannot be placed at this position.", "Invalid Position",
@@ -227,7 +227,7 @@ private void TabbedFormControl_TabDragging(object sender, TabDraggingEventArgs e
 ```vb
 Private Sub TabbedFormControl_TabDragging(ByVal sender As Object, ByVal e As TabDraggingEventArgs)
     ' Prevent dropping at the second position (index 1)
-    If e.To = 1 AndAlso e.Action = TabDraggingAction.DragDropping Then
+    If e.To = 1 AndAlso e.Action = TabDraggingAction.Dropping Then
         e.Cancel = True
         MessageBox.Show("Tabs cannot be placed at this position.", "Invalid Position",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -242,7 +242,7 @@ End Sub
 private void TabbedFormControl_TabDragging(object sender, TabDraggingEventArgs e)
 {
     // Keep the first tab always in first position
-    if (e.Action == TabDraggingAction.DragDropping)
+    if (e.Action == TabDraggingAction.Dropping)
     {
         // Don't allow any tab to be dropped at position 0
         if (e.To == 0 && e.From != 0)
@@ -269,7 +269,7 @@ private void TabbedFormControl_TabDragging(object sender, TabDraggingEventArgs e
 ```csharp
 private void TabbedFormControl_TabDragging(object sender, TabDraggingEventArgs e)
 {
-    if (e.Action == TabDraggingAction.DragDropping)
+    if (e.Action == TabDraggingAction.Dropping)
     {
         // Define zones: 0-2 are "System" tabs, 3+ are "User" tabs
         bool fromSystemZone = e.From <= 2;
@@ -355,8 +355,8 @@ public partial class Form1 : SfTabbedForm
             Console.WriteLine($"Started dragging tab from position {e.From}");
         }
         
-        // Handle drag dropping
-        if (e.Action == TabDraggingAction.DragDropping)
+        // Handle dropping
+        if (e.Action == TabDraggingAction.Dropping)
         {
             // Prevent dropping on pinned positions
             if (pinnedTabs.Contains(e.To))
@@ -435,8 +435,8 @@ Partial Public Class Form1
             Console.WriteLine($"Started dragging tab from position {e.From}")
         End If
         
-        ' Handle drag dropping
-        If e.Action = TabDraggingAction.DragDropping Then
+        ' Handle dropping
+        If e.Action = TabDraggingAction.Dropping Then
             ' Prevent dropping on pinned positions
             If pinnedTabs.Contains(e.To) Then
                 e.Cancel = True
@@ -467,7 +467,7 @@ private void TabbedFormControl_TabDragging(object sender, TabDraggingEventArgs e
     {
         Console.WriteLine($"[{DateTime.Now}] User started dragging '{tab?.Text}'");
     }
-    else if (e.Action == TabDraggingAction.DragDropping)
+    else if (e.Action == TabDraggingAction.Dropping)
     {
         Console.WriteLine($"[{DateTime.Now}] '{tab?.Text}' moved from {e.From} to {e.To}");
     }
@@ -480,7 +480,7 @@ private void TabbedFormControl_TabDragging(object sender, TabDraggingEventArgs e
 ```csharp
 private void TabbedFormControl_TabDragging(object sender, TabDraggingEventArgs e)
 {
-    if (e.Action == TabDraggingAction.DragDropping)
+    if (e.Action == TabDraggingAction.Dropping)
     {
         TabPageAdv tab = tabbedFormControl.Tabs[e.From] as TabPageAdv;
         
@@ -504,7 +504,7 @@ private void TabbedFormControl_TabDragging(object sender, TabDraggingEventArgs e
 ```csharp
 private void TabbedFormControl_TabDragging(object sender, TabDraggingEventArgs e)
 {
-    if (e.Action == TabDraggingAction.DragDropping && !e.Cancel)
+    if (e.Action == TabDraggingAction.Dropping && !e.Cancel)
     {
         // Save the new order after drag completes
         BeginInvoke(new Action(() => SaveTabOrder()));

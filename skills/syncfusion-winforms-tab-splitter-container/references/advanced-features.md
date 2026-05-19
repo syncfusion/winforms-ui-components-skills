@@ -31,11 +31,40 @@ While specific event documentation varies, typical events include:
 **Usage Pattern:**
 
 ```csharp
-// Handle state changes
-tabSplitterContainer1.PropertyChanged += (s, e) => {
-    // Respond to property changes
-    Console.WriteLine($"Property changed: {e.PropertyName}");
+// Handle splitter position changes
+tabSplitterContainer1.SplitterPositionChanged += (s, e) =>
+{
+    Console.WriteLine("Splitter position changed");
 };
+
+// Handle orientation changes
+tabSplitterContainer1.OrientationChanged += (s, e) =>
+{
+    Console.WriteLine("Orientation changed");
+};
+
+// Handle collapsed state
+tabSplitterContainer1.CollapsedChanged += (s, e) =>
+{
+    Console.WriteLine("Collapsed state changed");
+};
+
+// Set active pages
+tabSplitterContainer1.PrimaryPages.SelectedIndex = 1;
+tabSplitterContainer1.SecondaryPages.SelectedIndex = 3;
+
+// Primary page selection
+tabSplitterContainer1.PrimaryPages.SelectedIndexChanged += (s, e) =>
+{
+    MessageBox.Show("Primary page changed");
+};
+
+// Secondary page selection
+tabSplitterContainer1.SecondaryPages.SelectedIndexChanged += (s, e) =>
+{
+    MessageBox.Show("Secondary page changed");
+};
+
 ```
 
 ### Event Best Practices
@@ -70,27 +99,6 @@ public class MyForm : Form
 }
 ```
 
-## Localization Support
-
-TabSplitterContainer supports localization for international applications.
-
-### Setting Culture
-
-Configure the control's culture to display UI elements in different languages:
-
-```csharp
-using System.Globalization;
-
-// Set culture to French
-tabSplitterContainer1.Culture = new CultureInfo("fr-FR");
-
-// Set culture to German
-tabSplitterContainer1.Culture = new CultureInfo("de-DE");
-
-// Set culture to Spanish
-tabSplitterContainer1.Culture = new CultureInfo("es-ES");
-```
-
 ### Localizing Tab Page Text
 
 For complete localization, also localize TabSplitterPage text:
@@ -117,9 +125,6 @@ public class LocalizedEditor : Form
     {
         splitter = new TabSplitterContainer();
         splitter.Dock = DockStyle.Fill;
-        
-        // Apply culture
-        splitter.Culture = culture;
         
         // Create localized pages
         TabSplitterPage codePage = new TabSplitterPage();
@@ -455,7 +460,7 @@ public class MemoryEfficientEditor : Form
         base.Dispose(disposing);
     }
     
-    private void DisposePageCollection(TabSplitterPageCollection pages)
+    private void DisposePageCollection(TabSplitterPagesCollection pages)
     {
         foreach (TabSplitterPage page in pages)
         {
@@ -631,10 +636,9 @@ private void Form_Load(object sender, EventArgs e)
 - Update page content off the UI thread if possible
 
 ```csharp
-// Enable double buffering on the page
-tabSplitterPage1.DoubleBuffered = true;
 
-// Or set via reflection for all controls
+
+// Set via reflection for all controls
 typeof(Control).GetProperty("DoubleBuffered", 
     System.Reflection.BindingFlags.NonPublic | 
     System.Reflection.BindingFlags.Instance)

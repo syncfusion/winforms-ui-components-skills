@@ -6,453 +6,393 @@
 - [Serialization and Deserialization](#serialization-and-deserialization)
 - [Freezing Headers](#freezing-headers)
 - [Touch Support](#touch-support)
-- [Localization](#localization)
-- [Performance Optimization](#performance-optimization)
 
 ## Overview
 
-Advanced features enhance Pivot Grid capabilities for large datasets, persistence, accessibility, and multi-language support.
+Advanced features enhance Pivot Grid capabilities for large datasets, persistence, touch-enabled interfaces, and improved user experience through asynchronous operations and header freezing.
 
 ## Asynchronous Data Processing
 
-Handle large datasets without blocking the UI thread.
+Handle large datasets without blocking the UI thread using asynchronous loading capabilities.
 
-### Async Data Loading
+### Enable Asynchronous Loading
+
+Enable asynchronous loading to perform long-running operations on a background thread.  
 
 ```csharp
-using System.Threading.Tasks;
+// Enable asynchronous loading support
+this.pivotGridControl1.EnableAsyncLoading = true;
 
-private async Task LoadDataAsync()
+// Check if pivot grid is in async mode
+bool isAsync = this.pivotGridControl1.InAsyncMode;
+```
+
+**When to use:** Large datasets that cause UI responsiveness issues during filtering, sorting, or pivot operations.
+
+### Customize Loading Icon
+
+Change the default loading animation displayed during asynchronous operations.
+
+```csharp
+// Set custom loading icon
+this.pivotGridControl1.BusyAnimationIcon = Image.FromFile(@"Loading.gif");
+```
+
+### Disable Loading Icon
+
+Hide the loading icon during asynchronous operations.
+
+```csharp
+// Disable loading icon
+this.pivotGridControl1.BusyAnimationIcon = null;
+```
+
+### Handle Asynchronous Events
+
+Monitor async operation lifecycle with events.
+
+```csharp
+public Form1()
 {
-    // Show loading indicator
-    statusLabel.Text = "Loading data...";
-    progressBar.Visible = true;
+    InitializeComponent();
     
-    try
-    {
-        // Load data on background thread
-        var data = await Task.Run(() => ProductSales.GetLargeDataSet());
-        
-        // Update UI on main thread
-        pivotGridControl1.ItemSource = data;
-        pivotGridControl1.TableControl.Refresh(true);
-        
-        statusLabel.Text = $"Loaded {data.Count} records";
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show($"Error loading data: {ex.Message}", "Error");
-    }
-    finally
-    {
-        progressBar.Visible = false;
-    }
+    // Subscribe to async events
+    this.pivotGridControl1.AsyncLoadStarted += PivotGridControl1_AsyncLoadStarted;
+    this.pivotGridControl1.AsyncLoadCompleted += PivotGridControl1_AsyncLoadCompleted;
+}
+
+private void PivotGridControl1_AsyncLoadStarted(object sender, CancelEventArgs e)
+{
+    // Required code can be added.
+    MessageBox.Show("Asynchronous mode has been started.");
+}
+
+private void PivotGridControl1_AsyncLoadCompleted(object sender, AsyncCompletedEventArgs e)
+{
+    // Required code can be added.
+    MessageBox.Show("Asynchronous mode has been completed.");
 }
 ```
 
-### Background Processing
+**Use cases:**
+- Filtering large datasets
+- Sorting operations on thousands of records
+- Drag-and-drop operations in pivot table field list
+- Dynamic pivot reorganization
 
-```csharp
-private void ProcessLargeDataset()
-{
-    BackgroundWorker worker = new BackgroundWorker();
-    worker.WorkerReportsProgress = true;
-    
-    worker.DoWork += (s, e) =>
-    {
-        var data = ProductSales.GetLargeDataSet();
-        e.Result = data;
-        
-        // Report progress
-        for (int i = 0; i < 100; i += 10)
-        {
-            Thread.Sleep(100);  // Simulate work
-            worker.ReportProgress(i);
-        }
-    };
-    
-    worker.ProgressChanged += (s, e) =>
-    {
-        progressBar.Value = e.ProgressPercentage;
-    };
-    
-    worker.RunWorkerCompleted += (s, e) =>
-    {
-        if (e.Error == null)
-        {
-            pivotGridControl1.ItemSource = e.Result;
-            MessageBox.Show("Data loaded successfully!");
-        }
-    };
-    
-    worker.RunWorkerAsync();
-}
-```
+---
 
 ## Serialization and Deserialization
 
-Save and restore pivot grid configuration.
+Save and restore pivot grid configuration to XML format.
 
-### Serialize Pivot State
+### Serialize Using Save File Dialog
+
+Open a file dialog to save pivot grid settings.
 
 ```csharp
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+// Serialize with save dialog
+this.pivotGridControl1.Serialize();
+```
 
-private void SavePivotConfiguration(string fileName)
-{
-    try
-    {
-        PivotConfiguration config = new PivotConfiguration
-        {
-            Rows = pivotGridControl1.PivotRows.ToList(),
-            Columns = pivotGridControl1.PivotColumns.ToList(),
-            Calculations = pivotGridControl1.PivotCalculations.ToList(),
-            Filters = pivotGridControl1.Filters.ToList()
-        };
-        
-        using (FileStream fs = new FileStream(fileName, FileMode.Create))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(fs, config);
-        }
-        
-        MessageBox.Show("Configuration saved successfully!");
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show($"Save failed: {ex.Message}", "Error");
-    }
-}
+### Serialize to Stream
 
-[Serializable]
-public class PivotConfiguration
+Save pivot grid configuration to a stream.
+
+```csharp
+using (FileStream fileStream = File.Create("PivotGrid.xml"))
 {
-    public List<PivotItem> Rows { get; set; }
-    public List<PivotItem> Columns { get; set; }
-    public List<PivotComputationInfo> Calculations { get; set; }
-    public List<FilterExpression> Filters { get; set; }
+    this.pivotGridControl1.Serialize(fileStream);
 }
 ```
 
-### Deserialize Pivot State
+### Serialize to Specific File
+
+Save directly to a file path.
 
 ```csharp
-private void LoadPivotConfiguration(string fileName)
-{
-    try
-    {
-        PivotConfiguration config;
-        
-        using (FileStream fs = new FileStream(fileName, FileMode.Open))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            config = (PivotConfiguration)formatter.Deserialize(fs);
-        }
-        
-        // Clear existing configuration
-        pivotGridControl1.PivotRows.Clear();
-        pivotGridControl1.PivotColumns.Clear();
-        pivotGridControl1.PivotCalculations.Clear();
-        pivotGridControl1.Filters.Clear();
-        
-        // Apply loaded configuration
-        foreach (var row in config.Rows)
-            pivotGridControl1.PivotRows.Add(row);
-        foreach (var col in config.Columns)
-            pivotGridControl1.PivotColumns.Add(col);
-        foreach (var calc in config.Calculations)
-            pivotGridControl1.PivotCalculations.Add(calc);
-        foreach (var filter in config.Filters)
-            pivotGridControl1.Filters.Add(filter);
-        
-        // Refresh grid
-        pivotGridControl1.TableControl.Refresh(true);
-        
-        MessageBox.Show("Configuration loaded successfully!");
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show($"Load failed: {ex.Message}", "Error");
-    }
-}
+// Serialize to specific path
+this.pivotGridControl1.Serialize(@"D:\PivotGrid.xml");
 ```
 
-### JSON Serialization (Alternative)
+### Serialize to XML String
+
+Export configuration as XML string.
 
 ```csharp
-using System.Text.Json;
+// Get XML string representation
+string xmlString = this.pivotGridControl1.SerializeToXml();
+```
 
-private void SaveAsJson(string fileName)
+### Customize Serialization Options
+
+Control which elements are serialized using `SerializationOptions`.
+
+```csharp
+using (var file = File.Create("PivotGrid.xml"))
 {
-    var config = new
-    {
-        Rows = pivotGridControl1.PivotRows.Select(r => new { r.FieldMappingName, r.TotalHeader }),
-        Columns = pivotGridControl1.PivotColumns.Select(c => new { c.FieldMappingName, c.TotalHeader }),
-        Calculations = pivotGridControl1.PivotCalculations.Select(calc => new 
-        { 
-            calc.FieldName, 
-            calc.Format, 
-            SummaryType = calc.SummaryType.ToString() 
-        })
-    };
+    SerializationOptions options = new SerializationOptions();
     
-    string json = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
-    File.WriteAllText(fileName, json);
+    // Disable specific serialization components
+    options.SerializeGrouping = false;          // Grouping bar items
+    options.SerializeSorting = false;           // Sorted items
+    options.SerializeFiltering = false;         // Filtered items
+    options.SerializePivotRows = false;         // Pivot row items
+    options.SerializePivotColumns = false;      // Pivot column items
+    options.SerializePivotCalculations = false; // Calculation items
+    options.SerializeConditionalFormats = false;// Conditional formats
+    options.SerializeExpandCollapseState = false; // Expander states
+    
+    this.pivotGridControl1.Serialize(file, options);
 }
 ```
+
+### Deserialize Using Open File Dialog
+
+Load pivot grid settings via file dialog.
+
+```csharp
+// Deserialize with open dialog
+this.pivotGridControl1.Deserialize();
+```
+
+### Deserialize from Stream
+
+Load configuration from a stream.
+
+```csharp
+using (FileStream fileStream = File.OpenRead("PivotGrid.xml"))
+{
+    this.pivotGridControl1.Deserialize(fileStream);
+}
+```
+
+### Deserialize from Specific File
+
+Load directly from a file path.
+
+```csharp
+// Deserialize from specific path
+this.pivotGridControl1.Deserialize(@"D:\PivotGrid.xml");
+```
+
+### Deserialize from XML String
+
+Load configuration from XML string.
+
+```csharp
+// Restore from XML string
+this.pivotGridControl1.DeserializeFromXml(xmlString);
+```
+
+### Customize Deserialization Options
+
+Control which elements are deserialized using `DeserializationOptions`.
+
+```csharp
+using (FileStream fileStream = File.OpenRead("PivotGrid.xml"))
+{
+    DeserializationOptions options = new DeserializationOptions();
+    
+    // Disable specific deserialization components
+    options.DeserializeGrouping = false;          // Grouping bar items
+    options.DeserializeSorting = false;           // Sorting operations
+    options.DeserializeFiltering = false;         // Filtering operations
+    options.DeserailizePivotRows = false;         // Pivot row items
+    options.DeserializePivotColumns = false;      // Pivot column items
+    options.DeserializePivotCalculations = false; // Calculation items
+    options.DeserializeConditionalFormats = false;// Conditional formats
+    options.DeserializeExpandCollapseState = false; // Expander states
+    
+    this.pivotGridControl1.Deserialize(fileStream, options);
+}
+```
+
+**Common scenarios:**
+- Save user's preferred pivot layout
+- Export/import analysis configurations
+- Restore pivot state after application restart
+- Share pivot configurations between users
+
+---
 
 ## Freezing Headers
 
-Keep headers visible while scrolling.
+Keep row and column headers visible during scrolling.
 
-### Freeze Row Headers
+### Enable Frozen Headers
 
-```csharp
-// Freeze first N columns (row headers)
-pivotGridControl1.TableControl.FrozenColumns = 2;
-
-// Allow scrolling through data while headers remain visible
-```
-
-### Freeze Column Headers
-
-```csharp
-// Freeze first N rows (column headers)
-pivotGridControl1.TableControl.FrozenRows = 2;
-```
-
-### Freeze Both
+Freeze headers to keep them visible when scrolling through large datasets.
 
 ```csharp
 // Freeze row and column headers
-pivotGridControl1.TableControl.FrozenRows = 2;
-pivotGridControl1.TableControl.FrozenColumns = 1;
+this.pivotGridControl1.TableControl.FreezeHeaders = true;
 ```
+
+**Benefits:**
+- Headers remain visible during scrolling
+- Easier navigation through large pivot tables
+- Better user experience with extensive data
+- Maintains context while exploring value cells
+
+**When to use:** Large pivot tables with many rows and columns where users need to scroll frequently.
+
+**Note:** By default, headers are not frozen. Enable this feature for improved usability with large datasets.
+
+---
 
 ## Touch Support
 
-Enable touch-friendly interactions for tablets.
+Enable touch-friendly interactions for tablets and touch-screen devices.
 
 ### Enable Touch Mode
 
-```csharp
-// Enable touch support
-pivotGridControl1.TableControl.EnableTouch = true;
-
-// Adjust touch sensitivity
-pivotGridControl1.TableControl.TouchMode = TouchMode.Enabled;
-```
-
-### Touch Gestures
+Activate touch support for the pivot grid.
 
 ```csharp
-// Configure touch gestures
-pivotGridControl1.TableControl.TouchGestureManager.EnableGestures = true;
-
-// Swipe gestures
-pivotGridControl1.TableControl.GestureRecognized += (s, e) =>
-{
-    switch (e.GestureType)
-    {
-        case GestureType.Swipe:
-            Console.WriteLine("Swipe detected");
-            break;
-        case GestureType.Pinch:
-            Console.WriteLine("Pinch/zoom detected");
-            break;
-    }
-};
+// Enable touch mode
+this.pivotGridControl1.EnableTouchMode = true;
 ```
 
-## Localization
+### Enable Excel-Like Touch Selection
 
-Support multiple languages and cultures.
-
-### Set Culture
+Configure touch selection with indicators for multi-cell selection.
 
 ```csharp
-using System.Globalization;
-using System.Threading;
-
-// Set application culture
-CultureInfo culture = new CultureInfo("de-DE");  // German
-Thread.CurrentThread.CurrentCulture = culture;
-Thread.CurrentThread.CurrentUICulture = culture;
-
-// Apply to pivot grid
-pivotGridControl1.Culture = culture;
+// Enable touch mode and Excel-like selection
+this.pivotGridControl1.EnableTouchMode = true;
+this.pivotGridControl1.TableModel.Options.AllowSelection = Syncfusion.Windows.Forms.Grid.GridSelectionFlags.Any;
+this.pivotGridControl1.TableModel.Options.ExcelLikeSelectionFrame = true;
+this.pivotGridControl1.TableModel.Options.ExcelLikeCurrentCell = true;
 ```
 
-### Localized Resource Files
+**Touch selection features:**
+- Touch indicator (bubble) for cell selection
+- Drag to extend selection range
+- Multi-cell selection support
+- Excel-like selection frame
 
-Create resource files for different languages:
-- `PivotGridResources.resx` (default/English)
-- `PivotGridResources.de.resx` (German)
-- `PivotGridResources.fr.resx` (French)
+### Disable Touch Indicator
 
-### Custom Localization
+Hide the touch indicator bubble during selection.
 
 ```csharp
-// Customize UI strings
-pivotGridControl1.TableControl.QueryCellInfo += (s, e) =>
-{
-    // Translate header text
-    if (e.RowIndex == 0 && e.ColIndex > 0)
-    {
-        string headerText = e.Style.CellValue?.ToString();
-        e.Style.CellValue = GetLocalizedString(headerText);
-    }
-};
-
-private string GetLocalizedString(string key)
-{
-    // Implement translation logic
-    var translations = new Dictionary<string, Dictionary<string, string>>
-    {
-        ["Product"] = new Dictionary<string, string>
-        {
-            ["en"] = "Product",
-            ["de"] = "Produkt",
-            ["fr"] = "Produit"
-        },
-        ["Total"] = new Dictionary<string, string>
-        {
-            ["en"] = "Total",
-            ["de"] = "Gesamt",
-            ["fr"] = "Total"
-        }
-    };
-    
-    string currentLanguage = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
-    return translations.ContainsKey(key) && translations[key].ContainsKey(currentLanguage)
-        ? translations[key][currentLanguage]
-        : key;
-}
+// Hide touch indicator
+this.pivotGridControl1.TableControl.ShowTouchIndicator = false;
 ```
 
-## Performance Optimization
+**Touch gestures supported:**
+- **Swipe** - Scroll horizontally and vertically
+- **Pan** - Navigate through large pivot tables
+- **Tap** - Expand/collapse header cells
+- **Drag-and-drop** - Move pivot items between grouping bar and field list
 
-### Virtual Mode
+**Use cases:**
+- Tablet applications
+- Touch-screen kiosks
+- Windows Surface devices
+- Touch-enabled laptops
 
-```csharp
-// Enable virtualization for large datasets
-pivotGridControl1.TableControl.VirtualMode = true;
-```
+**Note:** Excel 2003 selection frame is not compatible with touch selection. Use Excel-like selection frame instead.
 
-### Lazy Loading
-
-```csharp
-// Load data incrementally
-private void LoadDataIncrementally()
-{
-    const int batchSize = 1000;
-    var allData = new List<ProductSales>();
-    
-    for (int i = 0; i < 10000; i += batchSize)
-    {
-        var batch = LoadDataBatch(i, batchSize);
-        allData.AddRange(batch);
-        
-        // Update grid periodically
-        if ((i / batchSize) % 5 == 0)
-        {
-            pivotGridControl1.ItemSource = allData;
-            pivotGridControl1.TableControl.Refresh(false);
-            Application.DoEvents();  // Allow UI to update
-        }
-    }
-    
-    pivotGridControl1.TableControl.Refresh(true);
-}
-```
-
-### Caching
-
-```csharp
-// Cache pivot engine results
-private Dictionary<string, object> pivotCache = new Dictionary<string, object>();
-
-private void UseCaching()
-{
-    string cacheKey = GetCurrentPivotConfiguration();
-    
-    if (pivotCache.ContainsKey(cacheKey))
-    {
-        // Use cached result
-        pivotGridControl1.InternalEngine = (PivotEngine)pivotCache[cacheKey];
-    }
-    else
-    {
-        // Calculate and cache
-        pivotGridControl1.TableControl.Refresh(true);
-        pivotCache[cacheKey] = pivotGridControl1.InternalEngine.Clone();
-    }
-}
-```
+---
 
 ## Complete Example
+
+Comprehensive example implementing all advanced features.
 
 ```csharp
 public class AdvancedPivotForm : Form
 {
     private PivotGridControl pivotGridControl1;
+    private ToolStrip toolStrip1;
+    private StatusStrip statusStrip1;
+    private ToolStripStatusLabel statusLabel;
     
     public AdvancedPivotForm()
     {
         InitializeComponent();
         SetupAdvancedFeatures();
+        AttachEventHandlers();
     }
     
     private void SetupAdvancedFeatures()
     {
-        // Freeze headers
-        pivotGridControl1.TableControl.FrozenRows = 1;
-        pivotGridControl1.TableControl.FrozenColumns = 1;
+        // Enable async loading
+        pivotGridControl1.EnableAsyncLoading = true;
         
-        // Enable touch
-        pivotGridControl1.TableControl.EnableTouch = true;
+        // Freeze headers for better navigation
+        pivotGridControl1.TableControl.FreezeHeaders = true;
         
-        // Set localization
-        pivotGridControl1.Culture = CultureInfo.CurrentCulture;
+        // Enable touch support for tablets
+        pivotGridControl1.EnableTouchMode = true;
         
-        // Optimize performance
-        pivotGridControl1.TableControl.VirtualMode = true;
+        // Configure touch selection
+        pivotGridControl1.TableModel.Options.AllowSelection = 
+            Syncfusion.Windows.Forms.Grid.GridSelectionFlags.Any;
+        pivotGridControl1.TableModel.Options.ExcelLikeSelectionFrame = true;
+        pivotGridControl1.TableModel.Options.ExcelLikeCurrentCell = true;
         
-        // Add save/load buttons
-        AddConfigurationButtons();
+        // Add toolbar buttons
+        AddToolbarButtons();
     }
     
-    private void AddConfigurationButtons()
+    private void AttachEventHandlers()
     {
-        Button btnSave = new Button { Text = "Save Config" };
+        // Async event handlers
+        pivotGridControl1.AsyncLoadStarted += (s, e) =>
+        {
+            statusLabel.Text = "Loading data asynchronously...";
+        };
+        
+        pivotGridControl1.AsyncLoadCompleted += (s, e) =>
+        {
+            if (e.Error == null)
+                statusLabel.Text = "Data loaded successfully";
+            else
+                statusLabel.Text = $"Error: {e.Error.Message}";
+        };
+    }
+    
+    private void AddToolbarButtons()
+    {
+        // Save configuration button
+        ToolStripButton btnSave = new ToolStripButton("Save Config");
         btnSave.Click += (s, e) =>
         {
             SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Filter = "Config Files (*.cfg)|*.cfg";
+            dlg.Filter = "XML Files (*.xml)|*.xml";
             if (dlg.ShowDialog() == DialogResult.OK)
-                SavePivotConfiguration(dlg.FileName);
+            {
+                pivotGridControl1.Serialize(dlg.FileName);
+                MessageBox.Show("Configuration saved successfully!");
+            }
         };
         
-        Button btnLoad = new Button { Text = "Load Config" };
+        // Load configuration button
+        ToolStripButton btnLoad = new ToolStripButton("Load Config");
         btnLoad.Click += (s, e) =>
         {
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "Config Files (*.cfg)|*.cfg";
+            dlg.Filter = "XML Files (*.xml)|*.xml";
             if (dlg.ShowDialog() == DialogResult.OK)
-                LoadPivotConfiguration(dlg.FileName);
+            {
+                pivotGridControl1.Deserialize(dlg.FileName);
+                MessageBox.Show("Configuration loaded successfully!");
+            }
         };
         
-        this.Controls.AddRange(new Control[] { btnSave, btnLoad });
+        toolStrip1.Items.AddRange(new ToolStripItem[] { btnSave, btnLoad });
     }
 }
 ```
 
 ## Best Practices
 
-1. **Async Operations** - Use async/await for data loading to keep UI responsive
-2. **Persist Configuration** - Save user's pivot layouts for quick access
-3. **Optimize Large Datasets** - Use virtualization and lazy loading
-4. **Support Touch** - Enable for tablet/touch-screen devices
-5. **Localize** - Support multiple languages for global applications
-6. **Cache Results** - Cache frequently-used pivot configurations
+1. **Asynchronous Loading** - Enable for datasets with >10,000 records to maintain UI responsiveness
+2. **Serialization** - Save user configurations to improve workflow efficiency
+3. **Frozen Headers** - Always enable for pivot tables with extensive rows/columns
+4. **Touch Support** - Enable for applications targeting tablets and touch devices
+5. **Custom Loading Icons** - Use branded animations for professional appearance
+6. **Event Monitoring** - Implement async event handlers for user feedback
+7. **Selective Serialization** - Use SerializationOptions to save only necessary components

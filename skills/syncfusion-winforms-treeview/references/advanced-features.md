@@ -12,19 +12,6 @@
 
 Search functionality for locating nodes by text or value.
 
-### Basic Find
-
-```csharp
-// Find node by text
-TreeNodeAdv foundNode = treeViewAdv1.Find("SearchText", false);
-
-// Find with case-sensitive search
-TreeNodeAdv foundNode = treeViewAdv1.Find("SearchText", true);
-
-// Find next occurrence
-TreeNodeAdv nextNode = treeViewAdv1.FindNext("SearchText");
-```
-
 ### Find All
 
 ```csharp
@@ -58,7 +45,7 @@ Undo/redo functionality for tree modifications.
 
 ```csharp
 // Enable history tracking
-treeViewAdv1.HistoryManager.Enabled = true;
+treeViewAdv1.HistoryEnabled = true;
 ```
 
 ### Undo/Redo Operations
@@ -76,16 +63,13 @@ if (treeViewAdv1.HistoryManager.CanRedo)
     treeViewAdv1.HistoryManager.Redo();
 }
 
-// Clear history
-treeViewAdv1.HistoryManager.Clear();
+// Resets history.
+treeViewAdv1.HistoryManager.Reset();
 ```
 
 ### History Manager Properties
 
 ```csharp
-// Set maximum undo levels
-treeViewAdv1.HistoryManager.MaxHistoryCount = 50;
-
 // Check if can undo/redo
 bool canUndo = treeViewAdv1.HistoryManager.CanUndo;
 bool canRedo = treeViewAdv1.HistoryManager.CanRedo;
@@ -171,24 +155,11 @@ Print tree structure with customization.
 
 ```csharp
 // Print preview
-treeViewAdv1.ShowPrintPreview();
+treeViewAdv1.PrintPreview();
 
 // Direct print
 treeViewAdv1.Print();
 ```
-
-### Print Settings
-
-```csharp
-// Configure print settings
-treeViewAdv1.PrintSettings.PrintOrientation = PrintOrientation.Portrait;
-treeViewAdv1.PrintSettings.PageSettings.Landscape = false;
-treeViewAdv1.PrintSettings.ShowHeader = true;
-treeViewAdv1.PrintSettings.ShowFooter = true;
-treeViewAdv1.PrintSettings.HeaderText = "Tree Structure Report";
-treeViewAdv1.PrintSettings.FooterText = "Page {0}";
-```
-
 ### Custom Print Dialog
 
 ```csharp
@@ -248,28 +219,6 @@ contextMenu.Items.Add("Rename", null, Rename_Click);
 treeViewAdv1.ContextMenuStrip = contextMenu;
 ```
 
-### Node-Specific Context Menus
-
-```csharp
-private void treeViewAdv1_NodeMouseClick(object sender, TreeNodeAdvMouseClickEventArgs e)
-{
-    if (e.Button == MouseButtons.Right)
-    {
-        treeViewAdv1.SelectedNode = e.Node;
-        
-        // Different menus based on node type
-        if (e.Node.Tag is FolderInfo)
-        {
-            folderContextMenu.Show(treeViewAdv1, e.Location);
-        }
-        else if (e.Node.Tag is FileInfo)
-        {
-            fileContextMenu.Show(treeViewAdv1, e.Location);
-        }
-    }
-}
-```
-
 ### Context Menu Handlers
 
 ```csharp
@@ -296,7 +245,7 @@ private void Rename_Click(object sender, EventArgs e)
     if (treeViewAdv1.SelectedNode != null)
     {
         treeViewAdv1.LabelEdit = true;
-        treeViewAdv1.SelectedNode.BeginEdit();
+        treeViewAdv1.BeginEdit();
     }
 }
 ```
@@ -321,7 +270,7 @@ treeViewAdv1.SelectionMode = TreeSelectionMode.MultiSelectAll;
 
 ```csharp
 // Get all selected nodes
-TreeNodeAdv[] selectedNodes = treeViewAdv1.SelectedNodes;
+TreeNodeAdv[] selectedNodes = treeViewAdv1.SelectedNodes.ToArray();
 
 // Process selected nodes
 foreach (TreeNodeAdv node in selectedNodes)
@@ -399,8 +348,7 @@ public class AdvancedFeaturesExample : Form
     private void SetupAdvancedFeatures()
     {
         // Enable history
-        treeViewAdv1.HistoryManager.Enabled = true;
-        treeViewAdv1.HistoryManager.MaxHistoryCount = 50;
+        treeViewAdv1.HistoryEnabled = true;
         
         // Keyboard shortcuts
         this.KeyPreview = true;
@@ -469,7 +417,7 @@ public class AdvancedFeaturesExample : Form
     
     private void PrintTree()
     {
-        treeViewAdv1.ShowPrintPreview();
+        treeViewAdv1.PrintPreview();
     }
 }
 ```
@@ -480,7 +428,7 @@ public class AdvancedFeaturesExample : Form
 - **Solution:** Ensure search text matches node Text property exactly (consider case sensitivity)
 
 **Issue:** Undo/Redo not available
-- **Solution:** Enable HistoryManager: `treeViewAdv1.HistoryManager.Enabled = true`
+- **Solution:** Enable HistoryManager: `treeViewAdv1.HistoryEnabled = true`;
 
 **Issue:** XML save/load fails
 - **Solution:** Check file path permissions, ensure XML format is valid

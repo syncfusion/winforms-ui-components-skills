@@ -11,6 +11,8 @@ Syncfusion.Shared.Base.dll
 Syncfusion.Shared.Windows.dll
 Syncfusion.Tools.Base.dll
 Syncfusion.Tools.Windows.dll
+Syncfusion.Grid.Base.dll
+Syncfusion.Grid.Windows.dll
 ```
 
 **Why these assemblies:**

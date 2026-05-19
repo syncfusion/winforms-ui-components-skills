@@ -8,16 +8,25 @@ TreeViewAdv supports runtime sorting of nodes alphabetically or using custom log
 
 ```csharp
 // Sort all nodes alphabetically
-treeViewAdv1.Sort();
+treeViewAdv1.Root.Sort();
 ```
 
 ### Sorted Property
 
-Enable automatic sorting:
+The order in which the sort function must be performed can be specified using the SortOrder that holds the values of Ascending or Descending.
+
+Property Table
+
+
+ TreeNodeAdv Property | Description |
+|---------------------|-------------|
+| SortOrder | Specifies the order in which the nodes are sorted. Possible values are **Ascending**, **Descending**, or **None**. |
+| SortType | Specifies the field or type based on which the nodes are sorted. Nodes will be sorted according to the selected sort type. |
+
 
 ```csharp
-// Auto-sort as nodes are added
-treeViewAdv1.Sorted = true;
+treeNode.SortOrder = System.Windows.Forms.SortOrder.Ascending;
+treeNode.SortType = Syncfusion.Windows.Forms.Tools.TreeNodeAdvSortType.CheckBox;
 ```
 
 ## Custom Sorting
@@ -37,9 +46,9 @@ public class CustomNodeComparer : IComparer
     }
 }
 
-// Apply custom comparer
-treeViewAdv1.TreeNodeComparer = new CustomNodeComparer();
-treeViewAdv1.Sort();
+// Compare the nodes by some other field,
+TreeNodeAdv9.CompareOptions = System.Globalization.CompareOptions.IgnoreCase;
+TreeNodeAdv9.Comparer = Null
 ```
 
 ## Sorting with Data Binding
@@ -64,7 +73,7 @@ For large datasets:
 treeViewAdv1.BeginUpdate();
 try
 {
-    treeViewAdv1.Sort();
+    treeViewAdv1.Root.Sort();
 }
 finally
 {
@@ -75,7 +84,7 @@ finally
 ## Troubleshooting
 
 **Issue:** Sorting not working
-- **Solution:** Ensure `Sorted = true` or call `Sort()` explicitly
+- **Solution:** Call `Sort()` explicitly
 
 **Issue:** Custom sorting ignored
 - **Solution:** Set `TreeNodeComparer` before calling `Sort()`

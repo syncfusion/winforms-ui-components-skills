@@ -59,7 +59,7 @@ The Pivot Grid control requires the following assemblies to be referenced in you
 
 1. **NuGet Package Manager:**
 ```powershell
-Install-Package Syncfusion.PivotTable.Windows
+Install-Package Syncfusion.PivotTable.WinForms -Version *
 ```
 
 2. **Manual Reference:**

@@ -35,7 +35,7 @@ using Syncfusion.XlsIO;
 private void ExportToExcel()
 {
     // Create converter
-    GridExcelConverter converter = new GridExcelConverter();
+    GridExcelConverterControl excelConverter = new GridExcelConverterControl();
     
     // Export grid to Excel
     ExcelEngine excelEngine = new ExcelEngine();
@@ -57,17 +57,13 @@ private void ExportToExcel()
 ```csharp
 private void ExportToExcelWithFormatting()
 {
-    GridExcelConverter converter = new GridExcelConverter();
+    GridExcelConverterControl converter = new GridExcelConverterControl();
     converter.ExportStyle = true;  // Include cell styles
     converter.ExportBorders = true;  // Include borders
     
     ExcelEngine excelEngine = new ExcelEngine();
     IWorkbook workbook = excelEngine.Excel.Workbooks.Create(1);
     IWorksheet worksheet = workbook.Worksheets[0];
-    
-    // Convert with formatting
-    converter.GridToExcel(gridControl1.Model, worksheet, 
-        GridExcelConverterFlags.Default | GridExcelConverterFlags.Formulas);
     
     // Auto-fit columns
     worksheet.UsedRange.AutofitColumns();
@@ -86,13 +82,13 @@ private void ExportSelectedRangeToExcel()
 {
     GridRangeInfo range = gridControl1.Selections.Ranges[0];
     
-    GridExcelConverter converter = new GridExcelConverter();
+    GridExcelConverterControl converter = new GridExcelConverterControl();
     ExcelEngine excelEngine = new ExcelEngine();
     IWorkbook workbook = excelEngine.Excel.Workbooks.Create(1);
     IWorksheet worksheet = workbook.Worksheets[0];
     
     // Export only selected range
-    converter.GridToExcel(gridControl1.Model, worksheet, range);
+    converter.SelectedExport(this.gridControl1.Model, "FileName", ConverterOptions.Default);
     
     workbook.SaveAs("selected_range.xlsx");
     workbook.Close();
@@ -212,214 +208,220 @@ private void ExportToPDFWithStyling()
 ### Basic CSV Export:
 
 ```csharp
-private void ExportToCSV()
-{
-    using (StreamWriter writer = new StreamWriter("output.csv"))
-    {
-        // Export all rows
-        for (int row = 1; row <= gridControl1.RowCount; row++)
-        {
-            List<string> rowValues = new List<string>();
-            
-            for (int col = 1; col <= gridControl1.ColCount; col++)
-            {
-                string cellValue = gridControl1[row, col].CellValue?.ToString() ?? "";
-                
-                // Escape commas and quotes
-                if (cellValue.Contains(",") || cellValue.Contains("\""))
-                {
-                    cellValue = $"\"{cellValue.Replace("\"", "\"\"")}\"";
-                }
-                
-                rowValues.Add(cellValue);
-            }
-            
-            writer.WriteLine(string.Join(",", rowValues));
-        }
-    }
-}
+this.gridControl1.TextDataExchange.ExportTabDelim = ",";
+
+GridCSVConverter csvConverter = new GridCSVConverter();
+
+//Exporting to CSV format.
+csvConverter.GridToCSV(this.gridControl1.Model, "Sample.csv");
 ```
 
-### CSV with Headers:
+### Exporting the Range of Cells
 
 ```csharp
-private void ExportToCSVWithHeaders()
-{
-    using (StreamWriter writer = new StreamWriter("output.csv"))
-    {
-        // Write headers
-        List<string> headers = new List<string>();
-        for (int col = 1; col <= gridControl1.ColCount; col++)
-        {
-            string header = gridControl1[0, col].CellValue?.ToString() ?? $"Column{col}";
-            headers.Add(EscapeCSV(header));
-        }
-        writer.WriteLine(string.Join(",", headers));
-        
-        // Write data rows
-        for (int row = 1; row <= gridControl1.RowCount; row++)
-        {
-            List<string> rowValues = new List<string>();
-            
-            for (int col = 1; col <= gridControl1.ColCount; col++)
-            {
-                string cellValue = gridControl1[row, col].CellValue?.ToString() ?? "";
-                rowValues.Add(EscapeCSV(cellValue));
-            }
-            
-            writer.WriteLine(string.Join(",", rowValues));
-        }
-    }
-}
+GridCSVConverter csvConverter = new GridCSVConverter();
 
-private string EscapeCSV(string value)
-{
-    if (value.Contains(",") || value.Contains("\"") || value.Contains("\n"))
-    {
-        return $"\"{value.Replace("\"", "\"\"")}\"";
-    }
-    return value;
-}
+//Exporting the range of cells to CSV.
+csvConverter.ExportRange(GridRangeInfo.Rows(4, 8), this.gridControl1.Model, "Sample.csv");
+```
+### Exporting the Selected Ranges
+```csharp
+GridCSVConverter csvConverter = new GridCSVConverter();
+
+//Exporting the selected ranges.
+csvConverter.SelectedExport(this.gridControl1.Model, "Sample.csv");
 ```
 
 ## HTML Export
+**Step - 1**
 
-### Basic HTML Export:
+Converting the GridControl range to the HTML Tags by building the strings.
 
 ```csharp
-private void ExportToHTML()
+StringBuilder ExportAsHTML(GridRangeInfoList rangeList)
 {
+
+    GridRangeInfoList expandedRange = rangeList.ExpandRanges(0, 0, this.gridControl1.RowCount, this.gridControl1.ColCount);
     StringBuilder html = new StringBuilder();
-    html.AppendLine("<html><body>");
-    html.AppendLine("<table border='1' cellpadding='5' cellspacing='0'>");
-    
-    // Headers
-    html.AppendLine("<thead><tr>");
-    for (int col = 1; col <= gridControl1.ColCount; col++)
+    foreach (GridRangeInfo r in expandedRange)
     {
-        string header = gridControl1[0, col].CellValue?.ToString() ?? $"Column {col}";
-        html.AppendLine($"<th>{System.Web.HttpUtility.HtmlEncode(header)}</th>");
-    }
-    html.AppendLine("</tr></thead>");
-    
-    // Data rows
-    html.AppendLine("<tbody>");
-    for (int row = 1; row <= gridControl1.RowCount; row++)
-    {
-        html.AppendLine("<tr>");
-        for (int col = 1; col <= gridControl1.ColCount; col++)
+        html.Append("<table border=\"0\">");
+        for (int i = r.Top; i <= r.Bottom; i++)
         {
-            string cellValue = gridControl1[row, col].CellValue?.ToString() ?? "";
-            html.AppendLine($"<td>{System.Web.HttpUtility.HtmlEncode(cellValue)}</td>");
+            html.Append("<tr>");
+            for (int j = r.Left; j <= r.Right; j++)
+            {
+                GridStyleInfo style = this.gridControl1.Model[i, j];
+
+                string align = style.VerticalAlignment.ToString();
+                string backColor = ColorTranslator.ToHtml(Color.FromArgb(style.BackColor.A, style.BackColor.R, style.BackColor.G, style.BackColor.B));
+                string foreColor = ColorTranslator.ToHtml(Color.FromArgb(style.TextColor.A, style.TextColor.R, style.TextColor.G, style.TextColor.B));
+                string htmlStyle = BordersAsStyle(style.Borders);
+                htmlStyle += " " + FontAsStyle(style.Font, style.TextColor, style.HorizontalAlignment);
+
+                object o = (object)style.FormattedText;
+                string tag = "td";
+
+                //Add a non-breaking space (&nbsp;) to empty cells, to make the borders visible.
+                if (!style.HasText)
+                    o = (object)"&nbsp;";
+
+                if (style.CellType == GridCellTypeName.Header)
+                {
+                    if (j > this.gridControl1.Cols.HeaderCount && i == 0 && !style.HasText)
+                        o = (object)GridRangeInfo.GetAlphaLabel(j);
+                    else
+                        if (j == 0 && i > this.gridControl1.Rows.HeaderCount && !style.HasText)
+                            o = (object)i;
+                    tag = "th";
+                }
+
+                html.AppendFormat("<" + tag + " width=\"{0}\" height = \"{1}\" valign =\"{2}\" bgcolor=\"{3}\" style=\"{4}\">",
+                    this.gridControl1.ColWidths[j], this.gridControl1.RowHeights[i], align, backColor, htmlStyle);
+
+                if (style.CellType == GridCellTypeName.CheckBox || style.CellType == GridCellTypeName.PushButton ||
+                    style.CellType == GridCellTypeName.RadioButton || style.CellType == GridCellTypeName.Image ||
+                    style.CellType == GridCellTypeName.ComboBox)
+                {
+                    switch (style.CellType)
+                    {
+                        case "CheckBox":
+                            html.AppendFormat("<input type=\"checkbox\" id=\"checkboxR{0}C{1}\" name=\"checkbox1\" {2}>", i, j, (style.CheckBoxOptions.HasCheckedValue ? (style.CheckBoxOptions.CheckedValue == style.CellValue.ToString() ? "checked" : "") : (style.CellValue.ToString() == "1") ? "checked" : ""));
+                            html.AppendFormat(style.HasDescription ? style.Description : "");
+                            break;
+                        case "Image":
+                            if (style.ImageIndex != -1 && style.ImageList != null && style.ImageList.Images.Count > style.ImageIndex)
+                            {
+                                string srcFile = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetTempFileName() + ".jpg");
+                                style.ImageList.Images[style.ImageIndex].Save(srcFile, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                html.AppendFormat("<img src=\"{0}\">", srcFile);
+                            }
+                            break;
+                        case "PushButton":
+
+                        //To show button uncomment below.
+                            
+                        //html.AppendFormat("<input type=\"button\" value=\"{0}\">",style.Description);
+                            html.Append(style.Description);
+                            break;
+                        case "RadioButton":
+                            for (int rc = 0; rc < style.ChoiceList.Count; rc++)
+                                html.AppendFormat("{0}<input type=\"radio\" id=\"radio{1}R{2}C{3}\" value=\"radio{1}\" name=\"RadioGroup{4}\" {5}>", style.ChoiceList[rc], rc, i, j, i * this.gridControl1.ColCount + j, rc.ToString() == style.CellValue.ToString() ? "checked" : "");
+                            break;
+                        case "ComboBox":
+                            if (style.ChoiceList != null)
+                            {
+                                html.Append("<select>");
+                                html.Append("<OPTION></OPTION>");
+                                for (int l = 0; l < style.ChoiceList.Count; l++)
+                                    html.AppendFormat("<option value=\"{0}\" {1}>{0}</option>", style.ChoiceList[l], style.ChoiceList[l] == style.CellValue.ToString() ? "selected" : "");
+                                html.Append("</select>");
+                            }
+                            else
+                                html.Append(style.FormattedText);
+                            break;
+                    }
+                }
+                else
+                    html.AppendFormat("{0}", o);
+
+                html.AppendFormat("</" + tag + ">");
+            }
+            html.Append("</tr>");
         }
-        html.AppendLine("</tr>");
+        html.Append("</table>");
     }
-    html.AppendLine("</tbody>");
-    
-    html.AppendLine("</table>");
-    html.AppendLine("</body></html>");
-    
-    File.WriteAllText("output.html", html.ToString());
+    return html;
 }
 ```
 
-### HTML with Styling:
+
+**Step – 2**
+
+Convert the string which is formed as HTML tags to the HTML file,
 
 ```csharp
-private void ExportToHTMLWithStyling()
+private void ExportToHTML(object sender, EventArgs e)
 {
-    StringBuilder html = new StringBuilder();
-    html.AppendLine("<html>");
-    html.AppendLine("<head><style>");
-    html.AppendLine("table { border-collapse: collapse; font-family: Arial; }");
-    html.AppendLine("th { background-color: #4CAF50; color: white; padding: 8px; }");
-    html.AppendLine("td { padding: 8px; border: 1px solid #ddd; }");
-    html.AppendLine("tr:nth-child(even) { background-color: #f2f2f2; }");
-    html.AppendLine("</style></head>");
-    html.AppendLine("<body>");
-    html.AppendLine("<table>");
-    
-    // Headers
-    html.AppendLine("<thead><tr>");
-    for (int col = 1; col <= gridControl1.ColCount; col++)
-    {
-        string header = gridControl1[0, col].CellValue?.ToString() ?? $"Column {col}";
-        html.AppendLine($"<th>{System.Web.HttpUtility.HtmlEncode(header)}</th>");
+
+    //Getting the GridControl table range.
+    GridRangeInfoList range = new GridRangeInfoList();
+    range.Add(GridRangeInfo.Table());
+
+    //Exporting the GridControl content to HTML.
+    System.Diagnostics.Process.Start(CopyHtmlToClipBoard(ExportAsHTML(range).ToString(), true));
+}
+
+public static string CopyHtmlToClipBoard(string html, bool e)
+{
+  if (html != "")
+  {
+       Encoding enc = Encoding.UTF8;
+       string begin = e ? "<!--Syncfusion Essential Grid-->" : "Version:0.9\r\nStartHTML:{0:000000}\r\nEndHTML:{1:000000}"
+                + "\r\nStartFragment:{2:000000}\r\nEndFragment:{3:000000}\r\n";
+            string html_begin = "<html>\r\n<head>\r\n"
+                + "<meta http-equiv=\"Content-Type\""
+                + " content=\"text/html; charset=" + enc.WebName + "\">\r\n"
+                + "<title>Syncfusion Essential Grid</title>\r\n</head>\r\n<body>\r\n"
+                + "<!--StartFragment-->";
+
+       string html_end = "<!--EndFragment-->\r\n</body>\r\n</html>\r\n";
+
+       string begin_sample = String.Format(begin, 0, 0, 0, 0);
+
+       int count_begin = enc.GetByteCount(begin_sample);
+       int count_html_begin = enc.GetByteCount(html_begin);
+       int count_html = enc.GetByteCount(html);
+       int count_html_end = enc.GetByteCount(html_end);
+
+       string html_total = String.Format( begin
+                , count_begin
+                , count_begin + count_html_begin + count_html + count_html_end
+                , count_begin + count_html_begin
+                , count_begin + count_html_begin + count_html
+                ) + html_begin + html + html_end;
+
+        DataObject obj = new DataObject();
+        obj.SetData(DataFormats.Html, new System.IO.MemoryStream(
+            enc.GetBytes(html_total)));
+        obj.SetData(DataFormats.Text, true, html_total);
+        Clipboard.SetDataObject(obj, true);
+        string htmlFile = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetTempFileName() + ".html");
+        System.IO.StreamWriter streamWriter = System.IO.File.CreateText(htmlFile);
+        streamWriter.Write(html_total);
+        streamWriter.Close();
+        return htmlFile;
     }
-    html.AppendLine("</tr></thead>");
-    
-    // Data rows with cell styling
-    html.AppendLine("<tbody>");
-    for (int row = 1; row <= gridControl1.RowCount; row++)
-    {
-        html.AppendLine("<tr>");
-        for (int col = 1; col <= gridControl1.ColCount; col++)
-        {
-            GridStyleInfo style = gridControl1[row, col];
-            string cellValue = style.CellValue?.ToString() ?? "";
-            
-            // Build inline style
-            List<string> styles = new List<string>();
-            if (style.Font.Bold)
-                styles.Add("font-weight: bold");
-            if (style.BackColor != Color.White)
-                styles.Add($"background-color: {ColorTranslator.ToHtml(style.BackColor)}");
-            if (style.TextColor != Color.Black)
-                styles.Add($"color: {ColorTranslator.ToHtml(style.TextColor)}");
-            
-            string styleAttr = styles.Count > 0 ? $" style='{string.Join("; ", styles)}'" : "";
-            html.AppendLine($"<td{styleAttr}>{System.Web.HttpUtility.HtmlEncode(cellValue)}</td>");
-        }
-        html.AppendLine("</tr>");
-    }
-    html.AppendLine("</tbody>");
-    
-    html.AppendLine("</table>");
-    html.AppendLine("</body></html>");
-    
-    File.WriteAllText("styled_output.html", html.ToString());
+    return "";
 }
 ```
 
 ## Word Export
 
-### Export to Word Document:
+```csharp
+//Create Converter to export the contents of Grid to Excel.
+GridWordConverter wordConverter = new GridWordConverter();
+wordConverter.GridToWord("Sample.doc", gridControl1);
+```
+### Displaying the Header and Footer
 
 ```csharp
-using Syncfusion.DocIO;
-using Syncfusion.DocIO.DLS;
+// “true” defines the ShowHeader and ShowFooter to export.
 
-private void ExportToWord()
+// i.e. GridWordConverter(bool showHeader, bool showFooter).
+GridWordConverter converter = new GridWordConverter(true,true);
+
+//To Set the Header and Footer for the Exported word document.
+wordConverter.DrawHeader += new GridWordConverterBase.DrawDocHeaderFooterEventHandler(converter_DrawHeader);
+wordConverter.DrawFooter += new GridWordConverterBase.DrawDocHeaderFooterEventHandler(converter_DrawFooter);
+converter.GridToWord("Sample.doc", gridControl1);
+void converter_DrawFooter(object sender, DocHeaderFooterEventArgs e)
 {
-    // Create Word document
-    WordDocument document = new WordDocument();
-    IWSection section = document.AddSection();
-    
-    // Add table
-    IWTable table = section.AddTable();
-    table.ResetCells(gridControl1.RowCount + 1, gridControl1.ColCount);
-    
-    // Add headers
-    for (int col = 0; col < gridControl1.ColCount; col++)
-    {
-        string header = gridControl1[0, col + 1].CellValue?.ToString() ?? $"Column {col + 1}";
-        table[0, col].AddParagraph().AppendText(header);
-        table[0, col].CellFormat.BackColor = Color.LightBlue;
-    }
-    
-    // Add data rows
-    for (int row = 1; row <= gridControl1.RowCount; row++)
-    {
-        for (int col = 1; col <= gridControl1.ColCount; col++)
-        {
-            string cellValue = gridControl1[row, col].CellValue?.ToString() ?? "";
-            table[row, col - 1].AddParagraph().AppendText(cellValue);
-        }
-    }
-    
-    // Save
-    document.Save("output.docx", FormatType.Docx);
-    document.Close();
+     e.Footer.AddParagraph().AppendText("Copyright 2001-2015");
+}
+void converter_DrawHeader(object sender, DocHeaderFooterEventArgs e)
+{
+     e.Header.AddParagraph().AppendText("Syncfusion Inc.");
 }
 ```
 

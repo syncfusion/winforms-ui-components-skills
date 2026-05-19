@@ -146,10 +146,11 @@ Define relations explicitly:
 ```csharp
 sfDataGrid.AutoGenerateRelations = false;
 
-// Define first-level relation
-var firstLevelSourceDataGrid = new GridViewDefinition();
-firstLevelSourceDataGrid.RelationalColumn = "OrderDetails";
-sfDataGrid.DetailsViewDefinition.Add(firstLevelSourceDataGrid);
+var gridViewDefinition = new GridViewDefinition();
+gridViewDefinition.RelationalColumn = "OrderDetails";
+gridViewDefinition.DataGrid = new SfDataGrid() { Name = "FirstLevelNestedGrid", AutoGenerateColumns = true };
+
+sfDataGrid.DetailsViewDefinitions.Add(gridViewDefinition);
 ```
 
 ### Accessing Details View DataGrid
@@ -158,7 +159,7 @@ Access nested grids:
 
 ```csharp
 // Get DetailsViewDataGrid for first record
-var detailsViewDataGrid = sfDataGrid.DetailsViewManager.GetDetailsViewGrid(0);
+var detailsViewDataGrid = sfDataGrid.GetDetailsViewGrid(0);
 
 // Get DetailsViewDataGrid for specific row index
 var detailsGrid = sfDataGrid.GetDetailsViewGrid(5);
@@ -192,8 +193,7 @@ sfDataGrid.DetailsViewCollapsed += SfDataGrid_DetailsViewCollapsed;
 
 void SfDataGrid_DetailsViewExpanding(object sender, DetailsViewExpandingEventArgs e)
 {
-    // Cancel expand for specific record
-    if (e.RecordIndex == 0)
+    if (e.Record == null)
         e.Cancel = true;
 }
 
@@ -201,13 +201,21 @@ void SfDataGrid_DetailsViewExpanded(object sender, DetailsViewExpandedEventArgs 
 {
     // Perform action after expansion
 }
+void SfDataGrid_DetailsViewCollapsing(object sender, DetailsViewCollapsingEventArgs e)
+{
+
+}
+void SfDataGrid_DetailsViewCollapsed(object sender, DetailsViewCollapsedEventArgs e)
+{
+    // Perform action after collapse   
+}
 ```
 
 ### Customizing Details View Appearance
 
 ```csharp
-// Set maximum height for nested grid
-firstLevelSourceDataGrid.DataGrid.MaxHeight = 300;
+// Set maximum size for nested grid
+firstLevelSourceDataGrid.DataGrid.MaximumSize = new Size(0, 300);
 
 // Customize nested grid
 firstLevelSourceDataGrid.DataGrid.AllowSorting = true;
@@ -330,28 +338,63 @@ sfDataGrid.AllowDrop = true;
 #### Row Drag Events
 
 ```csharp
-sfDataGrid.RowDragStart += SfDataGrid_RowDragStart;
-sfDataGrid.RowDragOver += SfDataGrid_RowDragOver;
-sfDataGrid.RowDrop += SfDataGrid_RowDrop;
+sfDataGrid.RowDragDropController.DragStart += RowDragDropController_DragStart;
+sfDataGrid.RowDragDropController.DragOver += RowDragDropController_DragOver;
+sfDataGrid.RowDragDropController.Drop += RowDragDropController_Drop;
+sfDataGrid.RowDragDropController.DragLeave += RowDragDropController_DragLeave;
+sfDataGrid.RowDragDropController.Dropped += RowDragDropController_Dropped;
 
-void SfDataGrid_RowDragStart(object sender, RowDragStartEventArgs e)
+ 
+void RowDragDropController_DragStart(object sender, GridRowDragStartEventArgs e)
 {
-    // Customize drag behavior
-    if (e.RowData is OrderInfo order && order.OrderID < 10)
-        e.Cancel = true; // Prevent dragging specific rows
+    foreach (var item in e.DraggingRecords)
+    {
+        if (item is OrderInfo order && order.OrderID < 10)
+        {
+            e.Cancel = true;
+            break;
+        }
+    }
 }
 
-void SfDataGrid_RowDragOver(object sender, RowDragOverEventArgs e)
+void RowDragDropController_DragOver(object sender, GridRowDragOverEventArgs e)
 {
     // Provide visual feedback during drag
+    e.ShowDragUI = true;
 }
 
-void SfDataGrid_RowDrop(object sender, RowDropEventArgs e)
+void RowDragDropController_Drop(object sender, GridRowDropEventArgs e)
 {
-    // Handle drop operation
-    // e.TargetRecord gives drop location
-    // e.DraggedRecords gives dragged rows
+    if (e.TargetRecord is OrderInfo o && o.OrderID < 10)
+        e.Handled = true;
 }
+
+void RowDragDropController_Dropped(object sender, GridRowDroppedEventArgs e)
+{
+    if (e.IsFromOutsideSource)
+    {
+        var list = sfDataGrid1.DataSource as IList<OrderInfo>;
+        if (list == null) return;
+
+        foreach (var item in e.DraggingRecords.OfType<OrderInfo>())
+        {
+            list.Add(item); // add new records
+        }
+    }
+}
+void RowDragDropController_DragLeave(object sender, GridRowDragLeaveEventArgs e)
+{
+    // Check if drag is from outside
+    if (e.IsFromOutsideSource)
+    {
+        Console.WriteLine("External drag left");
+    }
+    else
+    {
+        Console.WriteLine("Internal drag left");
+    }
+}
+
 ```
 
 #### Drag Rows to External Controls
@@ -572,30 +615,6 @@ using (var file = File.Open("DataGrid.xml", FileMode.Open))
 }
 ```
 
-### Handling Serialization Events
-
-```csharp
-sfDataGrid.SerializingColumn += SfDataGrid_SerializingColumn;
-sfDataGrid.DeserializingColumn += SfDataGrid_DeserializingColumn;
-
-void SfDataGrid_SerializingColumn(object sender, SerializingColumnEventArgs e)
-{
-    // Customize column serialization
-    if (e.Column.MappingName == "InternalID")
-        e.Cancel = true; // Don't serialize this column
-}
-
-void SfDataGrid_DeserializingColumn(object sender, DeserializingColumnEventArgs e)
-{
-    // Customize column deserialization
-    if (e.ColumnName == "OrderID")
-    {
-        e.Column.AllowEditing = false;
-        e.Column.Width = 100;
-    }
-}
-```
-
 ## Edge Cases and Troubleshooting
 
 ### Issue: Details view not expanding
@@ -676,27 +695,6 @@ options.SerializeColumns = true;
 sfDataGrid.Serialize(file, options);
 ```
 
-### Issue: Deserialization throws exception
-
-**Cause:** XML file structure doesn't match current grid structure
-
-**Solution:** Ensure DataSource and column structure matches or handle events:
-
-```csharp
-sfDataGrid.DeserializingColumn += (sender, e) =>
-{
-    // Handle missing columns
-    if (sfDataGrid.Columns.Contains(e.ColumnName))
-    {
-        e.Column = sfDataGrid.Columns[e.ColumnName];
-    }
-    else
-    {
-        e.Cancel = true; // Skip this column
-    }
-};
-```
-
 ### Issue: Master-Details view performance degradation
 
 **Cause:** Too many nested levels or large child collections
@@ -705,14 +703,23 @@ sfDataGrid.DeserializingColumn += (sender, e) =>
 
 ```csharp
 // Limit expansion depth
-sfDataGrid.DetailsViewExpanding += (sender, e) =>
+int maxLevel = 2;
+
+firstLevelSourceDataGrid.DetailsViewExpanding += (sender, e) =>
 {
-    if (e.Level > 2) // Max 2 levels
-        e.Cancel = true;
+    if (e.Record is OrderInfo parent)
+    {
+        // Example: block deeper levels
+        if (parent.ChildOrders != null && parent.ChildOrders.Count > 0)
+        {
+            if (parent.Level >= maxLevel)   // YOU must maintain Level in model
+            {
+                e.Cancel = true;
+            }
+        }
+    }
 };
 
-// Use paging for large child collections
-firstLevelSourceDataGrid.DataGrid.View.PageSize = 20;
 ```
 
 ### Issue: Drag-drop between frozen and non-frozen columns

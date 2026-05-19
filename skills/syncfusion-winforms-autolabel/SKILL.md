@@ -26,7 +26,7 @@ Use the AutoLabel control when you need to:
 ### NuGet Installation
 
 ```bash
-Install-Package Syncfusion.Tools.Windows
+Install-Package Syncfusion.Shared.Base
 ```
 
 ### Assembly Reference

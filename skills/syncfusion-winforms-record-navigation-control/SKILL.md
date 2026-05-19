@@ -147,17 +147,18 @@ this.Controls.Add(navControl);
 ### Pattern 2: Programmatic Navigation
 
 ```csharp
+private RecordNavigationControl recordNavigationControl;
 // Navigate to first record
-this.recordNavigationControl1.RecordNavigationBar.MoveFirst();
+this.recordNavigationControl.NavigationBar.MoveFirst();
 
 // Navigate to last record
-this.recordNavigationControl1.RecordNavigationBar.MoveLast();
+this.recordNavigationControl.NavigationBar.MoveLast();
 
 // Navigate to next record
-this.recordNavigationControl1.RecordNavigationBar.MoveNext();
+this.recordNavigationControl.NavigationBar.MoveNext();
 
 // Navigate to previous record
-this.recordNavigationControl1.RecordNavigationBar.MovePrevious();
+this.recordNavigationControl.NavigationBar.MovePrevious();
 ```
 
 ### Pattern 3: Styled Navigation Control

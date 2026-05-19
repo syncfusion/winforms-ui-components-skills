@@ -47,16 +47,41 @@ The Windows Forms Scheduler control is built around the Grid control and provide
 - **Caption Panel:** Navigation buttons and header display
 - **Navigation Panel:** Sidebar containing navigation calendar and custom controls
 
+**Namespace:** `Syncfusion.Windows.Forms.Schedule`
+
+**Assembly Dependencies:**
+- `Syncfusion.Grid.Base.dll`
+- `Syncfusion.Grid.Windows.dll`
+- `Syncfusion.Schedule.Base.dll`
+- `Syncfusion.Schedule.Windows.dll`
+- `Syncfusion.Shared.Base.dll`
+- `Syncfusion.Tools.Windows.dll`
+
+**NuGet Guidance:**
+- Install the latest available version of Syncfusion.Schedule.Windows
+```powershell
+Install-Package Syncfusion.Schedule.Windows -Version *
+```
+
 ## Documentation and Navigation Guide
 
 ### Getting Started
 📄 **Read:** [references/getting-started.md](references/getting-started.md)
 - Installation and assembly deployment
 - Creating ScheduleControl via designer or code
-- Data binding with SimpleScheduleDataProvider
+- Data binding with ArrayListDataProvider (built-in solution)
 - Basic appointment CRUD operations (insert, edit, delete)
-- Saving and loading appointment data
+- Saving and loading appointment data with XML serialization
 - Setting appointment text colors
+
+### XML Data Provider Implementation
+📄 **Read:** [references/data-provider-xml-implementation.md](references/data-provider-xml-implementation.md)
+- Using built-in ArrayListDataProvider for data management
+- Integrated SaveXML and LoadXML methods on data provider
+- In-memory data management with XML file persistence
+- File state tracking with FileName and IsDirty properties
+- Complete code examples and patterns
+- Production-ready solution with no custom classes needed
 
 ### Views and Navigation
 📄 **Read:** [references/views-and-navigation.md](references/views-and-navigation.md)
@@ -119,6 +144,7 @@ The Windows Forms Scheduler control is built around the Grid control and provide
 ```csharp
 using System;
 using System.Windows.Forms;
+using Syncfusion.Schedule;
 using Syncfusion.Windows.Forms.Schedule;
 
 namespace SchedulerApp
@@ -140,10 +166,9 @@ namespace SchedulerApp
             scheduleControl1.Location = new Point(20, 20);
             scheduleControl1.Size = new Size(800, 600);
             
-            // Set up data provider
-            SimpleScheduleDataProvider data = new SimpleScheduleDataProvider();
-            data.MasterList = new SimpleScheduleAppointmentList();
-            data.FileName = "appointments.schedule";
+            // Set up built-in data provider
+            ArrayListDataProvider data = new ArrayListDataProvider();
+            data.MasterList = new ArrayListAppointmentList();
             
             // Configure view and data binding
             scheduleControl1.ScheduleType = ScheduleViewType.Month;
@@ -162,7 +187,7 @@ namespace SchedulerApp
 
 ```csharp
 // Get the data provider
-SimpleScheduleDataProvider dataProvider = scheduleControl1.DataSource as SimpleScheduleDataProvider;
+ArrayListDataProvider dataProvider = scheduleControl1.DataSource as ArrayListDataProvider;
 
 // Create new appointment
 IScheduleAppointment appointment = dataProvider.NewScheduleAppointment();
@@ -176,19 +201,20 @@ appointment.ForeColor = Color.Blue;
 // Add to data provider
 dataProvider.AddItem(appointment);
 
-// Save changes
-dataProvider.CommitChanges();
+// Refresh to display
+scheduleControl1.Refresh();
+
+// Save to XML file
+dataProvider.SaveXML(dataProvider.FileName);
 ```
 
 ### Creating Recurring Appointments
 
 ```csharp
-// Cast to recurring data provider
-IRecurringScheduleDataProvider recurringProvider = 
-    scheduleControl1.DataSource as IRecurringScheduleDataProvider;
+IScheduleDataProvider dataProvider = scheduleControl1.DataSource as IScheduleDataProvider;
+IScheduleAppointment app = dataProvider.NewScheduleAppointment();
+IRecurringScheduleDataProvider recurringProvider = scheduleControl1.DataSource as IRecurringScheduleDataProvider;
 
-// Create recurring appointment
-IScheduleAppointment app = recurringProvider.NewScheduleAppointment();
 IRecurringScheduleAppointment recurringItem = app as IRecurringScheduleAppointment;
 
 if (recurringItem != null)
@@ -233,8 +259,8 @@ appearance.PrimeTimeCellColor = Color.LightBlue;
 appearance.NonPrimeTimeCellColor = Color.White;
 
 // Set prime time hours (9 AM to 5 PM)
-appearance.PrimeTimeStart = new TimeSpan(9, 0, 0);
-appearance.PrimeTimeEnd = new TimeSpan(17, 0, 0);
+appearance.PrimeTimeStart = 9;
+appearance.PrimeTimeEnd = 17;
 
 // Apply Metro theme
 appearance.VisualStyle = Syncfusion.Windows.Forms.GridVisualStyles.Metro;

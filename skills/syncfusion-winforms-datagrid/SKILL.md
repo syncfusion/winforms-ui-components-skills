@@ -434,13 +434,6 @@ sfDataGrid1.SelectionChanged += (sender, e) =>
     }
 };
 
-// Handle cell value changed
-sfDataGrid1.CurrentCellValueChanged += (sender, e) =>
-{
-    var rowData = sfDataGrid1.GetRecordAtRowIndex(e.RowColumnIndex.RowIndex);
-    Console.WriteLine($"Cell value changed in row: {e.RowColumnIndex.RowIndex}");
-};
-```
 
 ## Common Patterns
 
@@ -465,7 +458,7 @@ sfDataGrid.Columns.Add(new GridNumericColumn()
 
 // Configure selection
 sfDataGrid.SelectionMode = GridSelectionMode.Multiple;
-sfDataGrid.SelectionUnit = GridSelectionUnit.Row;
+sfDataGrid.SelectionUnit = SelectionUnit.Row;
 ```
 
 ## Key Properties

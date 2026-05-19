@@ -237,10 +237,9 @@ void TableModel_ClipboardCanCopy(object sender, GridCutPasteEventArgs e)
     {
         for (int col = range.Left; col <= range.Right; col++)
         {
-            string columnName = gridGroupingControl1.TableControl.Model[1, col].CellIdentity.Column?.Name;
+            string columnName = gridGroupingControl1.TableControl.Model[1, col].TableCellIdentity.Column?.Name;
             if (columnName == "Password" || columnName == "SSN")
             {
-                e.Cancel = true;
                 MessageBox.Show("Cannot copy sensitive data");
                 return;
             }
@@ -288,7 +287,6 @@ void TableModel_ClipboardCanPaste(object sender, GridCutPasteEventArgs e)
 {
     if (!Clipboard.ContainsText())
     {
-        e.Cancel = true;
         return;
     }
     
@@ -298,7 +296,6 @@ void TableModel_ClipboardCanPaste(object sender, GridCutPasteEventArgs e)
     
     if (style.ReadOnly)
     {
-        e.Cancel = true;
         MessageBox.Show("Cannot paste into read-only cells");
     }
 }
@@ -359,7 +356,6 @@ void TableModel_ClipboardCanCut(object sender, GridCutPasteEventArgs e)
     
     if (gridGroupingControl1.TableModel.ReadOnly)
     {
-        e.Cancel = true;
         MessageBox.Show("Grid is read-only");
     }
 }
@@ -413,7 +409,7 @@ void CopyWithHeaders()
     // Add headers
     for (int col = range.Left; col <= range.Right; col++)
     {
-        string columnName = gridGroupingControl1.TableControl.Model[1, col].CellIdentity.Column?.Name ?? "";
+        string columnName = gridGroupingControl1.TableControl.Model[1, col].TableCellIdentity.Column?.Name ?? "";
         sb.Append(columnName);
         if (col < range.Right) sb.Append("\t");
     }
@@ -493,7 +489,7 @@ gridGroupingControl1.TableModel.ClipboardPaste += (s, e) =>
         
         for (int j = 0; j < cells.Length; j++)
         {
-            string columnName = gridGroupingControl1.TableControl.Model[1, startCol + j].CellIdentity.Column?.Name;
+            string columnName = gridGroupingControl1.TableControl.Model[1, startCol + j].TableCellIdentity.Column?.Name;
             
             if (columnName == "Age" && !int.TryParse(cells[j], out _))
             {

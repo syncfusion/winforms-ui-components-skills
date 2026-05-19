@@ -221,12 +221,11 @@ Cache old values for custom collections:
 gridGroupingControl1.CacheRecordValues = true;
 
 // Access old values
-gridGroupingControl1.Table.Records.ListChanged += (s, e) => {
+gridGroupingControl1.SourceListListChanged += (s, e) => {
     if (e.ListChangedType == ListChangedType.ItemChanged)
     {
         var record = gridGroupingControl1.Table.Records[e.NewIndex];
         object oldValue = record.GetOldValue(columnIndex);
-        object newValue = record.GetValue(columnIndex);
     }
 };
 ```
@@ -363,7 +362,7 @@ gridGroupingControl1.TableDescriptor.TableOptions.GridLineBorder =
 
 // Efficient column width calculation
 gridGroupingControl1.TableDescriptor.TableOptions.ColumnsMaxLengthStrategy = 
-    GridColumnsMaxLengthStrategy.Fast;
+    GridColumnsMaxLengthStrategy.FirstNRecords;
 
 // Pixel-based vertical scrolling
 gridGroupingControl1.TableDescriptor.TableOptions.VerticalPixelScroll = true;
@@ -439,7 +438,7 @@ timer.Start();
 
 ```csharp
 // Large DataTable with native sorting
-DataTable dataTable = LoadLargeDataTable(); // 500,000 rows
+DataTable dataTable =new DataTable(); // 500,000 rows
 DataView dataView = new DataView(dataTable);
 
 gridGroupingControl1.DataSource = dataView;
@@ -451,7 +450,7 @@ gridGroupingControl1.TableDescriptor.SortedColumns.Add("CustomerName");
 
 // Note: CurrentRecord/SelectedRecords lost on sort
 // Re-select after sorting if needed
-gridGroupingControl1.Table.Records.ListChanged += (s, e) => {
+gridGroupingControl1.SourceListListChanged += (s, e) => {
     if (e.ListChangedType == ListChangedType.Reset)
     {
         // Re-establish selection after sort

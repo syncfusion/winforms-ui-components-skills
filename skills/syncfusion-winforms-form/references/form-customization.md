@@ -303,7 +303,7 @@ public Form1()
     
     // Inactive state
     this.Style.InactiveBorder = new Pen(Color.FromArgb(180, 180, 180), 2);
-    this.Style.TitleBar.InactiveBackColor = Color.FromArgb(240, 240, 240);
+    this.Style.TitleBar.BackColor = Color.FromArgb(240, 240, 240);
     
     // Shadow for depth
     this.Style.ShadowOpacity = 120;

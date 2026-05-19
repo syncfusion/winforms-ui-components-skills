@@ -163,7 +163,7 @@ public partial class DialogForm : Form
 Display tooltips when user hovers over button:
 
 ```csharp
-using Syncfusion.WinForms.Buttons;
+using Syncfusion.WinForms.Controls;
 
 // Create SfToolTip instance
 SfToolTip sfToolTip1 = new SfToolTip();

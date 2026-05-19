@@ -342,7 +342,7 @@ gridGroupingControl1.TableDescriptor.GroupedColumns.Add("Department");
 
 // Add a summary to show total salary per group
 GridSummaryColumnDescriptor summaryColumn = new GridSummaryColumnDescriptor();
-summaryColumn.MappingName = "Salary";
+summaryColumn.DataMember = "Salary";
 summaryColumn.SummaryType = SummaryType.DoubleAggregate;
 summaryColumn.Format = "{Sum:C}";
 summaryColumn.Name = "TotalSalary";
@@ -455,9 +455,6 @@ gridGroupingControl1.QueryCellStyleInfo += (sender, e) =>
 ### Summary Pattern
 
 ```csharp
-// Add multiple summaries for a group
-GridSummaryRowDescriptor summaryRow = new GridSummaryRowDescriptor();
-summaryRow.ShowSummaryInRow = false; // Show in separate columns
 
 // Count summary
 GridSummaryColumnDescriptor countColumn = new GridSummaryColumnDescriptor(

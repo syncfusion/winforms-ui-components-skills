@@ -49,7 +49,7 @@ The easiest method for new buttons:
 For dynamic button creation or more control:
 
 ```csharp
-using Syncfusion.WinForms.Buttons;
+using Syncfusion.WinForms.Controls;
 using System.Drawing;
 using System.Windows.Forms;
 
