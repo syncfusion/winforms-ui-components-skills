@@ -3,7 +3,7 @@ name: syncfusion-winforms-checkbox
 description: Guide to implement and customize the Syncfusion WinForms CheckBoxAdv control. Use this when working with advanced checkbox controls featuring three states, gradient backgrounds, custom borders, shadow text, or flexible alignment in Windows Forms applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing CheckBoxAdv in Windows Forms

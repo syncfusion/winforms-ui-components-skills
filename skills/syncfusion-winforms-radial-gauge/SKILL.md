@@ -3,7 +3,7 @@ name: syncfusion-winforms-radial-gauge
 description: Guide for implementing Syncfusion Gauge controls in Windows Forms applications. Use when creating data visualization gauges such as RadialGauge for circular displays (speedometers, temperature dials), LinearGauge for horizontal/vertical bars and progress indicators, or DigitalGauge for LED-style alphanumeric displays. Covers dashboard gauges, instrument panels, real-time monitoring, and KPI displays with needles, ranges, and scales.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Gauges

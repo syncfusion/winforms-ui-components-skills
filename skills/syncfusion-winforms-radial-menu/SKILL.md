@@ -3,7 +3,7 @@ name: syncfusion-winforms-radial-menu
 description: Guide for implementing Syncfusion RadialMenu control in Windows Forms applications. Use when creating circular context menus, hierarchical radial navigation, or touch-friendly circular menu interfaces. Covers RadialColorPalette for color pickers, RadialFontListBox for font selection, RadialMenuSlider for numeric input, and Office 2016 themed menus for modern circular navigation beyond standard context menus.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing RadialMenu in Syncfusion WinForms

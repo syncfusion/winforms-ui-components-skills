@@ -3,7 +3,7 @@ name: syncfusion-winforms-gradient-label
 description: Implement Syncfusion WinForms GradientLabel control - an enhanced label with gradient backgrounds and custom borders. Use this when creating visually styled labels, colorful headers, or decorative text displays. Covers gradient effects, custom borders, shading configuration, and appearance customization for attractive label designs in Windows Forms applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing GradientLabel

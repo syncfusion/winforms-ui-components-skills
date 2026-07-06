@@ -3,7 +3,7 @@ name: syncfusion-winforms-card-layout
 description: Implement stack-based card layout management in Windows Forms applications using Syncfusion CardLayout to organize controls as visible cards, navigate between cards, and configure layout modes for wizard controls and property pages.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing CardLayout in Windows Forms

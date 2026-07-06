@@ -3,7 +3,7 @@ name: syncfusion-winforms-layout-managers
 description: Guide for implementing Syncfusion layout managers in Windows Forms applications. Use when creating container layouts with BorderLayout (5-region docking), CardLayout (wizards/property pages), FlowLayout (horizontal/vertical flow), GridLayout (uniform grids), or GridBagLayout (flexible grids with spanning). Covers container controls, child control management, spacing configuration (HGap, VGap), positioning constraints, and designer integration for automatic control arrangement and structured layouts.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms LayoutManagers

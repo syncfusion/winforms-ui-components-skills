@@ -3,7 +3,7 @@ name: syncfusion-winforms-carousel
 description: Guides implementation of the Syncfusion WinForms Carousel control for creating 3D circular conveyors with rotating objects. Use this when creating interactive image galleries, product showcases, or 3D item displays with carousel paths. Covers image slides, rotation control, touch interactions, and visual customization.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion WinForms Carousel Control

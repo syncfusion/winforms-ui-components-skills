@@ -3,7 +3,7 @@ name: syncfusion-winforms-grouping
 description: Implements the Syncfusion Grouping Engine for data grouping, sorting, filtering, and summarization in Windows Forms applications. This skill provides comprehensive data manipulation capabilities for managing and displaying tabular data from IList sources. Use when working with Syncfusion.Grouping namespace, Engine class, TableDescriptor, or advanced data organization features in Windows Forms.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Grouping Engine

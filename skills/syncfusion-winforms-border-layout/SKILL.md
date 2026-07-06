@@ -3,7 +3,7 @@ name: syncfusion-winforms-border-layout
 description: "Implement Syncfusion Windows Forms BorderLayout to arrange child controls along borders (North, South, East, West) and center. Use this when working with BorderLayout, positioning controls in border regions, using docking alternatives, or configuring container layout and control spacing in Windows Forms applications."
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms BorderLayout

@@ -3,7 +3,7 @@ name: syncfusion-winforms-folder-browser
 description: Implement Windows Forms FolderBrowser dialog for folder selection. Use this when implementing folder selection dialogs, directory browsing, or folder path selection in applications. Covers assembly setup, dialog initialization, location/style configuration, callback events, and common browsing patterns.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing FolderBrowser in Windows Forms

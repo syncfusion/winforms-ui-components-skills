@@ -3,7 +3,7 @@ name: syncfusion-winforms-datagrid
 description: Implements Syncfusion WinForms SfDataGrid component for displaying and managing tabular data in Windows Forms applications. Use this when working with data grids, column management (auto-generation, stacked headers), data operations (filtering, sorting, grouping), or grid editing with validation. The skill covers data summaries, selection modes, export capabilities (Excel/PDF), conditional styling, master-detail views, and drag-and-drop functionality.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms DataGrid

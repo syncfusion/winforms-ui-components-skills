@@ -3,7 +3,7 @@ name: syncfusion-winforms-xptoolbar
 description: Implement and configure Syncfusion XPToolBar control for creating professional Visual Studio-style toolbars in Windows Forms applications. Use when you need customizable toolbar layouts with various item types (BarItem, ParentBarItem, DropDownBarItem, ComboBoxBarItem), dockable positioning, chevron overflow buttons, and Office themes. Covers toolbar structure, bar item management, docking positions, appearance customization with Office2007/2016 themes, and RTL support for creating feature-rich application toolbars and menu bars.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms XPToolBar

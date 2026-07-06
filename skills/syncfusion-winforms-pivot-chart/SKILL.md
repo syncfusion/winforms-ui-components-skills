@@ -3,7 +3,7 @@ name: syncfusion-winforms-pivot-chart
 description: "Implement Syncfusion Windows Forms Pivot Chart control for visualizing multidimensional data with interactive drill-down capabilities. Use this when working with pivot charts, pivot data visualization, drill-down charts, hierarchical chart data, or business intelligence visualizations. Supports 11+ chart types (Line, Spline, Column, Area, Stacking), data binding with IEnumerable/DataTable, drill up/down operations, pivot table field list, grouping bar, legend customization, Excel export, zooming, scrolling, and touch support."
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Pivot Chart

@@ -3,7 +3,7 @@ name: syncfusion-winforms-trackbar
 description: Implement and configure the Syncfusion TrackBarEx control in Windows Forms applications. Use this skill when you need to create interactive value sliders, customize button and slider appearance, manage value ranges, set orientation, and handle scroll events in WinForms projects.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing TrackBarEx in Windows Forms

@@ -3,7 +3,7 @@ name: syncfusion-winforms-datetimepicker
 description: Implement Syncfusion Windows Forms SfDateTimeEdit - an advanced DateTime picker control for editing dates and times. Use this when working with datetime input, date range validation, or custom display patterns. Covers editing modes (text/mask), date validation, and globalization support in WinForms applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Windows Forms DateTime Editor (SfDateTimeEdit)

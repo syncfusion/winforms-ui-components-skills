@@ -3,7 +3,7 @@ name: syncfusion-winforms-diagram
 description: "Implement Syncfusion Windows Forms Diagram control for creating interactive diagramming applications. Use this when creating flowcharts, organizational charts, network diagrams, or node-based visualizations. The control provides drag-and-drop editing, symbol palettes, connector management, and diagram serialization for building Visio-like applications in Windows Forms."
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms Diagram

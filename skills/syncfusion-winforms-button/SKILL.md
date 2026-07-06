@@ -3,7 +3,7 @@ name: syncfusion-winforms-button
 description: Guide developers to implement and customize the Syncfusion Windows Forms SfButton control for desktop applications. Use this when creating interactive buttons with text, images, styling, and theming in Windows Forms applications. Covers implementation, customization, and interaction handling.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms SfButton

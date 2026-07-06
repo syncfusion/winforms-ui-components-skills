@@ -3,7 +3,7 @@ name: syncfusion-winforms-tab-splitter-container
 description: Implement Syncfusion TabSplitterContainer control for creating split-view layouts with tabbed panels in Windows Forms. Use when building Visual Studio-style split views, document editors with design/preview modes, or multi-pane applications. Covers primary/secondary page collections, swap button functionality, collapse/expand panes, horizontal/vertical orientation, adjustable splitter position, and Office2016 themes for professional multi-view interfaces.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms TabSplitterContainer

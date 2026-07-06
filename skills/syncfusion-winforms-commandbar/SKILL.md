@@ -3,7 +3,7 @@ name: syncfusion-winforms-commandbar
 description: Implement the CommandBar control in Windows Forms to create customizable toolbars, rebars, and status bars with docking, floating, and state persistence capabilities. The CommandBar provides Office-like UI organization with support for hosting multiple controls, user layout customization, and serializable state management.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Windows Forms CommandBar

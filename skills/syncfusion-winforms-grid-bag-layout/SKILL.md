@@ -3,7 +3,7 @@ name: syncfusion-winforms-grid-bag-layout
 description: "How to use Syncfusion Windows Forms GridBagLayout control to arrange child controls in a flexible virtual grid with customizable rows, columns, spacing, and alignment. Use this skill whenever the user needs to create complex layouts with GridBagLayout, arrange controls dynamically, configure grid positioning, set up control spanning, or manage control alignment and sizing within a Windows Forms application."
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing GridBagLayout in Windows Forms

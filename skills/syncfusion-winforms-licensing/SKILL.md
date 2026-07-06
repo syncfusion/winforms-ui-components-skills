@@ -3,7 +3,7 @@ name: syncfusion-winforms-licensing
 description: Comprehensive guide for implementing and managing Syncfusion Windows Forms licensing. Use this when troubleshooting license validation errors, generating or registering license keys, or configuring CI/CD license validation. This skill covers license key management, trial vs licensed versions, NuGet package licensing, and build server scenarios.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms Licensing

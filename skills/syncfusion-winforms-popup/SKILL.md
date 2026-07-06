@@ -3,7 +3,7 @@ name: syncfusion-winforms-popup
 description: Guide for implementing Syncfusion PopupControlContainer in Windows Forms applications. Use when creating custom popup panels, attaching popups to parent controls, or configuring auto-close behavior. Covers popup lifecycle, ShowPopup/HidePopup methods, event handling (BeforePopup, Popup, CloseUp), hosting child controls in popups, auto-scroll configuration, transparent popups, and advanced scenarios like ComboBoxBase hosting within popups.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Popup Controls (PopupControlContainer)

@@ -3,7 +3,7 @@ name: syncfusion-winforms-xptaskpane
 description: Guide to implementing Syncfusion XPTaskPane component for Windows Forms. Use when user needs to create Microsoft Office XP-style task pane layouts, manage multiple task pages, configure navigation headers, reorder pages, or customize appearance. Covers container setup, page management, header controls, scrolling, and styling.
 metadata:
   author: Syncfusion Inc
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion XPTaskPane

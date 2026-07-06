@@ -3,7 +3,7 @@ name: syncfusion-winforms-banner-text-provider
 description: Guide for implementing Syncfusion WinForms BannerTextProvider (watermark text provider) control. Use this when working with watermark text, placeholder text, or hint text in editor controls. Covers setup, text modes (FocusMode/EditMode), color/font customization, and supported control types in Windows Forms applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms BannerTextProvider

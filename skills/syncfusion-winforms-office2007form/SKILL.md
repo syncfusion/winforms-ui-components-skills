@@ -3,7 +3,7 @@ name: syncfusion-winforms-office2007form
 description: Guide for implementing Syncfusion Office2007Form in Windows Forms applications for creating Microsoft Office-styled forms. Use this skill when implementing Office 2007 UI styling, applying Office color schemes, or customizing form appearance in Windows Forms. Covers installation, theming, caption customization, and AeroTheme configuration.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Office2007Form

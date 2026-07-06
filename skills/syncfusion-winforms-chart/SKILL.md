@@ -3,7 +3,7 @@ name: syncfusion-winforms-chart
 description: "Guide for implementing Syncfusion Windows Forms Chart control with 35+ chart types, data binding, series configuration, axes customization, and interactive features. Use this when working with Windows Forms charts, ChartControl, chart types, or data visualization in WinForms. This skill covers chart series, chart axes, data binding, legends, styling, and all chart types including Area, Bar, Line, Pie, Column, Bubble, Candle, financial charts, and statistical charts for Windows Forms applications (.NET Framework)."
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms Charts

@@ -4,7 +4,7 @@ description: Guide for implementing Syncfusion GroupView control in Windows Form
 
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing GroupView Control

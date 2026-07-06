@@ -3,7 +3,7 @@ name: syncfusion-winforms-splitcontainer
 description: Implement Syncfusion SplitContainerAdv control for creating resizable panel layouts separated by a splitter in Windows Forms applications. Use this when building split-view interfaces, multi-pane layouts, or resizable container controls. Covers panel orientation and sizing, splitter appearance customization, container styling, splitter movement events, horizontal/vertical layouts, panel collapsing, and nested containers.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing SplitContainerAdv in Windows Forms

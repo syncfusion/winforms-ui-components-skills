@@ -3,7 +3,7 @@ name: syncfusion-winforms-scroll-frame
 description: Guide for implementing Syncfusion SfScrollFrame control in Windows Forms applications to attach theme-able scrollbars to any scrollable control. Use this skill when implementing custom scrollbars, scrollbar theming, or replacing default scrollbars in Windows Forms. Covers scrollbar attachment, appearance customization, theme application, and scrollbar event handling.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Scroll Frames (SfScrollFrame)

@@ -3,7 +3,7 @@ name: syncfusion-winforms-gradientpanelext
 description: Implement Syncfusion WinForms GradientPanelExt for styled container panels with gradient backgrounds, rounded corners, and border primitives. Use this when building panels with gradient effects, rounded corner containers, collapsible sections, or panels with border elements (text, images, buttons) in WinForms.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing GradientPanelExt

@@ -3,7 +3,7 @@ name: syncfusion-winforms-color-picker
 description: Guide to implement and customize the Syncfusion WinForms ColorPickerUIAdv control. Use this when implementing color-selection interfaces with organized palettes (Recent, Standard, Theme), custom color groups, Office-style layouts, a 'More Colors' dialog, or runtime color additions in Windows Forms applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Color Picker (ColorPickerUIAdv)

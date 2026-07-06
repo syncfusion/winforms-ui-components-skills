@@ -3,7 +3,7 @@ name: syncfusion-winforms-listview
 description: Guide for implementing Syncfusion SfListView control in Windows Forms for creating list-based UIs with data binding, grouping, sorting, filtering, and selection capabilities. Use when building applications with item collections, Explorer views, contact lists, or product catalogs with sortable/filterable lists. Covers data binding, checkbox lists, grouped lists, filtered lists, and rich data display for list interfaces.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing ListView

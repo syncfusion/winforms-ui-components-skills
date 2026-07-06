@@ -3,7 +3,7 @@ name: syncfusion-winforms-splash-control
 description: Implement Syncfusion WinForms SplashControl to display splash screens during application startup. Use this when building startup screens, loading screens, timed splash displays, or animated splash images in WinForms. Covers SplashControl setup, image configuration, timing, animation, and positioning.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms SplashControl

@@ -3,7 +3,7 @@ name: syncfusion-winforms-progress-bar
 description: Implement Syncfusion ProgressBarAdv control in Windows Forms for displaying operation progress with customizable text formats. Use when creating progress indicators, loading bars, or percentage displays with Percentage, Value, or Custom text formats. Covers orientation (horizontal/vertical), themes, progress tracking, and progress events for file operations, installations, or download indicators.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Windows Forms Progress Bar (ProgressBarAdv)

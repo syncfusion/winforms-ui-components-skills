@@ -3,7 +3,7 @@ name: syncfusion-winforms-docking-manager
 description: Guide to implement Syncfusion WinForms DockingManager control for Visual Studio-style dockable windows and layouts. Use this when creating docked, floating, or tabbed windows with advanced layout management. Covers dock states, auto-hide functionality, caption customization, and serialization in WinForms applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms Docking Manager

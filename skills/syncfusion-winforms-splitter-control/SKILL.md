@@ -3,7 +3,7 @@ name: syncfusion-winforms-splitter-control
 description: Guide for implementing Syncfusion SplitterControl in Windows Forms applications for creating split views and resizable panes. Use this skill when implementing split views, resizable panes, grid splitting, or synchronized scrolling between multiple views. Covers NuGet installation, programmatic creation, split behavior configuration, and child control integration.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   platform: "Windows Forms"
 ---
 

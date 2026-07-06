@@ -3,7 +3,7 @@ name: syncfusion-winforms-map
 description: Implementation guide for Syncfusion WinForms Maps control - a geographical data visualization component that displays statistical and regional data using shape files, bubbles, markers, and interactive features. Use this when working with WinForms Maps, geographical maps in Windows Forms, shape file visualization, choropleth maps, or bubble maps. This skill covers map layers, zooming/panning, geographical data binding, ESRI shape files, and building location-based desktop applications with interactive maps.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Maps in Windows Forms

@@ -3,7 +3,7 @@ name: syncfusion-winforms-record-navigation-control
 description: Guide for implementing Syncfusion GridRecordNavigationControl in Windows Forms applications for record navigation functionality. Use this skill when implementing Microsoft Access-like navigation bars, first/last/previous/next navigation for grids, or record browsing in Windows Forms. Covers integration with GridControl, GridDataBoundGrid, and GridGroupingControl.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Grid Record Navigation Controls

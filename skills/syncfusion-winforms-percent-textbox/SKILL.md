@@ -3,7 +3,7 @@ name: syncfusion-winforms-percent-textbox
 description: Learn to implement Syncfusion WinForms PercentTextBox control for collecting and displaying percentage values with validation, formatting, and data binding. Covers installation, value management, constraints, formatting options, and event handling for robust percentage input forms.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms PercentTextBox

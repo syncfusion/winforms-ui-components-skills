@@ -3,7 +3,7 @@ name: syncfusion-winforms-autocomplete
 description: Guides implementation of the Syncfusion WinForms AutoComplete control for text input with auto-suggestion functionality. Use when users want to add autocomplete textboxes, implement auto-suggestion features, create search boxes with suggestions, enable URL/email autocomplete, or build type-ahead search functionality in Windows desktop applications. Covers data binding, customization, filtering, multi-column dropdowns, events, and all AutoComplete-specific features.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion WinForms AutoComplete Control

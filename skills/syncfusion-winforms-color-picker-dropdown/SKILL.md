@@ -3,7 +3,7 @@ name: syncfusion-winforms-color-picker-dropdown
 description: Implement and customize the Syncfusion Windows Forms ColorPickerButton control for color selection. Trigger when user needs a color picker dropdown, color selection UI, color input control, or needs to let users select from color groups (standard, system, custom, user colors). Covers getting started, color selection, customization, and UI appearance properties.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing ColorPickerButton

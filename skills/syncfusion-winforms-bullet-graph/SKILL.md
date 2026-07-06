@@ -3,7 +3,7 @@ name: syncfusion-winforms-bullet-graph
 description: Implementation guide for Syncfusion Windows Forms Bullet Graph control for compact data visualization. Use this when working with bullet graphs, performance indicators, KPI visualization, comparative measures, or qualitative ranges in WinForms. This skill covers dashboard gauges, target vs actual comparisons, and performance range visualization in Windows Forms desktop applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms Bullet Graph

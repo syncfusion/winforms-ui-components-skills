@@ -3,7 +3,7 @@ name: syncfusion-winforms-spell-checker
 description: Implement spell checking capabilities in Windows Forms applications using Syncfusion SpellCheckerAdv. Use this skill whenever the user needs to add spell checking to text controls, configure dictionaries, set up context menu suggestions, customize ignore options, or retrieve spelling suggestions. This skill covers attaching the control to RichTextBox/TextBox, managing multiple language dictionaries, enabling real-time context menus, and handling misspelled word suggestions.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms SpellChecker

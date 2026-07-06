@@ -3,7 +3,7 @@ name: syncfusion-winforms-rating
 description: Implement Syncfusion WinForms Rating control for star ratings and user feedback inputs. Use this when building product reviews, satisfaction surveys, or quality rating UIs in WinForms. Covers rating precision (standard/half), built-in shapes (star, circle, heart, diamond), custom image shapes, orientation and Office-themed gradient styling.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms Rating Control

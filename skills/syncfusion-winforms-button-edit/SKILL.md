@@ -3,7 +3,7 @@ name: syncfusion-winforms-button-edit
 description: Implement Syncfusion WinForms ButtonEdit control for creating text input with embedded buttons. Use this skill when users need to build file/folder browsers, dropdown controls, or custom input controls with action buttons. Includes assembly setup, designer/code approaches, appearance customization, child button configuration, events, and interaction patterns.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms ButtonEdit

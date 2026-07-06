@@ -3,7 +3,7 @@ name: syncfusion-winforms-smith-chart
 description: Implement Syncfusion Windows Forms Smith Chart (SfSmithChart) control for visualizing impedance and admittance of transmission lines. Use this when working with high-frequency circuit applications, RF engineering, or transmission line analysis. Covers normalized resistance/reactance plotting, normalized conductance/susceptance visualization, series configuration, axes customization, markers, legends, and tooltips.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Smith Charts

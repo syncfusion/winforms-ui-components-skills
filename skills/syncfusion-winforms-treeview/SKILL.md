@@ -3,7 +3,7 @@ name: syncfusion-winforms-treeview
 description: Implements Syncfusion TreeViewAdv control for Windows Forms applications to display hierarchical tree structures, file explorers, organization charts, and nested data. Use this when working with hierarchical data, parent-child relationships, expandable nodes, file browser interfaces, or folder structures. The skill covers data binding, drag-and-drop, node customization, editing capabilities, and performance optimization for tree structures in WinForms.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing TreeViews in Windows Forms

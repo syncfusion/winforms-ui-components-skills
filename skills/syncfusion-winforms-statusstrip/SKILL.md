@@ -3,7 +3,7 @@ name: syncfusion-winforms-statusstrip
 description: Implement Syncfusion StatusStripEx control for creating professional status bars in Windows Forms applications. Use when creating application status indicators with progress bars, status labels, buttons, and sizing grips. Covers StatusControl items (right-aligned), Notification items (left-aligned), ProgressBar integration, Office2007 color schemes (Silver/Blue/Black), Office2016 themes, custom managed colors, and sizing grip customization for bottom-docked status panels.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms StatusStripEx

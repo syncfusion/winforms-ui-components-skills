@@ -3,7 +3,7 @@ name: syncfusion-winforms-calendar
 description: Guides implementation of Syncfusion WinForms SfCalendar control for date selection and calendar viewing. Use this when working with calendar controls, date pickers, or multi-view calendars with Month/Year/Decade/Century views. Covers date selection modes, view navigation, date restrictions, special dates, and appearance customization for Windows Forms.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Calendars (SfCalendar)

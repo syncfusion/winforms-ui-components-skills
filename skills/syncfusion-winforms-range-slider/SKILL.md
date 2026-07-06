@@ -3,7 +3,7 @@ name: syncfusion-winforms-range-slider
 description: Complete guide for implementing Syncfusion RangeSlider control in Windows Forms for dual-thumb value selection. Use when creating range selection interfaces with SliderMin/SliderMax configuration, ChannelColor customization, or RangeColor styling. Covers range bound configuration, slider appearance customization, event handling, and building range selection UI components.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms Range Slider

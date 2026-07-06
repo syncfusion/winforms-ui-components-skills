@@ -3,7 +3,7 @@ name: syncfusion-winforms-tile-layout
 description: Guide for implementing Syncfusion TileLayout control in Windows Forms applications. Use when creating Windows 8 Metro-style tile interfaces, grouped tile containers, live tiles with rotating images/text using ImageStreamer, drag-and-drop reordering, or dashboard-style layouts with customizable positioning and appearance.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing TileLayout in Syncfusion WinForms

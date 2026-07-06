@@ -3,7 +3,7 @@ name: syncfusion-winforms-calculator
 description: Implement and configure Syncfusion Windows Forms Calculator control for numeric input and calculation interfaces. Use this when creating calculator UIs, handling calculator events, supporting keyboard input, displaying calculation results, or integrating calculator functionality into Windows Forms applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms Calculator

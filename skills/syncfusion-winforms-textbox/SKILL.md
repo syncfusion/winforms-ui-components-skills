@@ -3,7 +3,7 @@ name: syncfusion-winforms-textbox
 description: Implement and configure Syncfusion TextBoxExt control in Windows Forms - an enhanced textbox with custom borders, themes, and advanced text features. Use when you need styled textboxes with Office themes, custom border colors, multiline text with overflow indicators, character casing, text alignment, or RTL support. Covers theme integration, border customization, multiline configuration, and replacing standard TextBox controls with styled alternatives.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing TextBoxes (TextBoxExt)

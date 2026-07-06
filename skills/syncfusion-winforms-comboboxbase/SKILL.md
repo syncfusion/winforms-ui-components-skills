@@ -3,7 +3,7 @@ name: syncfusion-winforms-comboboxbase
 description: Guides implementation of Syncfusion WinForms ComboBoxBase control with flexible, pluggable ListControl architecture. Use this when working with advanced combo box implementations requiring custom ListControl-derived controls, CheckedListBox integration, or multi-column dropdowns with GridListControl.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing ComboBoxBase

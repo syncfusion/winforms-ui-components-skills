@@ -3,7 +3,7 @@ name: syncfusion-winforms-combobox
 description: Implement and customize Syncfusion Windows Forms SfComboBox control with data binding, autocomplete, multi-selection, filtering, and tokens. Use this when working with WinForms combobox, dropdown, SfComboBox, autocomplete textbox, multi-select dropdown, token input, combobox data binding, dropdown filtering, or combobox customization in Windows Forms applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing ComboBoxes

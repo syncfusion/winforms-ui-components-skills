@@ -3,7 +3,7 @@ name: syncfusion-winforms-grid-grouping-control
 description: Implements Syncfusion Windows Forms GridGroupingControl for advanced data management with grouping, sorting, filtering, and hierarchical display. Use this when working with multi-level grouping, master-detail grids, nested table relationships, or data summaries with aggregates. The skill covers group-by operations, Excel-like filtering, dynamic record filters, hierarchical data structures, and enterprise-level grid capabilities.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Grid Grouping Controls

@@ -3,7 +3,7 @@ name: syncfusion-winforms-navigation-view
 description: Guide for implementing Syncfusion NavigationView control in Windows Forms for breadcrumb navigation and hierarchical path tracking. Use when building file explorers, folder browsers, or file browser-style interfaces with breadcrumb trails. Covers breadcrumb navigation, dropdown navigation, history tracking, and hierarchical bar structures for path-based location tracking with dropdown child selection.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Navigation Views in Windows Forms

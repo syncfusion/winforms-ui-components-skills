@@ -3,7 +3,7 @@ name: syncfusion-winforms-splitbutton
 description: Guide for implementing Syncfusion WinForms SplitButton control - a hybrid button with dropdown menu. Use this when creating controls that combine button and dropdown functionality, toggle modes with menu options, or Office-style split buttons. Covers dynamic caption updates, custom button rendering, and toggle mode configuration.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 ## Assembly Dependencies

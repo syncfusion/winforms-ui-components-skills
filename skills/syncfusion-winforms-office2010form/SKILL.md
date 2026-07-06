@@ -3,7 +3,7 @@ name: syncfusion-winforms-office2010form
 description: Guide for implementing Syncfusion Windows Forms Office2010Form control for creating Microsoft Office 2010-style forms. Use this skill when implementing Office 2010 UI styling, applying Office 2010 color schemes, or customizing form captions in Windows Forms. Covers Office2010Form inheritance, theme configuration, caption customization, and Aero theme support.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Office2010Form

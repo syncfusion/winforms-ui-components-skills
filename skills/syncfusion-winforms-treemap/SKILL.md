@@ -3,7 +3,7 @@ name: syncfusion-winforms-treemap
 description: Implement Syncfusion Windows Forms TreeMap control for hierarchical data visualization with nested rectangles. Use this when working with TreeMap controls, hierarchical data display, space-efficient charts, or color-coded visualizations. Covers TreeMap configuration, layout algorithms, color mapping, and customization for stock market visualizations and data categorization with rectangular layouts.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Windows Forms TreeMap

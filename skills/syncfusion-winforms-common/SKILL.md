@@ -3,7 +3,7 @@ name: syncfusion-winforms-common
 description: Comprehensive guide for implementing Syncfusion Essential Studio Windows Forms (WinForms) controls in desktop applications. Use this skill when working with Syncfusion WinForms components or Essential Studio WinForms. Covers WinForms installation, localization, high DPI support, and .NET Core compatibility. Helps with adding controls, registering license keys, and troubleshooting WinForms component issues.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms Components

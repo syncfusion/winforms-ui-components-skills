@@ -3,7 +3,7 @@ name: syncfusion-winforms-gradient-panel
 description: Guide for implementing Syncfusion GradientPanel control in Windows Forms applications. Use when creating gradient backgrounds, container panels with visual styling, or grouped controls with custom backgrounds. Covers gradient containers, styled panel groups, background customization with pattern/solid/gradient displays, visual containers, and panel-based layouts.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Gradient Panels

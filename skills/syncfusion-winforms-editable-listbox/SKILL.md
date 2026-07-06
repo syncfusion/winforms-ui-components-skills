@@ -3,7 +3,7 @@ name: syncfusion-winforms-editable-listbox
 description: Implement and configure Syncfusion Windows Forms EditableList controls for inline list editing. Use this when working with editable list boxes, list controls with add/edit/delete capabilities, or AutoComplete integration. Covers setup, data binding, appearance customization, and styling.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms EditableList

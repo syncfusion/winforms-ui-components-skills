@@ -3,7 +3,7 @@ name: syncfusion-winforms-popup-menu
 description: Guide for implementing Syncfusion PopupMenu control for context menus in Windows Forms applications. Use this when creating right-click menus, multi-level menu hierarchies, or keyboard shortcuts. Covers PopupMenu implementation with BarItems, PopupMenusManager integration, and Bar Manager association for building professional context menu systems.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing PopupMenu in Windows Forms

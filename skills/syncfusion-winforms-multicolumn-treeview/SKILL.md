@@ -3,7 +3,7 @@ name: syncfusion-winforms-multicolumn-treeview
 description: Implements Syncfusion MultiColumnTreeView control for Windows Forms applications to display hierarchical data with additional columns. Use this when working with TreeNodeAdv, TreeColumnAdv, multi-column tree structures, or hierarchical data requiring multiple columns per node. The skill covers node collections, checkboxes, option buttons, XML data binding, load on demand features, and tree appearance customization.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing MultiColumn TreeView

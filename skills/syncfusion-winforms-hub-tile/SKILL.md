@@ -3,7 +3,7 @@ name: syncfusion-winforms-hub-tile
 description: Guide for implementing Syncfusion HubTile control in Windows Forms applications. Use when creating live tile functionality with animated content tiles similar to Windows 8/Windows Phone, including slide, rotate, or pulse transitions. Covers dashboard tiles, live notifications, animated status displays, Windows 8-style UI with automatic animations, banners, and visual updates.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing HubTiles

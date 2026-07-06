@@ -3,7 +3,7 @@ name: syncfusion-winforms-statusbaradv-panel
 description: Guide for implementing Syncfusion StatusBarAdvPanel control in Windows Forms applications. Use when creating custom status bar panels with marquee text animation, key state indicators, date time displays, or culture information panels. Covers panel types, appearance styling, gradients, marquee animation, alignment, borders, themes, and event handling for enhanced status bar panel displays.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Status Bar Panels (StatusBarAdvPanel)

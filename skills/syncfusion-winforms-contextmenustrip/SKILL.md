@@ -3,7 +3,7 @@ name: syncfusion-winforms-contextmenustrip
 description: Implement ContextMenuStripEx enhanced context menus in Windows Forms applications. Use this when working with context menus, right-click functionality, or popup menus with custom items. Covers menu configuration, multi-level menus, keyboard shortcuts, and appearance customization in WinForms.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing ContextMenuStripEx

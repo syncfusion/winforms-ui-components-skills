@@ -3,7 +3,7 @@ name: syncfusion-winforms-scheduler
 description: Guide for implementing Syncfusion Windows Forms Scheduler (Event Calendar) control for scheduling appointments and event management. Use this skill when implementing calendar functionality, appointment scheduling, or event management in Windows Forms applications. Covers schedule views, recurring appointments, calendar navigation, appointment dragging, and data binding.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Windows Forms Scheduler (Event Calendar)

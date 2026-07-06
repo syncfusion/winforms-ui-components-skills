@@ -3,7 +3,7 @@ name: syncfusion-winforms-color-ui-control
 description: Guide for implementing Syncfusion ColorUIControl in Windows Forms applications. Use this when working with color selection UI, color pickers, or color palette controls. Covers color groups (System, Standard, Custom, User), appearance customization, and popup menu integration in .NET Windows Forms applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing ColorUIControl

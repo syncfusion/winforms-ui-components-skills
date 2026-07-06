@@ -3,7 +3,7 @@ name: syncfusion-winforms-tree-navigator
 description: Implement and configure Syncfusion TreeNavigator control for Windows Forms - a unique navigation interface that expands tree structures in-place without taking extra space. Use when you need hierarchical navigation with breadcrumb modes, drill-down capabilities, or space-efficient collapsible navigation menus. Covers in-place tree expansion, back button navigation, expandable menu items, file explorer-style navigation, and replacing standard TreeView with collapsible alternatives.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Tree Navigators (TreeNavigator)

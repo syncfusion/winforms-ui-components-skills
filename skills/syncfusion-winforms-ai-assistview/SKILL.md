@@ -3,7 +3,7 @@ name: syncfusion-winforms-ai-assistview
 description: "Guide for implementing Syncfusion Windows Forms AI AssistView (SfAIAssistView) for building conversational AI interfaces in desktop applications. Use this when creating chat interfaces, AI assistants, or chatbots with Windows Forms. Supports OpenAI and Azure OpenAI integration, typing indicators, chat suggestions, message bubbles, and custom views for interactive messaging experiences."
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing AI AssistView

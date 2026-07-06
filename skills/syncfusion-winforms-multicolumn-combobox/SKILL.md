@@ -3,7 +3,7 @@ name: syncfusion-winforms-multicolumn-combobox
 description: Implement and configure Syncfusion MultiColumnComboBox control in Windows Forms - an advanced combobox with multiple columns in dropdown and virtual data binding for large datasets. Use when creating dropdown lists with multiple data fields, DataSource binding, DisplayMember/ValueMember configuration, or column headers in dropdown. Covers filtered dropdown lists and replacing standard ComboBox with multi-column alternatives.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Multi-Column ComboBoxes (MultiColumnComboBox)

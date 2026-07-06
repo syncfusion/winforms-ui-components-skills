@@ -3,7 +3,7 @@ name: syncfusion-winforms-grid-control
 description: Implements Syncfusion Windows Forms GridControl with cell-oriented architecture, virtual data loading, and Excel-like features. Use this when working with spreadsheet-like grids, GridStyleInfo cell styling, grid formulas, or covered cell ranges. The skill covers QueryCellInfo events, PopulateValues, ChangeCells, grid selection, editing validation, and extensive cell customization capabilities.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Grid Controls

@@ -3,7 +3,7 @@ name: syncfusion-winforms-double-textbox
 description: Guide to implementing Syncfusion WinForms DoubleTextBox control for accepting double-precision floating-point values with customizable formatting and validation. Use this when working with numeric input controls requiring double data type support, decimal formatting, or value range constraints in Windows Forms applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms DoubleTextBox

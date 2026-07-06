@@ -3,7 +3,7 @@ name: syncfusion-winforms-theming
 description: Comprehensive guide for implementing Syncfusion Windows Forms SkinManager and theme application. Use this when working with WinForms themes, SkinManager, or applying Office2016/Office2019 themes to controls. This skill covers theme assemblies, VisualTheme configuration, ApplicationVisualTheme setup, and custom control styling.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Windows Forms Theming (SkinManager)

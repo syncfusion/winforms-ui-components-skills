@@ -3,7 +3,7 @@ name: syncfusion-winforms-status-bar
 description: Guide for implementing Syncfusion StatusBarAdv control in Windows Forms applications. Use when creating application status displays, bottom panels, or status information panels with StatusBarAdvPanel items. Covers installation, panel configuration, appearance styling, gradients, borders, themes, alignment, and event handling for enhanced status bar displays.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Status Bars (StatusBarAdv)

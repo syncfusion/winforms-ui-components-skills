@@ -3,7 +3,7 @@ name: syncfusion-winforms-sparkline
 description: "Implement Syncfusion Windows Forms Sparkline controls for compact data visualization. Use this when working with sparklines, trend displays in condensed format, or high-density data visualization. This skill covers line, column, and WinLoss chart types, data point markers, high/low value highlighting, and lightweight graphical representations in Windows Forms applications."
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms Sparkline

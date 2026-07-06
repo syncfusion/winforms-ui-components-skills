@@ -3,7 +3,7 @@ name: syncfusion-winforms-domainupdownext
 description: Implement and configure the Syncfusion DomainUpdownExt control in Windows Forms applications. Use this skill when you need to create dropdown/selection controls with spin buttons, customize appearance, manage items, and enable keyboard navigation in WinForms projects.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing DomainUpdownExt in Windows Forms

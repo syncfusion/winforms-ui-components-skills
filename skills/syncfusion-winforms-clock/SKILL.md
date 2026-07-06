@@ -3,7 +3,7 @@ name: syncfusion-winforms-clock
 description: Guide for implementing the Syncfusion WinForms Clock control in Windows Forms applications. Use this skill when the user needs to add a clock display, switch between analog and digital modes, customize clock appearance, apply custom renderers, configure frames or shapes for the digital clock, or freeze the clock at a fixed time. Covers ClockType, ClockFrame, ClockShape, ShowCustomTimeClock, ClockRenderer, and DigitalRenderer.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing the Syncfusion WinForms Clock Control

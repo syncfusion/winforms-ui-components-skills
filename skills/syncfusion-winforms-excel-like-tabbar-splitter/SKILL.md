@@ -3,7 +3,7 @@ name: syncfusion-winforms-excel-like-tabbar-splitter
 description: Guide for implementing Syncfusion TabBarSplitterControl in Windows Forms applications for creating workbook-like tabbed interfaces. Use this skill when implementing Excel-like tabs, tabbed pages with splitters, or multiple sheet interfaces in Windows Forms. Covers NuGet installation, TabBarPage management, programmatic creation, and child control integration.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   platform: "Windows Forms"
 ---
 

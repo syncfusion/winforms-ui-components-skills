@@ -3,7 +3,7 @@ name: syncfusion-winforms-numericupdown
 description: Guide for implementing Syncfusion WinForms NumericUpDownExt control in Windows Forms applications. Use when users need enhanced numeric input with XP themes, value constraints (min/max/increment), hexadecimal display, decimal places, thousands separator, or themed borders beyond standard WinForms NumericUpDown.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing NumericUpDownExt in Syncfusion WinForms

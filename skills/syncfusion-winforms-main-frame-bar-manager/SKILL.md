@@ -3,7 +3,7 @@ name: syncfusion-winforms-main-frame-bar-manager
 description: Comprehensive guide for implementing Syncfusion MainFrameBarManager menu and toolbar system in Windows Forms. Use when creating menus, toolbars, command bars, or menu structures. Covers hierarchical menu models, BarItem types, interactive features, keyboard support, MDI integration, and state persistence for building professional menu-driven applications with shortcuts, mnemonics, tooltips, and customizable toolbars.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms MainFrameBarManager

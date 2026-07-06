@@ -3,7 +3,7 @@ name: syncfusion-winforms-grid-layout
 description: Implement grid-based layout management in Windows Forms using GridLayout component. Arrange child controls in rows and columns with configurable spacing and control participation.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing GridLayout in Windows Forms

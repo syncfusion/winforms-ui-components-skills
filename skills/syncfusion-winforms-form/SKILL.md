@@ -3,7 +3,7 @@ name: syncfusion-winforms-form
 description: Implements Syncfusion SfForm control for Windows Forms with advanced customization features including custom title bars, MDI support, and modern appearance options. Use this when working with customizable window forms, title bar customization, MDI parent-child relationships, or form theming. The skill covers user controls in title bars, form borders, shadow effects, rounded corners, and complete appearance control.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Windows Forms (SfForm)

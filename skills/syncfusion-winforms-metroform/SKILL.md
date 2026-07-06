@@ -3,7 +3,7 @@ name: syncfusion-winforms-metroform
 description: Implements Syncfusion MetroForm control for creating modern Metro-styled Windows Forms with customizable caption bars, borders, and colors. Use this when working with MetroForm, custom title bars, flat UI forms, or modernizing Windows Forms appearance. The skill provides guidance for caption bar customization, rounded corners, caption labels and images, and advanced styling features.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion MetroForm

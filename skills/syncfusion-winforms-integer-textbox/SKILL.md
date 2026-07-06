@@ -3,7 +3,7 @@ name: syncfusion-winforms-integer-textbox
 description: Guide for implementing Syncfusion Windows Forms Integer TextBox control. Use when creating integer input fields with numeric validation, number formatting, or value constraints in data entry scenarios. Covers integer validation, number formatting, min/max constraints, value formatting, and numeric input fields in WinForms applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms Integer TextBox

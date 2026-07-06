@@ -3,7 +3,7 @@ name: syncfusion-winforms-radial-slider
 description: Implement and configure Syncfusion RadialSlider control in Windows Forms - a circular slider for visual numeric value selection with rotating needle. Use when creating circular value selection controls, rotary inputs, dial-based controls, or radial numeric input. Covers circular value selection, rotating needle control, dial-based input, visual value picker with divisions, and radial numeric input controls.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Radial Sliders (RadialSlider)

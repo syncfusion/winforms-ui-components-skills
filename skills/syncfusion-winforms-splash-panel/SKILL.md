@@ -3,7 +3,7 @@ name: syncfusion-winforms-splash-panel
 description: Implement Syncfusion SplashPanel control for creating customizable splash screens and notification popups in Windows Forms applications. Use when displaying application startup screens, loading indicators, or non-obtrusive notification popups. Covers splash screen configuration, animations (slide, fade, marquee), desktop alignment, child controls, auto-close timers, background gradients/images, and splash events for creating professional startup experiences.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Windows Forms Splash Panel (SplashPanel)

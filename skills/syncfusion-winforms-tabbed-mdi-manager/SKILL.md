@@ -3,7 +3,7 @@ name: syncfusion-winforms-tabbed-mdi-manager
 description: Guide to implementing the Syncfusion Windows Forms TabbedMDIManager control for creating professional tabbed document interfaces with multiple tab groups, complete customization, event handling, and serialization support. Use this skill when users need to build MDI applications with tabbed windows, tab alignment, tab groups, button controls, appearance customization, themes, and interactive features like tooltips and context menus.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms TabbedMDIManager

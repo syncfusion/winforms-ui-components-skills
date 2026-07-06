@@ -3,7 +3,7 @@ name: syncfusion-winforms-pivot-grid
 description: Guide for implementing Syncfusion Windows Forms Pivot Grid control for data analysis and pivot table functionality. Use this skill when implementing pivot tables, data summarization, cross-tabulated data, or analytical dashboards in Windows Forms applications. Covers data binding, pivot configuration, filtering, sorting, grouping, calculations, conditional formatting, and exporting.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion Windows Forms Pivot Grid

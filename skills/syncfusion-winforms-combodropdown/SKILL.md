@@ -3,7 +3,7 @@ name: syncfusion-winforms-combodropdown
 description: Guide for implementing Syncfusion ComboDropDown control in Windows Forms. Use this when you need a flexible combo box that hosts any control (TreeView, ListView, GridList, custom controls) in the dropdown area. Essential for custom dropdown UI requirements and complex dropdown content beyond standard ListBox functionality.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing ComboDropDown

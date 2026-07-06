@@ -3,7 +3,7 @@ name: syncfusion-winforms-masked-textbox
 description: Implement masked text input controls in WinForms applications. Use this skill whenever the user needs to create input fields with format masks (phone numbers, IP addresses, dates, currency), validate formatted input, restrict data entry to specific patterns, or configure how user input behaves with mask constraints.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing MaskedEditBox in Syncfusion WinForms

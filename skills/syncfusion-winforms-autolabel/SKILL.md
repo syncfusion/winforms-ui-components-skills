@@ -3,7 +3,7 @@ name: syncfusion-winforms-autolabel
 description: Guides implementation of the Syncfusion WinForms AutoLabel control for automatic label positioning with form controls. Use when users want to add labels that automatically reposition when controls move, create form layouts with paired label-control units, implement complex form designs with FlowLayout, or ensure labels stay synchronized with their associated controls. Covers labeling controls, positioning, spacing, size settings, theming, and events.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion WinForms AutoLabel Control

@@ -3,7 +3,7 @@ name: syncfusion-winforms-tooltip
 description: Guide for implementing Syncfusion Windows Forms Tooltip (SfToolTip) component for displaying contextual information and hover text in Windows Forms applications. Use this skill when implementing tooltips, popup information, balloon tips, or informational popups on controls. Covers SfToolTip setup, multi-item tooltips, custom tooltip content, appearance customization, and tooltip images.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms Tooltips

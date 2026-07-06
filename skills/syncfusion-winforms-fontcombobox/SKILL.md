@@ -3,7 +3,7 @@ name: syncfusion-winforms-fontcombobox
 description: Implement and configure Syncfusion WinForms FontComboBox control - a specialized combo box automatically populated with system fonts. Use this when working with font selection UI, font pickers, or font dropdown controls in Windows Forms applications. The skill covers font selection capability, system font display, and font enumeration in WinForms.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing FontComboBox

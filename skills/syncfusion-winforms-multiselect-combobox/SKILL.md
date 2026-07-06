@@ -3,7 +3,7 @@ name: syncfusion-winforms-multiselect-combobox
 description: Guide for implementing the Syncfusion Windows Forms MultiSelectionComboBox control — a ComboBox with multi-item selection, auto-suggestion, and tag-style visual items. Use this skill when the user mentions MultiSelectionComboBox, WinForms multi-select combo, or Syncfusion.Windows.Forms.Tools.MultiSelectionComboBox, or needs a combo box that allows selecting multiple items in a Windows Forms application. Applies when configuring display modes, binding data sources, styling visual items, handling SelectedItemCollectionChanged, or setting AutoSuggestMode.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing MultiSelectionComboBox

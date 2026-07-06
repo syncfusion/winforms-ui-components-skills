@@ -3,7 +3,7 @@ name: syncfusion-winforms-wizard-control
 description: Guide for implementing Syncfusion WizardControl component in Windows Forms applications. Use when creating multi-step forms, installation wizards, setup dialogs, or step-by-step workflow interfaces with navigation buttons. Covers assembly deployment, page management, banner configuration, validation, navigation button handling, events, and appearance customization for professional wizard interfaces.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing WizardControl in Windows Forms

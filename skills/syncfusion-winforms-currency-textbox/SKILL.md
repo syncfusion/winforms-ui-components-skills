@@ -3,7 +3,7 @@ name: syncfusion-winforms-currency-textbox
 description: Implement currency input controls in Windows Forms applications using Syncfusion CurrencyTextBox. Use this skill when developers need to create currency entry fields with validation, formatting, decimal handling, positive/negative color coding, and clipboard support. Essential for financial forms, payment inputs, budget applications, and any scenario requiring validated currency input.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms CurrencyTextBox

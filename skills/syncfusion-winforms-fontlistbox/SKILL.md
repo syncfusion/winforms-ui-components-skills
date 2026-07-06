@@ -3,7 +3,7 @@ name: syncfusion-winforms-fontlistbox
 description: Guide for implementing the Syncfusion WinForms FontListBox control in Windows Forms applications. Use this skill when the user needs to display a list of installed system fonts, configure selection modes for font selection, apply visual styles, enable font auto-complete, customize scrollbars, or handle font selection events. Covers UseAutoComplete, FontListBoxStyle, SelectionMode, and scrollbar behavior.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing the Syncfusion WinForms FontListBox Control

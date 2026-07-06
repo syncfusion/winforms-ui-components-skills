@@ -3,7 +3,7 @@ name: syncfusion-winforms-tabcontrol
 description: Guide for implementing Syncfusion TabControlAdv in Windows Forms applications. Use when creating tabbed interfaces, organizing content in tabs, or building professional tab navigation systems. Covers tab pages, tab styling, close buttons, drag-drop tabs, tab customization, and appearance options for TabControlAdv-based applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Tab Controls (TabControlAdv)

@@ -3,7 +3,7 @@ name: syncfusion-winforms-radio-button
 description: Guide for implementing Syncfusion RadioButtonAdv control in Windows Forms applications. Use when creating enhanced radio buttons with Office themes (2007/2016), Metro style, gradient backgrounds, text shadow effects, custom images per state, or 2D/3D borders for professional styling beyond standard WinForms RadioButton.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing RadioButtonAdv in Syncfusion WinForms

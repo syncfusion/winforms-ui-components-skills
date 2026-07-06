@@ -3,7 +3,7 @@ name: syncfusion-winforms-syntax-editor
 description: Guide for implementing Syncfusion EditControl (SyntaxEditor) in Windows Forms applications. Use when creating interactive code editors with syntax highlighting, IntelliSense, multi-language support, or Visual Studio-like editing capabilities. Covers installation, syntax highlighting for 11 built-in languages (C#, VB.NET, XML, HTML, Java, SQL, PowerShell, JavaScript), custom language configuration, code outlining, auto-completion, find/replace dialogs, file operations, export (XML/RTF/HTML), split views, and comprehensive event handling for building professional code editor applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syntax Editors (EditControl)

@@ -3,7 +3,7 @@ name: syncfusion-winforms-xptaskbar
 description: How to create and configure Syncfusion XPTaskBar controls in Windows Forms applications. Use this skill whenever the user needs to implement expandable task panels, create Windows XP-style task menus, build collapsible navigation panels, configure multi-box task bars, or customize task bar behavior with animations and events. Covers basic setup, box/item management, layout modes, events, customization, and spacing configuration.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing XPTaskBar in Windows Forms

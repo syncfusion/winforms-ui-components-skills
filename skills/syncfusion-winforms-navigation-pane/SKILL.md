@@ -3,7 +3,7 @@ name: syncfusion-winforms-navigation-pane
 description: Guide for implementing Syncfusion GroupBar (Navigation Pane) control in Windows Forms applications. Use when creating Outlook-style navigation, hierarchical sidebar navigation, collapsible group containers, or toolbox-style interfaces. Covers stacked navigation panes, Office 2007/2010/2016 themed navigation, nested GroupBar containers, and categorized control collections for structured navigation layouts.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Navigation Panes (GroupBar) in Syncfusion WinForms

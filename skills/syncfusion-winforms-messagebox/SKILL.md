@@ -3,7 +3,7 @@ name: syncfusion-winforms-messagebox
 description: Implement and configure Syncfusion MessageBoxAdv control in Windows Forms - an enhanced message box with themes, custom icons, details view, and localization support. Use when displaying modal messages, confirmations, errors, warnings, or information dialogs. Covers Office themes, message box appearance customization, multilanguage dialogs, and replacing standard MessageBox with styled alternatives.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Message Boxes (MessageBoxAdv)

@@ -3,7 +3,7 @@ name: syncfusion-winforms-numeric-textbox
 description: Implement Syncfusion SfNumericTextBox for numeric input with formatting, validation, and customization in Windows Forms. Use when creating numeric input controls with currency formatting, percent values, number validation, or decimal formatting. Covers numeric formatting options, value range validation, and formatted numeric data entry with validation capabilities.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion WinForms SfNumericTextBox

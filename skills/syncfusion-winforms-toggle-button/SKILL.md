@@ -3,7 +3,7 @@ name: syncfusion-winforms-toggle-button
 description: Implement the Syncfusion Windows Forms Toggle Button control for toggling between two states. Use this skill when users need to create toggle buttons with customizable active/inactive states, display modes, custom styling, and event handling. This skill covers toggle button implementation, state management, and customization in Windows Forms applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms Toggle Button

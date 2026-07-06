@@ -3,7 +3,7 @@ name: syncfusion-winforms-navigation-drawer
 description: Implement Syncfusion NavigationDrawer control in Windows Forms - a sliding panel menu that appears from screen edges. Use when creating drawer navigation, side menus, or hamburger menus with panel transitions. Covers DrawerMenuItem configuration, DrawerHeader setup, slide-out menus, and panel transitions (SlideOnTop, Push, Reveal) for modern sliding panel navigation.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Windows Forms Navigation Drawer

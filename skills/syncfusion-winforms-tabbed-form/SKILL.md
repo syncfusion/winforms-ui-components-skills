@@ -3,7 +3,7 @@ name: syncfusion-winforms-tabbed-form
 description: Guide for implementing Syncfusion Windows Forms Tabbed Form (SfTabbedForm) with tabbed user interface and title bar integration. Use this skill when implementing tabbed forms, multi-document interfaces, or tab navigation in Windows Forms. Covers SfTabbedForm setup, TabPageAdv configuration, drag-and-drop functionality, tab selection, and context menus.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms Tabbed Form

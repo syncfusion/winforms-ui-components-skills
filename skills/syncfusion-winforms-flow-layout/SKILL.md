@@ -3,7 +3,7 @@ name: syncfusion-winforms-flow-layout
 description: Implementing FlowLayout in Windows Forms to automatically arrange child components horizontally or vertically. Use this when working with automatic control layouts, responsive form designs, or dynamic control arrangement. Covers spacing configuration, alignment modes, control constraints, and layout positioning.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Windows Forms FlowLayout

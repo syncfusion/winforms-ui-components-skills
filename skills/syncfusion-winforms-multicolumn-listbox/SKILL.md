@@ -3,7 +3,7 @@ name: syncfusion-winforms-multicolumn-listbox
 description: Guide for implementing Syncfusion GridListControl in Windows Forms applications for multi-column list functionality. Use this skill when implementing multi-column listboxes, data-bound lists with headers, or tabular list displays in Windows Forms. Covers GridListControl setup, data binding, selection modes, appearance customization, and ComboBoxBase integration.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing GridList Control
